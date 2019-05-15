@@ -1,0 +1,149 @@
+@import "../theme/variables.scss";
+
+ion-app.md{
+    background-image: url('../assets/Imagenes/splashComanda.png') !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.flex{
+    &-v{
+        display: flex;
+        flex-direction: column
+    }
+    &-h{
+        display: flex;
+        flex-direction: row
+    }
+}
+
+.height{
+    &-10{
+        height: 10%;
+    }
+    &-20{
+        height: 20%;
+    }
+    &-30{
+        height: 30%;
+    }
+    &-40{
+        height: 40%;
+    }
+    &-50{
+        height: 50%;
+    }
+    &-60{
+        height: 60%;
+    }
+    &-70{
+        height: 70%;
+    }
+    &-80{
+        height: 80%;
+    }
+    &-90{
+        height: 90%;
+    }
+    &-100{
+        height: 100%;
+    }
+}
+
+.width{
+    &-10{
+        width: 10%;
+    }
+    &-20{
+        width: 20%;
+    }
+    &-30{
+        width: 30%;
+    }
+    &-40{
+        width: 40%;
+    }
+    &-50{
+        width: 50%;
+    }
+    &-60{
+        width: 60%;
+    }
+    &-70{
+        width: 70%;
+    }
+    &-80{
+        width: 80%;
+    }
+    &-90{
+        width: 90%;
+    }
+    &-100{
+        width: 100%;
+    }
+}
+
+.center-horizontal{
+    display: flex;
+    justify-content: center;
+}
+
+.center-vertical{
+    display: flex;
+    align-items: center;
+}
+
+.end-horizontal{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.first-item{
+    margin-top: 1em;
+}
+
+.last-item{
+    margin-bottom:1em;
+}
+
+.margin-top-bottom{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.error-alert{
+    text-align: center;
+    > div{
+        background-color: $error-color !important;
+    }
+}
+
+.success-alert{
+    text-align: center;
+    > div{
+        background-color: $first-detail-color !important;
+    }
+}
+
+.confirm-alert{
+    > div{
+      background-color: $third-detail-color!important;
+      text-align: center;
+      font-weight: bold;
+    }
+    .alert-message{
+        color: #ffffff;
+        background-color: $third-detail-color;
+        font-size: 1.3em;
+        padding: 1em;
+    }
+    .alert-head{
+        background-color: $first-detail-color!important;
+        color: #ffffff !important;
+    }
+    .alert-button{
+        background-color: $third-detail-color !important;
+        color: #ffffff;
+    }
+  }
