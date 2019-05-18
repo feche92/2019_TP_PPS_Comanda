@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
-
-
+//import 'rxjs/add/operator/map';
 
 export interface usuario {
   correo:string,
@@ -22,7 +21,7 @@ export interface usuario {
 export class AuthProvider {
 
   constructor(private auth: AngularFireAuth, private db:AngularFirestore) {
-
+    
   }
 
   login (email:string,pass:string) {

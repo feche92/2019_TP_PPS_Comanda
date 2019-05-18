@@ -7,6 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { PrincipalPage } from "../pages/principal/principal";
+import { RegisterPage } from "../pages/register/register";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -22,7 +23,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
   declarations: [
     MyApp,
     HomePage,
-    PrincipalPage
+    PrincipalPage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
   entryComponents: [
     MyApp,
     HomePage,
-    PrincipalPage
+    PrincipalPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
