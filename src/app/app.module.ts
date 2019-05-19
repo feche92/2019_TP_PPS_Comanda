@@ -18,6 +18,7 @@ import { configs } from './globalConfig';
 import { AuthProvider } from '../providers/auth/auth';
 import { AlertProvider } from '../providers/alert/alert';
 import { SpinnerProvider } from '../providers/spinner/spinner';
+import { JsonProvider } from '../providers/json/json';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     AuthProvider,
     AlertProvider,
     SpinnerProvider,
+    JsonProvider,
+    JsonProvider,
   ]
 })
 export class AppModule {}
