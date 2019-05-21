@@ -34,9 +34,9 @@ T- Ivagaza
 U- Torrealba
 V- Moreno
 
-##Tareas terminadas:
+## Tareas terminadas:
 
-*Ivagaza Federico:
+* Ivagaza Federico:
 
 Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
 
