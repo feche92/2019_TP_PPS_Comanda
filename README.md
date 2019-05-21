@@ -38,7 +38,7 @@ V- Moreno
 
 * Ivagaza Federico:
 
-[x]Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
+* [x] Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
 
 
 
