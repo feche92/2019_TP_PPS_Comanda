@@ -24,6 +24,7 @@ export class AltaempleadoPage {
   public tipo: string = "mozo";
   public foto: string = "../../assets/Imagenes/perfil.png";
   usuarios;
+  datos;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
@@ -59,6 +60,31 @@ export class AltaempleadoPage {
     return true;
   }
 
+  validarDNI(numero:string) {
+    if(numero.length==8) {
+      return this.ValidarNumero(numero)
+    }
+    else {
+      return false;
+    }
+  }
+
+  validarCuil(numero:string) {
+    if(numero.length==11 && this.ValidarNumero(numero)) {
+      let dni=numero.substring(2,10);
+      console.log(dni);
+      if(dni==this.dni) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return false
+    }
+  }
+
   Registrar() {
     let spiner=this.spiner.getAllPageSpinner();
     spiner.present();
@@ -68,13 +94,13 @@ export class AltaempleadoPage {
       return;
     }
 
-    if (!this.ValidarNumero(this.dni)) {
+    if (!this.validarDNI(this.dni)) {
       this.error.mostrarErrorLiteral("El DNI ingresado no es válido.");
       spiner.dismiss();
       return;
     }
 
-    if (!this.ValidarNumero(this.cuil)) {
+    if (!this.validarCuil(this.cuil)) {
       this.error.mostrarErrorLiteral("El CUIL ingresado no es válido.");
       spiner.dismiss();
       return;
@@ -137,6 +163,8 @@ export class AltaempleadoPage {
       this.apellido = dniDatos[1];
       this.nombre = dniDatos[2];
       this.dni = dniDatos[4];
+      this.cuil=dniDatos[8][0]+dniDatos[8][1]+this.dni+dniDatos[8][2];
+      this.datos=dniDatos;
     }).catch(err => { });
 
   }
