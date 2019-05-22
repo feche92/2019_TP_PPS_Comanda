@@ -1,15 +1,19 @@
-Participantes: 
-Moreno Samantha
-Ivagaza Federico (Alfa)
-Torrealba Paola
+## Participantes: 
+* Moreno Samantha
+* Ivagaza Federico (Alfa)
+* Torrealba Paola
  
-Nombre de empresa: Cordova
-Nombre proyecto: Grills
+## Nombre de empresa: 
+Cordova
+## Nombre proyecto: 
+Grills
 
-Icono: ![alt text]( https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png)
-Logo Empresa: ![alt text](https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/logo.png)
+## Icono: 
+![alt text]( https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png)
+## Logo Empresa: 
+![alt text](https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/logo.png)
 
-Tareas asignadas:
+## Tareas asignadas:
 
 A- Samantha Moreno
 B- Federico Ivagaza
@@ -39,6 +43,7 @@ V- Moreno
 * Ivagaza Federico:
 
 * [x] Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
+* [x] Alta de mesa: fecha de inicio 21/5/19, fecha de finalizacion 22/5/19
 
 
 
