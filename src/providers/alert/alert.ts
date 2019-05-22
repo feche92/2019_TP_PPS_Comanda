@@ -98,8 +98,8 @@ public mostrarMensajeConfimación(mensaje, title?) {
 public mostrarMensaje(mesagge){
     let alert = this.alert.create({
         message: mesagge,
-        duration: 4000,
-        position: "top",
+        duration: 2500,
+        position: "topo",
         cssClass: 'success-alert',
     });
     alert.present();
