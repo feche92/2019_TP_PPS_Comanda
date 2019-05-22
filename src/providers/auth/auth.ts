@@ -46,4 +46,12 @@ export class AuthProvider {
     return this.db.collection('usuarios').doc(data.id).update(data);
   }
 
+  guardarUsuario(data) {
+    return this.db.collection('usuarios').add(data);
+  }
+
+  crearUsuario(correo,pass) {
+    return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
+  }
+
 }

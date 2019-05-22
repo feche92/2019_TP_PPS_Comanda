@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HomePage } from "../home/home";
+import { AltaempleadoPage } from "../altaempleado/altaempleado";
+import { AltaDeMesaPage } from "../alta-de-mesa/alta-de-mesa";
+import { AlertProvider } from "../../providers/alert/alert";
+import { AuthProvider } from "../../providers/auth/auth";
 
 /**
  * Generated class for the PrincipalPage page.
@@ -14,12 +19,52 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'principal.html',
 })
 export class PrincipalPage {
+  acciones: Array<any> = [];
+  usuario;
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private error: AlertProvider,
+    private auth: AuthProvider) {
+      this.usuario=JSON.parse(localStorage.getItem("usuario"));
+      console.log(this.usuario.tipo);
+      switch(this.usuario.tipo) {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+        case "jefe":
+          this.acciones = [
+            //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
+            { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
+            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage }
+          ];
+          break;
+        case "supervisor":
+          this.acciones = [
+            //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
+            { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
+            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage }
+          ]
+        }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PrincipalPage');
+  }
+
+  logout(){
+    let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres cerrar sesión?", "Cerrar sesión");
+    alertConfirm.present();
+    alertConfirm.onDidDismiss((confirm) => {
+      if (confirm) {
+        this.cerrarSersion();
+      }
+    });
+  }
+
+  private cerrarSersion(){
+    this.auth.logOut();
+    this.navCtrl.setRoot(HomePage, { 'fromApp': true });
+  }
+
+  openPage(ruta) {
+    this.navCtrl.setRoot(ruta);
   }
 
 }
