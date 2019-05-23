@@ -6,7 +6,9 @@ Torrealba Paola
 Nombre de empresa: Cordova
 Nombre proyecto: Grills
 
-Icono: ![alt text]( https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png)
+Icono: 
+<img source="https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png" width=250px height=250px></img>
+![alt text]( https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png)
 Logo Empresa: ![alt text](https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/logo.png)
 
 Tareas asignadas:
