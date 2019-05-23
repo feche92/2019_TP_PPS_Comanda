@@ -1,0 +1,50 @@
+<!--
+  Generated template for the AltaempleadoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Registro de empleado</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="vertical-container">
+    <h2>Agregar un empleado</h2>
+    <input type="text" placeholder="Correo electrónico" [(ngModel)]="correo" />
+    <input type="text" placeholder="Nombre" [(ngModel)]="nombre" />
+    <input type="text" placeholder="Apellido" [(ngModel)]="apellido" />
+    <div class="header" style="width: 75%;margin: 20px 0 20px 0;">
+      <input type="text" placeholder="DNI" style="margin: 0 15px 0 0; width: 50%" [(ngModel)]="dni" />
+      <input type="text" placeholder="CUIL" style="margin: 0;width: 50%" [(ngModel)]="cuil" />
+    </div>
+  
+    <input type="password" placeholder="Contraseña" [(ngModel)]="clave" />
+  
+    <select [(ngModel)]="tipo">
+      <option value="mozo">Mozo</option>
+      <option value="cocinero">Cocinero</option>
+      <option value="bartender">Bartender</option>
+      <option value="metre">Metre</option>
+      <option value="repartidor">Repartidor</option>
+    </select>
+  
+    <img [src]="foto" alt="" height="35px" width="35px">
+  
+    <div class="header" style="width: 75%;margin: 20px 0 20px 0;">
+      <button ion-button color="red" class="alta" style="margin: 0 30px 0 0;width: 50%" (click)="SacarFoto()">Sacar
+        foto</button>
+      <button ion-button color="red" class="alta" style="margin: 0;width: 50%" (click)="InicializarLectorQR()">QR</button>
+  
+    </div>
+  
+    <button ion-button color="red" [disabled]="estadoBoton" class="alta" (click)="Registrar()">Registrar</button>
+  </div>
+</ion-content>

@@ -17,6 +17,15 @@ export interface usuario {
   id:string
 }
 
+export interface mesa {
+  id:string,
+  numero:string,
+  cantidadComensales:string,
+  tipo:string,
+  estado:string,
+  foto:string,
+}
+
 @Injectable()
 export class AuthProvider {
 
@@ -44,6 +53,28 @@ export class AuthProvider {
 
   updateUsuario(data) {
     return this.db.collection('usuarios').doc(data.id).update(data);
+  }
+
+  guardarUsuario(data) {
+    return this.db.collection('usuarios').add(data);
+  }
+
+  crearUsuario(correo,pass) {
+    return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
+  }
+
+  guardarMesa(data) {
+    return this.db.collection('mesas').add(data);
+  }
+
+  getMesas() {
+    return this.db.collection('mesas').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as mesa;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
   }
 
 }
