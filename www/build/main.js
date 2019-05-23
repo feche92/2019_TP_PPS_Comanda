@@ -542,6 +542,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+//import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -580,7 +581,6 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_13__providers_auth_auth__["a" /* AuthProvider */],
                 __WEBPACK_IMPORTED_MODULE_14__providers_alert_alert__["a" /* AlertProvider */],
                 __WEBPACK_IMPORTED_MODULE_15__providers_spinner_spinner__["a" /* SpinnerProvider */],
-                __WEBPACK_IMPORTED_MODULE_16__providers_json_json__["a" /* JsonProvider */],
                 __WEBPACK_IMPORTED_MODULE_16__providers_json_json__["a" /* JsonProvider */],
             ]
         })

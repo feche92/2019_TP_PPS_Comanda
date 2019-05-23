@@ -18,7 +18,10 @@ import { configs } from './globalConfig';
 import { AuthProvider } from '../providers/auth/auth';
 import { AlertProvider } from '../providers/alert/alert';
 import { SpinnerProvider } from '../providers/spinner/spinner';
+
 import { JsonProvider } from '../providers/json/json';
+
+//import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,7 @@ import { JsonProvider } from '../providers/json/json';
     AlertProvider,
     SpinnerProvider,
     JsonProvider,
-    JsonProvider,
+    //Camera
   ]
 })
 export class AppModule {}
