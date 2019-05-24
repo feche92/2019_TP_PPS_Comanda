@@ -9,8 +9,8 @@ Cordova
 Grills
 
 ## Icono: 
-
 <img src="https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png" width=250px height=250px></img>
+
 ## Logo Empresa: 
 
 ![alt text](https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/logo.png)
