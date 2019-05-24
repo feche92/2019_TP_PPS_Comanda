@@ -5,6 +5,7 @@ import { AltaempleadoPage } from "../altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../alta-de-mesa/alta-de-mesa";
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
+import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
 
 /**
  * Generated class for the PrincipalPage page.
@@ -37,10 +38,10 @@ export class PrincipalPage {
           break;
         case "supervisor":
           this.acciones = [
-            //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
             { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
-            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage }
-          ]
+            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
+            { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: AltaSupervisorComponent }
+          ];
         }
   }
 
@@ -68,3 +69,4 @@ export class PrincipalPage {
   }
 
 }
+

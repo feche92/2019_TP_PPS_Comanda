@@ -24,8 +24,7 @@ import { AlertProvider } from '../providers/alert/alert';
 import { SpinnerProvider } from '../providers/spinner/spinner';
 
 import { JsonProvider } from '../providers/json/json';
-
-//import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
 
 @NgModule({
   declarations: [
@@ -34,7 +33,8 @@ import { JsonProvider } from '../providers/json/json';
     PrincipalPage,
     RegisterPage,
     AltaempleadoPage,
-    AltaDeMesaPage
+    AltaDeMesaPage,
+    AltaSupervisorComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +50,8 @@ import { JsonProvider } from '../providers/json/json';
     PrincipalPage,
     RegisterPage,
     AltaempleadoPage,
-    AltaDeMesaPage
+    AltaDeMesaPage,
+    AltaSupervisorComponent
   ],
   providers: [
     StatusBar,
@@ -63,7 +64,6 @@ import { JsonProvider } from '../providers/json/json';
     AlertProvider,
     SpinnerProvider,
     JsonProvider,
-    //Camera
   ]
 })
 export class AppModule {}

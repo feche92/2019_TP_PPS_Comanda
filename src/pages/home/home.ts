@@ -31,6 +31,11 @@ export class HomePage {
     }    
   }
 
+  rellenar(){
+    this.email = "samy32m@gmail.com";
+    this.pass = "222222";
+  }
+
   aceptar() {
     if(this.validForm()) {
       let spiner=this.spiner.getAllPageSpinner();
