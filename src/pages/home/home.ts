@@ -12,7 +12,7 @@ import { SpinnerProvider } from "../../providers/spinner/spinner";
 export class HomePage {
   public email:string;
   public pass:string;
-  splash = true;
+  //splash = true;
   usuarios;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data:AuthProvider,
@@ -21,7 +21,7 @@ export class HomePage {
       this.usuarios=new Array();
   }
 
-  ionViewDidLoad() {
+  /*ionViewDidLoad() {
     if(this.navParams.get('fromApp')){
       this.splash = false;
     }else{
@@ -29,6 +29,11 @@ export class HomePage {
         this.splash = false;
       }, 5000);
     }    
+  }*/
+
+  rellenar(){
+    this.email = "samy32m@gmail.com";
+    this.pass = "222222";
   }
 
   aceptar() {
