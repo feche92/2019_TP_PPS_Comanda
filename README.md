@@ -9,8 +9,10 @@ Cordova
 Grills
 
 ## Icono: 
-![alt text]( https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png)
+<img src="https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/icon.png" width=250px height=250px></img>
+
 ## Logo Empresa: 
+
 ![alt text](https://github.com/feche92/2019_TP_PPS_Comanda/blob/cordova/src/assets/Imagenes/logo.png)
 
 ## Tareas asignadas:
@@ -44,6 +46,19 @@ V- Moreno
 
 * [x] Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
 * [x] Alta de mesa: fecha de inicio 21/5/19, fecha de finalizacion 22/5/19
+
+
+* Moreno Samantha:
+**Branch:** Moreno
+
+* [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
+* [] Alta de Cliente
+* [] Qr de la Mesa
+* [] Empleado
+* [] Tomar Pedido
+* [] Pedido de Platos y Bebidas/ Cierre de cuenta
+* [] Mapa de ruta hasta el domicilio de entrega
+* [] Juego para un postre gratis
 
 
 

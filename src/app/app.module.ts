@@ -23,6 +23,10 @@ import { AuthProvider } from '../providers/auth/auth';
 import { AlertProvider } from '../providers/alert/alert';
 import { SpinnerProvider } from '../providers/spinner/spinner';
 
+import { JsonProvider } from '../providers/json/json';
+import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
+import { SplashComponent } from "../components/splash/splash";
+
 @NgModule({
   declarations: [
     MyApp,
@@ -30,7 +34,9 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     PrincipalPage,
     RegisterPage,
     AltaempleadoPage,
-    AltaDeMesaPage
+    AltaDeMesaPage,
+    AltaSupervisorComponent,
+    SplashComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +52,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     PrincipalPage,
     RegisterPage,
     AltaempleadoPage,
-    AltaDeMesaPage
+    AltaDeMesaPage,
+    AltaSupervisorComponent
   ],
   providers: [
     StatusBar,
@@ -58,6 +65,7 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     AuthProvider,
     AlertProvider,
     SpinnerProvider,
+    JsonProvider,
   ]
 })
 export class AppModule {}
