@@ -9,6 +9,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { PrincipalPage } from "../pages/principal/principal";
+import { SpinnerPage } from "../pages/spinner/spinner";
 import { RegisterPage } from "../pages/register/register";
 import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
@@ -30,7 +31,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     PrincipalPage,
     RegisterPage,
     AltaempleadoPage,
-    AltaDeMesaPage
+    AltaDeMesaPage,
+    SpinnerPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     PrincipalPage,
     RegisterPage,
     AltaempleadoPage,
-    AltaDeMesaPage
+    AltaDeMesaPage,
+    SpinnerPage
   ],
   providers: [
     StatusBar,

@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
-import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
@@ -25,10 +24,10 @@ export class AltaempleadoPage {
   public foto: string = "../../assets/Imagenes/perfil.png";
   usuarios;
   datos;
+  mostrarSpiner:boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
-    private spiner: SpinnerProvider,
     private camera: Camera,
     private barcodeScanner: BarcodeScanner) {
       this.usuarios=new Array();
@@ -86,23 +85,22 @@ export class AltaempleadoPage {
   }
 
   Registrar() {
-    let spiner=this.spiner.getAllPageSpinner();
-    spiner.present();
+    this.mostrarSpiner=true;
     if (!this.correo || !this.clave || !this.nombre || !this.apellido || !this.dni || !this.cuil) {
       this.error.mostrarErrorLiteral("Todos los campos deben ser completados.");
-      spiner.dismiss();
+      this.mostrarSpiner=false;
       return;
     }
 
     if (!this.validarDNI(this.dni)) {
       this.error.mostrarErrorLiteral("El DNI ingresado no es válido.");
-      spiner.dismiss();
+      this.mostrarSpiner=false;
       return;
     }
 
     if (!this.validarCuil(this.cuil)) {
       this.error.mostrarErrorLiteral("El CUIL ingresado no es válido.");
-      spiner.dismiss();
+      this.mostrarSpiner=false;
       return;
     }
 
@@ -125,15 +123,15 @@ export class AltaempleadoPage {
         this.auth.guardarUsuario(data).then(res => {
           this.error.mostrarMensaje("Empleado registrado");
           this.LimpiarCampos();
-          spiner.dismiss();
+          this.mostrarSpiner=false;
         })
       }).catch(error => {
         this.error.mostrarError(error,"error al registrar el usuario");
-        spiner.dismiss();
+        this.mostrarSpiner=false;
       });
     }
     else {
-      spiner.dismiss();
+      this.mostrarSpiner=false;
     }
   }
 

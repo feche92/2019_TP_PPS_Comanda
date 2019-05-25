@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { PrincipalPage } from "../principal/principal";
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
-import { SpinnerProvider } from "../../providers/spinner/spinner";
+import { RegisterPage } from '../register/register';
 
 @Component({
   selector: 'page-home',
@@ -14,10 +14,10 @@ export class HomePage {
   public pass:string;
   splash = true;
   usuarios;
+  mostrarSpiner:boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data:AuthProvider,
-    private serviceAlert:AlertProvider,
-    private spiner:SpinnerProvider) {
+    private serviceAlert:AlertProvider) {
       this.usuarios=new Array();
   }
 
@@ -33,8 +33,7 @@ export class HomePage {
 
   aceptar() {
     if(this.validForm()) {
-      let spiner=this.spiner.getAllPageSpinner();
-      spiner.present();
+      this.mostrarSpiner=true;
       this.data.login(this.email,this.pass).then(res => {
         this.data.getLista('usuarios').subscribe(lista => {
           this.usuarios=lista;
@@ -63,7 +62,7 @@ export class HomePage {
               break;*/
               let usuario=this.usuarios[i];
               localStorage.setItem("usuario", JSON.stringify(usuario));
-              spiner.dismiss();
+              this.mostrarSpiner=false;
               this.navCtrl.setRoot(PrincipalPage, {usuario : res});
             }
           }
@@ -71,7 +70,7 @@ export class HomePage {
         })
         
       }).catch(error => {
-        spiner.dismiss();
+        this.mostrarSpiner=false;
         this.serviceAlert.mostrarError(error,"Error al iniciar sesión");
       });
     }
@@ -86,7 +85,7 @@ export class HomePage {
   }
 
   register() {
-
+    this.navCtrl.setRoot(RegisterPage);
   }
 
 }
