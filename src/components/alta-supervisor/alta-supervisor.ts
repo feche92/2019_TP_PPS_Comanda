@@ -126,9 +126,8 @@ export class AltaSupervisorComponent {
     let options = { prompt: "Escaneá el DNI", formats: "PDF_417" };
 
     this.scanner.scan(options).then(barcodeData => {
-      alert(barcodeData);
-      alert(barcodeData.text);
-      this.dni = barcodeData.text;
+      //alert(barcodeData.text);
+      this.dni = +barcodeData.text;
       /*let dniDatos = barcodeData.text.split("@");
       this.apellido = dniDatos[1];
       this.nombre = dniDatos[2];

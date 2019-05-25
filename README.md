@@ -49,7 +49,7 @@ V- Moreno
 
 
 * Moreno Samantha:
-Branch: Moreno
+**Branch:** Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
 * [] Alta de Cliente

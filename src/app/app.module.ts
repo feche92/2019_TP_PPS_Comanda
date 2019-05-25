@@ -25,6 +25,7 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
 
 import { JsonProvider } from '../providers/json/json';
 import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
+import { SplashComponent } from "../components/splash/splash";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supe
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
-    AltaSupervisorComponent
+    AltaSupervisorComponent,
+    SplashComponent
   ],
   imports: [
     BrowserModule,
