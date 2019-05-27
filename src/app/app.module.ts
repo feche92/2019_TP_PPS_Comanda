@@ -26,6 +26,7 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
 import { JsonProvider } from '../providers/json/json';
 import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
 import { SplashComponent } from "../components/splash/splash";
+import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SplashComponent } from "../components/splash/splash";
     AltaempleadoPage,
     AltaDeMesaPage,
     AltaSupervisorComponent,
-    SplashComponent
+    SplashComponent,
+    AltaClienteComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { SplashComponent } from "../components/splash/splash";
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
-    AltaSupervisorComponent
+    AltaSupervisorComponent,
+    AltaClienteComponent
   ],
   providers: [
     StatusBar,

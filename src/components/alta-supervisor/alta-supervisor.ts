@@ -68,6 +68,9 @@ export class AltaSupervisorComponent {
             if(this.clave.length < 6){
               this.alert.mostrarMensaje("La clave debe tener por lo menos 6 caracteres");
             }
+            if(this.foto == undefined){
+              this.alert.mostrarMensaje("Falta cargar una foto");
+            }
         }
     }
     else{
@@ -128,12 +131,7 @@ export class AltaSupervisorComponent {
     this.scanner.scan(options).then(barcodeData => {
       //alert(barcodeData.text);
       this.dni = +barcodeData.text;
-      /*let dniDatos = barcodeData.text.split("@");
-      this.apellido = dniDatos[1];
-      this.nombre = dniDatos[2];
-      this.dni = dniDatos[4];
-      this.cuil=dniDatos[8][0]+dniDatos[8][1]+this.dni+dniDatos[8][2];
-      this.datos=dniDatos;*/
+
     }).catch(err => { 
       console.log('Error', err);
     });
