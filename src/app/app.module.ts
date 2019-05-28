@@ -13,6 +13,7 @@ import { SpinnerPage } from "../pages/spinner/spinner";
 import { RegisterPage } from "../pages/register/register";
 import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
+import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -24,6 +25,10 @@ import { AuthProvider } from '../providers/auth/auth';
 import { AlertProvider } from '../providers/alert/alert';
 import { SpinnerProvider } from '../providers/spinner/spinner';
 
+import { JsonProvider } from '../providers/json/json';
+import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
+import { SplashComponent } from "../components/splash/splash";
+
 @NgModule({
   declarations: [
     MyApp,
@@ -32,7 +37,10 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
-    SpinnerPage
+    SpinnerPage,
+    AltaSupervisorComponent,
+    SplashComponent,
+    ListadoSupervisorPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +57,9 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
-    SpinnerPage
+    SpinnerPage,
+    AltaSupervisorComponent,
+    ListadoSupervisorPage
   ],
   providers: [
     StatusBar,
@@ -61,6 +71,7 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
     AuthProvider,
     AlertProvider,
     SpinnerProvider,
+    JsonProvider,
   ]
 })
 export class AppModule {}

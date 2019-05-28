@@ -107,7 +107,7 @@ export class AltaempleadoPage {
     let esValido = true;
     for(let i=0;i<this.usuarios.length;i++)
     {
-      if(parseInt(this.usuarios[i].DNI) == parseInt(this.dni)) {
+      if(parseInt(this.usuarios[i].dni) == parseInt(this.dni)) {
         this.error.mostrarErrorLiteral("El DNI ingresado ya corresponde a otro usuario registrado.");
         esValido=false;
         break;
@@ -117,7 +117,7 @@ export class AltaempleadoPage {
     if(esValido) {
       this.auth.crearUsuario(this.correo,this.clave).then(res => {
         let data= {
-          "correo":this.correo, "CUIL":this.cuil, "DNI":this.dni, "nombre":this.nombre, "apellido":this.apellido,
+          "correo":this.correo, "cuil":this.cuil, "dni":this.dni, "nombre":this.nombre, "apellido":this.apellido,
           "estado":"", "foto":this.foto, "logueado":false, "tipo":this.tipo
         }
         this.auth.guardarUsuario(data).then(res => {
