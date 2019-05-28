@@ -59,6 +59,10 @@ export class AuthProvider {
     return this.db.collection('usuarios').add(data);
   }
 
+  guardarCliente(data) {
+    return this.db.collection('clientes').add(data);
+  }
+
   crearUsuario(correo,pass) {
     return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
   }

@@ -1,0 +1,28 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Registro Cliente</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-checkbox color="primary" [(ngModel)]="anonimo"></ion-checkbox> <h4 class="checkbox">Hacerse anonimo </h4>
+  <ion-item>
+    <ion-label floating>Nombre </ion-label>
+    <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="!anonimo">
+    <ion-label floating>Apellido </ion-label>
+    <ion-input type="text" required [(ngModel)]="apellido" name="apellido"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="!anonimo">
+    <ion-label floating>DNI </ion-label>
+    <ion-input type="number" minlength="8" maxlength="8" required [(ngModel)]="dni" name="dni"></ion-input>
+    <button ion-button block color="primary">Escanear DNI</button>
+  </ion-item>
+  <br>
+  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>
+  <button *ngIf="!anonimo" ion-button block color="primary" (click)="escanear()">Escanear DNI</button>
+  <button ion-button block color="secondary" (click)="alta()">Registrar</button>
+  <button ion-button block color="danger">Cancelar</button>
+</ion-content>

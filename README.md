@@ -52,13 +52,13 @@ V- Moreno
 **Branch:** Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
-* [] Alta de Cliente
-* [] Qr de la Mesa
-* [] Empleado
-* [] Tomar Pedido
-* [] Pedido de Platos y Bebidas/ Cierre de cuenta
-* [] Mapa de ruta hasta el domicilio de entrega
-* [] Juego para un postre gratis
+* [X] Alta de Cliente - Fecha inicio: 25/05/19 - Finalizado: 26/05/19
+*  Qr de la Mesa
+*  Empleado
+*  Tomar Pedido
+*  Pedido de Platos y Bebidas/ Cierre de cuenta
+*  Mapa de ruta hasta el domicilio de entrega
+*  Juego para un postre gratis
 
 
 
