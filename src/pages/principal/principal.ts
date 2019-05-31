@@ -7,6 +7,7 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
 import { AltaClienteComponent } from "../../components/alta-cliente/alta-cliente";
+import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
 
 /**
  * Generated class for the PrincipalPage page.
@@ -42,7 +43,8 @@ export class PrincipalPage {
             { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
             { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: AltaSupervisorComponent },
-            { accion: "Registrarse", img: "nuevo-empleado.jpg", ruta: AltaClienteComponent } // quitar despues, es solo para prueba
+            { accion: "Registrarse", img: "nuevo-empleado.jpg", ruta: AltaClienteComponent }, // quitar despues, es solo para prueba
+            { accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent } // quitar despues, es solo para prueba
           ];
           break;
         case "cliente registrado":

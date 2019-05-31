@@ -27,6 +27,11 @@ import { JsonProvider } from '../providers/json/json';
 import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
 import { SplashComponent } from "../components/splash/splash";
 import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
+import { QrProvider } from '../providers/qr/qr';
+import { QrMesaComponent } from "../components/qr-mesa/qr-mesa";
+import { HttpClientModule } from '@angular/common/http'; 
+import { HttpModule } from '@angular/http';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,8 @@ import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
     AltaDeMesaPage,
     AltaSupervisorComponent,
     SplashComponent,
-    AltaClienteComponent
+    AltaClienteComponent,
+    QrMesaComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +52,9 @@ import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
     AngularFireModule.initializeApp(configs.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    HttpModule,
+    HttpClientModule,
+    AppRoutingModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,7 +65,8 @@ import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
     AltaempleadoPage,
     AltaDeMesaPage,
     AltaSupervisorComponent,
-    AltaClienteComponent
+    AltaClienteComponent,
+    QrMesaComponent
   ],
   providers: [
     StatusBar,
@@ -69,6 +79,7 @@ import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
     AlertProvider,
     SpinnerProvider,
     JsonProvider,
+    QrProvider,
   ]
 })
 export class AppModule {}

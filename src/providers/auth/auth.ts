@@ -81,4 +81,30 @@ export class AuthProvider {
     }));
   }
 
+  updateMesa(data) {
+    return this.db.collection('mesas').doc(data.id).update(data);
+  }
+
+  getQr() {
+    return this.db.collection('qr').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as mesa;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  getPedidos() {
+    return this.db.collection('pedidos').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as mesa;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  
+
 }

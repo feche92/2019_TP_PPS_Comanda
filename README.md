@@ -53,7 +53,7 @@ V- Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
 * [X] Alta de Cliente - Fecha inicio: 25/05/19 - Finalizado: 26/05/19
-*  Qr de la Mesa
+*  Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19
 *  Empleado
 *  Tomar Pedido
 *  Pedido de Platos y Bebidas/ Cierre de cuenta

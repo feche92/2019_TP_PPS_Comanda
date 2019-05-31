@@ -40229,6 +40229,14 @@ alta-supervisor .animation-target {
   animation: flip 5000ms linear both;
 }
 
+qr-mesa .card {
+  margin: auto;
+  background-color: aliceblue;
+  border-radius: 5%;
+  padding: 10px;
+  margin-top: 5px;
+}
+
 splash {
   /*
 @-webkit-keyframes sk-rotateplane {
