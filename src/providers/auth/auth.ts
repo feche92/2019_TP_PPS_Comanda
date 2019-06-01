@@ -24,6 +24,7 @@ export interface mesa {
   tipo:string,
   estado:string,
   foto:string,
+  cliente: string
 }
 
 @Injectable()
@@ -61,6 +62,10 @@ export class AuthProvider {
 
   guardarCliente(data) {
     return this.db.collection('clientes').add(data);
+  }
+
+  guardarEncuestaEmpleado(data) {
+    return this.db.collection('encuestaEmpleado').add(data);
   }
 
   crearUsuario(correo,pass) {

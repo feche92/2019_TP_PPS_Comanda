@@ -27,7 +27,6 @@ export class AltaClienteComponent {
 
   constructor(private camera: Camera, private auth: AuthProvider, public alert: AlertProvider,
     private scanner: BarcodeScanner) {
-    console.log('Hello AltaClienteComponent Component');
   }
 
   alta(){

@@ -27,11 +27,12 @@ import { JsonProvider } from '../providers/json/json';
 import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
 import { SplashComponent } from "../components/splash/splash";
 import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
-import { QrProvider } from '../providers/qr/qr';
+//import { QrProvider } from '../providers/qr/qr';
 import { QrMesaComponent } from "../components/qr-mesa/qr-mesa";
 import { HttpClientModule } from '@angular/common/http'; 
 import { HttpModule } from '@angular/http';
-import { AppRoutingModule } from './app-routing.module';
+import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encuesta-empleado";
+
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AppRoutingModule } from './app-routing.module';
     AltaSupervisorComponent,
     SplashComponent,
     AltaClienteComponent,
-    QrMesaComponent
+    QrMesaComponent,
+    EncuestaEmpleadoComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,6 @@ import { AppRoutingModule } from './app-routing.module';
     AngularFirestoreModule,
     HttpModule,
     HttpClientModule,
-    AppRoutingModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -66,7 +67,8 @@ import { AppRoutingModule } from './app-routing.module';
     AltaDeMesaPage,
     AltaSupervisorComponent,
     AltaClienteComponent,
-    QrMesaComponent
+    QrMesaComponent,
+    EncuestaEmpleadoComponent
   ],
   providers: [
     StatusBar,
@@ -79,7 +81,7 @@ import { AppRoutingModule } from './app-routing.module';
     AlertProvider,
     SpinnerProvider,
     JsonProvider,
-    QrProvider,
+    //QrProvider,
   ]
 })
 export class AppModule {}

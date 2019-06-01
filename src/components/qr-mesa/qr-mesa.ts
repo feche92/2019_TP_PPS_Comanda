@@ -15,6 +15,7 @@ export interface mesa {
   tipo:string,
   estado:string,
   foto:string,
+  cliente: string
 }
 
 @Component({

@@ -1,0 +1,91 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Empleado | Encuesta</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label floating>Nombre </ion-label>
+    <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Fecha </ion-label>
+    <ion-input type="string" required [(ngModel)]="fecha" disabled name="fecha"></ion-input>
+  </ion-item>  
+    
+    <!--ion-label floating>Turno </ion-label-->
+
+    <ion-list radio-group [(ngModel)]="turno">
+    <ion-list-header>
+      <ion-label>Turno</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Mañana</ion-label>
+      <ion-radio slot="start" value="mañana" checked></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tarde</ion-label>
+      <ion-radio slot="start" value="tarde" checked></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Noche</ion-label>
+      <ion-radio slot="start" value="noche" checked></ion-radio>
+    </ion-item>
+    </ion-list>
+
+  <ion-item>
+    <ion-label>Rol/Función</ion-label>
+    <ion-select [(ngModel)]="rol" placeholder="Seleccione uno">
+      <ion-option value="mozo">Mozo</ion-option>
+      <ion-option value="bartender">Bartender</ion-option>
+	  <ion-option value="cocinero">Cocinero</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list *ngIf="(rol == 'mozo')">
+  <ion-label>Seleccione espacio de trabajo en malas condiciones de higiene:</ion-label>
+	  <ion-item *ngFor="let item of rol_mozo">
+	  	<ion-checkbox [(ngModel)]="item.isChecked"></ion-checkbox>
+	  	<ion-label>{{item.val}}</ion-label>
+	  </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="(rol == 'bartender')">
+  	<ion-label>Seleccione espacio de trabajo en malas condiciones de higiene:</ion-label>
+	  <ion-item *ngFor="let item of rol_bartender">
+	  	<ion-checkbox [(ngModel)]="item.isChecked"></ion-checkbox>
+	  	<ion-label>{{item.val}}</ion-label>
+	  </ion-item>
+  </ion-list>
+  
+  <ion-list *ngIf="(rol == 'cocinero')">
+  	<ion-label>Seleccione espacio de trabajo en malas condiciones de higiene:</ion-label>
+	  <ion-item *ngFor="let item of rol_cocinero">
+	  	<ion-checkbox [(ngModel)]="item.isChecked"></ion-checkbox>
+	  	<ion-label>{{item.val}}</ion-label>
+	  </ion-item>
+  </ion-list>
+
+  <ion-item>
+  	<ion-label>Nivel de limpieza general encontrado:</ion-label>
+    <ion-range min="0" max="100" color="primary" name="limpieza" [(ngModel)]="limpieza">
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+  </ion-item>
+
+
+
+  <ion-item>
+    <ion-label position="floating">Comentarios</ion-label>
+    <ion-textarea [(ngModel)]="comentario" placeholder="Agregue un comentario..."></ion-textarea>
+  </ion-item>
+
+  <br>
+  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>
+  <button ion-button block color="secondary" (click)="guardar()">Guardar</button>
+  <button ion-button block color="danger">Cancelar</button>
+</ion-content>
