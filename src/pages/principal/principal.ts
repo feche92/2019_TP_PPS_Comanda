@@ -7,6 +7,11 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
+import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
+import { ReservaPage } from '../reserva/reserva';
+import { FcmProvider } from '../../providers/fcm/fcm';
+import { ToastController } from 'ionic-angular';
+import { tap } from 'rxjs/operators';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -25,7 +30,27 @@ export class PrincipalPage {
   usuario;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
-    private auth: AuthProvider) {
+    private auth: AuthProvider,
+    fcm: FcmProvider, 
+    private toastCtrl: ToastController) {
+      fcm.getToken()
+
+    // Listen to incoming messages
+    fcm.listenToNotifications().pipe(
+      tap(msg => {
+        // show a toast
+        const toast = toastCtrl.create({
+          message: msg.body,
+          duration: 4000,
+          position: 'top',
+          cssClass: 'nombreRaro'
+
+        });
+
+        toast.present();
+      })
+    )
+      .subscribe()
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       console.log(this.usuario.tipo);
       switch(this.usuario.tipo) {
@@ -41,8 +66,20 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
             { accion: "Nuevo Supervisor", img: "nuevo-empleado.jpg", ruta: AltaSupervisorComponent },
-            { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage }
+            { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
+            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
           ];
+          break;
+        case "cliente registrado":
+        case "cliente anonimo":
+          this.acciones = [
+            { accion: "Registrarse", img: "nuevo-empleado.jpg", ruta: AltaClienteComponent }
+          ];
+          break;
+        case "cliente":
+          this.acciones = [
+            { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
+          ]
         }
   }
 

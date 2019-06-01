@@ -15,6 +15,8 @@ export class HomePage {
   //splash = true;
   usuarios;
   mostrarSpiner:boolean = false;
+  public agrandar = "";
+  public botonUsuarios = "";
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data:AuthProvider,
     private serviceAlert:AlertProvider) {
@@ -34,6 +36,26 @@ export class HomePage {
   rellenar(){
     this.email = "samy32m@gmail.com";
     this.pass = "222222";
+  }
+
+  DesplegarUsuarios() {
+    this.botonUsuarios = "ocultar";
+    this.agrandar = "agrandar";
+  }
+
+  SetearUsuario(email: string, password: string) {
+    this.email = email;
+    this.pass = password;
+    this.NoDesplegarUsuarios();
+  }
+
+  NoDesplegarUsuarios() {
+
+    setTimeout(() => {
+      this.botonUsuarios = "";
+    }, 500);
+
+    this.agrandar = "";
   }
 
   aceptar() {

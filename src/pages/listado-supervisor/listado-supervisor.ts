@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
+import { PrincipalPage } from '../principal/principal';
+import { EncuestaSupervisorPage } from '../encuesta-supervisor/encuesta-supervisor';
 
 
 
@@ -14,7 +16,10 @@ export class ListadoSupervisorPage {
   listaUsuarios;
   listaEmpleados;
   listaClientes;
+  public image = "";
+  public ocultarImagen = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,
+    private modalCtrl: ModalController,
     private auth: AuthProvider,
     private spinner: SpinnerProvider) {
       this.listaClientes=new Array();
@@ -43,5 +48,23 @@ export class ListadoSupervisorPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ListadoSupervisorPage');
   }
+
+  MostrarEncuesta(usuario) {
+    this.modalCtrl.create(EncuestaSupervisorPage, { usuario: usuario }).present();
+  }
+
+  back() {
+    this.navCtrl.setRoot(PrincipalPage);
+  }
+
+  MostrarImagen(imagen: string) {
+    this.image = imagen;
+    this.ocultarImagen = true;
+  }
+
+  OcultarImagen() {
+    this.ocultarImagen = false;
+  }
+
 
 }

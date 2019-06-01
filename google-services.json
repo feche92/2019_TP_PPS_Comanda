@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "7185849995",
+    "firebase_url": "https://la-comanda.firebaseio.com",
+    "project_id": "la-comanda",
+    "storage_bucket": "la-comanda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7185849995:android:f3a40908bd574b9b",
+        "android_client_info": {
+          "package_name": "io.ionic.comanda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7185849995-228rqr810g0cam7q984r528me3lqohq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQJpuFI2qTnVkN8l2gj_OzrSNdAeuJZkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7185849995-228rqr810g0cam7q984r528me3lqohq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

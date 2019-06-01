@@ -29,7 +29,8 @@ export class AltaDeMesaPage {
       this.mesas=new Array();
       this.auth.getMesas().subscribe(lista => {
         this.mesas=lista;
-      })
+      });
+      console.log(this.mesas);
   }
 
   ionViewDidLoad() {
@@ -43,6 +44,7 @@ export class AltaDeMesaPage {
   Alta() {
     //let spiner=this.spiner.getAllPageSpinner();
     //spiner.present();
+    console.log(this.mesas);
     this.mostrarSpiner=true;
     if (!this.numeroMesa || !this.cantidadComensales || !this.tipo || this.foto=="")
     {
@@ -68,7 +70,7 @@ export class AltaDeMesaPage {
     if(esValido) {
       let data= {
         "numero":this.numeroMesa,"cantidadComensales":this.cantidadComensales,"foto":this.foto,
-        "tipo":this.tipo,"estado":"libre"
+        "tipo":this.tipo,"estado":"libre","cliente":""
       }
       this.auth.guardarMesa(data).then(res =>{
         this.error.mostrarMensaje("mesa registrada");

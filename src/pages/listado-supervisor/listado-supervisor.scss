@@ -31,8 +31,8 @@ page-listado-supervisor {
         padding: 10px 0 10px 0;
         font-family: cinzel;
         text-align: center;
-        background-color: rgba(207, 73, 70, 1);
-        color: white;
+        //background-color: rgba(207, 73, 70, 1);
+        color: rgb(46, 15, 219);
     }
 
     .imagen {
@@ -55,5 +55,9 @@ page-listado-supervisor {
         }
 
         img { height: auto; }
+
+        .ocultar {
+            display: none !important;
+        }
     }
 }

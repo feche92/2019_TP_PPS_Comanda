@@ -10,7 +10,7 @@ export class SpinnerProvider {
 
   getAllPageSpinner(){
     let loader = this.loadingCtrl.create({
-        spinner:'hide',
+        spinner:'circles',
         showBackdrop:false,
         //content:"<page-spinner></page-spinner>",
         cssClass: 'small-spinner'

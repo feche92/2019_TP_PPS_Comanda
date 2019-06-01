@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
+import { EncuestaSupervisorPageModule } from '../../pages/encuesta-supervisor/encuesta-supervisor.module';
 //import 'rxjs/add/operator/map';
 
 export interface usuario {
@@ -24,6 +25,44 @@ export interface mesa {
   tipo:string,
   estado:string,
   foto:string,
+  cliente:string
+}
+
+export interface encUsuario {
+  id:string,
+  correo:string,
+  pregunta1: {
+    bueno:number,
+    excelente:number,
+    malo:number,
+    mediocre:number,
+    pesimo:number
+  },
+  pregunta2: {
+    no:number,
+    si:number
+  },
+  pregunta3: {
+    item1:number,
+    item2:number,
+    item3:number
+  },
+  pregunta4: {
+    no:number,
+    si:number
+  }
+}
+
+export interface reserva {
+  correo:string,
+  nombre:string,
+  apellido:string,
+  horario:string,
+  foto:string,
+  cantPersonas:string,
+  mesa:string,
+  estado:string,
+  id:string
 }
 
 @Injectable()
@@ -59,6 +98,10 @@ export class AuthProvider {
     return this.db.collection('usuarios').add(data);
   }
 
+  guardarCliente(data) {
+    return this.db.collection('clientes').add(data);
+  }
+
   crearUsuario(correo,pass) {
     return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
   }
@@ -71,6 +114,42 @@ export class AuthProvider {
     return this.db.collection('mesas').snapshotChanges().pipe(map(rooms => {
       return rooms.map(a =>{
         const data = a.payload.doc.data() as mesa;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  nuevaEncuesta(data) {
+    return this.db.collection('encuestasUsuarios').add(data);
+  }
+
+  modificarEncuesta(data) {
+    return this.db.collection('encuestasUsuarios').doc(data.id).update(data);
+  }
+
+  getEncUsuarios() {
+    return this.db.collection('encuestasUsuarios').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as encUsuario;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  nuevaReserva(data) {
+    return this.db.collection('reservas').add(data);
+  }
+
+  confirmarReserva(data) {
+    return this.db.collection('reservas').doc(data.id).update(data);
+  }
+
+  getReservas() {
+    return this.db.collection('reservas').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as reserva;
         data.id = a.payload.doc.id;
         return data;
       })

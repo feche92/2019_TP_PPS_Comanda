@@ -1,0 +1,71 @@
+<!--
+  Generated template for the EncuestaSupervisorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title></ion-title>
+    <ion-buttons>
+      <button ion-button (click)="VolverAtras()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1>Califique la conducta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+  <div class="encuesta">
+    <div class="mi-range">
+
+      <ion-range [(ngModel)]="conducta" color="primary" pin="true" min="1" max="5" snaps="true" style="width: 100%;position: relative;"
+        (ngModelChange)="ModificarTextoRange()"></ion-range>
+      <span>{{textoRange}}</span>
+
+    </div>
+  </div>
+  <h1>¿Tuvo algún inconveniente con {{usuario.apellido}}, {{usuario.nombre}} en horas de servicio?</h1>
+  <div class="encuesta">
+    <ion-list radio-group [(ngModel)]="inconveniente">
+      <ion-item>
+        <ion-label>Sí</ion-label>
+        <ion-radio color="primary" value="1"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>No</ion-label>
+        <ion-radio color="primary" value="0"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </div>
+  <h1>Seleccione el/los aspectos a tener en cuenta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+  <div class="encuesta">
+    <ion-list style="left: -25px;">
+
+      <ion-item>
+        <ion-label>Mala conducta</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="aspectos.item1"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Mala presentación</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="aspectos.item2"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Poca formalidad</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="aspectos.item3"></ion-checkbox>
+      </ion-item>
+
+    </ion-list>
+  </div>
+  <h1>¿Le gustaría que {{usuario.apellido}}, {{usuario.nombre}} siguiese presentandose en el restaurante?</h1>
+  <div class="encuesta">
+    <select [(ngModel)]="prescencia">
+      <option value="1">Sí, definitivamente.</option>
+      <option value="0">No, en absoluto.</option>
+    </select>
+  </div>
+  <button ion-button color="red" class="enviar" [disabled]="estadoBoton" (click)="HacerEncuesta()">Enviar encuesta</button>
+</ion-content>

@@ -11,11 +11,35 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>Bienvenido</ion-title>
+      
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div class="usuarios">
+
+    <button [class]="botonUsuarios" (click)="DesplegarUsuarios()">
+      <ion-icon name="person"></ion-icon>
+    </button>
+  
+    <div [class]="agrandar">
+        <ion-buttons end style="margin-right: 10px;">
+            <button ion-button icon-only (click)="NoDesplegarUsuarios()">
+              <ion-icon name="close"></ion-icon>
+            </button>
+          </ion-buttons>
+      <button (click)="SetearUsuario('pepe@gmail.com', '123456')">Dueño</button>
+      <button (click)="SetearUsuario('samy32m@gmail.com', '222222')">Supervisor</button>
+      <button (click)="SetearUsuario('federico@gmail.com', '123456')">Mozo</button>
+      <button (click)="SetearUsuario('Seba@gmail.com', '123456')">Cocinero</button>
+      <button (click)="SetearUsuario('bartender@gmail.com', '555555')">Bartender</button>
+      <button (click)="SetearUsuario('metre@gmail.com', '666666')">Metre</button>
+      <button (click)="SetearUsuario('repartidor@gmail.com', '777777')">Repartidor</button>
+      <button (click)="SetearUsuario('paola@gmail.com', '123456')">Cliente</button>
+    </div>
+  
+  </div>
   <img class="icon" src="assets/Imagenes/icon.png">
   <ion-item>
     <ion-label floating>Correo electrónico: </ion-label>
