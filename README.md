@@ -60,6 +60,11 @@ V- Moreno
 *  Mapa de ruta hasta el domicilio de entrega
 *  Juego para un postre gratis
 
+* Torrealba Paola:
+* Alta de Productos (Platos y bebidas)
+* QR de ingreso al local
+* Encuestas cliente
+
 
 
 
