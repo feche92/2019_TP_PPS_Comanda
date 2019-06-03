@@ -26,6 +26,14 @@ export interface mesa {
   foto:string,
 }
 
+export interface producto {
+  tipo:string,
+  descripcion:string,
+  nombre:string,
+  lectroQR:string,
+  foto:string,
+  tiempoEstimadoElaboracion:string;
+}
 @Injectable()
 export class AuthProvider {
 
@@ -51,6 +59,7 @@ export class AuthProvider {
     }));
   }
 
+//-----USUARIOS-----
   updateUsuario(data) {
     return this.db.collection('usuarios').doc(data.id).update(data);
   }
@@ -59,14 +68,17 @@ export class AuthProvider {
     return this.db.collection('usuarios').add(data);
   }
 
-  guardarCliente(data) {
-    return this.db.collection('clientes').add(data);
-  }
+ 
 
   crearUsuario(correo,pass) {
     return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
   }
+  //-----CLIENTES-----
+  guardarCliente(data) {
+    return this.db.collection('clientes').add(data);
+  }
 
+  //-----MESA-----
   guardarMesa(data) {
     return this.db.collection('mesas').add(data);
   }
@@ -76,6 +88,15 @@ export class AuthProvider {
       return rooms.map(a =>{
         const data = a.payload.doc.data() as mesa;
         data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+  //-----PRODUCTOS------
+  getListaProdcutos(tipo:string) {
+    return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as producto;
         return data;
       })
     }));

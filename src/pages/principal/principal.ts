@@ -7,6 +7,7 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
 import { AltaClienteComponent } from "../../components/alta-cliente/alta-cliente";
+import { AltaDeProductoPage } from "../alta-de-producto/alta-de-producto";
 
 /**
  * Generated class for the PrincipalPage page.
@@ -41,6 +42,7 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
+            { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
             { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: AltaSupervisorComponent },
             { accion: "Registrarse", img: "nuevo-empleado.jpg", ruta: AltaClienteComponent } // quitar despues, es solo para prueba
           ];
