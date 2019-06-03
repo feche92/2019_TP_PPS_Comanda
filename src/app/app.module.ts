@@ -32,6 +32,7 @@ import { QrMesaComponent } from "../components/qr-mesa/qr-mesa";
 import { HttpClientModule } from '@angular/common/http'; 
 import { HttpModule } from '@angular/http';
 import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encuesta-empleado";
+import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/lista-cliente-estado";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encue
     SplashComponent,
     AltaClienteComponent,
     QrMesaComponent,
-    EncuestaEmpleadoComponent
+    EncuestaEmpleadoComponent,
+    ListaClienteEstadoComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,8 @@ import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encue
     AltaSupervisorComponent,
     AltaClienteComponent,
     QrMesaComponent,
-    EncuestaEmpleadoComponent
+    EncuestaEmpleadoComponent,
+    ListaClienteEstadoComponent
   ],
   providers: [
     StatusBar,

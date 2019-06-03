@@ -23,8 +23,17 @@ export interface mesa {
   cantidadComensales:string,
   tipo:string,
   estado:string,
-  foto:string,
-  cliente: string
+  foto:string
+}
+
+export interface pedido {
+  id:string,
+  numero_mesa:string,
+  estado_pedido:string,
+  correo_cliente:string,
+  nombre:string,
+  apellido:string,
+  listaProductos: any[];
 }
 
 @Injectable()
@@ -58,10 +67,6 @@ export class AuthProvider {
 
   guardarUsuario(data) {
     return this.db.collection('usuarios').add(data);
-  }
-
-  guardarCliente(data) {
-    return this.db.collection('clientes').add(data);
   }
 
   guardarEncuestaEmpleado(data) {

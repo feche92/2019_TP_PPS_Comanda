@@ -6,10 +6,6 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <ion-label floating>Nombre </ion-label>
-    <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>
-  </ion-item>
 
   <ion-item>
     <ion-label floating>Fecha </ion-label>
@@ -37,14 +33,18 @@
     </ion-list>
 
   <ion-item>
-    <ion-label>Rol/Función</ion-label>
-    <ion-select [(ngModel)]="rol" placeholder="Seleccione uno">
-      <ion-option value="mozo">Mozo</ion-option>
-      <ion-option value="bartender">Bartender</ion-option>
-	  <ion-option value="cocinero">Cocinero</ion-option>
+    <ion-label>Día</ion-label>
+    <ion-select [(ngModel)]="dia" placeholder="Seleccione uno">
+      <ion-option value="lunes">Lunes</ion-option>
+      <ion-option value="martes">Martes</ion-option>
+	    <ion-option value="miercoles">Miercoles</ion-option>
+      <ion-option value="jueves">Jueves</ion-option>
+      <ion-option value="viernes">Viernes</ion-option>
+      <ion-option value="sabado">Sábado</ion-option>
     </ion-select>
+    
   </ion-item>
-
+  
   <ion-list *ngIf="(rol == 'mozo')">
   <ion-label>Seleccione espacio de trabajo en malas condiciones de higiene:</ion-label>
 	  <ion-item *ngFor="let item of rol_mozo">

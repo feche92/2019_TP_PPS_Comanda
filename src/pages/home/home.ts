@@ -4,6 +4,7 @@ import { PrincipalPage } from "../principal/principal";
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
+import { AltaClienteComponent } from "../../components/alta-cliente/alta-cliente";
 
 @Component({
   selector: 'page-home',
@@ -14,11 +15,14 @@ export class HomePage {
   public pass:string;
   //splash = true;
   usuarios;
+  anonimo: boolean = false;
+  nombre: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data:AuthProvider,
     private serviceAlert:AlertProvider,
     private spiner:SpinnerProvider) {
-      this.usuarios=new Array();
+      this.usuarios = new Array();
   }
 
   /*ionViewDidLoad() {
@@ -34,6 +38,19 @@ export class HomePage {
   rellenar(){
     this.email = "samy32m@gmail.com";
     this.pass = "222222";
+  }
+
+  entrarComoAnonimo(){
+    if(this.nombre != undefined){
+      let usuario = {
+        'nombre': this.nombre,
+        'tipo': "cliente anonimo"
+      };
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+      this.navCtrl.setRoot(PrincipalPage, {usuario : usuario});
+    }else{
+      this.serviceAlert.mostrarError("Debe ingresar un nombre de usuario");
+    }
   }
 
   aceptar() {
@@ -91,7 +108,7 @@ export class HomePage {
   }
 
   register() {
-
+    this.navCtrl.setRoot(AltaClienteComponent);
   }
 
 }

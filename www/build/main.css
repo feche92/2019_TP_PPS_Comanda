@@ -40229,6 +40229,15 @@ alta-supervisor .animation-target {
   animation: flip 5000ms linear both;
 }
 
+lista-cliente-estado .pad {
+  padding-right: 15%;
+  padding-left: 15%;
+}
+
+lista-cliente-estado .card-title {
+  text-align: center;
+}
+
 qr-mesa .card {
   margin: auto;
   background-color: aliceblue;
@@ -52236,6 +52245,11 @@ page-home .scroll-content {
   -ms-flex-pack: center;
   justify-content: center;
   padding-bottom: 0px !important;
+}
+
+.checkbox-md {
+  margin-top: 18px;
+  margin-right: 10px;
 }
 
 .icon {

@@ -17,13 +17,13 @@ import { AuthProvider } from "../../providers/auth/auth";
 export class EncuestaEmpleadoComponent {
 
   firebase = firebase;
-  foto: string;
-  nombre: string;
+  dia: string;
+  foto: string = "prueba";
   turno: string;
   rol: string;
   comentario: string = "";
   limpieza: any;
-  fecha: Date;
+  fecha: string;
   rol_mozo = [
       { val: 'Mesas', isChecked: false },
       { val: 'Entrada', isChecked: false },
@@ -48,13 +48,16 @@ export class EncuestaEmpleadoComponent {
   	private auth: AuthProvider) {
   	let date = new Date();
     this.fecha = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    //this.rol = usuario.tipo;
+    this.rol = 'mozo';
+    console.log(this.rol);
   }
 
   guardar(){
 
   	if(this.foto != undefined){
-	  	if(this.nombre != undefined && this.turno != undefined
-	  		&& this.rol != undefined){
+	  	if(this.turno != undefined && this.rol != undefined){
 	  		let check;
 	  		switch(this.rol){
 	  			case 'mozo':
@@ -69,13 +72,13 @@ export class EncuestaEmpleadoComponent {
 	  		}
 
 	  		let data = {
-	  			'nombre': this.nombre,
 	  			'foto': this.foto,
 	  			'turno': this.turno,
 	  			'rol': this.rol,
 	  			'comentario': this.comentario,
 	  			'fecha': this.fecha,
-	  			'nivelLimpieza': this.limpieza
+	  			'nivelLimpieza': this.limpieza,
+          'dia': this.dia
 	   		};
 	   		//console.log(data);
 	   		for(let item of check){
@@ -87,19 +90,20 @@ export class EncuestaEmpleadoComponent {
 
 	  	}
 	  	else{
-	  		this.alert.mostrarMensaje("Hay campos sin rellenar");
+	  		this.alert.mostrarError("Hay campos sin rellenar");
 	  	}
   	}
   	else{
-  		this.alert.mostrarMensaje("Falta cargar una foto");
+  		this.alert.mostrarError("Falta cargar una foto");
   	}
   }
 
 
   async abrirCamara() {
-
-  	let fecha = Date.now();
-    let imageName = this.nombre + fecha;
+    let date = new Date();
+  	let fecha = this.fecha + `${date.getHours()}:${date.getMinutes()}`;
+    let imageName = fecha;
+    //console.log(imageName);
 
     try {
 
@@ -126,17 +130,12 @@ export class EncuestaEmpleadoComponent {
         pictures.getDownloadURL().then((url) => {
 
       	   this.foto = url;
-          /*
-          let baseRef = this.firebase.database().ref(this.sala);
-          baseRef.push({ "usuario": this.usuario.correo, "url": url, "votos": 0, "fecha":  fecha});
-          */
         });
         
       });
 
     } catch (error) {
-
-      alert(error);
+      this.alert.mostrarError(error, "Ocurrio un error");
     }
   }
 
