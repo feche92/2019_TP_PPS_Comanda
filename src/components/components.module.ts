@@ -5,20 +5,25 @@ import { AltaClienteComponent } from './alta-cliente/alta-cliente';
 import { QrMesaComponent } from './qr-mesa/qr-mesa';
 import { EncuestaEmpleadoComponent } from './encuesta-empleado/encuesta-empleado';
 import { ListaClienteEstadoComponent } from './lista-cliente-estado/lista-cliente-estado';
+import { HomeClienteComponent } from './home-cliente/home-cliente';
+
 @NgModule({
 	declarations: [AltaSupervisorComponent,
     SplashComponent,
     AltaClienteComponent,
     QrMesaComponent,
     EncuestaEmpleadoComponent,
-    ListaUsuarioEstadoComponent,
-    ListaClienteEstadoComponent],
+    ListaClienteEstadoComponent,
+    HomeClienteComponent
+    ],
 	imports: [],
 	exports: [AltaSupervisorComponent,
     SplashComponent,
     AltaClienteComponent,
     QrMesaComponent,
     EncuestaEmpleadoComponent,
-    ListaClienteEstadoComponent]
+    ListaClienteEstadoComponent,
+    HomeClienteComponent
+    ]
 })
 export class ComponentsModule {}

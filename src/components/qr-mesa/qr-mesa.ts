@@ -141,7 +141,7 @@ export class QrMesaComponent {
       let id_pedido;
       for(let item of lista){
         if(item.cliente == this.id_usuario){
-          id_pedido = item.id_pedido;
+          //id_pedido = item.id_pedido;
           break;
         }
       }

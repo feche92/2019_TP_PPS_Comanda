@@ -52,7 +52,7 @@ export class PrincipalPage {
         case "cliente registrado":
         case "cliente anonimo":
           this.acciones = [
-            { accion: "Registrarse", img: "nuevo-empleado.jpg", ruta: AltaClienteComponent }
+            //{ accion: "Home", img: "nuevo-empleado.jpg", ruta: HomeClienteComponent }
           ];
           break;
         }

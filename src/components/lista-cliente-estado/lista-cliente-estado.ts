@@ -39,6 +39,7 @@ export class ListaClienteEstadoComponent {
   	console.log(e);
   	if(e.estado == "Pendiente de aprobación"){
 	  	e.estado = "Aprobado";
+      this.auth.crearUsuario(e.correo, e.clave);
   	}
   	else{
   		e.estado = "Pendiente de aprobación";

@@ -33,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/lista-cliente-estado";
-
+import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/
     AltaClienteComponent,
     QrMesaComponent,
     EncuestaEmpleadoComponent,
-    ListaClienteEstadoComponent
+    ListaClienteEstadoComponent,
+    HomeClienteComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +72,8 @@ import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/
     AltaClienteComponent,
     QrMesaComponent,
     EncuestaEmpleadoComponent,
-    ListaClienteEstadoComponent
+    ListaClienteEstadoComponent,
+    HomeClienteComponent
   ],
   providers: [
     StatusBar,

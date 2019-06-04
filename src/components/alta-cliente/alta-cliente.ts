@@ -50,12 +50,14 @@ export class AltaClienteComponent {
               'perfil': this.perfil,
               'tipo': 'cliente',
               'estado': this.estado,
-              'logueado': false
+              'logueado': false,
+              'correo': this.email,
+              'clave': this.clave
           }
 
           this.auth.guardarUsuario(data).then(response =>{
               this.alert.mostrarMensaje("Cliente registrado");
-              this.navCtrl.setRoot(HomePage);
+              //this.navCtrl.setRoot(HomePage);
           });
         }
         else{

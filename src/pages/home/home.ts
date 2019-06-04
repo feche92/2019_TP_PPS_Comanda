@@ -61,34 +61,21 @@ export class HomePage {
         this.data.getLista('usuarios').subscribe(lista => {
           this.usuarios=lista;
           console.log(this.usuarios);
+          let flag = false;
           for(let i=0;i<this.usuarios.length;i++)
           {
-            if(this.usuarios[i].correo==this.email) {
-              /*let usuario=this.usuarios[i];
-              if(usuario.logueado) {
-                spiner.dismiss();
-                this.serviceAlert.mostrarErrorLiteral("Este usuario ya tiene una sesión activa actualmente.", "Error al registrarse");
-                break;
-              }
-              else {
-                usuario.logueado=true;
+            if(this.usuarios[i].correo == this.email) {
+              if(this.usuarios[i].tipo != 'cliente' || (this.usuarios[i].tipo == 'cliente' && this.usuarios[i].estado == "Aprobado")){
+                flag = true;
+                let usuario = this.usuarios[i];
                 localStorage.setItem("usuario", JSON.stringify(usuario));
-                this.data.updateUsuario(usuario)
-                .then(response => {
-                  spiner.dismiss();
-                  this.navCtrl.setRoot(PrincipalPage, {usuario : res});
-                }, error => {
-                  spiner.dismiss();
-                  this.serviceAlert.mostrarError(error,"Error al iniciar sesión");
-                });
+                spiner.dismiss();
+                this.navCtrl.setRoot(PrincipalPage, {usuario : res});
               }
-              break;*/
-              let usuario=this.usuarios[i];
-              localStorage.setItem("usuario", JSON.stringify(usuario));
-              spiner.dismiss();
-              this.navCtrl.setRoot(PrincipalPage, {usuario : res});
             }
           }
+          if(!flag)
+            this.serviceAlert.mostrarError("El usuario no existe");
           
         })
         

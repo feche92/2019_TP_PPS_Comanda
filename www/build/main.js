@@ -1,19 +1,305 @@
 webpackJsonp([4],{
 
-/***/ 165:
+/***/ 138:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(251);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var HomePage = /** @class */ (function () {
+    function HomePage(navCtrl, navParams, data, serviceAlert, spiner) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.data = data;
+        this.serviceAlert = serviceAlert;
+        this.spiner = spiner;
+        this.anonimo = false;
+        this.usuarios = new Array();
+    }
+    /*ionViewDidLoad() {
+      if(this.navParams.get('fromApp')){
+        this.splash = false;
+      }else{
+        setTimeout(() => {
+          this.splash = false;
+        }, 5000);
+      }
+    }*/
+    HomePage.prototype.rellenar = function () {
+        this.email = "samy32m@gmail.com";
+        this.pass = "222222";
+    };
+    HomePage.prototype.entrarComoAnonimo = function () {
+        if (this.nombre != undefined) {
+            var usuario = {
+                'nombre': this.nombre,
+                'tipo': "cliente anonimo"
+            };
+            localStorage.setItem("usuario", JSON.stringify(usuario));
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */], { usuario: usuario });
+        }
+        else {
+            this.serviceAlert.mostrarError("Debe ingresar un nombre de usuario");
+        }
+    };
+    HomePage.prototype.aceptar = function () {
+        var _this = this;
+        if (this.validForm()) {
+            var spiner_1 = this.spiner.getAllPageSpinner();
+            spiner_1.present();
+            this.data.login(this.email, this.pass).then(function (res) {
+                _this.data.getLista('usuarios').subscribe(function (lista) {
+                    _this.usuarios = lista;
+                    console.log(_this.usuarios);
+                    var flag = false;
+                    for (var i = 0; i < _this.usuarios.length; i++) {
+                        if (_this.usuarios[i].correo == _this.email) {
+                            if (_this.usuarios[i].tipo != 'cliente' || (_this.usuarios[i].tipo == 'cliente' && _this.usuarios[i].estado == "Aprobado")) {
+                                flag = true;
+                                var usuario = _this.usuarios[i];
+                                localStorage.setItem("usuario", JSON.stringify(usuario));
+                                spiner_1.dismiss();
+                                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */], { usuario: res });
+                            }
+                        }
+                    }
+                    if (!flag)
+                        _this.serviceAlert.mostrarError("El usuario no existe");
+                });
+            }).catch(function (error) {
+                spiner_1.dismiss();
+                _this.serviceAlert.mostrarError(error, "Error al iniciar sesión");
+            });
+        }
+    };
+    HomePage.prototype.validForm = function () {
+        if (this.pass && this.email) {
+            return true;
+        }
+        this.serviceAlert.mostrarErrorLiteral("Todos los campos son obligatorios", "Error al registrarse");
+        return false;
+    };
+    HomePage.prototype.register = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */]);
+    };
+    HomePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-home',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/home/home.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>Bienvenido</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <img class="icon" src="assets/Imagenes/icon.png">\n  <ion-row>\n    <ion-checkbox color="primary" [(ngModel)]="anonimo"></ion-checkbox> <h4 class="checkbox">Ingresar como anonimo </h4>\n  </ion-row>\n\n  <div *ngIf="!anonimo">\n    <ion-item>\n      <ion-label floating>Correo electrónico: </ion-label>\n      <ion-input type="email" required [(ngModel)]="email" name="em"></ion-input>\n    </ion-item>\n    <ion-item>\n      <ion-label floating>Contraseña: </ion-label>\n      <ion-input type="password" required [(ngModel)]="pass" name="pas"></ion-input>\n    </ion-item>\n  </div>\n  <div *ngIf="anonimo">\n    <ion-item>\n      <ion-label floating>Nombre: </ion-label>\n      <ion-input type="text" [(ngModel)]="nombre" name="nombre"></ion-input>\n    </ion-item>\n  </div>\n  <br>\n  <div *ngIf="!anonimo">\n    <button ion-button block color="primary" (click)="aceptar()">Iniciar Sesión</button>\n  </div>\n  <div *ngIf="anonimo">\n    <button ion-button block color="primary" (click)="entrarComoAnonimo()">Iniciar Sesión</button>\n  </div>\n  <button ion-button block color="secondary" (click)="register()" >Registrarse</button>\n  <button ion-button block color="secondary" (click)="rellenar()" >Rellenar Datos Supervisor</button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/home/home.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__["a" /* SpinnerProvider */]])
+    ], HomePage);
+    return HomePage;
+}());
+
+//# sourceMappingURL=home.js.map
+
+/***/ }),
+
+/***/ 144:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QrMesaComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(35);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var QrMesaComponent = /** @class */ (function () {
+    function QrMesaComponent(auth, alert) {
+        this.auth = auth;
+        this.alert = alert;
+        this.title = "";
+        this.mesas = [];
+        this.estado = 0;
+        //this.traerMesas();
+    }
+    //inicia por aca
+    QrMesaComponent.prototype.verificarEstadoMesa = function () {
+        var _this = this;
+        var usuario = JSON.parse(localStorage.getItem("usuario"));
+        this.id_usuario = usuario.id;
+        //this.mesas = [];
+        var mesasOcupadas = [];
+        var libre = true;
+        this.auth.getMesas().subscribe(function (lista) {
+            for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
+                var item = lista_1[_i];
+                if (item.estado == "ocupada") {
+                    mesasOcupadas.push(item);
+                    libre = false;
+                }
+            }
+            if (libre) {
+                //todas las mesas estan libres -> muestro mesas
+                _this.traerMesas();
+            }
+            else {
+                //mesas ocupadas
+                var conCliente = false; //con cliente actual o no
+                var mesaDeCliente_1;
+                for (var _a = 0, mesasOcupadas_1 = mesasOcupadas; _a < mesasOcupadas_1.length; _a++) {
+                    var item = mesasOcupadas_1[_a];
+                    if (item.cliente == _this.id_usuario) {
+                        mesaDeCliente_1 = item;
+                        conCliente = true;
+                        break;
+                    }
+                }
+                if (!conCliente) {
+                    //hay mesas ocupadas pero no con el cliente actual
+                    _this.traerMesas();
+                }
+                else {
+                    //verifico si el pedido esta finalizado o no
+                    //traigo pedidos
+                    _this.auth.getPedidos().subscribe(function (data) {
+                        var final = false;
+                        for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
+                            var item = data_1[_i];
+                            if (mesaDeCliente_1.id_pedido == item.id && item.estado == "finalizado") {
+                                _this.mostrarEncuestaDeSatisfaccion();
+                                final = true;
+                                break;
+                            }
+                        }
+                        if (!final) {
+                            //si el pedido no esta finalizado
+                            _this.verEstadoPedido();
+                        }
+                    });
+                }
+            }
+        });
+    };
+    QrMesaComponent.prototype.traerMesas = function () {
+        var _this = this;
+        this.title = "Mesas Disponibles";
+        this.mesas = [];
+        var flag = false;
+        this.auth.getMesas().subscribe(function (lista) {
+            for (var _i = 0, lista_2 = lista; _i < lista_2.length; _i++) {
+                var item = lista_2[_i];
+                if (item.estado == "libre") {
+                    _this.mesas.push(item);
+                    flag = true;
+                }
+            }
+            //ordeno por numero de mesa
+            _this.mesas.sort(function (mesa, otraMesa) { return mesa.numero - otraMesa.numero; });
+            if (!flag) {
+                _this.alert.mostrarMensaje("No hay mesas disponibles");
+            }
+        });
+    };
+    QrMesaComponent.prototype.tomarMesa = function (e) {
+        this.estado = 1;
+        var usuario = JSON.parse(localStorage.getItem("usuario"));
+        var data = {
+            cantidadComensales: e.cantidadComensales,
+            estado: 'ocupada',
+            foto: e.foto,
+            id: e.id,
+            numero: e.numero,
+            tipo: e.tipo,
+            'cliente': usuario.id
+        };
+        this.auth.updateMesa(data);
+        this.alert.mostrarMensaje("Mesa asignada");
+        console.log(this.mesas);
+        /**************************************/
+        /*VOLVER A PAGINA PRINCIPAL DE USUARIO*/
+        /**************************************/
+    };
+    QrMesaComponent.prototype.verEstadoPedido = function () {
+        var _this = this;
+        this.title = "Estado Actual del Pedido";
+        this.estado = 2;
+        this.auth.getMesas().subscribe(function (lista) {
+            var id_pedido;
+            for (var _i = 0, lista_3 = lista; _i < lista_3.length; _i++) {
+                var item = lista_3[_i];
+                if (item.cliente == _this.id_usuario) {
+                    //id_pedido = item.id_pedido;
+                    break;
+                }
+            }
+            _this.auth.getPedidos().subscribe(function (data) {
+                for (var _i = 0, data_2 = data; _i < data_2.length; _i++) {
+                    var item = data_2[_i];
+                    if (item.id == id_pedido) {
+                        _this.pedidoActual = item;
+                        break;
+                    }
+                }
+            });
+        });
+    };
+    QrMesaComponent.prototype.mostrarEncuestaDeSatisfaccion = function () {
+        this.title = "Encuesta de Satisfacción";
+        this.estado = 3;
+    };
+    QrMesaComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 18rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body">\n	    <h5 class="card-title">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad maxima de comensales:{{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	</div>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<h2>Estado de Pedido:</h2><p>{{pedidoActual.estado}}</p>\n  		</ion-row>\n  	</ion-grid>\n  </div>\n\n\n  <div *ngIf="estado == 3">\n  \n    <!-- AGREGAR ACA COMPONENTE DE ENCUESTA DE SATISFACCION.\n    PUNTO i -->\n\n\n  </div>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */]])
+    ], QrMesaComponent);
+    return QrMesaComponent;
+}());
+
+//# sourceMappingURL=qr-mesa.js.map
+
+/***/ }),
+
+/***/ 166:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AltaDeMesaPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__principal_principal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__ = __webpack_require__(56);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -52,7 +338,7 @@ var AltaDeMesaPage = /** @class */ (function () {
         console.log('ionViewDidLoad AltaDeMesaPage');
     };
     AltaDeMesaPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["PrincipalPage"]);
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
     };
     AltaDeMesaPage.prototype.Alta = function () {
         var _this = this;
@@ -146,20 +432,19 @@ var AltaDeMesaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 166:
+/***/ 167:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AltaempleadoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__principal_principal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__ = __webpack_require__(56);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -198,7 +483,7 @@ var AltaempleadoPage = /** @class */ (function () {
         console.log('ionViewDidLoad AltaempleadoPage');
     };
     AltaempleadoPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["PrincipalPage"]);
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
     };
     AltaempleadoPage.prototype.ValidarNumero = function (numero) {
         var arrayNumero = numero.split("");
@@ -336,7 +621,7 @@ var AltaempleadoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 199:
+/***/ 200:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -349,25 +634,29 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 199;
+webpackEmptyAsyncContext.id = 200;
 
 /***/ }),
 
-/***/ 241:
+/***/ 242:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"../pages/alta-de-mesa/alta-de-mesa.module": [
-		500,
-		8
+		501,
+		3
 	],
 	"../pages/altaempleado/altaempleado.module": [
-		501,
-		7
+		502,
+		2
+	],
+	"../pages/principal/principal.module": [
+		503,
+		1
 	],
 	"../pages/register/register.module": [
-		503,
-		6
+		504,
+		0
 	]
 };
 function webpackAsyncContext(req) {
@@ -381,12 +670,12 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 241;
+webpackAsyncContext.id = 242;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 250:
+/***/ 251:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -397,9 +686,8 @@ module.exports = webpackAsyncContext;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ionic_angular__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_home_home__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ionic_angular__ = __webpack_require__(22);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -451,7 +739,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
-
 /**
  * Generated class for the AltaClienteComponent component.
  *
@@ -486,11 +773,13 @@ var AltaClienteComponent = /** @class */ (function () {
                     'perfil': this.perfil,
                     'tipo': 'cliente',
                     'estado': this.estado,
-                    'logueado': false
+                    'logueado': false,
+                    'correo': this.email,
+                    'clave': this.clave
                 };
                 this.auth.guardarUsuario(data).then(function (response) {
                     _this.alert.mostrarMensaje("Cliente registrado");
-                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_7__pages_home_home__["a" /* HomePage */]);
+                    //this.navCtrl.setRoot(HomePage);
                 });
             }
             else {
@@ -573,7 +862,7 @@ var AltaClienteComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 252:
+/***/ 253:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -584,7 +873,7 @@ var AltaClienteComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(56);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -770,173 +1059,6 @@ var AltaSupervisorComponent = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=alta-supervisor.js.map
-
-/***/ }),
-
-/***/ 253:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QrMesaComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(35);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var QrMesaComponent = /** @class */ (function () {
-    function QrMesaComponent(auth, alert) {
-        this.auth = auth;
-        this.alert = alert;
-        this.title = "";
-        this.mesas = [];
-        this.estado = 0;
-        //this.traerMesas();
-    }
-    //inicia por aca
-    QrMesaComponent.prototype.verificarEstadoMesa = function () {
-        var _this = this;
-        var usuario = JSON.parse(localStorage.getItem("usuario"));
-        this.id_usuario = usuario.id;
-        //this.mesas = [];
-        var mesasOcupadas = [];
-        var libre = true;
-        this.auth.getMesas().subscribe(function (lista) {
-            for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
-                var item = lista_1[_i];
-                if (item.estado == "ocupada") {
-                    mesasOcupadas.push(item);
-                    libre = false;
-                }
-            }
-            if (libre) {
-                //todas las mesas estan libres -> muestro mesas
-                _this.traerMesas();
-            }
-            else {
-                //mesas ocupadas
-                var conCliente = false; //con cliente actual o no
-                var mesaDeCliente_1;
-                for (var _a = 0, mesasOcupadas_1 = mesasOcupadas; _a < mesasOcupadas_1.length; _a++) {
-                    var item = mesasOcupadas_1[_a];
-                    if (item.cliente == _this.id_usuario) {
-                        mesaDeCliente_1 = item;
-                        conCliente = true;
-                        break;
-                    }
-                }
-                if (!conCliente) {
-                    //hay mesas ocupadas pero no con el cliente actual
-                    _this.traerMesas();
-                }
-                else {
-                    //verifico si el pedido esta finalizado o no
-                    //traigo pedidos
-                    _this.auth.getPedidos().subscribe(function (data) {
-                        var final = false;
-                        for (var _i = 0, data_1 = data; _i < data_1.length; _i++) {
-                            var item = data_1[_i];
-                            if (mesaDeCliente_1.id_pedido == item.id && item.estado == "finalizado") {
-                                _this.mostrarEncuestaDeSatisfaccion();
-                                final = true;
-                                break;
-                            }
-                        }
-                        if (!final) {
-                            //si el pedido no esta finalizado
-                            _this.verEstadoPedido();
-                        }
-                    });
-                }
-            }
-        });
-    };
-    QrMesaComponent.prototype.traerMesas = function () {
-        var _this = this;
-        this.title = "Mesas Disponibles";
-        this.mesas = [];
-        var flag = false;
-        this.auth.getMesas().subscribe(function (lista) {
-            for (var _i = 0, lista_2 = lista; _i < lista_2.length; _i++) {
-                var item = lista_2[_i];
-                if (item.estado == "libre") {
-                    _this.mesas.push(item);
-                    flag = true;
-                }
-            }
-            //ordeno por numero de mesa
-            _this.mesas.sort(function (mesa, otraMesa) { return mesa.numero - otraMesa.numero; });
-            if (!flag) {
-                _this.alert.mostrarMensaje("No hay mesas disponibles");
-            }
-        });
-    };
-    QrMesaComponent.prototype.tomarMesa = function (e) {
-        this.estado = 1;
-        var usuario = JSON.parse(localStorage.getItem("usuario"));
-        var data = {
-            cantidadComensales: e.cantidadComensales,
-            estado: 'ocupada',
-            foto: e.foto,
-            id: e.id,
-            numero: e.numero,
-            tipo: e.tipo,
-            'cliente': usuario.id
-        };
-        this.auth.updateMesa(data);
-        this.alert.mostrarMensaje("Mesa asignada");
-        console.log(this.mesas);
-        /**************************************/
-        /*VOLVER A PAGINA PRINCIPAL DE USUARIO*/
-        /**************************************/
-    };
-    QrMesaComponent.prototype.verEstadoPedido = function () {
-        var _this = this;
-        this.title = "Estado Actual del Pedido";
-        this.estado = 2;
-        this.auth.getMesas().subscribe(function (lista) {
-            var id_pedido;
-            for (var _i = 0, lista_3 = lista; _i < lista_3.length; _i++) {
-                var item = lista_3[_i];
-                if (item.cliente == _this.id_usuario) {
-                    id_pedido = item.id_pedido;
-                    break;
-                }
-            }
-            _this.auth.getPedidos().subscribe(function (data) {
-                for (var _i = 0, data_2 = data; _i < data_2.length; _i++) {
-                    var item = data_2[_i];
-                    if (item.id == id_pedido) {
-                        _this.pedidoActual = item;
-                        break;
-                    }
-                }
-            });
-        });
-    };
-    QrMesaComponent.prototype.mostrarEncuestaDeSatisfaccion = function () {
-        this.title = "Encuesta de Satisfacción";
-        this.estado = 3;
-    };
-    QrMesaComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 18rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body">\n	    <h5 class="card-title">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad maxima de comensales:{{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	</div>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<h2>Estado de Pedido:</h2><p>{{pedidoActual.estado}}</p>\n  		</ion-row>\n  	</ion-grid>\n  </div>\n\n\n  <div *ngIf="estado == 3">\n  \n    <!-- AGREGAR ACA COMPONENTE DE ENCUESTA DE SATISFACCION.\n    PUNTO i -->\n\n\n  </div>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */]])
-    ], QrMesaComponent);
-    return QrMesaComponent;
-}());
-
-//# sourceMappingURL=qr-mesa.js.map
 
 /***/ }),
 
@@ -1143,9 +1265,8 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(57);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1191,6 +1312,7 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
         console.log(e);
         if (e.estado == "Pendiente de aprobación") {
             e.estado = "Aprobado";
+            this.auth.crearUsuario(e.correo, e.clave);
         }
         else {
             e.estado = "Pendiente de aprobación";
@@ -1202,16 +1324,16 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
         });
     };
     ListaClienteEstadoComponent.prototype.cancelar = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__["PrincipalPage"]);
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__["a" /* PrincipalPage */]);
     };
     ListaClienteEstadoComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'lista-cliente-estado',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/lista-cliente-estado/lista-cliente-estado.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>Registro de Clientes</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-item>\n  <div *ngIf="clientes" class="pad">\n  	<div *ngFor="let item of clientes" class="card" style="width: 18rem;">\n	  <img class="card-img-top" src="{{item.foto}}" alt="foto cliente">\n	  <div class="card-body">\n	    <h5 class="card-title">{{item.nombre}} {{item.apellido}}</h5>\n	    <p class="card-text">Estado: {{item.estado}}</p>\n  		<button *ngIf="item.estado == \'Pendiente de aprobación\'" ion-button block color="primary" (click)="modificarRegistro(item)">Aprobar Registro</button>\n  		<button *ngIf="item.estado != \'Pendiente de aprobación\'" ion-button block color="primary" (click)="modificarRegistro(item)">Deshabilitar Registro</button>\n	  </div>\n	</div>\n  </div>\n</ion-item>\n  <button ion-button block color="primary" (click)="cancelar()">Cancelar</button>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/lista-cliente-estado/lista-cliente-estado.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavController */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavController */]])
     ], ListaClienteEstadoComponent);
     return ListaClienteEstadoComponent;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=lista-cliente-estado.js.map
@@ -1224,7 +1346,7 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1283,7 +1405,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AlertProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1409,9 +1531,9 @@ var AlertProvider = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(242);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__ = __webpack_require__(246);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__ = __webpack_require__(247);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(28);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1508,34 +1630,34 @@ var AuthProvider = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(296);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(487);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_register_register__ = __webpack_require__(298);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_altaempleado_altaempleado__ = __webpack_require__(166);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_fire__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_fire_firestore__ = __webpack_require__(246);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_fire_auth__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_altaempleado_altaempleado__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_fire__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_fire_firestore__ = __webpack_require__(247);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_fire_auth__ = __webpack_require__(243);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__globalConfig__ = __webpack_require__(490);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__providers_auth_auth__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__providers_alert_alert__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__providers_spinner_spinner__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__providers_spinner_spinner__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_json_json__ = __webpack_require__(491);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_alta_supervisor_alta_supervisor__ = __webpack_require__(252);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_alta_supervisor_alta_supervisor__ = __webpack_require__(253);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_splash_splash__ = __webpack_require__(498);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_alta_cliente_alta_cliente__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_qr_mesa_qr_mesa__ = __webpack_require__(253);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_alta_cliente_alta_cliente__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_qr_mesa_qr_mesa__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_common_http__ = __webpack_require__(297);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_http__ = __webpack_require__(499);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(254);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_home_cliente_home_cliente__ = __webpack_require__(500);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1573,6 +1695,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -1581,7 +1704,7 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_8__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__["PrincipalPage"],
+                __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__["a" /* PrincipalPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_register_register__["a" /* RegisterPage */],
                 __WEBPACK_IMPORTED_MODULE_11__pages_altaempleado_altaempleado__["a" /* AltaempleadoPage */],
                 __WEBPACK_IMPORTED_MODULE_12__pages_alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */],
@@ -1590,7 +1713,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_23__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_24__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
                 __WEBPACK_IMPORTED_MODULE_27__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */]
+                __WEBPACK_IMPORTED_MODULE_28__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -1598,6 +1722,7 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/alta-de-mesa/alta-de-mesa.module#AltaDeMesaPageModule', name: 'AltaDeMesaPage', segment: 'alta-de-mesa', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] }
                     ]
                 }),
@@ -1611,7 +1736,7 @@ var AppModule = /** @class */ (function () {
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_8__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__["PrincipalPage"],
+                __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__["a" /* PrincipalPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_register_register__["a" /* RegisterPage */],
                 __WEBPACK_IMPORTED_MODULE_11__pages_altaempleado_altaempleado__["a" /* AltaempleadoPage */],
                 __WEBPACK_IMPORTED_MODULE_12__pages_alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */],
@@ -1619,7 +1744,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_23__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_24__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
                 __WEBPACK_IMPORTED_MODULE_27__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */]
+                __WEBPACK_IMPORTED_MODULE_28__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__["a" /* StatusBar */],
@@ -1648,10 +1774,10 @@ var AppModule = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(296);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__ = __webpack_require__(488);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1841,26 +1967,81 @@ var SplashComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 74:
-/***/ (function(module, exports) {
-
-//# sourceMappingURL=principal.js.map
-
-/***/ }),
-
-/***/ 90:
+/***/ 500:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeClienteComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__principal_principal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(250);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(22);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/**
+ * Generated class for the HomeClienteComponent component.
+ *
+ * See https://angular.io/api/core/Component for more info on Angular
+ * Components.
+ */
+var HomeClienteComponent = /** @class */ (function () {
+    function HomeClienteComponent(scanner, navCtrl) {
+        this.scanner = scanner;
+        this.navCtrl = navCtrl;
+    }
+    HomeClienteComponent.prototype.escanear = function () {
+        var _this = this;
+        var options = { prompt: "Escaneá un código", formats: "PDF_417" };
+        this.scanner.scan(options).then(function (barcodeData) {
+            //alert(barcodeData.text);
+            _this.codigo = barcodeData.text;
+        }).catch(function (err) {
+            console.log('Error', err);
+        });
+    };
+    HomeClienteComponent.prototype.codigoMesa = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__["a" /* QrMesaComponent */]);
+    };
+    HomeClienteComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'home-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/'	\n  <button ion-button block color="primary" (click)="escanear()">Escanear Código</button>\n  <button ion-button block color="primary" (click)="codigoMesa()">Código Mesa</button>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__["a" /* BarcodeScanner */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavController */]])
+    ], HomeClienteComponent);
+    return HomeClienteComponent;
+}());
+
+//# sourceMappingURL=home-cliente.js.map
+
+/***/ }),
+
+/***/ 57:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PrincipalPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(253);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_qr_mesa_qr_mesa__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(254);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(255);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1877,118 +2058,90 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var HomePage = /** @class */ (function () {
-    function HomePage(navCtrl, navParams, data, serviceAlert, spiner) {
+
+
+
+
+/**
+ * Generated class for the PrincipalPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var PrincipalPage = /** @class */ (function () {
+    function PrincipalPage(navCtrl, navParams, error, auth) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.data = data;
-        this.serviceAlert = serviceAlert;
-        this.spiner = spiner;
-        this.anonimo = false;
-        this.usuarios = new Array();
+        this.error = error;
+        this.auth = auth;
+        this.acciones = [];
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        console.log(this.usuario.tipo);
+        switch (this.usuario.tipo) {
+            case "jefe":
+                this.acciones = [
+                    //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
+                    { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__["a" /* AltaempleadoPage */] },
+                    { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */] }
+                ];
+                break;
+            case "supervisor":
+                this.acciones = [
+                    { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__["a" /* AltaempleadoPage */] },
+                    { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */] },
+                    { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */] },
+                    { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_10__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */] },
+                    { accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_8__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */] },
+                    { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_9__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */] },
+                ];
+                break;
+            case "cliente registrado":
+            case "cliente anonimo":
+                this.acciones = [];
+                break;
+        }
     }
-    /*ionViewDidLoad() {
-      if(this.navParams.get('fromApp')){
-        this.splash = false;
-      }else{
-        setTimeout(() => {
-          this.splash = false;
-        }, 5000);
-      }
-    }*/
-    HomePage.prototype.rellenar = function () {
-        this.email = "samy32m@gmail.com";
-        this.pass = "222222";
+    PrincipalPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad PrincipalPage');
     };
-    HomePage.prototype.entrarComoAnonimo = function () {
-        if (this.nombre != undefined) {
-            var usuario = {
-                'nombre': this.nombre,
-                'tipo': "cliente anonimo"
-            };
-            localStorage.setItem("usuario", JSON.stringify(usuario));
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["PrincipalPage"], { usuario: usuario });
-        }
-        else {
-            this.serviceAlert.mostrarError(error, "Debe ingresar un nombre de usuario");
-        }
-    };
-    HomePage.prototype.aceptar = function () {
+    PrincipalPage.prototype.logout = function () {
         var _this = this;
-        if (this.validForm()) {
-            var spiner_1 = this.spiner.getAllPageSpinner();
-            spiner_1.present();
-            this.data.login(this.email, this.pass).then(function (res) {
-                _this.data.getLista('usuarios').subscribe(function (lista) {
-                    _this.usuarios = lista;
-                    console.log(_this.usuarios);
-                    for (var i = 0; i < _this.usuarios.length; i++) {
-                        if (_this.usuarios[i].correo == _this.email) {
-                            /*let usuario=this.usuarios[i];
-                            if(usuario.logueado) {
-                              spiner.dismiss();
-                              this.serviceAlert.mostrarErrorLiteral("Este usuario ya tiene una sesión activa actualmente.", "Error al registrarse");
-                              break;
-                            }
-                            else {
-                              usuario.logueado=true;
-                              localStorage.setItem("usuario", JSON.stringify(usuario));
-                              this.data.updateUsuario(usuario)
-                              .then(response => {
-                                spiner.dismiss();
-                                this.navCtrl.setRoot(PrincipalPage, {usuario : res});
-                              }, error => {
-                                spiner.dismiss();
-                                this.serviceAlert.mostrarError(error,"Error al iniciar sesión");
-                              });
-                            }
-                            break;*/
-                            var usuario = _this.usuarios[i];
-                            localStorage.setItem("usuario", JSON.stringify(usuario));
-                            spiner_1.dismiss();
-                            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["PrincipalPage"], { usuario: res });
-                        }
-                    }
-                });
-            }).catch(function (error) {
-                spiner_1.dismiss();
-                _this.serviceAlert.mostrarError(error, "Error al iniciar sesión");
-            });
-        }
+        var alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres cerrar sesión?", "Cerrar sesión");
+        alertConfirm.present();
+        alertConfirm.onDidDismiss(function (confirm) {
+            if (confirm) {
+                _this.cerrarSersion();
+            }
+        });
     };
-    HomePage.prototype.validForm = function () {
-        if (this.pass && this.email) {
-            return true;
-        }
-        this.serviceAlert.mostrarErrorLiteral("Todos los campos son obligatorios", "Error al registrarse");
-        return false;
+    PrincipalPage.prototype.cerrarSersion = function () {
+        this.auth.logOut();
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */], { 'fromApp': true });
     };
-    HomePage.prototype.register = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */]);
+    PrincipalPage.prototype.openPage = function (ruta) {
+        this.navCtrl.setRoot(ruta);
     };
-    HomePage = __decorate([
+    PrincipalPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/home/home.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>Bienvenido</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <img class="icon" src="assets/Imagenes/icon.png">\n  <ion-row>\n    <ion-checkbox color="primary" [(ngModel)]="anonimo"></ion-checkbox> <h4 class="checkbox">Ingresar como anonimo </h4>\n  </ion-row>\n\n  <div *ngIf="!anonimo">\n    <ion-item>\n      <ion-label floating>Correo electrónico: </ion-label>\n      <ion-input type="email" required [(ngModel)]="email" name="em"></ion-input>\n    </ion-item>\n    <ion-item>\n      <ion-label floating>Contraseña: </ion-label>\n      <ion-input type="password" required [(ngModel)]="pass" name="pas"></ion-input>\n    </ion-item>\n  </div>\n  <div *ngIf="anonimo">\n    <ion-item>\n      <ion-label floating>Nombre: </ion-label>\n      <ion-input type="text" [(ngModel)]="nombre" name="nombre"></ion-input>\n    </ion-item>\n  </div>\n  <br>\n  <div *ngIf="!anonimo">\n    <button ion-button block color="primary" (click)="aceptar()">Iniciar Sesión</button>\n  </div>\n  <div *ngIf="anonimo">\n    <button ion-button block color="primary" (click)="entrarComoAnonimo()">Iniciar Sesión</button>\n  </div>\n  <button ion-button block color="secondary" (click)="register()" >Registrarse</button>\n  <button ion-button block color="secondary" (click)="rellenar()" >Rellenar Datos Supervisor</button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/home/home.html"*/
+            selector: 'page-principal',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of acciones" (click)="openPage(p.ruta)">\n        {{p.accion}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-header>\n\n  <ion-navbar color="primary" #content>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Principal</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="logout()">\n        <ion-icon name="power"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page" padding>\n\n  <div *ngIf="usuario.tipo == \'cliente\'">\n    <home-cliente></home-cliente>\n  </div>\n  <button ion-button *ngFor="let item of acciones" (click)="openPage(item.ruta)">\n    <div class="sombreado"></div>\n    <img src="../../assets/Imagenes/{{item.img}}" />\n    <span>{{item.accion}}</span>\n  </button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__["a" /* SpinnerProvider */]])
-    ], HomePage);
-    return HomePage;
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _d || Object])
+    ], PrincipalPage);
+    return PrincipalPage;
+    var _a, _b, _c, _d;
 }());
 
-//# sourceMappingURL=home.js.map
+//# sourceMappingURL=principal.js.map
 
 /***/ }),
 
-/***/ 93:
+/***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnerProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(22);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
