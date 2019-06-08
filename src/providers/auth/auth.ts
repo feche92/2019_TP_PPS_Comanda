@@ -102,4 +102,8 @@ export class AuthProvider {
     }));
   }
 
+  guardarProducto(data) {
+    return this.db.collection('productos').add(data);
+  }
+
 }

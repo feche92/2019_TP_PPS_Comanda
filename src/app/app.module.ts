@@ -12,6 +12,7 @@ import { PrincipalPage } from "../pages/principal/principal";
 import { RegisterPage } from "../pages/register/register";
 import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
+import { AltaDeProductoPage } from "../pages/alta-de-producto/alta-de-producto";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -26,7 +27,8 @@ import { SpinnerProvider } from '../providers/spinner/spinner';
 import { JsonProvider } from '../providers/json/json';
 import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
 import { SplashComponent } from "../components/splash/splash";
-import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
+import { AltaClienteComponent } from  "../components/alta-cliente/alta-cliente";
+import { AltaProductoComponent } from "../components/alta-producto/alta-producto";
 
 @NgModule({
   declarations: [
@@ -36,10 +38,12 @@ import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
+    AltaDeProductoPage,    
     AltaSupervisorComponent,
     SplashComponent,
-    AltaClienteComponent
-  ],
+    AltaClienteComponent,
+    AltaProductoComponent,
+    ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -55,8 +59,10 @@ import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
+    AltaDeProductoPage,
     AltaSupervisorComponent,
-    AltaClienteComponent
+    AltaClienteComponent,
+    AltaProductoComponent,
   ],
   providers: [
     StatusBar,
