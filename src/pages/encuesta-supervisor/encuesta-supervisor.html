@@ -39,6 +39,16 @@
       </ion-item>
     </ion-list>
   </div>
+  <div *ngIf="inconveniente=='1'">
+  <h1>Escriba su comentario acerca de su incoveniente.</h1>
+
+  <div class="encuesta">
+
+    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="opinion"></textarea>
+
+  </div>
+  </div>
+  <div *ngIf="usuario.tipo!='cliente'">
   <h1>Seleccione el/los aspectos a tener en cuenta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
   <div class="encuesta">
     <ion-list style="left: -25px;">
@@ -57,15 +67,66 @@
         <ion-label>Poca formalidad</ion-label>
         <ion-checkbox color="primary" [(ngModel)]="aspectos.item3"></ion-checkbox>
       </ion-item>
+      <ion-item>
+        <ion-label>Buena conducta</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="aspectos.item4"></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-label>Buena presentacion</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="aspectos.item5"></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-label>Buena formalidad</ion-label>
+        <ion-checkbox color="primary" [(ngModel)]="aspectos.item6"></ion-checkbox>
+      </ion-item>
 
     </ion-list>
   </div>
-  <h1>¿Le gustaría que {{usuario.apellido}}, {{usuario.nombre}} siguiese presentandose en el restaurante?</h1>
+  </div>
+  <div *ngIf="usuario.tipo!='cliente'">
+  <h1>¿Indique el nivel de compañerismo de {{usuario.apellido}}, {{usuario.nombre}} para los demas empleados?</h1>
   <div class="encuesta">
     <select [(ngModel)]="prescencia">
-      <option value="1">Sí, definitivamente.</option>
-      <option value="0">No, en absoluto.</option>
+      <option value="0">Muy bueno</option>
+      <option value="1">Bueno</option>
+      <option value="2">Normal</option>
+      <option value="3">Malo</option>
     </select>
+  </div>
+  </div>
+  <div *ngIf="usuario.tipo=='cliente'">
+    <h1>¿Indique la propina que suele dejar {{usuario.apellido}}, {{usuario.nombre}}?</h1>
+    <div class="encuesta">
+      <select [(ngModel)]="propina">
+        <option value="0">Siempre deja propina</option>
+        <option value="1">Suele dejar buena propina</option>
+        <option value="2">Suele dejar poca propina</option>
+        <option value="3">Nunca deja propina</option>
+      </select>
+    </div>
+  </div>
+  <div *ngIf="usuario.tipo=='cliente'">
+    <h1>¿Indique la cantidad de veces que suele venir {{usuario.apellido}}, {{usuario.nombre}} al restaurante?</h1>
+    <div class="encuesta">
+      <ion-list radio-group [(ngModel)]="prescenciaCliente">
+        <ion-item>
+          <ion-label>Todos los dias</ion-label>
+          <ion-radio color="primary" value="0"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Bastante frecuente</ion-label>
+          <ion-radio color="primary" value="1"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Poco</ion-label>
+          <ion-radio color="primary" value="2"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Casi nunca</ion-label>
+          <ion-radio color="primary" value="3"></ion-radio>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
   <button ion-button color="red" class="enviar" [disabled]="estadoBoton" (click)="HacerEncuesta()">Enviar encuesta</button>
 </ion-content>

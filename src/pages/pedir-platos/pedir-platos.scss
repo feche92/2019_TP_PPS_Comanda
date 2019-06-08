@@ -1,0 +1,290 @@
+@import "../../theme/variables.scss";
+
+page-pedir-platos {
+    
+    .contenido
+    {  
+    //width: 100%;
+    //height: 100%!important;
+    display: flex;
+    flex-direction: column;
+    background: url("../assets/Imagenes/madera.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    //position:relative;
+  
+}
+
+ion-item {
+    background-color: rgba(0, 0, 0, .5) !important;
+    color: white !important;
+
+    p {
+        color: rgba(255, 255, 255, .9) !important;
+    }
+
+    ion-icon {
+        color: white;
+        font-size: 30px;
+    }
+}
+
+.imagen {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //background-color: rgba(0, 0, 0, .5);
+    width: 100%;
+    height: 100%;
+
+    ion-icon {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        z-index: 11;
+        color: white;
+        font-size: 50px;
+    }
+}
+
+.tituloPag
+{
+    //font-family: 'Lobster', cursive;
+    text-align: center;
+    color:white;
+    font-size:3em;
+    background:blue;
+    margin-bottom:20%;
+}
+.tituloPlatos
+{
+    //font-family: 'Lobster', cursive;
+    text-align: center;
+    color:white;
+
+ 
+    margin-bottom:10%;
+}
+
+.btnPlatos
+{
+    margin-bottom:5%;
+    width: 170px;
+    height: 170px;
+    margin-left:3%;
+    border-radius: 104px;
+    position: relative;
+    box-shadow: 0 2px 17px 0 black;
+}
+.btnPlatos img
+{
+    max-width: 100%;
+    border: 0;
+    width: 105px;
+
+    position: absolute;
+    top: 0;
+}
+.btnPlatos span
+{
+    margin-top:23%;
+}
+.btnBebidas 
+{
+    margin-bottom:5%;
+    width: 170px;
+    height: 170px;
+    margin-left:3%;
+    border-radius: 104px;
+    position: relative;
+    box-shadow: 0 2px 17px 0 black;
+}
+.btnBebidas img
+{
+    max-width: 100%;
+    border: 0;
+  
+    width: 105px;
+
+    position: absolute;
+    top: 5px;
+    height: 90px;
+}
+.btnBebidas span
+{
+    margin-top:23%;
+}
+.botonespp
+{
+    margin-top: 7%;
+    display: flex;
+    justify-content: space-around;
+}
+.inpDireccion
+{
+    margin-top: 5%;
+    width: 70%;
+    margin-left: 15%;
+    background: #f7f5f2b8;;
+    border: 3px solid white;
+    padding: 5%;
+    border-radius: 4% 4% 4% 4%;
+    font-size: 1.5em;
+    //font-family: 'Boogaloo', cursive;
+}
+.inpDireccion::placeholder
+{
+   
+    font-size: 1.5em;
+    //font-family: 'Boogaloo', cursive;
+    text-align: center;
+   }  
+   
+   .btnPedir
+   {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 25%;
+  
+    font-size: 1.7em;
+    height: 25%;
+    //font-family: 'Boogaloo', cursive;
+   }
+   .platos
+   {
+       position: absolute;
+       z-index:1000;
+     
+       width: 100%;
+       height: 75%;
+       top: 24%;
+       background: blue;
+       overflow:scroll;
+       
+           
+   }
+   .elPlato
+   {
+    width: 100%;
+    
+    overflow: scroll;
+    background: white;
+  
+    height: 76%;
+    overflow: scroll;
+    background: white;
+    margin-top: -9%;
+   }
+
+   .plato{
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+  height:110px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid grey;
+   }
+   .platoImagen{
+    width: 20%;
+    position: absolute;
+    left: 2%;
+    top: 15%;
+    height: 70%;
+   }
+   #img
+   {
+    width: 20%;
+    position: absolute;
+    right: 2%;
+    top: 35%;
+    height: 60%;
+   }
+.elegido
+{
+position:absolute;
+z-index:3000;
+display:none;
+position: absolute;
+z-index: 3000;
+width: 100%;
+
+
+
+height: 124px;
+background-color:rgba(236, 15, 15, 0.61);
+top: -17px;
+}
+.mostrarElegido
+{
+display:block;
+}
+.cerrarSlide
+{
+font-size:2.5em;
+}
+   .plato .precio
+   {
+    position: absolute;
+    right: 5%;
+    top: 3%;
+    font-size: 1.5em;
+   } 
+   .platoCant
+   {
+    position: absolute;
+    left: 25%;
+    bottom: 17%;
+    font-size: 1.5em;
+   }
+
+   .plato h2
+   {
+       margin-left:25%;
+   }
+   .plato button
+   {
+    position: absolute;
+    right: 2%;
+    bottom: 5%;
+    width: 30%;
+   }
+   .ocultar
+   {
+       display:none;
+   }
+   .ocultarTit
+   {
+       visibility: hidden;
+   }
+   .inpCantidad
+   {
+    margin-left: 50%;
+    margin-top: 7%;
+    width: 10%;
+    height: 30%;
+   }
+   .aceptarBtn
+   {
+          
+width: 30%;
+
+position: absolute;
+bottom: 0%;
+left: 17.5%;
+   }
+   .cancelarBtn
+   {
+    width: 30%;
+
+    position: absolute;
+    bottom: 0%;
+    right:  17.5%;
+
+   }
+}   

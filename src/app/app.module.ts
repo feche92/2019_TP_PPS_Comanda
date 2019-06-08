@@ -16,6 +16,10 @@ import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
 import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
 import { ReservaPage } from "../pages/reserva/reserva";
+import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
+import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
+import { PedirPlatosPage } from "../pages/pedir-platos/pedir-platos";
+import { ListadoMesasPage } from "../pages/listado-mesas/listado-mesas";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -48,7 +52,11 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ListadoSupervisorPage,
     AltaClienteComponent,
     EncuestaSupervisorPage,
-    ReservaPage
+    ReservaPage,
+    ListadoReservaPage,
+    EstadisticasSupervisorPage,
+    PedirPlatosPage,
+    ListadoMesasPage
   ],
   imports: [
     BrowserModule,
@@ -71,7 +79,11 @@ import { FcmProvider } from '../providers/fcm/fcm';
     AltaSupervisorComponent,
     AltaClienteComponent,
     EncuestaSupervisorPage,
-    ReservaPage
+    ReservaPage,
+    ListadoReservaPage,
+    EstadisticasSupervisorPage,
+    PedirPlatosPage,
+    ListadoMesasPage
   ],
   providers: [
     StatusBar,

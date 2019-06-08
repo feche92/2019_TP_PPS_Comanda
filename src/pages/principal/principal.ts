@@ -12,6 +12,9 @@ import { ReservaPage } from '../reserva/reserva';
 import { FcmProvider } from '../../providers/fcm/fcm';
 import { ToastController } from 'ionic-angular';
 import { tap } from 'rxjs/operators';
+import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
+import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
+import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -68,6 +71,7 @@ export class PrincipalPage {
             { accion: "Nuevo Supervisor", img: "nuevo-empleado.jpg", ruta: AltaSupervisorComponent },
             { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
+            { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
           ];
           break;
         case "cliente registrado":
@@ -79,7 +83,15 @@ export class PrincipalPage {
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
+            { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage}
+          ];
+          break;
+        case "mozo": 
+          this.acciones = [
+            { accion: "Tomar pedido", img: "pedido.jpg", ruta: ListadoMesasPage}
           ]
+          break;
+          
         }
   }
 

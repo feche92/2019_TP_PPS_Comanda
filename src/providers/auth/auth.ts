@@ -45,11 +45,29 @@ export interface encUsuario {
   pregunta3: {
     item1:number,
     item2:number,
-    item3:number
+    item3:number,
+    item4:number,
+    item5:number,
+    item6:number
   },
   pregunta4: {
-    no:number,
-    si:number
+    MuyBueno:number,
+    Bueno:number,
+    Normal:number,
+    Malo:number
+  },
+  comentarios:Array<any>,
+  pregunta5: {
+    item1:number,
+    item2:number,
+    item3:number,
+    item4:number
+  },
+  pregunta6: {
+    item1:number,
+    item2:number,
+    item3:number,
+    item4:number
   }
 }
 
@@ -62,6 +80,16 @@ export interface reserva {
   cantPersonas:string,
   mesa:string,
   estado:string,
+  id:string
+}
+
+export interface producto {
+  descripcion:string,
+  foto:string,
+  lectorQR:string,
+  nombre:string,
+  tiempoPromedioElaboracion:string,
+  tipo:string,
   id:string
 }
 
@@ -154,6 +182,20 @@ export class AuthProvider {
         return data;
       })
     }));
+  }
+
+  getProductos() {
+    return this.db.collection('productos').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as producto;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  nuevoPedido(data) {
+    return this.db.collection('pedidos').add(data);
   }
 
 }
