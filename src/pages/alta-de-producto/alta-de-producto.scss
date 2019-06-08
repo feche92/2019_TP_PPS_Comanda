@@ -1,6 +1,6 @@
 @import "../../theme/variables.scss";
 
-page-alta-de-mesa {
+page-alta-de-producto {
     ion-navbar {
         padding: 20px 10px !important;
         
@@ -113,30 +113,6 @@ page-alta-de-mesa {
         background: rgba(255,255,255,0.5);
         margin: 0 0 10px 0;
 
-    }
+    }  
 
-
-    .mesas {
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        border-top: solid color($colors, red) 1px;
-        border-bottom: solid color($colors, red) 1px;
-    }
-
-    .mesa {
-        flex-grow: 1;
-        width: 20%;
-        height: 50px;
-        background-color: color($colors, red);
-        margin: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40px;
-        color: white;
-        padding: 0;
-    }
 }
