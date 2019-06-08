@@ -90,14 +90,28 @@ export interface producto {
   nombre:string,
   tiempoPromedioElaboracion:string,
   tipo:string,
-  id:string
+  id:string,
+  precio:number
+}
+
+export interface pedido {
+  correo:string,
+  nombreCliente:string,
+  apellidoCliente:string,
+  estado:string,
+  fecha:string,
+  numero:string,
+  tipo:string,
+  productos:Array<any>,
+  montoTotal:string,
+  id:string,
 }
 
 @Injectable()
 export class AuthProvider {
 
   constructor(private auth: AngularFireAuth, private db:AngularFirestore) {
-    
+
   }
 
   login (email:string,pass:string) {
@@ -196,6 +210,20 @@ export class AuthProvider {
 
   nuevoPedido(data) {
     return this.db.collection('pedidos').add(data);
+  }
+
+  getPedidos() {
+    return this.db.collection('pedidos').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as pedido;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  guardarPedido(data) {
+    return this.db.collection('pedidos').doc(data.id).update(data);
   }
 
 }

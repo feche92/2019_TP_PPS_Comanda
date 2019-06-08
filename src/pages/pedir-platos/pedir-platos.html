@@ -68,9 +68,10 @@
       <h1>Su pedido actual</h1>
       <ion-list>
         <ion-item *ngFor="let item of pedidoActual">
-          <ion-label>{{item.nombre}}  --  {{item.cantidad}}</ion-label>
+          <ion-label>{{item.nombre}}  -- precio: {{item.precio}} -- cantidad: {{item.cantidad}}</ion-label>
         </ion-item>
       </ion-list>
+      <h1>Monto actual: {{montoActual}}</h1>
     </div>
     <div class="botonespp">
           <button class="btnPlatos" (click)="Platos()" ion-button color="primary"  ><img src="assets/Imagenes/comida.png"> Platos</button>
