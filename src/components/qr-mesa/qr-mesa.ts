@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
-/**
- * Generated class for the QrMesaComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
+import { NavController } from 'ionic-angular';
+import { HomeClienteComponent } from "../home-cliente/home-cliente";
 
 export interface mesa {
   id:string,
@@ -15,7 +11,7 @@ export interface mesa {
   tipo:string,
   estado:string,
   foto:string,
-  cliente: string
+  codigo: string
 }
 
 @Component({
@@ -24,121 +20,106 @@ export interface mesa {
 })
 export class QrMesaComponent {
 
+  texto: string;
+  codigo: string = "123456"; //codigo qr de mesa
   title: string = "";
-  id_usuario: string;
   mesas: mesa[] = [];
-  estado: number = 0;
+  estado: number = 0; 
+  ocupada: boolean = false;
+  id_usuario: string;
   pedidoActual;
+  
+  /*estado pedido:
+     por pedir, esperando pedido, preparando pedido, pedido terminado, comiento, por pagar
+    estado mesa:
+    libre, ocupada
+   */
 
-  constructor(private auth: AuthProvider, public alert: AlertProvider) {
-  	//this.traerMesas();
+  constructor(private auth: AuthProvider, public alert: AlertProvider,
+    public navCtrl: NavController) {
+    this.verificarCodigo();
   }
 
-  //inicia por aca
-  verificarEstadoMesa(){
-    let usuario = JSON.parse(localStorage.getItem("usuario"));
-    this.id_usuario = usuario.id;
-    //this.mesas = [];
-    let mesasOcupadas: mesa[] = [];
-    let libre = true;
-    this.auth.getMesas().subscribe(lista => {
+  //verifico si existe el codigo
+  verificarCodigo(){
+    this.title = "Mesa Actual";
+    this.auth.getLista('mesas').subscribe(lista =>{
+      let flag = false;
       for(let item of lista){
-        if(item.estado == "ocupada"){
-          mesasOcupadas.push(item);
-          libre = false;
-        }
-      }
-
-      if(libre){
-        //todas las mesas estan libres -> muestro mesas
-        this.traerMesas();
-      }
-      else{
-        //mesas ocupadas
-        let conCliente = false; //con cliente actual o no
-        let mesaDeCliente;
-        for(let item of mesasOcupadas){
-          if(item.cliente == this.id_usuario){
-            mesaDeCliente = item;
-            conCliente = true;
+        if(item.codigo == this.codigo){
+          if(item.estado == 'libre'){
+            this.mesas.push(item);
+            this.estado = 1;
+            this.ocupada = false;
+            flag = true;
             break;
           }
-        }
-
-        if(!conCliente){
-          //hay mesas ocupadas pero no con el cliente actual
-          this.traerMesas();
-        }
-        else{
-          //verifico si el pedido esta finalizado o no
-          //traigo pedidos
-          this.auth.getPedidos().subscribe(data => {
-            let final = false;
-            for(let item of data){
-              if(mesaDeCliente.id_pedido == item.id && item.estado == "finalizado"){
-                this.mostrarEncuestaDeSatisfaccion();
-                final = true;
-                break;
+          else{
+            let usuario = JSON.parse(localStorage.getItem("usuario"));
+            //console.log(usuario);
+            this.auth.getLista('pedidos').subscribe(l =>{
+              for(let i of l){
+                if(i.correo == usuario.correo && i.numero == item.numero && l.estado != 'por pagar'){
+                    //console.log(i);
+                    this.pedidoActual = i;
+                    this.estado = 2;
+                    this.ocupada = false;
+                    break;
+                }
               }
-            }
-            if(!final){
-              //si el pedido no esta finalizado
-              this.verEstadoPedido();
-            }
-          });
+            });
+          }
         }
-
       }
+      //console.log(this.mesas);
+      if(!flag){
+        this.texto = "La mesa esta ocupada";
+        this.ocupada = true;
+      }
+        /* GUARDAR LOS CAMBIOS EN GIT EN LA RAMA MORENO!!!!!!!!!! DDDDDD:
+        */
+
     });
   }
 
 
-  traerMesas(){
-    this.title = "Mesas Disponibles";
-    this.mesas = [];
-  	let flag = false;
-  	this.auth.getMesas().subscribe(lista => {
-	  	for(let item of lista){
-	  		if(item.estado == "libre"){
-	  			this.mesas.push(item);
-	  			flag = true;
-	  		}
-	  	}
-	  	//ordeno por numero de mesa
-	  	this.mesas.sort((mesa, otraMesa) => mesa.numero - otraMesa.numero);
-	    if(!flag){
-	      this.alert.mostrarMensaje("No hay mesas disponibles");
-	    }
-  	});
-  }
-
   tomarMesa(e){
-
-    this.estado = 1;
-    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    //console.log(e);
+    this.estado = 0;
     let data = {
       cantidadComensales: e.cantidadComensales,
       estado: 'ocupada',
       foto: e.foto,
-      id: e.id,
       numero: e.numero,
       tipo: e.tipo,
-      'cliente': usuario.id
+      codigo: e.codigo,
+      id: e.id
     };
     this.auth.updateMesa(data);
-    this.alert.mostrarMensaje("Mesa asignada");
-    console.log(this.mesas);
 
-    /**************************************/
-    /*VOLVER A PAGINA PRINCIPAL DE USUARIO*/
-    /**************************************/
+    let usuario = JSON.parse(localStorage.getItem("usuario"));
+    
+    let date = new Date();
+    let fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+    let dataPedido = {
+      estado: 'por pedir',
+      numero: e.numero,
+      tipo: e.tipo,
+      'nombreCliente': usuario.nombre,
+      'apellidoCliente': usuario.apellido,
+      'correo': usuario.correo,
+      'fecha': fecha
+    };
+    this.auth.guardarPedido(dataPedido);
+    this.alert.mostrarMensaje("Mesa asignada");
+    this.navCtrl.setRoot(HomeClienteComponent);
   }
 
   verEstadoPedido(){
     this.title = "Estado Actual del Pedido";
     this.estado = 2;
     this.auth.getMesas().subscribe(lista => {
-      let id_pedido;
+      /*
       for(let item of lista){
         if(item.cliente == this.id_usuario){
           //id_pedido = item.id_pedido;
@@ -155,7 +136,7 @@ export class QrMesaComponent {
         }
       });
 
-
+    */
     });
   }
 

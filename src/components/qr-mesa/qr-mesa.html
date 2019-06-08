@@ -16,26 +16,23 @@
 	    <p class="card-text">Tipo: {{mesa.tipo}}</p>
   		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>
 	  </div>
-	</div>
+	  </div>
+  </div>
+
+  <div *ngIf="ocupada" class="ocupada">
+    <h1 class="text-center">{{texto}}</h1>
   </div>
 
 
   <div *ngIf="estado == 2">
   	<ion-grid>
   		<ion-row>
-  			<h2>Estado de Pedido:</h2><p>{{pedidoActual.estado}}</p>
+  			<h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
   		</ion-row>
   	</ion-grid>
   </div>
 
 
-  <div *ngIf="estado == 3">
-  
-    <!-- AGREGAR ACA COMPONENTE DE ENCUESTA DE SATISFACCION.
-    PUNTO i -->
-
-
-  </div>
   
 </ion-content>
 

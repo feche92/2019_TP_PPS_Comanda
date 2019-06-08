@@ -69,6 +69,10 @@ export class AuthProvider {
     return this.db.collection('usuarios').add(data);
   }
 
+  guardarPedido(data) {
+    return this.db.collection('pedidos').add(data);
+  }
+
   guardarEncuestaEmpleado(data) {
     return this.db.collection('encuestaEmpleado').add(data);
   }
