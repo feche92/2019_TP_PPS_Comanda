@@ -1,4 +1,40 @@
 <!-- Generated template for the AltaProductoComponent component -->
-<div>
-  nuevo producto
-</div>
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Registro Producto</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>	
+  <ion-item>
+    <ion-label floating>Nombre </ion-label>
+    <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>
+  </ion-item>
+  <ion-item >
+    <ion-label floating>Descripcion </ion-label>
+    <ion-input type="text" required [(ngModel)]="descripcion" name="descripcion"></ion-input>
+  </ion-item>
+  <ion-item >
+    <ion-label floating>Tipo </ion-label>
+    <ion-input type="text" required [(ngModel)]="tipo" name="tipo"></ion-input>
+  </ion-item>
+  <ion-item >
+    <ion-label floating>Precio </ion-label>
+    <ion-input type="text" required [(ngModel)]="precio" name="precio"></ion-input>
+  </ion-item>
+  <ion-item >
+    <ion-label floating>Tiempo Promedio Elaboracion </ion-label>
+    <ion-input type="text" required [(ngModel)]="tiempoPromedioelaboracion" name="tiempoPromedioelaboracion"></ion-input>
+  </ion-item>
+  <ion-item >
+    <ion-label floating>Lector QR</ion-label>
+    <ion-input type="text" required [(ngModel)]="lectorQR" name="lectocQR"></ion-input>
+  </ion-item>
+
+  <br>
+  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>  
+  <button ion-button block color="secondary" (click)="alta()">Guardar Producto</button>
+  <button ion-button block color="danger">Cancelar</button>
+</ion-content>
+

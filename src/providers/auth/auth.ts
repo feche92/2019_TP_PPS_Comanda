@@ -32,7 +32,10 @@ export interface producto {
   nombre:string,
   lectroQR:string,
   foto:string,
-  tiempoEstimadoElaboracion:string;
+  tiempoPromedioElaboracion:number; 
+  precio: number;
+  estado :string;
+  numeroProducto:number;
 }
 @Injectable()
 export class AuthProvider {

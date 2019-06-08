@@ -1,3 +1,9 @@
+<!--
+  Generated template for the AltaProductoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>Alta de Producto</ion-title>
@@ -9,29 +15,33 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
   <ion-row>
     <ion-col>
       <ion-list inset>
         <ion-item>
-          <ion-input type="text" class="datoProducto"  placeholder="lector QR" name="password" [(ngModel)]="lectorQR"></ion-input>
+          <input type="text" class="tipoProducto" placeholder="Nombre" [(ngModel)]="nombre" />
         </ion-item>
         <ion-item>
-          <ion-input type="text" class="datoProducto"  placeholder="Tiempo Estimado Elaboracion" name="password" [(ngModel)]="tiempoEstimadoElaboracion"></ion-input>
+          <input type="text"  class="tipoProducto"  placeholder="Descripcion" [(ngModel)]="descripcion" />
         </ion-item>
         <ion-item>
-          <ion-input type="text" class="datoProducto"  placeholder="Nombre" name="password" [(ngModel)]="nombre"></ion-input>
+          <input type="text" class="tipoProducto"   placeholder="Precio" [(ngModel)]="precio" />
         </ion-item>
         <ion-item>
-          <ion-input type="text" class="datoProducto"  placeholder="Descripcion" name="password" [(ngModel)]="descripcion"></ion-input>
+          <input type="text"  class="tipoProducto"  placeholder="lectorQR" [(ngModel)]="lectorQR" />
         </ion-item>
         <ion-item>
-          <ion-input type="text" class="datoProducto"  placeholder="Precio" name="password" [(ngModel)]="precio"></ion-input>
+          <input type="text"  class="tipoProducto"  placeholder="Tiempo Promedio Elaboracion" [(ngModel)]="tiempoPromedioElaboracion" />
+        </ion-item>       
+        <ion-item>
+          <select [(ngModel)]="tipo" class="tipoProducto" style="margin: 0 30px 0 0;width: 70%;display: block;
+          margin: 0 auto;">
+            <option value="plato">Plato</option>
+            <option value="bebida">Bebida</option>                   
+          </select>
         </ion-item>
-        <select [(ngModel)]="tipo" class="datoProducto" style="margin: 0 30px 0 0;width: 70%;display: block; margin: 0 auto;">
-          <option value="bebida">bebida</option>
-          <option value="plato">plato</option>             
-        </select>
         <ion-item>
           <img [src]="foto" alt="" height="125px" width="125px">
         </ion-item>
@@ -42,14 +52,7 @@
     <ion-col>
       <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>
       <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>
-      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Registrar mesa</button>
+      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Guardar Producto</button>
     </ion-col>
-  </ion-row>
-</ion-content>
-
-
-
-
-<ion-content padding>
-
+  </ion-row> 
 </ion-content>
