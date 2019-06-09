@@ -22,10 +22,11 @@ export class AltaSupervisorComponent {
   apellido: string;
   dni: number;
   cuil: string;
-  foto: string;
+  foto: string = "prueba";
   perfil: string = "supervisor";
   email: string;
   clave: string;
+  clave2: string;
 
   constructor(private camera: Camera, private auth: AuthProvider, public alert: AlertProvider,
     private scanner: BarcodeScanner) {
@@ -33,9 +34,11 @@ export class AltaSupervisorComponent {
   }
 
   alta(){
-    if(this.nombre != undefined && this.apellido != undefined && this.dni != undefined && this.cuil != undefined 
-      && this.foto != undefined){
-        if(this.dni.toString().length == 8 && this.cuil.toString().length == 11 && this.clave.length >= 6){
+    if(this.nombre != undefined && this.apellido != undefined && this.dni != undefined 
+      && this.cuil != undefined && this.foto != undefined && this.email != undefined
+      && this.clave != undefined && this.clave2 != undefined){
+        if(this.dni.toString().length == 8 && this.cuil.toString().length == 11 
+          && this.clave.length >= 6 && this.clave == this.clave2){
 
             this.auth.crearUsuario(this.email, this.clave).then(res =>{
               let data = {
@@ -44,7 +47,7 @@ export class AltaSupervisorComponent {
                 'dni': this.dni,
                 'cuil': this.cuil,
                 'foto': this.foto,
-                'perfil': this.perfil,
+                'tipo': this.perfil,
                 'correo': this.email,
                 'estado': '',
                 'logueado': false
@@ -60,23 +63,27 @@ export class AltaSupervisorComponent {
         }
         else{
             if(this.dni.toString().length != 8){
-              this.alert.mostrarMensaje("El dni debe tener 8 números");
+              this.alert.mostrarError("El dni debe tener 8 números");
             }
             if(this.cuil.toString().length != 11){
-              this.alert.mostrarMensaje("El cuil debe tener 11 números");
+              this.alert.mostrarError("El cuil debe tener 11 números");
             }
             if(this.clave.length < 6){
-              this.alert.mostrarMensaje("La clave debe tener por lo menos 6 caracteres");
+              this.alert.mostrarError("La clave debe tener por lo menos 6 caracteres");
             }
-            if(this.foto == undefined){
-              this.alert.mostrarMensaje("Falta cargar una foto");
+            if(this.clave != this.clave2){
+              this.alert.mostrarError("Las claves deben ser iguales");
             }
         }
     }
     else{
       if(this.nombre == undefined || this.apellido == undefined || this.dni == undefined || 
-        this.cuil == undefined || this.email == undefined){
-        this.alert.mostrarMensaje("Hay campos sin rellenar");
+        this.cuil == undefined || this.email == undefined || this.clave == undefined
+        || this.clave2 == undefined){
+        this.alert.mostrarError("Hay campos sin rellenar");
+      }
+      if(this.foto == undefined){
+        this.alert.mostrarError("Se debe cargar una foto");
       }
     }
   	

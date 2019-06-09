@@ -1,0 +1,93 @@
+<!--
+  Generated template for the ListadoReservaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Reservas</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="sin-elementos" *ngIf="ocultarSpinner  && reservasPendientes.length == 0 && reservasConfirmadas.length == 0">
+    <h1>No hay reservas disponibles.</h1>
+  </div>
+
+  <ng-container *ngIf="ocultarSpinner && reservasPendientes.length > 0">
+    <h2 class="titulo"><u>Reservas pendientes de confirmación</u></h2>
+  </ng-container>
+
+  <ion-list>
+
+    <ion-item *ngFor="let item of reservasPendientes">
+      <ion-thumbnail item-start (click)="MostrarImagen(item.foto)">
+        <img src={{item.foto}}>
+      </ion-thumbnail>
+
+      <h1>{{item.apellido}}, {{item.nombre}}</h1>
+      <p>Horario • {{item.horario}} Hs.</p>
+      <p>Cantidad de personas • {{item.cantPersonas}}</p>
+
+      <div item-end style="display: flex; align-items: center;align-content: center;flex-direction: column;">
+
+        <button ion-button clear (click)="DesplegarMesas(item)" style="margin-bottom: 20px;">
+          <ion-icon style="color: #CAFF4F;" name="checkmark-circle-outline"></ion-icon>
+        </button>
+
+        <button ion-button clear (click)="ConfirmarCancelarReserva(item)">
+          <ion-icon style="color: #FF0000;" name="close"></ion-icon>
+        </button>
+
+      </div>
+
+
+    </ion-item>
+
+  </ion-list>
+
+  <ng-container *ngIf="ocultarSpinner && reservasConfirmadas.length > 0">
+    <h2 class="titulo"><u>Reservas confirmadas</u></h2>
+  </ng-container>
+
+  <ion-list>
+
+    <ion-item *ngFor="let item of reservasConfirmadas">
+
+      <ion-thumbnail item-start (click)="MostrarImagen(item.foto)">
+        <img src={{item.foto}} />
+      </ion-thumbnail>
+
+      <h1>{{item.apellido}}, {{item.nombre}}</h1>
+      <p>Horario • {{item.horario}} Hs.</p>
+      <p>Cantidad de personas • {{item.cantPersonas}}</p>
+      <p>Mesa • {{item.mesa}}</p>
+
+      <button item-end ion-button clear (click)="ConfirmarCancelarReserva(item)">
+        <ion-icon style="color: #FF0000;" name="close"></ion-icon>
+      </button>
+
+    </ion-item>
+
+  </ion-list>
+
+  <div [ngClass]="{'interfaz-mesas':true,'ocultar':ocultarInterfazMesas}">
+
+    <h1>Selecciona una mesa para la reserva</h1>
+    <div class="mesas">
+      <button ion-button color="red" class="mesa {{item.seleccionado}}" (click)="Seleccionar(item.numero)" *ngFor="let item of mesas">{{item.numero}}</button>
+    </div>
+
+    <div class="botones-interfaz-mesa">
+      <button ion-button color="red" (click)="OcultarInterfaz()">Cancelar</button>
+      <button ion-button color="red" (click)="Confirmar()">Confirmar</button>
+    </div>
+
+  </div>
+</ion-content>

@@ -13,7 +13,6 @@ import { Component } from '@angular/core';
 export class SplashComponent {
 
   constructor() {
-    console.log('Hello SplashComponent Component');
     this.reproducir('servicio-inicio');
   }
 
