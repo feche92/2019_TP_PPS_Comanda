@@ -51,7 +51,7 @@ V- Moreno
 
 ## Tareas terminadas:
 
-* Ivagaza Federico:
+**Ivagaza Federico**:**Branch:** ivagaza
 
 * [x] Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
 * [x] Alta de mesa: fecha de inicio 21/5/19, fecha de finalizacion 22/5/19
@@ -63,7 +63,7 @@ V- Moreno
 * Juego para un 10% de descuento:
 
 
-* Moreno Samantha:
+**Moreno Samantha:**
 **Branch:** Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
@@ -75,7 +75,8 @@ V- Moreno
 *  Mapa de ruta hasta el domicilio de entrega
 *  Juego para un postre gratis
 
-* Torrealba Paola:
+**Torrealba Paola**:**Branch:** paola
+
 * Alta de Productos (Platos y bebidas)
 * QR de ingreso al local
 * Encuestas cliente
