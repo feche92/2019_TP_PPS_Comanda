@@ -14,6 +14,7 @@ import { RegisterPage } from '../register/register';
 export class HomePage {
   public email:string;
   public pass:string;
+  mostrarSpiner: boolean = false;
   //splash = true;
   usuarios;
   anonimo: boolean = false;
@@ -77,7 +78,7 @@ export class HomePage {
 
   aceptar() {
     if(this.validForm()) {
-      //this.mostrarSpiner=true;
+      this.mostrarSpiner=true;
       this.data.login(this.email,this.pass).then(res => {
         this.data.getLista('usuarios').subscribe(lista => {
           this.usuarios=lista;
@@ -90,18 +91,21 @@ export class HomePage {
                 flag = true;
                 let usuario = this.usuarios[i];
                 localStorage.setItem("usuario", JSON.stringify(usuario));
+                this.mostrarSpiner=false;
                 this.navCtrl.setRoot(PrincipalPage, {usuario : res});
               }
               
             }
           }
-          if(!flag)
+          if(!flag) {
             this.serviceAlert.mostrarError("El usuario no existe");
+            this.mostrarSpiner=false;
+          }
           
         })
         
       }).catch(error => {
-        //this.mostrarSpiner=false;
+        this.mostrarSpiner=false;
         this.serviceAlert.mostrarError(error,"Error al iniciar sesión");
       });
     }

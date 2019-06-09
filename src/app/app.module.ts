@@ -20,6 +20,7 @@ import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
 import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
 import { PedirPlatosPage } from "../pages/pedir-platos/pedir-platos";
 import { ListadoMesasPage } from "../pages/listado-mesas/listado-mesas";
+import { AltaDeProductoPage } from "../pages/alta-de-producto/alta-de-producto";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -44,6 +45,7 @@ import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encue
 import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/lista-cliente-estado";
 import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
 import { FcmProvider } from '../providers/fcm/fcm';
+import { AltaProductoComponent } from "../components/alta-producto/alta-producto";
 
 @NgModule({
   declarations: [
@@ -68,8 +70,13 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ListadoReservaPage,
     EstadisticasSupervisorPage,
     PedirPlatosPage,
-    ListadoMesasPage
-  ],
+    ListadoMesasPage,
+    AltaDeProductoPage,    
+    AltaSupervisorComponent,
+    SplashComponent,
+    AltaClienteComponent,
+    AltaProductoComponent,
+    ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -102,7 +109,9 @@ import { FcmProvider } from '../providers/fcm/fcm';
     ListadoReservaPage,
     EstadisticasSupervisorPage,
     PedirPlatosPage,
-    ListadoMesasPage
+    ListadoMesasPage,
+    AltaDeProductoPage,
+    AltaProductoComponent,
   ],
   providers: [
     StatusBar,
