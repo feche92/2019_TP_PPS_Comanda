@@ -54,7 +54,7 @@ export class AuthProvider {
   getLista(tipo:string) {
     return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
       return rooms.map(a =>{
-        const data = a.payload.doc.data() as usuario;
+        const data = a.payload.doc.data();
         data.id = a.payload.doc.id;
         return data;
       })

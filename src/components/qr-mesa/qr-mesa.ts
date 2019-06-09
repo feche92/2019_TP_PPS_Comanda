@@ -56,7 +56,7 @@ export class QrMesaComponent {
           }
           else{
             let usuario = JSON.parse(localStorage.getItem("usuario"));
-            //console.log(usuario);
+            console.log(usuario);
             this.auth.getLista('pedidos').subscribe(l =>{
               for(let i of l){
                 if(i.correo == usuario.correo && i.numero == item.numero && l.estado != 'por pagar'){

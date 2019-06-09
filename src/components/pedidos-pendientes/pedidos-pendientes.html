@@ -1,0 +1,26 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Pedidos Pendientes</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <div>
+  	<div *ngFor="let item of pedidos" class="card" style="width: 18rem;">
+	  <div class="card-body">
+	    <h4 class="card-title">Nombre: {{item.nombre}}</h4>
+	    <h5 class="card-text">Descripcion: {{item.descripcion}}</h5>
+	    <p class="card-text">Tipo: {{item.tipo}}</p>
+  		<button ion-button block color="primary" (click)="prepararPlato(item)">Preparar</button>
+	  </div>
+	  </div>
+  </div>
+
+  <div *ngIf="hayProducto">
+  	<h2 class="text-center">No hay pedidos pendientes</h2>
+  </div>
+  
+</ion-content>
+

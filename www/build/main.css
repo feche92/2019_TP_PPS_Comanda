@@ -31874,6 +31874,10 @@ ion-icon::before {
     background-position: center;
     background-size: cover;
 }*/
+.text-center {
+  text-align: center;
+}
+
 .flex-v {
   display: -webkit-box;
   display: -webkit-flex;
@@ -40240,10 +40244,21 @@ lista-cliente-estado .card-title {
 
 qr-mesa .card {
   margin: auto;
-  background-color: aliceblue;
   border-radius: 5%;
   padding: 10px;
-  margin-top: 5px;
+  margin-top: 10%;
+}
+
+qr-mesa .text-center {
+  text-align: center;
+}
+
+qr-mesa .ocupada {
+  margin-top: 20%;
+}
+
+qr-mesa .estado {
+  margin: 0 0 10px 10px;
 }
 
 splash {
