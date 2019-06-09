@@ -43,7 +43,7 @@ export class QrMesaComponent {
   //verifico si existe el codigo
   verificarCodigo(){
     this.title = "Mesa Actual";
-    this.auth.getLista('mesas').subscribe(lista =>{
+    this.auth.getMesas().subscribe(lista =>{
       let flag = false;
       for(let item of lista){
         if(item.codigo == this.codigo){
@@ -57,9 +57,9 @@ export class QrMesaComponent {
           else{
             let usuario = JSON.parse(localStorage.getItem("usuario"));
             //console.log(usuario);
-            this.auth.getLista('pedidos').subscribe(l =>{
+            this.auth.getPedidos().subscribe(l =>{
               for(let i of l){
-                if(i.correo == usuario.correo && i.numero == item.numero && l.estado != 'por pagar'){
+                if(i.correo == usuario.correo && i.numero == item.numero && i.estado != 'por pagar'){
                     //console.log(i);
                     this.pedidoActual = i;
                     this.estado = 2;

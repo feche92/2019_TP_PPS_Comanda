@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title></ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<div class="platos" *ngIf="ocultarPLatos==true">
+  <h1 class="tituloPlatos"  >{{titulo}}:</h1>
+  <ion-list>
+
+    <ion-item *ngFor="let item of platos">
+      <ion-thumbnail item-start>
+        <img src={{item.foto}}>
+      </ion-thumbnail>
+
+      <h1>{{item.nombre}}</h1>
+      <p>Descripcion • {{item.descripcion}}</p>
+      <p>cantidad • {{item.cantidad}}</p>
+
+      <button ion-button clear item-end (click)="AumentarCantidad(item)">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button clear item-end (click)="DisminuirCantidad(item)">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+    </ion-item>
+
+  </ion-list>
+  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarPedido('plato')">Aceptar</button>
+  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarPedido()">Cancelar</button>
+</div>
+
+<div class="platos" *ngIf="ocultarBebidas==true">
+  <h1 class="tituloPlatos"  >{{titulo}}:</h1>
+  <ion-list>
+
+    <ion-item *ngFor="let item of bebidas">
+      <ion-thumbnail item-start>
+        <img src={{item.foto}}>
+      </ion-thumbnail>
+
+      <h1>{{item.nombre}}</h1>
+      <p>Descripcion • {{item.descripcion}}</p>
+      <p>cantidad • {{item.cantidad}}</p>
+
+      <button ion-button clear item-end (click)="AumentarCantidad(item)">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button clear item-end (click)="DisminuirCantidad(item)">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+    </ion-item>
+
+  </ion-list>
+  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarPedido('bebida')">Aceptar</button>
+  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarPedido()">Cancelar</button>
+</div>
+
+<ion-content padding>
+  <div class="contenido">
+    <h1 class="tituloPag" >¡Haga su pedido!</h1>
+    <div *ngIf="monto">
+      <h1>Su pedido actual</h1>
+      <ion-list>
+        <ion-item *ngFor="let item of pedidoActual">
+          <ion-label>{{item.nombre}}  -- precio: {{item.precio}} -- cantidad: {{item.cantidad}}</ion-label>
+        </ion-item>
+      </ion-list>
+      <h1>Monto actual: {{montoActual}}</h1>
+    </div>
+    <div class="botonespp">
+          <button class="btnPlatos" (click)="Platos()" ion-button color="primary"  ><img src="assets/Imagenes/comida.png"> Platos</button>
+          <button class="btnBebidas"  (click)="Bebidas()" ion-button color="primary" ><img src="assets/Imagenes/bebidas.png">Bebidas</button>
+    </div>
+    <!--input class="inpDireccion" type="text" placeholder="Su direcci&oacute;n"-->
+    <button class="btnPedir" (click)="PedirFinal()" ion-button color="primary" >¡Pedir!</button>
+  </div>
+</ion-content>

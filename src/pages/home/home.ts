@@ -5,6 +5,7 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { AltaClienteComponent } from "../../components/alta-cliente/alta-cliente";
+import { RegisterPage } from '../register/register';
 
 @Component({
   selector: 'page-home',
@@ -17,7 +18,8 @@ export class HomePage {
   usuarios;
   anonimo: boolean = false;
   nombre: string;
-
+  botonUsuarios="";
+  agrandar="";
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data:AuthProvider,
     private serviceAlert:AlertProvider,
@@ -53,10 +55,29 @@ export class HomePage {
     }
   }
 
+  DesplegarUsuarios() {
+    this.botonUsuarios = "ocultar";
+    this.agrandar = "agrandar";
+  }
+
+  SetearUsuario(email: string, password: string) {
+    this.email = email;
+    this.pass = password;
+    this.NoDesplegarUsuarios();
+  }
+
+  NoDesplegarUsuarios() {
+
+    setTimeout(() => {
+      this.botonUsuarios = "";
+    }, 500);
+
+    this.agrandar = "";
+  }
+
   aceptar() {
     if(this.validForm()) {
-      let spiner=this.spiner.getAllPageSpinner();
-      spiner.present();
+      //this.mostrarSpiner=true;
       this.data.login(this.email,this.pass).then(res => {
         this.data.getLista('usuarios').subscribe(lista => {
           this.usuarios=lista;
@@ -69,9 +90,9 @@ export class HomePage {
                 flag = true;
                 let usuario = this.usuarios[i];
                 localStorage.setItem("usuario", JSON.stringify(usuario));
-                spiner.dismiss();
                 this.navCtrl.setRoot(PrincipalPage, {usuario : res});
               }
+              
             }
           }
           if(!flag)
@@ -80,7 +101,7 @@ export class HomePage {
         })
         
       }).catch(error => {
-        spiner.dismiss();
+        //this.mostrarSpiner=false;
         this.serviceAlert.mostrarError(error,"Error al iniciar sesión");
       });
     }

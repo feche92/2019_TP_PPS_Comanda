@@ -17,6 +17,7 @@
 
 <ion-content padding>
   <div class="vertical-container">
+      <page-spinner *ngIf="mostrarSpiner"></page-spinner>
     <h2>Agregar un empleado</h2>
     <input type="text" placeholder="Correo electrónico" [(ngModel)]="correo" />
     <input type="text" placeholder="Nombre" [(ngModel)]="nombre" />
