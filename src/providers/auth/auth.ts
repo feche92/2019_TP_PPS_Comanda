@@ -83,16 +83,7 @@ export interface reserva {
   id:string
 }
 
-export interface producto {
-  descripcion:string,
-  foto:string,
-  lectorQR:string,
-  nombre:string,
-  tiempoPromedioElaboracion:string,
-  tipo:string,
-  id:string,
-  precio:number
-}
+
 
 export interface pedido {
   correo:string,
@@ -107,6 +98,18 @@ export interface pedido {
   id:string,
 }
 
+export interface producto {
+  tipo:string,
+  descripcion:string,
+  nombre:string,
+  lectroQR:string,
+  foto:string,
+  tiempoPromedioElaboracion:number; 
+  precio: number;
+  estado :string;
+  numeroProducto:number;
+  id:string
+}
 @Injectable()
 export class AuthProvider {
 
@@ -132,6 +135,7 @@ export class AuthProvider {
     }));
   }
 
+//-----USUARIOS-----
   updateUsuario(data) {
     return this.db.collection('usuarios').doc(data.id).update(data);
   }
@@ -151,7 +155,12 @@ export class AuthProvider {
   crearUsuario(correo,pass) {
     return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
   }
+  //-----CLIENTES-----
+  guardarCliente(data) {
+    return this.db.collection('clientes').add(data);
+  }
 
+  //-----MESA-----
   guardarMesa(data) {
     return this.db.collection('mesas').add(data);
   }
@@ -164,6 +173,19 @@ export class AuthProvider {
         return data;
       })
     }));
+  }
+  //-----PRODUCTOS------
+  getListaProdcutos(tipo:string) {
+    return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as producto;
+        return data;
+      })
+    }));
+  }
+
+  guardarProducto(data) {
+    return this.db.collection('productos').add(data);
   }
 
   updateMesa(data) {

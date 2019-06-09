@@ -18,6 +18,7 @@ import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
 import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
 import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
+import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -78,6 +79,8 @@ export class PrincipalPage {
             { accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
             { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
+            { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
+            { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: AltaSupervisorComponent },
           ];
           break;
         case "cliente registrado":
