@@ -40267,6 +40267,34 @@ alta-supervisor .animation-target {
   animation: flip 5000ms linear both;
 }
 
+lista-cliente-estado .pad {
+  padding-right: 15%;
+  padding-left: 15%;
+}
+
+lista-cliente-estado .card-title {
+  text-align: center;
+}
+
+qr-mesa .card {
+  margin: auto;
+  border-radius: 5%;
+  padding: 10px;
+  margin-top: 10%;
+}
+
+qr-mesa .text-center {
+  text-align: center;
+}
+
+qr-mesa .ocupada {
+  margin-top: 20%;
+}
+
+qr-mesa .estado {
+  margin: 0 0 10px 10px;
+}
+
 splash {
   /*
 @-webkit-keyframes sk-rotateplane {
@@ -60311,6 +60339,11 @@ page-home div.usuarios .agrandar {
   width: 150px;
   border-radius: 0;
   height: 400px;
+}
+
+.checkbox-md {
+  margin-top: 18px;
+  margin-right: 10px;
 }
 
 .icon {

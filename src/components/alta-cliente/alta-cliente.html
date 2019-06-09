@@ -6,7 +6,7 @@
 </ion-header>
 
 <ion-content padding>
-	<ion-checkbox color="primary" [(ngModel)]="anonimo"></ion-checkbox> <h4 class="checkbox">Hacerse anonimo </h4>
+	
   <ion-item>
     <ion-label floating>Nombre </ion-label>
     <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>
@@ -19,6 +19,18 @@
     <ion-label floating>DNI </ion-label>
     <ion-input type="number" minlength="8" maxlength="8" required [(ngModel)]="dni" name="dni"></ion-input>
     <button ion-button block color="primary">Escanear DNI</button>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Correo Electrónico </ion-label>
+    <ion-input type="email" required [(ngModel)]="email" name="email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Clave </ion-label>
+    <ion-input type="password" minlength="6" required [(ngModel)]="clave" name="clave"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Repetir Clave </ion-label>
+    <ion-input type="password" minlength="6" required [(ngModel)]="clave2" name="clave2"></ion-input>
   </ion-item>
   <br>
   <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>

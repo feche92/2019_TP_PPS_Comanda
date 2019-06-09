@@ -1,13 +1,5 @@
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-<!--div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
-  <div class="flb">
-    <div class="Aligner-item Aligner-item--top">
-    </div>
-    <img src="assets/Imagenes/icon.png">
-    <div class="Aligner-item Aligner-item--bottom">
-    </div>
-  </div>
-</div-->
+
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>Bienvenido</ion-title>
@@ -41,16 +33,33 @@
   
   </div>
   <img class="icon" src="assets/Imagenes/icon.png">
-  <ion-item>
-    <ion-label floating>Correo electrónico: </ion-label>
-    <ion-input type="email" required [(ngModel)]="email" name="em"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label floating>Contraseña: </ion-label>
-    <ion-input type="password" required [(ngModel)]="pass" name="pas"></ion-input>
-  </ion-item>
+  <ion-row>
+    <ion-checkbox color="primary" [(ngModel)]="anonimo"></ion-checkbox> <h4 class="checkbox">Ingresar como anonimo </h4>
+  </ion-row>
+
+  <div *ngIf="!anonimo">
+    <ion-item>
+      <ion-label floating>Correo electrónico: </ion-label>
+      <ion-input type="email" required [(ngModel)]="email" name="em"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Contraseña: </ion-label>
+      <ion-input type="password" required [(ngModel)]="pass" name="pas"></ion-input>
+    </ion-item>
+  </div>
+  <div *ngIf="anonimo">
+    <ion-item>
+      <ion-label floating>Nombre: </ion-label>
+      <ion-input type="text" [(ngModel)]="nombre" name="nombre"></ion-input>
+    </ion-item>
+  </div>
   <br>
-  <button ion-button block color="primary" (click)="aceptar()">Iniciar Sesión</button>
+  <div *ngIf="!anonimo">
+    <button ion-button block color="primary" (click)="aceptar()">Iniciar Sesión</button>
+  </div>
+  <div *ngIf="anonimo">
+    <button ion-button block color="primary" (click)="entrarComoAnonimo()">Iniciar Sesión</button>
+  </div>
   <button ion-button block color="secondary" (click)="register()" >Registrarse</button>
   <button ion-button block color="secondary" (click)="rellenar()" >Rellenar Datos Supervisor</button>
 </ion-content>

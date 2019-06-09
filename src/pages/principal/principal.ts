@@ -6,6 +6,9 @@ import { AltaDeMesaPage } from "../alta-de-mesa/alta-de-mesa";
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
+import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
+import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/encuesta-empleado";
+import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
 import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
@@ -71,13 +74,16 @@ export class PrincipalPage {
             { accion: "Nuevo Supervisor", img: "nuevo-empleado.jpg", ruta: AltaSupervisorComponent },
             { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
+            { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent }, 
+            { accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
+            { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
           ];
           break;
         case "cliente registrado":
         case "cliente anonimo":
           this.acciones = [
-            { accion: "Registrarse", img: "nuevo-empleado.jpg", ruta: AltaClienteComponent }
+            //{ accion: "Home", img: "nuevo-empleado.jpg", ruta: HomeClienteComponent }
           ];
           break;
         case "cliente":

@@ -36,6 +36,13 @@ import { JsonProvider } from '../providers/json/json';
 import { AltaSupervisorComponent } from "../components/alta-supervisor/alta-supervisor";
 import { SplashComponent } from "../components/splash/splash";
 import { AltaClienteComponent } from "../components/alta-cliente/alta-cliente";
+//import { QrProvider } from '../providers/qr/qr';
+import { QrMesaComponent } from "../components/qr-mesa/qr-mesa";
+import { HttpClientModule } from '@angular/common/http'; 
+import { HttpModule } from '@angular/http';
+import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encuesta-empleado";
+import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/lista-cliente-estado";
+import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
 import { FcmProvider } from '../providers/fcm/fcm';
 
 @NgModule({
@@ -49,6 +56,11 @@ import { FcmProvider } from '../providers/fcm/fcm';
     SpinnerPage,
     AltaSupervisorComponent,
     SplashComponent,
+    AltaClienteComponent,
+    QrMesaComponent,
+    EncuestaEmpleadoComponent,
+    ListaClienteEstadoComponent,
+    HomeClienteComponent,
     ListadoSupervisorPage,
     AltaClienteComponent,
     EncuestaSupervisorPage,
@@ -64,6 +76,8 @@ import { FcmProvider } from '../providers/fcm/fcm';
     AngularFireModule.initializeApp(configs.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    HttpModule,
+    HttpClientModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -75,6 +89,11 @@ import { FcmProvider } from '../providers/fcm/fcm';
     AltaDeMesaPage,
     SpinnerPage,
     AltaSupervisorComponent,
+    AltaClienteComponent,
+    QrMesaComponent,
+    EncuestaEmpleadoComponent,
+    ListaClienteEstadoComponent,
+    HomeClienteComponent,
     ListadoSupervisorPage,
     AltaSupervisorComponent,
     AltaClienteComponent,
@@ -97,6 +116,7 @@ import { FcmProvider } from '../providers/fcm/fcm';
     AlertProvider,
     SpinnerProvider,
     JsonProvider,
+    //QrProvider,
     FcmProvider,
   ]
 })

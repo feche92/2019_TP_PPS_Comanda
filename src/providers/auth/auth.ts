@@ -140,8 +140,12 @@ export class AuthProvider {
     return this.db.collection('usuarios').add(data);
   }
 
-  guardarCliente(data) {
-    return this.db.collection('clientes').add(data);
+  guardarPedido(data) {
+    return this.db.collection('pedidos').add(data);
+  }
+
+  guardarEncuestaEmpleado(data) {
+    return this.db.collection('encuestaEmpleado').add(data);
   }
 
   crearUsuario(correo,pass) {
@@ -154,6 +158,20 @@ export class AuthProvider {
 
   getMesas() {
     return this.db.collection('mesas').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as mesa;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  updateMesa(data) {
+    return this.db.collection('mesas').doc(data.id).update(data);
+  }
+
+  getQr() {
+    return this.db.collection('qr').snapshotChanges().pipe(map(rooms => {
       return rooms.map(a =>{
         const data = a.payload.doc.data() as mesa;
         data.id = a.payload.doc.id;
@@ -222,7 +240,7 @@ export class AuthProvider {
     }));
   }
 
-  modificarPedido(data) {
+  actualizarPedido(data) {
     return this.db.collection('pedidos').doc(data.id).update(data);
   }
 

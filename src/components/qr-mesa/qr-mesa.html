@@ -1,0 +1,38 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <div *ngIf="estado == 1">
+  	<div *ngFor="let mesa of mesas" class="card" style="width: 18rem;">
+	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">
+	  <div class="card-body">
+	    <h5 class="card-title">Mesa Nº {{mesa.numero}}</h5>
+	    <p class="card-text">Cantidad maxima de comensales:{{mesa.cantidadComensales}}</p>
+	    <p class="card-text">Tipo: {{mesa.tipo}}</p>
+  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>
+	  </div>
+	  </div>
+  </div>
+
+  <div *ngIf="ocupada" class="ocupada">
+    <h1 class="text-center">{{texto}}</h1>
+  </div>
+
+
+  <div *ngIf="estado == 2">
+  	<ion-grid>
+  		<ion-row>
+  			<h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+  		</ion-row>
+  	</ion-grid>
+  </div>
+
+
+  
+</ion-content>
+
