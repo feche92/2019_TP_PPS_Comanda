@@ -216,7 +216,7 @@ export class PedirPlatosPage {
       "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
       "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
     }
-    this.auth.guardarPedido(data).then(res => {
+    this.auth.modificarPedido(data).then(res => {
       spiner.dismiss();
       this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
       setTimeout(() => {

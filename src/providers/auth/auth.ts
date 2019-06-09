@@ -25,7 +25,7 @@ export interface mesa {
   tipo:string,
   estado:string,
   foto:string,
-  cliente:string
+  codigo:string
 }
 
 export interface encUsuario {
@@ -222,7 +222,7 @@ export class AuthProvider {
     }));
   }
 
-  guardarPedido(data) {
+  modificarPedido(data) {
     return this.db.collection('pedidos').doc(data.id).update(data);
   }
 
