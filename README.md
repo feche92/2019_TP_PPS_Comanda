@@ -4,9 +4,9 @@
 * Torrealba Paola
 
 ## Branchs: 
-* **Rama principal:**
+**Rama principal:**
 * cordova
-* **Ramas secundarias:**
+**Ramas secundarias:**
 * ivagaza
 * moreno
 * paola
