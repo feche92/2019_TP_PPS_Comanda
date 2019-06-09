@@ -80,7 +80,6 @@ export class PrincipalPage {
             { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
             { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
-            { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: AltaSupervisorComponent },
           ];
           break;
         case "cliente registrado":
