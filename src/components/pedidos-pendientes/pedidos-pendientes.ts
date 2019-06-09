@@ -35,37 +35,37 @@ export class PedidosPendientesComponent {
   	this.auth.getLista('pedidos').subscribe(lista => {
   		switch(this.usuario.perfil){
 			case 'cocinero':
-				for(let i = 0; i<lista.productos.lenght; i++){
-					if(lista.productos[i].estado == 'pendiente' && lista.productos[i].tipo == 'plato'){
-						//this.pedidos.push(item);
-						this.hayProducto = true;
+				for(let item of lista){
+					let i = 0;
+					let flag = false;
+					while(!flag){
+						if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato'){
+							this.pedidos.push(item);
+							this.hayProducto = true;
+							flag = true;
+						}
+						if(item.productos.lenght == i++)	
+							flag = true;
 					}
-
-				}
-				for(let item of lista.productos){
 				}
 			break;
 			case 'bartender':
-				this.pedidos.push(item);
-				this.hayProducto = true;
+				for(let item of lista){
+					let i = 0;
+					let flag = false;
+					while(!flag){
+						if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'bebida'){
+							this.pedidos.push(item);
+							this.hayProducto = true;
+							flag = true;
+						}
+						if(item.productos.lenght == i++)	
+							flag = true;
+					}
+				}
 			break;
 		}
-  		/*
-  		for(let item of lista.productos){
-  			if(item.estado == 'pendiente'){
-  				switch(this.usuario.perfil){
-  					case 'cocinero':
-	  					this.productos.push(item);
-	  					this.hayProducto = true;
-	  				break;
-	  				case 'bartender':
-	  					this.productos.push(item);
-	  					this.hayProducto = true;
-	  				break;
-  				}
-  			}
-  		}
-  		*/
+		console.log(this.pedidos);
   	});
   }
 

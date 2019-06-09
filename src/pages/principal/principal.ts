@@ -9,6 +9,7 @@ import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-s
 import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
 import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
+import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/pedidos-pendientes";
 
 /**
  * Generated class for the PrincipalPage page.
@@ -31,13 +32,11 @@ export class PrincipalPage {
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       console.log(this.usuario.tipo);
       switch(this.usuario.tipo) {
-
-        case "jefe":
+        case "cocinero":
+        case "bartender":
           this.acciones = [
-            //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
-            { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
-            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage }
-          ];
+            { accion: "Pedidos Pendientes", img: "nuevo-empleado.jpg", ruta: PedidosPendientesComponent },
+          ];        
           break;
         case "supervisor":
           this.acciones = [

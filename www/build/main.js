@@ -205,8 +205,6 @@ var QrMesaComponent = /** @class */ (function () {
                 _this.texto = "La mesa esta ocupada";
                 _this.ocupada = true;
             }
-            /* GUARDAR LOS CAMBIOS EN GIT EN LA RAMA MORENO!!!!!!!!!! DDDDDD:
-            */
         });
     };
     QrMesaComponent.prototype.tomarMesa = function (e) {
@@ -1669,10 +1667,9 @@ var AuthProvider = /** @class */ (function () {
     };
     AuthProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__["a" /* AngularFireAuth */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__["a" /* AngularFireAuth */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__["a" /* AngularFirestore */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__["a" /* AngularFirestore */]) === "function" && _b || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__["a" /* AngularFireAuth */], __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__["a" /* AngularFirestore */]])
     ], AuthProvider);
     return AuthProvider;
-    var _a, _b;
 }());
 
 //# sourceMappingURL=auth.js.map
@@ -2023,6 +2020,94 @@ var SplashComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ 505:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PedidosPendientesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(22);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var PedidosPendientesComponent = /** @class */ (function () {
+    function PedidosPendientesComponent(auth, alert, navCtrl) {
+        this.auth = auth;
+        this.alert = alert;
+        this.navCtrl = navCtrl;
+        this.pedidos = [];
+        this.hayProducto = false;
+    }
+    PedidosPendientesComponent.prototype.traerPedidos = function () {
+        var _this = this;
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        this.auth.getLista('pedidos').subscribe(function (lista) {
+            switch (_this.usuario.perfil) {
+                case 'cocinero':
+                    for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
+                        var item = lista_1[_i];
+                        var i = 0;
+                        var flag = false;
+                        while (!flag) {
+                            if (item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato') {
+                                _this.pedidos.push(item);
+                                _this.hayProducto = true;
+                                flag = true;
+                            }
+                            if (item.productos.lenght == i++)
+                                flag = true;
+                        }
+                    }
+                    break;
+                case 'bartender':
+                    for (var _a = 0, lista_2 = lista; _a < lista_2.length; _a++) {
+                        var item = lista_2[_a];
+                        var i = 0;
+                        var flag = false;
+                        while (!flag) {
+                            if (item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'bebida') {
+                                _this.pedidos.push(item);
+                                _this.hayProducto = true;
+                                flag = true;
+                            }
+                            if (item.productos.lenght == i++)
+                                flag = true;
+                        }
+                    }
+                    break;
+            }
+            console.log(_this.pedidos);
+        });
+    };
+    PedidosPendientesComponent.prototype.prepararPlato = function (producto) {
+        console.log(producto);
+    };
+    PedidosPendientesComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'pedidos-pendientes',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/pedidos-pendientes/pedidos-pendientes.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>Pedidos Pendientes</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div>\n  	<div *ngFor="let pedido of pedidos" class="card" style="width: 18rem;">\n	  <div class="card-body">\n	  	<h4 class="card-title">Mesa Nº {{pedido.numero}}</h4>\n	  	<div *ngFor="let item of pedido.productos" class="">\n		    <h4 class="card-title">Nombre: {{item.nombre}}</h4>\n		    <h5 class="card-text">Descripcion: {{item.descripcion}}</h5>\n		    <p class="card-text">Tipo: {{item.tipo}}</p>\n		    <p class="card-text">Cantidad: {{item.cantidad}}</p>\n	  	</div>\n  		<button ion-button block color="primary" (click)="prepararPlato(pedido)">Preparar</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="hayProducto">\n  	<h2 class="text-center">No hay pedidos pendientes</h2>\n  </div>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/pedidos-pendientes/pedidos-pendientes.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["h" /* NavController */]])
+    ], PedidosPendientesComponent);
+    return PedidosPendientesComponent;
+}());
+
+//# sourceMappingURL=pedidos-pendientes.js.map
+
+/***/ }),
+
 /***/ 57:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2039,6 +2124,7 @@ var SplashComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_qr_mesa_qr_mesa__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(255);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(256);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(505);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2048,6 +2134,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2075,11 +2162,10 @@ var PrincipalPage = /** @class */ (function () {
         this.usuario = JSON.parse(localStorage.getItem("usuario"));
         console.log(this.usuario.tipo);
         switch (this.usuario.tipo) {
-            case "jefe":
+            case "cocinero":
+            case "bartender":
                 this.acciones = [
-                    //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
-                    { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__["a" /* AltaempleadoPage */] },
-                    { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */] }
+                    { accion: "Pedidos Pendientes", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_11__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */] },
                 ];
                 break;
             case "supervisor":
@@ -2122,11 +2208,10 @@ var PrincipalPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-principal',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of acciones" (click)="openPage(p.ruta)">\n        {{p.accion}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-header>\n\n  <ion-navbar color="primary" #content>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Principal</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="logout()">\n        <ion-icon name="power"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page" padding>\n\n  <div *ngIf="usuario.tipo == \'cliente\'">\n    <home-cliente></home-cliente>\n  </div>\n  <button ion-button *ngFor="let item of acciones" (click)="openPage(item.ruta)">\n    <div class="sombreado"></div>\n    <img src="../../assets/Imagenes/{{item.img}}" />\n    <span>{{item.accion}}</span>\n  </button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _d || Object])
     ], PrincipalPage);
     return PrincipalPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=principal.js.map

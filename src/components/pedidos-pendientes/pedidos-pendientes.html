@@ -8,12 +8,16 @@
 <ion-content padding>
   
   <div>
-  	<div *ngFor="let item of pedidos" class="card" style="width: 18rem;">
+  	<div *ngFor="let pedido of pedidos" class="card" style="width: 18rem;">
 	  <div class="card-body">
-	    <h4 class="card-title">Nombre: {{item.nombre}}</h4>
-	    <h5 class="card-text">Descripcion: {{item.descripcion}}</h5>
-	    <p class="card-text">Tipo: {{item.tipo}}</p>
-  		<button ion-button block color="primary" (click)="prepararPlato(item)">Preparar</button>
+	  	<h4 class="card-title">Mesa Nº {{pedido.numero}}</h4>
+	  	<div *ngFor="let item of pedido.productos" class="">
+		    <h4 class="card-title">Nombre: {{item.nombre}}</h4>
+		    <h5 class="card-text">Descripcion: {{item.descripcion}}</h5>
+		    <p class="card-text">Tipo: {{item.tipo}}</p>
+		    <p class="card-text">Cantidad: {{item.cantidad}}</p>
+	  	</div>
+  		<button ion-button block color="primary" (click)="prepararPlato(pedido)">Preparar</button>
 	  </div>
 	  </div>
   </div>

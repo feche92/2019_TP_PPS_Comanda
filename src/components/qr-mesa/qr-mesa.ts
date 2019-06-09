@@ -76,8 +76,7 @@ export class QrMesaComponent {
         this.texto = "La mesa esta ocupada";
         this.ocupada = true;
       }
-        /* GUARDAR LOS CAMBIOS EN GIT EN LA RAMA MORENO!!!!!!!!!! DDDDDD:
-        */
+       
 
     });
   }
