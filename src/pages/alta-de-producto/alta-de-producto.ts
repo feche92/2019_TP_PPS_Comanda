@@ -6,6 +6,7 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import * as firebase from "firebase";
 
 
 
@@ -15,6 +16,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   templateUrl: 'alta-de-producto.html',
 })
 export class AltaDeProductoPage {
+  firebase = firebase;
   //atributos
   public tipo: string = "plato";
   public descripcion: string;
@@ -107,37 +109,56 @@ export class AltaDeProductoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AltaDeProductoPage');
+      console.log('ionViewDidLoad AltaDeProductoPage');
   }
 
-    private LimpiarCampos() {     
-    this.nombre="";
-    this.tiempoPromedioElaboracion = 0;
-    this.descripcion ="";
-    this.tipo = "plato";
-    this.foto="../../assets/Imagenes/producto.png";
-    this.precio=0;
-    this.lectorQR="";
+  private LimpiarCampos() {     
+      this.nombre="";
+      this.tiempoPromedioElaboracion = 0;
+      this.descripcion ="";
+      this.tipo = "plato";
+      this.foto="../../assets/Imagenes/producto.png";
+      this.precio=0;
+      this.lectorQR="";
     
     
-  }
+  }  
   
-  SacarFoto() {
-    console.log('AltaDeProductoPage - Sacar fotos');
-    let options: CameraOptions = {
-      quality: 50,
-      encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: 600,
-      targetHeight: 600,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      correctOrientation: true
+  async SacarFoto() {
+    let imageName = this.numeroProducto + this.nombre;
+    try {
+
+      let options: CameraOptions = {
+        quality: 50,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        correctOrientation: true,
+        targetHeight: 600,
+        targetWidth: 600,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      };
+
+      let result = await this.camera.getPicture(options);
+
+      let image = `data:image/jpeg;base64,${result}`;
+
+      //guardo en Firebase Storage
+      let pictures = this.firebase.storage().ref(`productos/${imageName}`);
+      
+
+      //tomo url de foto en Firebase Storage
+      pictures.putString(image, "data_url").then(() => {
+        pictures.getDownloadURL().then((url) => {
+      	   this.foto = url;
+        });        
+      });
+    } catch (error) {
+      alert(error);
     }
-    this.camera.getPicture( options )
-    .then(imageData => {
-      this.foto = `data:image/jpeg;base64,${imageData}`;
-    })
   }
+
+
 
 
   InicializarLectorQR() {
