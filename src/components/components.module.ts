@@ -8,6 +8,7 @@ import { ListaClienteEstadoComponent } from './lista-cliente-estado/lista-client
 import { HomeClienteComponent } from './home-cliente/home-cliente';
 import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendientes';
 
+import { AltaProductoComponent } from './alta-producto/alta-producto';
 @NgModule({
 	declarations: [AltaSupervisorComponent,
     SplashComponent,
@@ -16,7 +17,8 @@ import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendien
     EncuestaEmpleadoComponent,
     ListaClienteEstadoComponent,
     HomeClienteComponent,
-    PedidosPendientesComponent
+    PedidosPendientesComponent,
+    AltaProductoComponent,
     ],
 	imports: [],
 	exports: [AltaSupervisorComponent,
@@ -26,7 +28,8 @@ import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendien
     EncuestaEmpleadoComponent,
     ListaClienteEstadoComponent,
     HomeClienteComponent,
-    PedidosPendientesComponent
+    PedidosPendientesComponent,
+    AltaProductoComponent,
     ]
 })
 export class ComponentsModule {}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
+import { EncuestaSupervisorPageModule } from '../../pages/encuesta-supervisor/encuesta-supervisor.module';
 //import 'rxjs/add/operator/map';
 
 export interface usuario {
@@ -10,11 +11,10 @@ export interface usuario {
   tipo:string,
   logueado:boolean,
   estado:string,
-  DNI:string,
-  CUIL:string,
+  dni:string,
+  cuil:string,
   nombre:string,
   apellido:string,
-  id:string
 }
 
 export interface mesa {
@@ -23,24 +23,96 @@ export interface mesa {
   cantidadComensales:string,
   tipo:string,
   estado:string,
-  foto:string
+  foto:string,
+  codigo:string
+}
+
+export interface encUsuario {
+  id:string,
+  correo:string,
+  pregunta1: {
+    bueno:number,
+    excelente:number,
+    malo:number,
+    mediocre:number,
+    pesimo:number
+  },
+  pregunta2: {
+    no:number,
+    si:number
+  },
+  pregunta3: {
+    item1:number,
+    item2:number,
+    item3:number,
+    item4:number,
+    item5:number,
+    item6:number
+  },
+  pregunta4: {
+    MuyBueno:number,
+    Bueno:number,
+    Normal:number,
+    Malo:number
+  },
+  comentarios:Array<any>,
+  pregunta5: {
+    item1:number,
+    item2:number,
+    item3:number,
+    item4:number
+  },
+  pregunta6: {
+    item1:number,
+    item2:number,
+    item3:number,
+    item4:number
+  }
+}
+
+export interface reserva {
+  correo:string,
+  nombre:string,
+  apellido:string,
+  horario:string,
+  foto:string,
+  cantPersonas:string,
+  mesa:string,
+  estado:string,
+  id:string
 }
 
 export interface pedido {
+  correo:string,
+  nombreCliente:string,
+  apellidoCliente:string,
+  estado:string,
+  fecha:string,
+  numero:string,
+  tipo:string,
+  productos:Array<any>,
+  montoTotal:string,
   id:string,
-  numero_mesa:string,
-  estado_pedido:string,
-  correo_cliente:string,
+}
+
+export interface producto {
+  tipo:string,
+  descripcion:string,
   nombre:string,
-  apellido:string,
-  listaProductos: any[];
+  lectroQR:string,
+  foto:string,
+  tiempoPromedioElaboracion:number; 
+  precio: number;
+  estado :string;
+  numeroProducto:number;
+  id:string
 }
 
 @Injectable()
 export class AuthProvider {
 
   constructor(private auth: AngularFireAuth, private db:AngularFirestore) {
-    
+
   }
 
   login (email:string,pass:string) {
@@ -54,7 +126,18 @@ export class AuthProvider {
   getLista(tipo:string) {
     return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
       return rooms.map(a =>{
-        const data = a.payload.doc.data();
+        const data = a.payload.doc.data() as usuario;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+//-----USUARIOS-----
+  getUsuarios() {
+    return this.db.collection('usuarios').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as usuario;
         data.id = a.payload.doc.id;
         return data;
       })
@@ -80,7 +163,12 @@ export class AuthProvider {
   crearUsuario(correo,pass) {
     return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
   }
+  //-----CLIENTES-----
+  guardarCliente(data) {
+    return this.db.collection('clientes').add(data);
+  }
 
+  //-----MESA-----
   guardarMesa(data) {
     return this.db.collection('mesas').add(data);
   }
@@ -93,6 +181,19 @@ export class AuthProvider {
         return data;
       })
     }));
+  }
+  //-----PRODUCTOS------
+  getListaProdcutos(tipo:string) {
+    return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as producto;
+        return data;
+      })
+    }));
+  }
+
+  guardarProducto(data) {
+    return this.db.collection('productos').add(data);
   }
 
   updateMesa(data) {
@@ -109,16 +210,68 @@ export class AuthProvider {
     }));
   }
 
-  getPedidos() {
-    return this.db.collection('pedidos').snapshotChanges().pipe(map(rooms => {
+  nuevaEncuesta(data) {
+    return this.db.collection('encuestasUsuarios').add(data);
+  }
+
+  modificarEncuesta(data) {
+    return this.db.collection('encuestasUsuarios').doc(data.id).update(data);
+  }
+
+  getEncUsuarios() {
+    return this.db.collection('encuestasUsuarios').snapshotChanges().pipe(map(rooms => {
       return rooms.map(a =>{
-        const data = a.payload.doc.data() as mesa;
+        const data = a.payload.doc.data() as encUsuario;
         data.id = a.payload.doc.id;
         return data;
       })
     }));
   }
 
-  
+  nuevaReserva(data) {
+    return this.db.collection('reservas').add(data);
+  }
+
+  confirmarReserva(data) {
+    return this.db.collection('reservas').doc(data.id).update(data);
+  }
+
+  getReservas() {
+    return this.db.collection('reservas').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as reserva;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  getProductos() {
+    return this.db.collection('productos').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as producto;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  nuevoPedido(data) {
+    return this.db.collection('pedidos').add(data);
+  }
+
+  getPedidos() {
+    return this.db.collection('pedidos').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as pedido;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  actualizarPedido(data) {
+    return this.db.collection('pedidos').doc(data.id).update(data);
+  }
 
 }

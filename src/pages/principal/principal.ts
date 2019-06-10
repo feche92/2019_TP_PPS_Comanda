@@ -10,6 +10,16 @@ import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
 import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
 import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/pedidos-pendientes";
+import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
+import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
+import { ReservaPage } from '../reserva/reserva';
+import { FcmProvider } from '../../providers/fcm/fcm';
+import { ToastController } from 'ionic-angular';
+import { tap } from 'rxjs/operators';
+import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
+import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
+import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
+import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -28,7 +38,27 @@ export class PrincipalPage {
   usuario;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
-    private auth: AuthProvider) {
+    private auth: AuthProvider,
+    fcm: FcmProvider, 
+    private toastCtrl: ToastController) {
+      fcm.getToken()
+
+    // Listen to incoming messages
+    fcm.listenToNotifications().pipe(
+      tap(msg => {
+        // show a toast
+        const toast = toastCtrl.create({
+          message: msg.body,
+          duration: 4000,
+          position: 'top',
+          cssClass: 'nombreRaro'
+
+        });
+
+        toast.present();
+      })
+    )
+      .subscribe()
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       console.log(this.usuario.tipo);
       switch(this.usuario.tipo) {
@@ -41,11 +71,14 @@ export class PrincipalPage {
         case "supervisor":
           this.acciones = [
             { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
+            { accion: "Nuevo Supervisor", img: "nuevo-empleado.jpg", ruta: AltaSupervisorComponent },
+            { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
-            { accion: "Nuevo Supervisor", img: "ocupar-mesa.jpg", ruta: AltaSupervisorComponent },
             { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent }, 
             { accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
             { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
+            { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
+            { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
           ];
           break;
         case "cliente registrado":
@@ -54,6 +87,18 @@ export class PrincipalPage {
             //{ accion: "Home", img: "nuevo-empleado.jpg", ruta: HomeClienteComponent }
           ];
           break;
+        case "cliente":
+          this.acciones = [
+            { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
+            { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage}
+          ];
+          break;
+        case "mozo": 
+          this.acciones = [
+            { accion: "Tomar pedido", img: "pedido.jpg", ruta: ListadoMesasPage}
+          ]
+          break;
+          
         }
   }
 

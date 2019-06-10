@@ -9,14 +9,24 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { PrincipalPage } from "../pages/principal/principal";
+import { SpinnerPage } from "../pages/spinner/spinner";
 import { RegisterPage } from "../pages/register/register";
 import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
+import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
+import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
+import { ReservaPage } from "../pages/reserva/reserva";
+import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
+import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
+import { PedirPlatosPage } from "../pages/pedir-platos/pedir-platos";
+import { ListadoMesasPage } from "../pages/listado-mesas/listado-mesas";
+import { AltaDeProductoPage } from "../pages/alta-de-producto/alta-de-producto";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { Firebase } from '@ionic-native/firebase';
 
 import { configs } from './globalConfig';
 import { AuthProvider } from '../providers/auth/auth';
@@ -34,6 +44,8 @@ import { HttpModule } from '@angular/http';
 import { EncuestaEmpleadoComponent } from "../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/lista-cliente-estado";
 import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
+import { FcmProvider } from '../providers/fcm/fcm';
+import { AltaProductoComponent } from "../components/alta-producto/alta-producto";
 
 @NgModule({
   declarations: [
@@ -43,14 +55,28 @@ import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
+    SpinnerPage,
     AltaSupervisorComponent,
     SplashComponent,
     AltaClienteComponent,
     QrMesaComponent,
     EncuestaEmpleadoComponent,
     ListaClienteEstadoComponent,
-    HomeClienteComponent
-  ],
+    HomeClienteComponent,
+    ListadoSupervisorPage,
+    AltaClienteComponent,
+    EncuestaSupervisorPage,
+    ReservaPage,
+    ListadoReservaPage,
+    EstadisticasSupervisorPage,
+    PedirPlatosPage,
+    ListadoMesasPage,
+    AltaDeProductoPage,    
+    AltaSupervisorComponent,
+    SplashComponent,
+    AltaClienteComponent,
+    AltaProductoComponent,
+    ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -68,18 +94,31 @@ import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
+    SpinnerPage,
     AltaSupervisorComponent,
     AltaClienteComponent,
     QrMesaComponent,
     EncuestaEmpleadoComponent,
     ListaClienteEstadoComponent,
-    HomeClienteComponent
+    HomeClienteComponent,
+    ListadoSupervisorPage,
+    AltaSupervisorComponent,
+    AltaClienteComponent,
+    EncuestaSupervisorPage,
+    ReservaPage,
+    ListadoReservaPage,
+    EstadisticasSupervisorPage,
+    PedirPlatosPage,
+    ListadoMesasPage,
+    AltaDeProductoPage,
+    AltaProductoComponent,
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: FirestoreSettingsToken, useValue: {}},
+    Firebase,
     Camera,
     BarcodeScanner,
     AuthProvider,
@@ -87,6 +126,7 @@ import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
     SpinnerProvider,
     JsonProvider,
     //QrProvider,
+    FcmProvider,
   ]
 })
 export class AppModule {}

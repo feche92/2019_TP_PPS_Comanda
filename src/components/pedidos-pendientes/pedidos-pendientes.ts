@@ -4,16 +4,16 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { NavController } from 'ionic-angular';
 
 export interface pedido {
-  apellidoCliente:string,
   correo:string,
+  nombreCliente:string,
+  apellidoCliente:string,
   estado:string,
   fecha:string,
-  precio:string,
-  id: string,
-  montoTotal: string,
-  nombreCliente: string,
-  numero: string,
-  productos: any[],
+  numero:string,
+  tipo:string,
+  productos:Array<any>,
+  montoTotal:string,
+  id:string,
 }
 
 @Component({
@@ -32,7 +32,7 @@ export class PedidosPendientesComponent {
 
   traerPedidos(){
   	this.usuario = JSON.parse(localStorage.getItem("usuario"));
-  	this.auth.getLista('pedidos').subscribe(lista => {
+  	this.auth.getPedidos().subscribe(lista => {
   		switch(this.usuario.perfil){
 			case 'cocinero':
 				for(let item of lista){

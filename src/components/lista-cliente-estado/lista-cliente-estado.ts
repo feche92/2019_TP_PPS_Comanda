@@ -24,14 +24,13 @@ export class ListaClienteEstadoComponent {
   }
 
   traerClientes(){
-  	this.auth.getLista('usuarios').subscribe(lista =>{
+  	this.auth.getUsuarios().subscribe(lista =>{
 	  	for(let item of lista){
 
 	  		if(item.tipo == 'cliente'){
 	  			this.clientes.push(item);
 	  		}
 	  	}
-	  	//console.log(this.clientes);
   	});
   }
 
