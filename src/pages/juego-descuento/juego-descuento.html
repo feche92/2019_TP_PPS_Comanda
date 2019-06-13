@@ -1,0 +1,84 @@
+<!--
+  Generated template for the JuegoDescuentoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Juego de memoria</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div *ngIf="ocultar">
+  <div class="flex-v buttons-container" *ngIf="!juegoEmpezado">
+    <h1>Se le mostraran 8 imagenes de animales al azar y tendrá que memorizarlas en 8 segundos.
+      Al acabar el tiempo se le preguntará por un animal, 
+      si responde correctamente ganará un 10% de descuento en su pedido</h1>
+      <ion-card class="height-40 big-button-container" [color]="myColor">
+        <div class="flex-v center-horizontal center-vertical height-100" (click)="jugar()">
+          <div class="text-title">Jugar!</div>
+        </div>
+      </ion-card>
+  </div>
+  <div *ngIf="mostrarFotos && juegoEmpezado">
+    <div class="row"><h2 style="text-align: center;">tiempo: {{tiempo}}</h2></div>
+    <div class="row">
+      <h2>1</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[0]['path']}}" width="150px" height="100px" /></div></a>
+      <h2>2</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[1]['path']}}" width="150px" height="100px" /></div></a>
+    </div>
+    <div class="row">
+      <h2>3</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[2]['path']}}" width="140px" height="100px" /></div></a>
+      <h2>4</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[3]['path']}}" width="140px" height="100px" /></div></a>
+    </div>
+    <div class="row">
+      <h2>5</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[4]['path']}}" width="140px" height="100px" /></div></a>
+      <h2>6</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[5]['path']}}" width="140px" height="100px" /></div></a>
+    </div>
+    <div class="row">
+      <h2>7</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[6]['path']}}" width="140px" height="100px" /></div></a>
+      <h2>8</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=
+      "{{animalesRandom[7]['path']}}" width="140px" height="100px" /></div></a>
+    </div>
+  </div>
+  <div *ngIf="!mostrarFotos && juegoEmpezado" class="flex-v buttons-container">
+    <h1>{{mensaje}}</h1>
+    <ion-item>
+      <ion-label floating>Respuesta: </ion-label>
+      <ion-input type="text" required [(ngModel)]="respuesta" ></ion-input>
+    </ion-item>
+    <ion-card class="height-40 big-button-container" [color]="myColor">
+      <div class="flex-v center-horizontal center-vertical height-100" (click)="verificar()">
+        <div class="text-title">Verificar</div>
+      </div>
+    </ion-card>
+  </div>
+  </div>
+  <div *ngIf="!ocultar && !mostrarSpiner" class="flex-v buttons-container">
+    <h1>{{mensaje}}</h1>
+    <ion-card class="height-20 big-button-container" [color]="myColor">
+      <div class="flex-v center-horizontal center-vertical height-100" (click)="jugar()">
+        <div class="text-title">Jugar otra partida!</div>
+      </div>
+    </ion-card>
+    <ion-card class="height-20 big-button-container" [color]="color">
+      <div class="flex-v center-horizontal center-vertical height-100" (click)="back()">
+        <div class="text-title">Salir!</div>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>

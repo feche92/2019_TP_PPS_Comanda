@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>Estadisticas</ion-title>
-    <ion-buttons>
+    <ion-buttons end style="margin-right: 10px;">
       <button ion-button (click)="VolverAtras()">
         <ion-icon name="arrow-round-back"></ion-icon>
       </button>
@@ -10,16 +10,36 @@
 </ion-header>
 
 <ion-content padding>
+  <h1>Conducta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
   <div class="encuesta">
-    <div id="divCanvas" class="canvas">
-      
+      <canvas id="canvas-chart1"></canvas>
+  </div>
+  <h1>Cantidad de inconvenientes de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+  <div class="encuesta">
+      <canvas id="canvas-chart2"></canvas>
+  </div>
+  <div *ngIf="usuario.tipo!='cliente'">
+    <h1>Aspectos a tener en cuenta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+    <div class="encuesta">
+        <canvas id="canvas-chart3"></canvas>
     </div>
   </div>
-  <div class="encuesta">
-
-    <div id="divCanvas" class="canvas">
-  
-      
+  <div *ngIf="usuario.tipo!='cliente'">
+    <h1>Nivel de compañerismo de {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+    <div class="encuesta">
+        <canvas id="canvas-chart4"></canvas>
+    </div>
+  </div>
+  <div *ngIf="usuario.tipo=='cliente'">
+    <h1>La propina que deja {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+    <div class="encuesta">
+        <canvas id="canvas-chart5"></canvas>
+    </div>
+  </div>
+  <div *ngIf="usuario.tipo=='cliente'">
+    <h1>Cantidad de veces que suele venir {{usuario.apellido}}, {{usuario.nombre}}.</h1>
+    <div class="encuesta">
+        <canvas id="canvas-chart6"></canvas>
     </div>
   </div>
 </ion-content>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
@@ -29,11 +29,14 @@ export class EstadisticasSupervisorPage {
   usuario;
   encUsuarios;
   encUsuarioActual;
+  myChart: Chart;
+  tipo;
   public doughnutChartType: string = 'doughnut';
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
-    private spinner: SpinnerProvider) {
+    private spinner: SpinnerProvider,
+    private alertCtrl : AlertController) {
       let spiner=this.spinner.getAllPageSpinner();
       spiner.present();
       this.usuario = navParams.get("usuario");
@@ -59,7 +62,7 @@ export class EstadisticasSupervisorPage {
           this.encUsuarioActual.pregunta2.no
         ];
         this.comentarios = this.encUsuarioActual.comentarios;
-        if(this.usuario != 'cliente') {
+        if(this.usuario.tipo != 'cliente') {
           this.pregunta3Data = [
             this.encUsuarioActual.pregunta3.item1,
             this.encUsuarioActual.pregunta3.item2,
@@ -90,6 +93,7 @@ export class EstadisticasSupervisorPage {
           ];
         }
         spiner.dismiss();
+        this.GenerarCharts();
       });
   }
 
@@ -103,6 +107,233 @@ export class EstadisticasSupervisorPage {
 
   public chartClicked(e: any): void {
     console.log(e);
+  }
+
+  GenerarCharts() {
+    var ctx1 = (<any>document.getElementById('canvas-chart1')).getContext('2d');
+    this.myChart = new Chart(ctx1, {
+      // The type of chart we want to create
+      type: 'bar',
+
+      // The data for our dataset
+      data: {
+        labels: this.pregunta1Labels,
+        datasets: [{
+          label:'',
+          data: this.pregunta1Data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options:{
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+            
+          }],
+        },
+        legend: {
+          display: false,
+        },
+        tooltips : {
+          enabled: false      
+        },
+        elements: {
+          rectangle: {
+            borderSkipped: 'left',
+          }
+        },
+        //onClick: newLegendClickHandler
+      }
+  });
+  var ctx2 = (<any>document.getElementById('canvas-chart2')).getContext('2d');
+  var newLegendClickHandler = function (e, legendItem) {
+    console.log(legendItem[0]._options.backgroundColor);
+    if(legendItem[0]._options.backgroundColor == 'rgba(255, 159, 64, 0.2)') {
+      let message = "<ul>";
+      for(let i=0;i<this.comentarios.length;i++)
+      {
+        message += ("<li>" + this.comentarios[i] + "</li>");
+      }
+      message += "</ul>";
+      let alert = this.alertCtrl.create({
+      title: 'Inconvenientes que tuvo Ivagaza Federico',
+      buttons: ['Cerrar'],
+      message: message,//`<img src="urlFoto"></img>`,
+      cssClass: "foto-alert"
+      });
+      alert.present();
+    }
+
+  }.bind(this);
+  this.myChart = new Chart(ctx2, { 
+    type: 'pie',
+    data: {
+      labels: this.pregunta2Labels,
+      datasets: [{
+        label: '',
+        data: this.pregunta2Data,
+        backgroundColor: [
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 99, 132, 0.2)',
+        ],
+        hoverBackgroundColor: [
+          '#FFCE56',
+          '#FF6384',
+        ]
+      }]
+    },
+    options: {
+      onClick: newLegendClickHandler
+    }
+  });
+  if(this.usuario.tipo != 'cliente') {
+    var ctx3 = (<any>document.getElementById('canvas-chart3')).getContext('2d');
+    this.myChart = new Chart(ctx3, {
+      // The type of chart we want to create
+      type: 'bar',
+
+      // The data for our dataset
+      data: {
+        labels: this.pregunta3Labels,
+        datasets: [{
+          label:'',
+          data: this.pregunta3Data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options:{
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+            
+          }],
+        },
+        legend: {
+          display: false,
+        },
+        tooltips : {
+          enabled: false      
+        },
+        elements: {
+          rectangle: {
+            borderSkipped: 'left',
+          }
+        },
+        //onClick: newLegendClickHandler
+      }
+    });
+    var ctx4 = (<any>document.getElementById('canvas-chart4')).getContext('2d');
+    this.myChart = new Chart(ctx4, { 
+      type: 'doughnut',
+      data: {
+        labels: this.pregunta4Labels,
+        datasets: [{
+          label: '',
+          data: this.pregunta4Data,
+          backgroundColor: [
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+          ],
+          hoverBackgroundColor: [
+            '#FFCE56',
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+          ]
+        }]
+      }
+    });
+  }
+  else {
+    var ctx5 = (<any>document.getElementById('canvas-chart5')).getContext('2d');
+    this.myChart = new Chart(ctx5, {
+      // The type of chart we want to create
+      type: 'bar',
+
+      // The data for our dataset
+      data: {
+        labels: this.pregunta5Labels,
+        datasets: [{
+          label:'',
+          data: this.pregunta5Data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options:{
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+            
+          }],
+        },
+        legend: {
+          display: false,
+        },
+        tooltips : {
+          enabled: false      
+        },
+        elements: {
+          rectangle: {
+            borderSkipped: 'left',
+          }
+        },
+      }
+    });
+    var ctx6 = (<any>document.getElementById('canvas-chart6')).getContext('2d');
+    this.myChart = new Chart(ctx6, { 
+      type: 'doughnut',
+      data: {
+        labels: this.pregunta6Labels,
+        datasets: [{
+          label: '',
+          data: this.pregunta6Data,
+          backgroundColor: [
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+          ],
+          hoverBackgroundColor: [
+            '#FFCE56',
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+          ]
+        }]
+      }
+    });
+  }
+  
+
   }
 
 }

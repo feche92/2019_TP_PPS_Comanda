@@ -21,6 +21,8 @@ import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/est
 import { PedirPlatosPage } from "../pages/pedir-platos/pedir-platos";
 import { ListadoMesasPage } from "../pages/listado-mesas/listado-mesas";
 import { AltaDeProductoPage } from "../pages/alta-de-producto/alta-de-producto";
+import { JuegosPage } from "../pages/juegos/juegos";
+import { JuegoDescuentoPage } from "../pages/juego-descuento/juego-descuento";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -76,6 +78,8 @@ import { AltaProductoComponent } from "../components/alta-producto/alta-producto
     SplashComponent,
     AltaClienteComponent,
     AltaProductoComponent,
+    JuegosPage,
+    JuegoDescuentoPage
     ],
   imports: [
     BrowserModule,
@@ -112,6 +116,8 @@ import { AltaProductoComponent } from "../components/alta-producto/alta-producto
     ListadoMesasPage,
     AltaDeProductoPage,
     AltaProductoComponent,
+    JuegosPage,
+    JuegoDescuentoPage
   ],
   providers: [
     StatusBar,
