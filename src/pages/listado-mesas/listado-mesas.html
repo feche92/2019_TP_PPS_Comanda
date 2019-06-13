@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Mesas</ion-title>
+    <ion-title>Mesas por pedir</ion-title>
     <ion-buttons end style="margin-right: 10px;">
         <button ion-button icon-only (click)="back()">
           <ion-icon name="arrow-round-back"></ion-icon>
@@ -15,14 +15,14 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <div class="flex-v first-item">
-    <ul class="flex-container wrap center-horizontal">
-      <li class="flex-item" *ngFor="let item of mesas" (click)="elejirMesa(item)">
-        <div class="category-image-container width-100" [style.background-image]="'url('+ item.foto +')'">
-          <span>{{item.estado}}</span>
-        </div>
-      </li>
-    </ul>
+<ion-content padding class="card-background-page">
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div *ngIf="hayPedidos==false">
+    No hay ningun pedido para atender
   </div>
+    <button ion-button *ngFor="let item of listaPorPedir" (click)="elejirMesa(item)">
+      <div class="sombreado"></div>
+      <img src="{{item.fotoMesa}}" />
+      <span>{{item.numeroMesa}}</span>
+    </button>
 </ion-content>

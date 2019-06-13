@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
+import { HttpClient } from '@angular/common/http';
 import { EncuestaSupervisorPageModule } from '../../pages/encuesta-supervisor/encuesta-supervisor.module';
 //import 'rxjs/add/operator/map';
 
@@ -113,8 +114,12 @@ export interface producto {
 @Injectable()
 export class AuthProvider {
 
-  constructor(private auth: AngularFireAuth, private db:AngularFirestore) {
+  constructor(private auth: AngularFireAuth, private db:AngularFirestore, private http: HttpClient) {
 
+  }
+
+  getAnimales() {
+    return this.http.get('https://lab4ivagaza.000webhostapp.com/apiJuegos/animales/');
   }
 
   login (email:string,pass:string) {

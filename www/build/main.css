@@ -68488,6 +68488,116 @@ page-home div.usuarios .agrandar {
   animation: flip 5000ms linear both;
 }
 
+page-juego-descuento .scroll-content {
+  background-size: cover;
+  background-position: center;
+  background-color: #FCE5C6;
+}
+
+page-juego-descuento ion-navbar {
+  padding: 20px 10px !important;
+}
+
+page-juego-descuento ion-navbar ion-icon {
+  color: white;
+}
+
+page-juego-descuento ion-navbar ion-icon {
+  font-size: 50px !important;
+}
+
+page-juego-descuento h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 5px 10px 5px 10px;
+  color: black;
+  font-family: cinzel;
+  margin-bottom: 0;
+}
+
+page-juego-descuento .buttons-container {
+  height: calc(100% - 1em);
+}
+
+page-juego-descuento .big-button-container {
+  border-radius: 1em;
+  cursor: pointer;
+  border-radius: 1em;
+}
+
+page-juego-descuento .text-title {
+  color: white;
+  font-size: 3.5rem;
+}
+
+page-juegos .scroll-content {
+  padding: 0 !important;
+}
+
+page-juegos ion-navbar {
+  padding: 20px 10px !important;
+}
+
+page-juegos ion-navbar ion-icon {
+  color: white;
+}
+
+page-juegos ion-navbar ion-icon {
+  font-size: 50px !important;
+}
+
+page-juegos .card-background-page button[ion-button] {
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+  font-size: 9vw;
+  font-weight: bold;
+  color: #fff;
+  text-transform: none;
+  white-space: normal;
+  line-height: 1.6;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+page-juegos .card-background-page button[ion-button] img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  position: absolute;
+  z-index: -2;
+}
+
+page-juegos .card-background-page button[ion-button] span {
+  padding: 0 10px 0 10px;
+}
+
+page-juegos .card-background-page .card-subtitle:last-child {
+  top: 60%;
+}
+
+page-juegos .sombreado {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  background-color: black;
+  opacity: .4;
+}
+
 .form-center-content {
   height: 100%;
   display: -webkit-box;
@@ -72334,6 +72444,33 @@ ion-icon::before {
   src: local("Noto Sans Bold"), local("Noto-Sans-Bold"), url("../assets/fonts/noto-sans-bold.woff") format("woff"), url("../assets/fonts/noto-sans-bold.ttf") format("truetype");
 }
 
+page-listado-mesas {
+  /*.category-image-container{
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        text-transform: none;
+        white-space: normal;
+        line-height: 1.1;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            z-index: -2;
+        }
+
+        span {
+            padding: 0 10px 0 10px;
+        }
+    }*/
+}
+
 page-listado-mesas .scroll-content {
   background-color: blanchedalmond;
   display: -webkit-box;
@@ -72352,29 +72489,33 @@ page-listado-mesas .scroll-content {
   justify-content: center;
 }
 
-page-listado-mesas .category-image-container {
-  height: 100%;
+page-listado-mesas .card-background-page button[ion-button] {
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  padding: 0;
+  font-size: 9vw;
+  font-weight: bold;
+  color: #fff;
+  text-transform: none;
+  white-space: normal;
+  line-height: 1.6;
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  text-transform: none;
-  white-space: normal;
-  line-height: 1.1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
-page-listado-mesas .category-image-container img {
+page-listado-mesas .card-background-page button[ion-button] img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
@@ -72383,8 +72524,29 @@ page-listado-mesas .category-image-container img {
   z-index: -2;
 }
 
-page-listado-mesas .category-image-container span {
+page-listado-mesas .card-background-page button[ion-button] span {
   padding: 0 10px 0 10px;
+}
+
+page-listado-mesas .card-background-page button[ion-button]:nth-of-type(2n + 2) {
+  margin: 16px 0 16px 0;
+}
+
+page-listado-mesas .card-background-page button[ion-button]:last-child {
+  margin-bottom: 16px;
+}
+
+page-listado-mesas .card-background-page .card-subtitle:last-child {
+  top: 60%;
+}
+
+page-listado-mesas .sombreado {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  background-color: black;
+  opacity: .6;
 }
 
 page-listado-reserva ion-navbar {
@@ -76767,16 +76929,18 @@ page-pedir-platos .inpCantidad {
 
 page-pedir-platos .aceptarBtn {
   width: 30%;
-  position: absolute;
+  position: relative;
   bottom: 0%;
   left: 17.5%;
+  right: 17.5%;
 }
 
 page-pedir-platos .cancelarBtn {
   width: 30%;
-  position: absolute;
+  position: relative;
   bottom: 0%;
   right: 17.5%;
+  left: 17.5%;
 }
 
 .form-center-content {

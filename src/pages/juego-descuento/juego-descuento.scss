@@ -1,0 +1,44 @@
+page-juego-descuento {
+    .scroll-content {
+        background-size: cover; 
+        background-position: center;
+        background-color: #FCE5C6;
+    }
+
+    ion-navbar {
+        padding: 20px 10px !important;
+
+        ion-icon {
+            color: white;
+        }
+    }
+
+    ion-navbar ion-icon { font-size: 50px !important; }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        padding: 5px 10px 5px 10px;
+        //background-color: color($colors, red);
+        color: black;
+        font-family: cinzel;
+        margin-bottom: 0;
+    }
+
+    .buttons-container{
+        height: calc(100% - 1em);
+    }
+
+    .big-button-container{
+        border-radius: 1em;
+        cursor: pointer;            
+        //background-color: #053b05;
+        border-radius: 1em;
+        
+    }
+
+    .text-title{
+        color: white;
+        font-size: 3.5rem;
+    }
+}

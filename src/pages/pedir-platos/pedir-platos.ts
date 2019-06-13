@@ -72,33 +72,48 @@ export class PedirPlatosPage {
   puedeHacerPedido() {
     this.auth.getPedidos().subscribe(lista => {
       this.pedidos=lista;
-      let estaCorreo=false;
-      for(let i=0;i<this.pedidos.length;i++)
-      {
-        if(this.pedidos[i].correo == this.usuario.correo /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
-          estaCorreo=true;
-          //this.pedidoPendiente=this.pedidos[i];
-          //this.puedePedir=true;
-          break;
-        }
-      }
-      if(estaCorreo) {
-        this.mensajePedido="Ya hizo un pedido.No puede pedir otro";
+      if(this.usuario.tipo == 'mozo') {
+        let pedido = this.navParams.get("pedido");
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].estado == 'por pedir' && this.pedidos[i].correo == this.usuario.correo) {
+          if(this.pedidos[i].id == pedido.idPedido) {
             this.pedidoPendiente=this.pedidos[i];
             this.puedePedir=true;
             break;
           }
         }
+        console.log(this.pedidoPendiente);
       }
       else {
-        this.mensajePedido="No puede hacer un pedido sin antes estar en una mesa";
+        let estaCorreo=false;
+        for(let i=0;i<this.pedidos.length;i++)
+        {
+          if(this.pedidos[i].correo == this.usuario.correo /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+            estaCorreo=true;
+            //this.pedidoPendiente=this.pedidos[i];
+            //this.puedePedir=true;
+            break;
+          }
+        }
+        if(estaCorreo) {
+          this.mensajePedido="Ya hizo un pedido.No puede pedir otro";
+          for(let i=0;i<this.pedidos.length;i++)
+          {
+            if(this.pedidos[i].estado == 'por pedir' && this.pedidos[i].correo == this.usuario.correo) {
+              this.pedidoPendiente=this.pedidos[i];
+              this.puedePedir=true;
+              break;
+            }
+          }
+        }
+        else {
+          this.mensajePedido="No puede hacer un pedido sin antes estar en una mesa";
+        }
+        console.log(this.pedidos);
+        console.log(this.pedidoPendiente);
       }
-      console.log(this.pedidos);
-      console.log(this.pedidoPendiente);
-    })
+    });
+      
   }
 
   Platos() {
@@ -209,23 +224,23 @@ export class PedirPlatosPage {
   PedirFinal() {
     if(this.pedidoActual.length > 0) {
       let spiner=this.spinner.getAllPageSpinner();
-    spiner.present();
-    let momentoActual = moment(new Date());
-    let data= {
-      "correo":this.usuario.correo,"nombreCliente":this.usuario.nombre,"apellidoCliente":this.usuario.apellido,"estado":"esperando pedido",
-      "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
-      "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
-    }
-    this.auth.actualizarPedido(data).then(res => {
-      spiner.dismiss();
-      this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
-      setTimeout(() => {
-        this.navCtrl.setRoot(PrincipalPage);
-      },500);
-    }).catch(error => {
-      this.error.mostrarErrorLiteral(error,"Hubo un error al enviar su pedido.");
-      spiner.dismiss();
-    });
+      spiner.present();
+      let momentoActual = moment(new Date());
+      let data= {
+          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"esperando pedido",
+         "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
+          "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+      }
+      this.auth.actualizarPedido(data).then(res => {
+        spiner.dismiss();
+        this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
+        setTimeout(() => {
+          this.navCtrl.setRoot(PrincipalPage);
+        },500);
+      }).catch(error => {
+        this.error.mostrarErrorLiteral(error,"Hubo un error al enviar su pedido.");
+        spiner.dismiss();
+      }); 
     }
     else {
       this.error.mostrarErrorLiteral("Elija algun producto antes de aceptar un pedido");
