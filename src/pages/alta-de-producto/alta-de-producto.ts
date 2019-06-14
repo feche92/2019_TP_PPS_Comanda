@@ -161,7 +161,7 @@ export class AltaDeProductoPage {
 
 
 
-  InicializarLectorQR() {
+  async InicializarLectorQR() {
     console.log('AltaDeProductoPage - Inicializo lector de QR');
     let options = { prompt: "Escanea la bebida o el plato", formats: "PDF_417" };
 
@@ -172,7 +172,8 @@ export class AltaDeProductoPage {
       this.nombre = productoDatos[2];
       this.descripcion = productoDatos[3];
       this.tiempoPromedioElaboracion=productoDatos[4];
-      this.foto=productoDatos[5];;
+      this.foto=productoDatos[5];
+      console.log("fin de escaner")
     }).catch(err => { });
 
   }
