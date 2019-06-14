@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
-import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
@@ -21,16 +20,17 @@ export class AltaDeMesaPage {
   public foto: string = "../../assets/Imagenes/ocupar-mesa.jpg";
   mesas;
   codigo;
+  mostrarSpiner:boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
-    private spiner: SpinnerProvider,
     private camera: Camera,
     private barcodeScanner: BarcodeScanner) {
       this.mesas=new Array();
       this.auth.getMesas().subscribe(lista => {
         this.mesas=lista;
-      })
+      });
+      console.log(this.mesas);
   }
 
   ionViewDidLoad() {
@@ -42,18 +42,20 @@ export class AltaDeMesaPage {
   }
 
   Alta() {
-    let spiner=this.spiner.getAllPageSpinner();
-    spiner.present();
+    //let spiner=this.spiner.getAllPageSpinner();
+    //spiner.present();
+    console.log(this.mesas);
+    this.mostrarSpiner=true;
     if (!this.numeroMesa || !this.cantidadComensales || !this.tipo || this.foto=="")
     {
       this.error.mostrarErrorLiteral("Todos los campos deben ser completados.");
-      spiner.dismiss();
+      this.mostrarSpiner=false;
       return;
     }
     if(this.cantidadComensales < 1 || this.cantidadComensales > 8)
     {
       this.error.mostrarErrorLiteral("Los comensales solo pueden ser de 1 a 8.");
-      spiner.dismiss();
+      this.mostrarSpiner=false;
       return;
     }
     let esValido = true;
@@ -68,19 +70,19 @@ export class AltaDeMesaPage {
     if(esValido) {
       let data= {
         "numero":this.numeroMesa,"cantidadComensales":this.cantidadComensales,"foto":this.foto,
-        "tipo":this.tipo,"estado":"libre"
+        "tipo":this.tipo,"estado":"libre","cliente":""
       }
       this.auth.guardarMesa(data).then(res =>{
         this.error.mostrarMensaje("mesa registrada");
         this.LimpiarCampos();
-        spiner.dismiss();
+        this.mostrarSpiner=false;
       }).catch(error => {
         this.error.mostrarError(error,"error al registrar la mesa");
-        spiner.dismiss();
+        this.mostrarSpiner=false;
       });
     }
     else {
-      spiner.dismiss();
+      this.mostrarSpiner=false;
     }
   }
 

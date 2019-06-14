@@ -12,6 +12,7 @@ export class SpinnerProvider {
     let loader = this.loadingCtrl.create({
         spinner:'circles',
         showBackdrop:false,
+        //content:"<page-spinner></page-spinner>",
         cssClass: 'small-spinner'
       });
     return loader;

@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Listado de Usuarios</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<div class="imagen" *ngIf="ocultarImagen">
+
+  <ion-icon name="close" (click)="OcultarImagen()"></ion-icon>
+  <img [src]="image" alt="">
+
+</div>
+
+<ion-content padding>
+  <ng-container>
+    <h2 class="titulo"><u>Empleados</u></h2>
+  </ng-container>
+  <ion-list>
+
+    <ion-item *ngFor="let item of listaEmpleados">
+      <ion-thumbnail item-start (click)="MostrarImagen(item.foto)">
+        <img src={{item.foto}}>
+      </ion-thumbnail>
+
+      <h1>{{item.apellido}}, {{item.nombre}}</h1>
+      <p>Empleado • {{item.tipo}}</p>
+      <p>CUIL • {{item.cuil}}</p>
+
+      <button ion-button clear item-end (click)="MostrarEncuesta(item)">
+        <ion-icon name="clipboard"></ion-icon>
+      </button>
+    </ion-item>
+
+  </ion-list>
+  <ng-container>
+    <h2 class="titulo"><u>Clientes</u></h2>
+  </ng-container>
+  <ion-list>
+
+    <ion-item *ngFor="let item of listaClientes">
+
+      <ion-thumbnail item-start (click)="MostrarImagen(item.foto)">
+        <img src={{item.foto}} />
+      </ion-thumbnail>
+
+      <h1>{{item.apellido}}, {{item.nombre}}</h1>
+      <p>{{item.tipo}}</p>
+      <p>DNI • {{item.dni}}</p>
+
+      <button ion-button clear item-end (click)="MostrarEncuesta(item)">
+        <ion-icon name="clipboard"></ion-icon>
+      </button>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

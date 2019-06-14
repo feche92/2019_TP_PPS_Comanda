@@ -36,6 +36,10 @@
     <ion-label floating>Clave </ion-label>
     <ion-input type="password" minlength="6" required [(ngModel)]="clave" name="clave"></ion-input>
   </ion-item>
+  <ion-item>
+    <ion-label floating>Repetir Clave </ion-label>
+    <ion-input type="password" minlength="6" required [(ngModel)]="clave2" name="clave2"></ion-input>
+  </ion-item>
   <br>
   <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>
   <button ion-button block color="primary" (click)="escanear()">Escanear DNI</button>

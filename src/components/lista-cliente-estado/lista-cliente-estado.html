@@ -1,0 +1,25 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Registro de Clientes</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+  <div *ngIf="clientes" class="pad">
+  	<div *ngFor="let item of clientes" class="card" style="width: 18rem;">
+	  <img class="card-img-top" src="{{item.foto}}" alt="foto cliente">
+	  <div class="card-body">
+	    <h5 class="card-title">{{item.nombre}} {{item.apellido}}</h5>
+	    <p class="card-text">Estado: {{item.estado}}</p>
+  		<button *ngIf="item.estado == 'Pendiente de aprobación'" ion-button block color="primary" (click)="modificarRegistro(item)">Aprobar Registro</button>
+  		<button *ngIf="item.estado != 'Pendiente de aprobación'" ion-button block color="primary" (click)="modificarRegistro(item)">Deshabilitar Registro</button>
+	  </div>
+	</div>
+  </div>
+</ion-item>
+  <button ion-button block color="primary" (click)="cancelar()">Cancelar</button>
+  
+</ion-content>
+

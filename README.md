@@ -2,6 +2,15 @@
 * Moreno Samantha
 * Ivagaza Federico (Alfa)
 * Torrealba Paola
+
+## Branchs: 
+**Rama principal:**
+* cordova
+
+**Ramas secundarias:**
+* ivagaza
+* moreno
+* paola
  
 ## Nombre de empresa: 
 Cordova
@@ -42,25 +51,32 @@ V- Moreno
 
 ## Tareas terminadas:
 
-* Ivagaza Federico:
+**Ivagaza Federico**: **Branch:** ivagaza
 
 * [x] Alta de empleado:fecha de inicio 20/5/19, fecha de finalizacion 20/5/19
 * [x] Alta de mesa: fecha de inicio 21/5/19, fecha de finalizacion 22/5/19
+* [x] Encuesta supervisor: fecha de inicio 27/5/19, fecha de finalizacion 12/6/19
+* [x] Hacer reservas agendadas: fecha de inicio 29/5/19, fecha de finalizacion 4/6/19
+* Push Notification: fecha de inicio 31/5/19
+* [x] Pedido de Platos y Bebidas: fecha de inicio 6/6/19, fecha de finalizacion 11/6/19
+* QR de propina:
+* [x] Juego para un 10% de descuento: fecha de inicio 12/6/19, fecha de finalizacion 13/6/19
 
 
-* Moreno Samantha:
+**Moreno Samantha:**
 **Branch:** Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
 * [X] Alta de Cliente - Fecha inicio: 25/05/19 - Finalizado: 26/05/19
-*  Qr de la Mesa
-*  Empleado
+* [X] Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19
+* [X] Encuesta Empleado - Fecha inicio: 31/05/19 - Finalizado: 01/06/19
 *  Tomar Pedido
-*  Pedido de Platos y Bebidas/ Cierre de cuenta
+*  Cierre de cuenta
 *  Mapa de ruta hasta el domicilio de entrega
 *  Juego para un postre gratis
 
-* Torrealba Paola:
+**Torrealba Paola**:**Branch:** paola
+
 * Alta de Productos (Platos y bebidas)
 * QR de ingreso al local
 * Encuestas cliente
