@@ -3,8 +3,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import * as firebase from "firebase";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-
 
 @Component({
   selector: 'alta-producto',
@@ -20,8 +18,7 @@ export class AltaProductoComponent {
   lectorQR: boolean;
   precio: number;
 
-  constructor(private camera: Camera, private auth: AuthProvider, public alert: AlertProvider,
-    private scanner: BarcodeScanner) {
+  constructor(private camera: Camera, private auth: AuthProvider, private alert: AlertProvider) {
     console.log('Hello AltaProductoComponent Component');
   }
 

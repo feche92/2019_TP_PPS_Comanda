@@ -15,6 +15,7 @@ export interface usuario {
   cuil:string,
   nombre:string,
   apellido:string,
+  id: string;
 }
 
 export interface mesa {
@@ -93,6 +94,7 @@ export interface pedido {
   productos:Array<any>,
   montoTotal:string,
   id:string,
+  tiempoElaboracion: number
 }
 
 export interface producto {

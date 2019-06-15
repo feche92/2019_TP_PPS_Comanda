@@ -62,7 +62,6 @@ export class PedirPlatosPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PedirPlatosPage');
   }
 
   back() {
@@ -212,9 +211,17 @@ export class PedirPlatosPage {
     spiner.present();
     let momentoActual = moment(new Date());
     let data= {
-      "correo":this.usuario.correo,"nombreCliente":this.usuario.nombre,"apellidoCliente":this.usuario.apellido,"estado":"esperando pedido",
-      "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
-      "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+      "correo":this.usuario.correo,
+      "nombreCliente":this.usuario.nombre,
+      "apellidoCliente":this.usuario.apellido,
+      "estado":"esperando pedido",
+      "productos":this.pedidoActual,
+      "numero":this.pedidoPendiente.numero,
+      "fecha":momentoActual.format("DD/MM/YYYY HH:mm"),
+      "montoTotal":this.montoActual,
+      "tipo":this.pedidoPendiente.tipo,
+      "id":this.pedidoPendiente.id,
+      "tiempoElaboracion": ""
     }
     this.auth.actualizarPedido(data).then(res => {
       spiner.dismiss();

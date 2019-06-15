@@ -3,11 +3,15 @@ splash {
   width: 120px;
   height: 120px;
   //background: -webkit-linear-gradient(bottom, $verde1, $verde2);
-
+  margin-top: 50px;
   margin: 100px auto;
   //-webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
   //animation: sk-rotateplane 1.2s infinite ease-in-out;
   animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.mt{
+  margin-top: 40%;
 }
 
 @keyframes lds-circle {
@@ -48,8 +52,8 @@ splash {
 .grid-container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas: "." "." ".";
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "." ".";
 }
 
 .nom{

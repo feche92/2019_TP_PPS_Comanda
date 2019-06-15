@@ -57,7 +57,7 @@ export class AltaClienteComponent {
 
           this.auth.guardarUsuario(data).then(response =>{
               this.alert.mostrarMensaje("Cliente registrado");
-              //this.navCtrl.setRoot(HomePage);
+              this.navCtrl.setRoot(HomePage);
           });
         }
         else{
@@ -76,6 +76,10 @@ export class AltaClienteComponent {
         this.alert.mostrarError("El dni debe tener 8 caracteres");
     }
   	
+  }
+
+  volver(){
+    this.navCtrl.setRoot(HomePage);
   }
 
   async abrirCamara() {

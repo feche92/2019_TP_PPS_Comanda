@@ -46,6 +46,7 @@ import { ListaClienteEstadoComponent } from "../components/lista-cliente-estado/
 import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
 import { FcmProvider } from '../providers/fcm/fcm';
 import { AltaProductoComponent } from "../components/alta-producto/alta-producto";
+import { PedidosPendientesComponent } from '../components/pedidos-pendientes/pedidos-pendientes';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { AltaProductoComponent } from "../components/alta-producto/alta-producto
     SplashComponent,
     AltaClienteComponent,
     AltaProductoComponent,
+    PedidosPendientesComponent,
     ],
   imports: [
     BrowserModule,
@@ -112,6 +114,7 @@ import { AltaProductoComponent } from "../components/alta-producto/alta-producto
     ListadoMesasPage,
     AltaDeProductoPage,
     AltaProductoComponent,
+    PedidosPendientesComponent
   ],
   providers: [
     StatusBar,

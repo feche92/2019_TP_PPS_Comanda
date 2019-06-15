@@ -38,11 +38,6 @@ export class HomePage {
     }    
   }*/
 
-  rellenar(){
-    this.email = "samy32m@gmail.com";
-    this.pass = "222222";
-  }
-
   entrarComoAnonimo(){
     if(this.nombre != undefined){
       let usuario = {
