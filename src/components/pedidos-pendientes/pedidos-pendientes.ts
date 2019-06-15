@@ -3,6 +3,7 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
 import { NavController } from 'ionic-angular';
 import { PrincipalPage } from "../../pages/principal/principal";
+import * as moment from 'moment';
 
 export interface pedido {
   correo:string,
@@ -37,7 +38,6 @@ export class PedidosPendientesComponent {
   	this.pedidos = [];
   	this.usuario = JSON.parse(localStorage.getItem("usuario"));
   	this.auth.getPedidos().subscribe(lista => {
-  		console.log("en traer pedidos");
   		this.pedidos = [];
   		this.listaPedidosOriginal = lista;
 		console.log(lista);
@@ -157,11 +157,13 @@ export class PedidosPendientesComponent {
   }
 
   terminar(pedido){
+  	let momentoActual = moment(new Date());
+  	let hora = momentoActual.format("HH:mm");
   	console.log("termino pedido!");
 	for(let i = 0; i < this.listaPedidosOriginal.length; i++){
 		if(this.listaPedidosOriginal[i].id == pedido.id){
 			this.listaPedidosOriginal[i].estado = "pedido terminado";
-			
+			this.listaPedidosOriginal[i].horaFinalizacion = hora;
 			this.auth.actualizarPedido(this.listaPedidosOriginal[i]);
 			this.alert.mostrarMensaje("Pedido Terminado");
 			this.back();

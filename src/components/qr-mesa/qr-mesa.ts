@@ -30,7 +30,8 @@ export class QrMesaComponent {
   pedidoActual;
   
   /*estado pedido:
-     por pedir, esperando pedido, preparando pedido, pedido terminado, comiento, por pagar
+     por pedir, esperando pedido, preparando pedido, pedido terminado, comiendo, por pagar
+    
     estado mesa:
     libre, ocupada
    */
@@ -46,7 +47,7 @@ export class QrMesaComponent {
     this.auth.getMesas().subscribe(lista =>{
       let flag = false;
       for(let item of lista){
-        if(item.codigo == this.codigo){
+        if(item.numero == this.codigo){
           if(item.estado == 'libre'){
             this.mesas.push(item);
             this.estado = 1;

@@ -94,7 +94,8 @@ export interface pedido {
   productos:Array<any>,
   montoTotal:string,
   id:string,
-  tiempoElaboracion: number
+  tiempoElaboracion: number,
+  horaFinalizacion: string
 }
 
 export interface producto {
