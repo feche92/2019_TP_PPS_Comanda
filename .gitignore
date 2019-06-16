@@ -27,6 +27,12 @@ plugins/
 plugins/android.json
 plugins/ios.json
 www/
+www/build/
+www/build/vendor.js.map
+www/build/vendor.js
+www/build/main.js.map
+www/build/main.js
+www/build/0.js
 $RECYCLE.BIN/
 
 .DS_Store

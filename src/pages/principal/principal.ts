@@ -9,6 +9,7 @@ import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-s
 import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
 import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
+import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/pedidos-pendientes";
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
 import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
@@ -63,13 +64,11 @@ export class PrincipalPage {
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       console.log(this.usuario.tipo);
       switch(this.usuario.tipo) {
-
-        case "jefe":
+        case "cocinero":
+        case "bartender":
           this.acciones = [
-            //{ accion: "Agregar un dueño o supervisor", img: "nuevo-duenio-supervisor.jpg", ruta: AltaDuenioSupervisorPage },
-            { accion: "Agregar un empleado", img: "nuevo-empleado.jpg", ruta: AltaempleadoPage },
-            { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage }
-          ];
+            { accion: "Pedidos Pendientes", img: "nuevo-empleado.jpg", ruta: PedidosPendientesComponent },
+          ];        
           break;
         case "supervisor":
           this.acciones = [
@@ -78,7 +77,7 @@ export class PrincipalPage {
             { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
             { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent }, 
-            { accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
+            //{ accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
             { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
             { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
@@ -107,7 +106,6 @@ export class PrincipalPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PrincipalPage');
   }
 
   logout(){

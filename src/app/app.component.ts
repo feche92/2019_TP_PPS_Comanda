@@ -33,7 +33,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      timer(3000).subscribe(() => this.showSplash = false) // <-- hide animation after 2s
+      timer(3000).subscribe(() => this.showSplash = false) // <-- hide animation after 3s
     });
   }
 }

@@ -62,7 +62,6 @@ export class PedirPlatosPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PedirPlatosPage');
   }
 
   back() {
