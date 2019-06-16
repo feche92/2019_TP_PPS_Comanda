@@ -22,7 +22,7 @@ export class AltaSupervisorComponent {
   apellido: string;
   dni: number;
   cuil: string;
-  foto: string = "prueba";
+  foto: string;
   perfil: string = "supervisor";
   email: string;
   clave: string;
@@ -135,8 +135,8 @@ export class AltaSupervisorComponent {
   escanear(){
     let options = { prompt: "Escaneá el DNI", formats: "PDF_417" };
 
-    this.scanner.scan(options).then(barcodeData => {
-      //alert(barcodeData.text);
+    this.scanner.scan().then(barcodeData => {
+      alert(barcodeData.text);
       this.dni = +barcodeData.text;
 
     }).catch(err => { 

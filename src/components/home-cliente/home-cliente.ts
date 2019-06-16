@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { QrMesaComponent } from "../qr-mesa/qr-mesa";
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the HomeClienteComponent component.
@@ -15,9 +15,10 @@ import { NavController } from 'ionic-angular';
 })
 export class HomeClienteComponent {
 
-  codigo: string;
+  codigo: any[] = [];
 
-  constructor(private scanner: BarcodeScanner, public navCtrl: NavController) {
+  constructor(private scanner: BarcodeScanner, public navCtrl: NavController, 
+    private modalCtrl: ModalController) {
   }
 
   escanear(){
@@ -25,7 +26,21 @@ export class HomeClienteComponent {
 
     this.scanner.scan(options).then(barcodeData => {
       //alert(barcodeData.text);
-      this.codigo = barcodeData.text;
+      let codigo = barcodeData.text;
+      this.codigo = codigo.split(',');
+      switch(this.codigo[0]){
+        case 'mesa':
+          this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
+        break;
+        case 'producto':
+        break;
+        case 'encuesta':
+        break;
+        default:
+          console.log("Codigo erroneo");
+        break;
+      }
+
 
     }).catch(err => { 
       console.log('Error', err);
@@ -33,7 +48,9 @@ export class HomeClienteComponent {
   }
 
   codigoMesa(){
-  	this.navCtrl.setRoot(QrMesaComponent);
+  	//this.navCtrl.setRoot(QrMesaComponent);
+    this.codigo[0] = 1;
+    this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
   }
 
 
