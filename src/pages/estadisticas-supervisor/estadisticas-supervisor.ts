@@ -32,7 +32,6 @@ export class EstadisticasSupervisorPage {
   public doughnutChartType: string = 'doughnut';
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
-    private error: AlertProvider,
     private spinner: SpinnerProvider) {
       let spiner=this.spinner.getAllPageSpinner();
       spiner.present();

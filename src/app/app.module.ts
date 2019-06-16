@@ -47,6 +47,7 @@ import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
 import { FcmProvider } from '../providers/fcm/fcm';
 import { AltaProductoComponent } from "../components/alta-producto/alta-producto";
 import { PedidosPendientesComponent } from '../components/pedidos-pendientes/pedidos-pendientes';
+import { EmailComposer } from '@ionic-native/email-composer';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { PedidosPendientesComponent } from '../components/pedidos-pendientes/ped
     JsonProvider,
     //QrProvider,
     FcmProvider,
+    EmailComposer,
   ]
 })
 export class AppModule {}

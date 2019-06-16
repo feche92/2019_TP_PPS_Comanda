@@ -21,13 +21,14 @@ export interface mesa {
 export class QrMesaComponent {
 
   texto: string;
-  codigo: string = "123456"; //codigo qr de mesa
+  codigo: string = ['mesa', '1', 'normal']; //codigo qr de mesa
   title: string = "";
   mesas: mesa[] = [];
   estado: number = 0; 
   ocupada: boolean = false;
   id_usuario: string;
   pedidoActual;
+  usuario;
   
   /*estado pedido:
      por pedir, esperando pedido, preparando pedido, pedido terminado, comiendo, por pagar
@@ -43,12 +44,16 @@ export class QrMesaComponent {
 
   //verifico si existe el codigo
   verificarCodigo(){
+    this.usuario = JSON.parse(localStorage.getItem("usuario"));
     this.title = "Mesa Actual";
     this.auth.getMesas().subscribe(lista =>{
       let flag = false;
       for(let item of lista){
-        if(item.numero == this.codigo){
+        if(item.numero == this.codigo[1]){
           if(item.estado == 'libre'){
+            /*
+            * mostrar ventana de mesa libre y boton tomar mesa
+            */
             this.mesas.push(item);
             this.estado = 1;
             this.ocupada = false;
@@ -56,19 +61,47 @@ export class QrMesaComponent {
             break;
           }
           else{
-            let usuario = JSON.parse(localStorage.getItem("usuario"));
-            console.log(usuario);
+            /*
+            * si es el usuario que tomo la mesa, muestro su estado, monto total si ya hizo el
+            * pedido, y los respectivos botones
+            * si no es el usuario que tomo la mesa muestro muestro "mesa ocupada" -> flag = false
+            */ 
             this.auth.getPedidos().subscribe(l =>{
               for(let i of l){
-                if(i.correo == usuario.correo && i.numero == item.numero && i.estado != 'por pagar'){
+                if(i.correo == this.usuario.correo && i.numero == item.numero){
                     //console.log(i);
                     this.pedidoActual = i;
-                    this.estado = 2;
                     this.ocupada = false;
+
+                    switch(i.estado){
+                      case 'por pedir':
+                        //mostrar boton hacer pedido
+                        this.estado = 2;
+                      break;
+                      case 'esperando pedido':
+                      case 'preparando pedido':
+                        /*mostrar estado del pedido y monto total, ademas de boton
+                        * encuesta, juegos
+                        */
+                        this.estado = 3;
+                      break;
+                      case 'pedido terminado':
+                        //mostrar boton de pedido recibido
+                        this.estado = 4;
+                      break;
+                      case 'comiendo':
+                        //mostrar monto total, encuesta, juegos, boton pagar
+                        this.estado = 5;
+                      break;
+                      case 'por pagar':
+                      //liberar mesa
+                      break;
+                    }
                     break;
                 }
               }
             });
+            break;
           }
         }
       }
@@ -147,6 +180,27 @@ export class QrMesaComponent {
 
     
 
+  }
+
+  hacerPedido(){
+    //lamar componente de hacer pedido de productos
+    console.log("En Hacer Pedido");
+  }
+
+  mostrarEncuesta(){
+    console.log("mostrar encuesta");
+  }
+
+  mostrarJuegos(){
+    console.log("mostrar juegos");
+  }
+
+  pedidoRecibido(){
+
+  }
+
+  pagar(){
+    console.log("pagando");
   }
 
 }

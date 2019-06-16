@@ -3,6 +3,7 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
 import { NavController } from 'ionic-angular';
 import { PrincipalPage } from "../../pages/principal/principal";
+import { EmailComposer } from '@ionic-native/email-composer';
 
 /**
  * Componente que muestra un listado de clientes con sus estados respectivos
@@ -19,7 +20,7 @@ export class ListaClienteEstadoComponent {
   clientes: any[] = [];
 
   constructor(private auth: AuthProvider, public alert: AlertProvider, 
-  	public navCtrl: NavController) {
+  	public navCtrl: NavController, private email: EmailComposer) {
     this.traerClientes();
   }
 
@@ -38,7 +39,16 @@ export class ListaClienteEstadoComponent {
   	console.log(e);
   	if(e.estado == "Pendiente de aprobación"){
 	  	e.estado = "Aprobado";
-      this.auth.crearUsuario(e.correo, e.clave);
+      
+      this.auth.crearUsuario(e.correo, e.clave).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if(errorCode == 'auth/email-already-in-use'){
+          console.log(errorMessage);
+        }
+      });
+      
+      this.sendMail(e);
   	}
   	else{
   		e.estado = "Pendiente de aprobación";
@@ -50,8 +60,25 @@ export class ListaClienteEstadoComponent {
   	});
   }
 
-  cancelar(){
-  	this.navCtrl.setRoot(PrincipalPage);
+  back() {
+    this.navCtrl.setRoot(PrincipalPage);
+  }
+
+  sendMail(e){
+    let email = {
+      //to: this.email,
+      to: 'samy32m@gmail.com',
+      //cc: 'samy32m@gmail.com',
+      attachments: [
+        'file://../../assets/Imagenes/logo.png',
+      ],
+      subject: 'Registro Aprobado',
+      body: 'Hola ' + e.nombre + ', tu registro en Grills fue aprobado exitosamente. Saludos!',
+      isHtml: true
+    }
+
+    this.email.open(email);
+    console.log("envio realizado!");
   }
 
 }

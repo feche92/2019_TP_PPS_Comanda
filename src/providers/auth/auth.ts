@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
-import { EncuestaSupervisorPageModule } from '../../pages/encuesta-supervisor/encuesta-supervisor.module';
 //import 'rxjs/add/operator/map';
 
 export interface usuario {
@@ -15,7 +14,8 @@ export interface usuario {
   cuil:string,
   nombre:string,
   apellido:string,
-  id: string;
+  id: string,
+  clave: string,
 }
 
 export interface mesa {
@@ -164,7 +164,7 @@ export class AuthProvider {
   }
 
   crearUsuario(correo,pass) {
-    return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
+    return this.auth.auth.createUserWithEmailAndPassword(correo, pass);
   }
   //-----CLIENTES-----
   guardarCliente(data) {

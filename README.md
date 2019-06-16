@@ -70,7 +70,7 @@ V- Moreno
 * [X] Alta de Cliente - Fecha inicio: 25/05/19 - Finalizado: 26/05/19
 * [X] Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19
 * [X] Encuesta Empleado - Fecha inicio: 31/05/19 - Finalizado: 01/06/19
-*  Tomar Pedido
+* [X] Tomar Pedido - Fecha inicio:08/06/19 - Finalizado: 15/06/19
 *  Cierre de cuenta
 *  Mapa de ruta hasta el domicilio de entrega
 *  Juego para un postre gratis
