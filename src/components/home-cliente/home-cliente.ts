@@ -28,7 +28,19 @@ export class HomeClienteComponent {
       //alert(barcodeData.text);
       let codigo = barcodeData.text;
       this.codigo = codigo.split(',');
-      this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
+      switch(this.codigo[0]){
+        case 'mesa':
+          this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
+        break;
+        case 'producto':
+        break;
+        case 'encuesta':
+        break;
+        default:
+          console.log("Codigo erroneo");
+        break;
+      }
+
 
     }).catch(err => { 
       console.log('Error', err);

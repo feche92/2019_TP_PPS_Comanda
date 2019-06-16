@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
-import { NavController } from 'ionic-angular';
 import { HomeClienteComponent } from "../home-cliente/home-cliente";
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { PedirPlatosPage } from "../../pages/pedir-platos/pedir-platos";
 
 export interface mesa {
   id:string,
@@ -38,8 +39,9 @@ export class QrMesaComponent {
    */
 
   constructor(private auth: AuthProvider, public alert: AlertProvider,
-    public navCtrl: NavController) {
+    public navCtrl: NavController, public navParams: NavParams) {
     this.verificarCodigo();
+    this.codigo = navParams.get("codigo");
   }
 
   //verifico si existe el codigo
@@ -129,8 +131,6 @@ export class QrMesaComponent {
       id: e.id
     };
     this.auth.updateMesa(data);
-
-    let usuario = JSON.parse(localStorage.getItem("usuario"));
     
     let date = new Date();
     let fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
@@ -138,9 +138,9 @@ export class QrMesaComponent {
       estado: 'por pedir',
       numero: e.numero,
       tipo: e.tipo,
-      'nombreCliente': usuario.nombre,
-      'apellidoCliente': usuario.apellido,
-      'correo': usuario.correo,
+      'nombreCliente': this.usuario.nombre,
+      'apellidoCliente': this.usuario.apellido,
+      'correo': this.usuario.correo,
       'fecha': fecha
     };
     this.auth.guardarPedido(dataPedido);
@@ -150,45 +150,28 @@ export class QrMesaComponent {
 
   verEstadoPedido(){
     this.title = "Estado Actual del Pedido";
-    this.estado = 2;
-    this.auth.getMesas().subscribe(lista => {
-      /*
+    this.auth.getPedidos().subscribe(lista => {
+      
       for(let item of lista){
-        if(item.cliente == this.id_usuario){
-          //id_pedido = item.id_pedido;
+        if(this.pedidoActual.id == item.id)
+          this.pedidoActual = item;
           break;
         }
       }
-
-      this.auth.getPedidos().subscribe(data => {
-        for(let item of data){
-          if(item.id == id_pedido){
-            this.pedidoActual = item;
-            break;
-          }
-        }
-      });
-
-    */
     });
   }
 
   mostrarEncuestaDeSatisfaccion(){
-    this.title = "Encuesta de Satisfacción";
-    this.estado = 3;
-    
-
-    
-
+    console.log("mostrar encuesta");
+    /*
+    * link a encuesta de satisfaccion de cliente
+    */
   }
 
   hacerPedido(){
     //lamar componente de hacer pedido de productos
     console.log("En Hacer Pedido");
-  }
-
-  mostrarEncuesta(){
-    console.log("mostrar encuesta");
+    this.navCtrl.setRoot(PedirPlatosPage);
   }
 
   mostrarJuegos(){
