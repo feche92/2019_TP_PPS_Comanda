@@ -100,7 +100,7 @@ export class JuegoDescuentoPage {
   }
 
   verificar() {
-    localStorage.getItem("juegoDescuento")
+    this.respuesta = this.respuesta.toLowerCase();
     if(this.respuesta == this.nombreAnimal) {
       if(localStorage.getItem("juegoDescuento") == 'true') {
         this.mensaje = "Felicidades!! Ganaste";

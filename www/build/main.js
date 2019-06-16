@@ -802,8 +802,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -2567,7 +2567,7 @@ var JuegoDescuentoPage = /** @class */ (function () {
         }, 900);
     };
     JuegoDescuentoPage.prototype.verificar = function () {
-        localStorage.getItem("juegoDescuento");
+        this.respuesta = this.respuesta.toLowerCase();
         if (this.respuesta == this.nombreAnimal) {
             if (localStorage.getItem("juegoDescuento") == 'true') {
                 this.mensaje = "Felicidades!! Ganaste";
@@ -2582,14 +2582,14 @@ var JuegoDescuentoPage = /** @class */ (function () {
         }
         this.ocultar = false;
     };
+    var _a, _b, _c;
     JuegoDescuentoPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-juego-descuento',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\juego-descuento\juego-descuento.html"*/'<!--\n  Generated template for the JuegoDescuentoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Juego de memoria</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf="ocultar">\n  <div class="flex-v buttons-container" *ngIf="!juegoEmpezado">\n    <h1>Se le mostraran 8 imagenes de animales al azar y tendrá que memorizarlas en 8 segundos.\n      Al acabar el tiempo se le preguntará por un animal, \n      si responde correctamente ganará un 10% de descuento en su pedido</h1>\n      <ion-card class="height-40 big-button-container" [color]="myColor">\n        <div class="flex-v center-horizontal center-vertical height-100" (click)="jugar()">\n          <div class="text-title">Jugar!</div>\n        </div>\n      </ion-card>\n  </div>\n  <div *ngIf="mostrarFotos && juegoEmpezado">\n    <div class="row"><h2 style="text-align: center;">tiempo: {{tiempo}}</h2></div>\n    <div class="row">\n      <h2>1</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[0][\'path\']}}" width="150px" height="100px" /></div></a>\n      <h2>2</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[1][\'path\']}}" width="150px" height="100px" /></div></a>\n    </div>\n    <div class="row">\n      <h2>3</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[2][\'path\']}}" width="140px" height="100px" /></div></a>\n      <h2>4</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[3][\'path\']}}" width="140px" height="100px" /></div></a>\n    </div>\n    <div class="row">\n      <h2>5</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[4][\'path\']}}" width="140px" height="100px" /></div></a>\n      <h2>6</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[5][\'path\']}}" width="140px" height="100px" /></div></a>\n    </div>\n    <div class="row">\n      <h2>7</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[6][\'path\']}}" width="140px" height="100px" /></div></a>\n      <h2>8</h2><a href="#"><div class="col-md-3 col-sm-4 col-xs-6"><img class="img-responsive" src=\n      "{{animalesRandom[7][\'path\']}}" width="140px" height="100px" /></div></a>\n    </div>\n  </div>\n  <div *ngIf="!mostrarFotos && juegoEmpezado" class="flex-v buttons-container">\n    <h1>{{mensaje}}</h1>\n    <ion-item>\n      <ion-label floating>Respuesta: </ion-label>\n      <ion-input type="text" required [(ngModel)]="respuesta" ></ion-input>\n    </ion-item>\n    <ion-card class="height-40 big-button-container" [color]="myColor">\n      <div class="flex-v center-horizontal center-vertical height-100" (click)="verificar()">\n        <div class="text-title">Verificar</div>\n      </div>\n    </ion-card>\n  </div>\n  </div>\n  <div *ngIf="!ocultar && !mostrarSpiner" class="flex-v buttons-container">\n    <h1>{{mensaje}}</h1>\n    <ion-card class="height-20 big-button-container" [color]="myColor">\n      <div class="flex-v center-horizontal center-vertical height-100" (click)="jugar()">\n        <div class="text-title">Jugar otra partida!</div>\n      </div>\n    </ion-card>\n    <ion-card class="height-20 big-button-container" [color]="color">\n      <div class="flex-v center-horizontal center-vertical height-100" (click)="back()">\n        <div class="text-title">Salir!</div>\n      </div>\n    </ion-card>\n  </div>\n</ion-content>\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\juego-descuento\juego-descuento.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _c || Object])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */]) === "function" ? _c : Object])
     ], JuegoDescuentoPage);
     return JuegoDescuentoPage;
-    var _a, _b, _c;
 }());
 
 //# sourceMappingURL=juego-descuento.js.map
@@ -2684,6 +2684,7 @@ var AlertProvider = /** @class */ (function () {
         });
         alert.present();
     };
+    var AlertProvider_1;
     AlertProvider.knownErrors = [
         {
             code: 'auth/email-already-in-use',
@@ -2715,7 +2716,6 @@ var AlertProvider = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]])
     ], AlertProvider);
     return AlertProvider;
-    var AlertProvider_1;
 }());
 
 //# sourceMappingURL=alert.js.map
@@ -2752,11 +2752,11 @@ var map = {
 		13
 	],
 	"../pages/altaempleado/altaempleado.module": [
-		648,
+		649,
 		12
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
-		649,
+		648,
 		11
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
@@ -2792,7 +2792,7 @@ var map = {
 		3
 	],
 	"../pages/register/register.module": [
-		658,
+		659,
 		2
 	],
 	"../pages/reserva/reserva.module": [
@@ -2800,7 +2800,7 @@ var map = {
 		1
 	],
 	"../pages/spinner/spinner.module": [
-		659,
+		658,
 		0
 	]
 };
@@ -2883,19 +2883,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var PrincipalPage = /** @class */ (function () {
     function PrincipalPage(navCtrl, navParams, error, auth, fcm, toastCtrl) {
+        var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.error = error;
         this.auth = auth;
+        this.fcm = fcm;
         this.toastCtrl = toastCtrl;
         this.acciones = [];
-        fcm.getToken();
+        this.fcm.getToken();
         // Listen to incoming messages
-        fcm.listenToNotifications().pipe(Object(__WEBPACK_IMPORTED_MODULE_14_rxjs_operators__["tap"])(function (msg) {
+        this.fcm.listenToNotifications().pipe(Object(__WEBPACK_IMPORTED_MODULE_14_rxjs_operators__["tap"])(function (msg) {
             // show a toast
-            var toast = toastCtrl.create({
+            var toast = _this.toastCtrl.create({
                 message: msg.body,
-                duration: 4000,
+                duration: 3000,
                 position: 'top',
                 cssClass: 'nombreRaro'
             });
@@ -2927,7 +2929,9 @@ var PrincipalPage = /** @class */ (function () {
                 break;
             case "cliente registrado":
             case "cliente anonimo":
-                this.acciones = [];
+                this.acciones = [
+                //{ accion: "Home", img: "nuevo-empleado.jpg", ruta: HomeClienteComponent }
+                ];
                 break;
             case "cliente":
                 this.acciones = [
@@ -3017,8 +3021,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3105,8 +3109,8 @@ var AltaClienteComponent = /** @class */ (function () {
     };
     AltaClienteComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3203,8 +3207,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3301,8 +3305,8 @@ var AltaSupervisorComponent = /** @class */ (function () {
     };
     AltaSupervisorComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3461,8 +3465,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3567,8 +3571,8 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
     };
     EncuestaEmpleadoComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var date, fecha, imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3758,51 +3762,6 @@ var SpinnerProvider = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-/**
- * Generated class for the RegisterPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-var RegisterPage = /** @class */ (function () {
-    function RegisterPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    RegisterPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad RegisterPage');
-    };
-    RegisterPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-register',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\register\register.html"*/'<!--\n\n  Generated template for the RegisterPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>register</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  \n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\register\register.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
-    ], RegisterPage);
-    return RegisterPage;
-}());
-
-//# sourceMappingURL=register.js.map
-
-/***/ }),
-
-/***/ 440:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnerPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
@@ -3844,6 +3803,51 @@ var SpinnerPage = /** @class */ (function () {
 
 /***/ }),
 
+/***/ 440:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the RegisterPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var RegisterPage = /** @class */ (function () {
+    function RegisterPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    RegisterPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad RegisterPage');
+    };
+    RegisterPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-register',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\register\register.html"*/'<!--\n\n  Generated template for the RegisterPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>register</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  \n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\register\register.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+    ], RegisterPage);
+    return RegisterPage;
+}());
+
+//# sourceMappingURL=register.js.map
+
+/***/ }),
+
 /***/ 441:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3873,8 +3877,8 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(638);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(142);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(440);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_altaempleado_altaempleado__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_listado_supervisor_listado_supervisor__ = __webpack_require__(174);
@@ -4001,8 +4005,8 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/alta-de-mesa/alta-de-mesa.module#AltaDeMesaPageModule', name: 'AltaDeMesaPage', segment: 'alta-de-mesa', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juego-descuento/juego-descuento.module#JuegoDescuentoPageModule', name: 'JuegoDescuentoPage', segment: 'juego-descuento', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juegos/juegos.module#JuegosPageModule', name: 'JuegosPage', segment: 'juegos', priority: 'low', defaultHistory: [] },
@@ -4011,8 +4015,8 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] }
                     ]
                 }),
@@ -4590,8 +4594,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -4653,8 +4657,8 @@ var AltaProductoComponent = /** @class */ (function () {
     };
     AltaProductoComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:

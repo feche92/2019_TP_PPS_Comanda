@@ -40,17 +40,17 @@ export class PrincipalPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
     private auth: AuthProvider,
-    fcm: FcmProvider, 
+    private fcm: FcmProvider, 
     private toastCtrl: ToastController) {
-      fcm.getToken()
+      this.fcm.getToken()
 
     // Listen to incoming messages
-    fcm.listenToNotifications().pipe(
+    this.fcm.listenToNotifications().pipe(
       tap(msg => {
         // show a toast
-        const toast = toastCtrl.create({
+        const toast = this.toastCtrl.create({
           message: msg.body,
-          duration: 4000,
+          duration: 3000,
           position: 'top',
           cssClass: 'nombreRaro'
 
