@@ -20,6 +20,8 @@ import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
 import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
 import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
+import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
+import { JuegosPage } from '../juegos/juegos';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -90,7 +92,8 @@ export class PrincipalPage {
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
-            { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage}
+            { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
+            { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage}
           ];
           break;
         case "mozo": 

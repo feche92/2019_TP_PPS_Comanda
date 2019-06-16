@@ -21,6 +21,8 @@ import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/est
 import { PedirPlatosPage } from "../pages/pedir-platos/pedir-platos";
 import { ListadoMesasPage } from "../pages/listado-mesas/listado-mesas";
 import { AltaDeProductoPage } from "../pages/alta-de-producto/alta-de-producto";
+import { JuegosPage } from "../pages/juegos/juegos";
+import { JuegoDescuentoPage } from "../pages/juego-descuento/juego-descuento";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -79,6 +81,8 @@ import { EmailComposer } from '@ionic-native/email-composer';
     AltaClienteComponent,
     AltaProductoComponent,
     PedidosPendientesComponent,
+    JuegosPage,
+    JuegoDescuentoPage
     ],
   imports: [
     BrowserModule,
@@ -116,6 +120,8 @@ import { EmailComposer } from '@ionic-native/email-composer';
     AltaDeProductoPage,
     AltaProductoComponent,
     PedidosPendientesComponent
+    JuegosPage,
+    JuegoDescuentoPage
   ],
   providers: [
     StatusBar,
