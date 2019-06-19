@@ -22,6 +22,8 @@ import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
 import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
 import { JuegosPage } from '../juegos/juegos';
+import { ConfirmarPedidoPage } from '../confirmar-pedido/confirmar-pedido';
+import { PagarPage } from '../pagar/pagar';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -93,15 +95,44 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
             { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
-            { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage}
+            { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
+            { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
           ];
           break;
         case "mozo": 
           this.acciones = [
-            { accion: "Tomar pedido", img: "pedido.jpg", ruta: ListadoMesasPage}
+            { accion: "Tomar pedido", img: "pedido.jpg", ruta: ListadoMesasPage},
+            { accion: "Aceptar/Entregar pedido", img: "pedido.jpg", ruta: ConfirmarPedidoPage}
           ]
           break;
           
+        }
+        if(this.usuario.tipo == 'cliente')
+        {
+          this.auth.getPedidos().subscribe(lista => {
+            for(let i=0;i<lista.length;i++)
+            {
+              if(lista[i].correo == this.usuario.correo && lista[i].estado == 'camino a entrega') {
+                let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entrgar");
+                alertConfirm.present();
+                alertConfirm.onDidDismiss((confirm) => {
+                if (confirm) {
+                  lista[i].estado = 'comiendo';
+                  this.auth.actualizarPedido(lista[i]).then(res => {
+                    this.error.mostrarMensaje("pedido entregado. Disfrutelo");
+                  });
+                }
+                else {
+                  lista[i].estado = 'pedido terminado';
+                  this.auth.actualizarPedido(lista[i]).then(res => {
+                    this.error.mostrarMensaje("Perdon, se le volverà a entregar el pedido si todavia no esta listo");
+                  });
+                }
+                });
+                break;
+              }
+            }
+          })
         }
   }
 

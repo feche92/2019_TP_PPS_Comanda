@@ -226,7 +226,7 @@ export class PedirPlatosPage {
       spiner.present();
       let momentoActual = moment(new Date());
       let data= {
-          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"esperando pedido",
+          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
          "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
           "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
       }

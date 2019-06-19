@@ -22,7 +22,7 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
-    "@ionic-native/barcode-scanner": "^4.20.0",
+    "@ionic-native/barcode-scanner": "^4.17.0",
     "@ionic-native/camera": "^4.20.0",
     "@ionic-native/core": "~4.18.0",
     "@ionic-native/email-composer": "^4.20.0",
@@ -89,8 +89,7 @@
       }
     },
     "platforms": [
-      "browser",
-      "android"
+      "browser"
     ]
   }
 }

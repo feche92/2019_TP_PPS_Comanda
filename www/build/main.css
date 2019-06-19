@@ -56455,6 +56455,85 @@ page-altaempleado .animation-target {
   animation-fill-mode: both;
 }
 
+page-confirmar-pedido .card {
+  border-radius: 5px;
+  margin: auto;
+  padding: 20px;
+  width: 40rem;
+}
+
+page-confirmar-pedido .card-title {
+  text-transform: uppercase;
+  color: #5a5a5a;
+  border-bottom: 4px solid #dcd4d4;
+  font-size: 23px;
+  font-weight: 400;
+}
+
+page-confirmar-pedido .item-producto {
+  border: 1px solid #d5d5d5;
+  padding: 7px;
+}
+
+page-confirmar-pedido .item-nombre {
+  background: #00365c;
+  color: #ffff;
+  font-weight: 800;
+  font-size: 22px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-align: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+page-confirmar-pedido .item-descripcion {
+  color: #716f6f;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 16px;
+  text-transform: capitalize;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+page-confirmar-pedido .item-cantidad {
+  font-size: 5rem;
+  text-align: center;
+  color: #01538c;
+  margin: auto;
+}
+
+page-confirmar-pedido .item-porcion {
+  color: #01538c;
+  text-align: center;
+  font-size: 18px;
+  margin: auto;
+}
+
+page-confirmar-pedido .grid-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "Contenido .";
+}
+
+page-confirmar-pedido .Contenido {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: "." ".";
+  grid-area: Contenido;
+}
+
+page-confirmar-pedido .titulo {
+  width: 100%;
+  padding: 10px 10px 10px 10px;
+  font-family: cinzel;
+  text-align: center;
+  color: blue;
+}
+
 .form-center-content {
   height: 100%;
   display: -webkit-box;
@@ -72887,6 +72966,113 @@ page-listado-supervisor .imagen img {
 
 page-listado-supervisor .imagen .ocultar {
   display: none !important;
+}
+
+@font-face {
+  src: url("../../assets/fonts/Tangerine-Regular.ttf");
+  font-family: tangerine;
+}
+
+page-pagar .scroll-content {
+  background-color: antiquewhite;
+}
+
+page-pagar ion-navbar {
+  padding: 20px 10px !important;
+}
+
+page-pagar ion-navbar ion-icon {
+  color: white;
+}
+
+page-pagar ion-navbar ion-icon {
+  font-size: 50px !important;
+}
+
+page-pagar h1 {
+  text-align: center;
+  font-family: tangerine;
+  font-size: 60px;
+  border-bottom: solid 1px black;
+  display: inline;
+}
+
+page-pagar .puntos {
+  width: 100%;
+  background-position: bottom;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(20%, #488aff), color-stop(0%, rgba(255, 255, 255, 0)));
+  background-image: linear-gradient(to right, #488aff 20%, rgba(255, 255, 255, 0) 0%);
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+  height: 5px;
+}
+
+.ie9 page-pagar .puntos {
+  border-bottom: 1px dotted #488aff;
+}
+
+page-pagar .cuenta {
+  width: 100%;
+  border: solid 4px #488aff;
+  outline: solid 2px #488aff;
+  outline-offset: 5px;
+  padding: 10px;
+}
+
+page-pagar .cuenta div {
+  margin: 15px 0 15px 0;
+  font-size: 18px;
+}
+
+page-pagar .cuenta div:nth-last-of-type(2) {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+page-pagar .cuenta button[ion-button] {
+  padding: 30px 50px 30px 50px !important;
+  margin: 25px auto 0 auto;
+  display: block;
+  font-size: 20px;
+}
+
+page-pagar .total {
+  color: #488aff;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+
+page-pagar ul {
+  padding: 0px;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+page-pagar ul.rating li {
+  padding: 5px 10px !important;
+  background: none;
+  color: #488aff;
+}
+
+page-pagar ul.rating li ion-icon {
+  font-size: 50px;
+}
+
+page-pagar .rating {
+  font-size: 20px;
+  text-align: center;
+  display: block;
 }
 
 .form-center-content {
