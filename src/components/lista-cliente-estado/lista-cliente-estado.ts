@@ -65,16 +65,18 @@ export class ListaClienteEstadoComponent {
   }
 
   sendMail(e){
+    let image = "../../assets/Imagenes/icon.png";
     let email = {
       //to: this.email,
       to: 'samy32m@gmail.com',
       //cc: 'samy32m@gmail.com',
       attachments: [
-        'file://../../assets/Imagenes/logo.png',
+        image
       ],
       subject: 'Registro Aprobado',
       body: 'Hola ' + e.nombre + ', tu registro en Grills fue aprobado exitosamente. Saludos!',
-      isHtml: true
+      isHtml: true,
+      app: "Gmail"
     }
 
     this.email.open(email);
