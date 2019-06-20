@@ -83,7 +83,9 @@ export interface encuestaCliente {
   respuesta2:string,
   pregunta3: string,  
   respuesta3:string,
-  comentario:Array<any>
+  pregunta4: string,  
+  respuesta4:string,
+  comentario:string
 
 
 

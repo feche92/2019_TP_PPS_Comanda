@@ -38,6 +38,7 @@
     </select>
   </div>
 
+
   <h1>{{pregunta3}}</h1>
   <div class="encuesta">
         <ion-list radio-group [(ngModel)]="respuesta3">
@@ -64,8 +65,29 @@
           </ion-list>        
   </div>
 
+  <h1>{{pregunta4}}</h1>
+  <div class="encuesta">
+    <ion-list radio-group [(ngModel)]="respuesta4">
+        <ion-item>
+            <ion-label>Sí</ion-label>
+            <ion-radio slot="start" value="si" checked></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>No</ion-label>
+            <ion-radio slot="start" value="no" checked></ion-radio>
+          </ion-item>
+    </ion-list>
+  </div>
+
+  <h1>Comentarios</h1>
+  <div class="encuesta">
+    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>
+  </div>
  
- 
-  <button ion-button color="red" class="enviar" [disabled]="estadoBoton" (click)="EnviarEncuesta()">Enviar encuesta</button>
+  <br>
+  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>
+  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">>Enviar encuesta</button>
+  <button ion-button block color="danger">Cancelar</button>
+  
 </ion-content>
 
