@@ -37,10 +37,34 @@
       <option value="Recomendacion">Recomendacion</option>     
     </select>
   </div>
+
+  <h1>{{pregunta3}}</h1>
+  <div class="encuesta">
+        <ion-list radio-group [(ngModel)]="respuesta3">
+            <ion-item>
+              <ion-label>Muy Buena</ion-label>
+              <ion-radio color="primary" value="Muy Buena"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Buena</ion-label>
+              <ion-radio color="primary" value="Buena"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Regular</ion-label>
+              <ion-radio color="primary" value="Regular"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Mala</ion-label>
+              <ion-radio color="primary" value="Mala"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>Muy Mala</ion-label>
+                <ion-radio color="primary" value="Muy Mala"></ion-radio>
+              </ion-item>
+          </ion-list>        
+  </div>
+
  
-
-
-
  
   <button ion-button color="red" class="enviar" [disabled]="estadoBoton" (click)="EnviarEncuesta()">Enviar encuesta</button>
 </ion-content>

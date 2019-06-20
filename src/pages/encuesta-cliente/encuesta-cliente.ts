@@ -23,8 +23,13 @@ export class EncuestaClientePage {
   encuestaCliente;
   public pregunta1: string = "Cuál es la razón por la que nos elije?";
   public pregunta2: string = "Como conocio nuestro restaurant?";
+  public pregunta3: string = "¿Cómo calificaría la cortesía y trato de los empleados de “Grill”?";
   public respuesta1: string ="Calidad";
   public respuesta2: string ="Internet";
+  public respuesta3: string ="Muy Buena";
+  public correo: string ="";
+  public comentario: string = "";
+  public nombre:string="";
    
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth:AuthProvider,
@@ -34,7 +39,8 @@ export class EncuestaClientePage {
  
     
 
-    this.usuario = navParams.get("usuario");
+    //this.usuario = navParams.get("usuario");
+    this.usuario = JSON.parse(localStorage.getItem("usuario"));
     console.log(this.usuario);
 
     //creo una nueva encuesta
@@ -71,10 +77,15 @@ export class EncuestaClientePage {
     console.log(this.encuestaCliente);
 
     let data= {
+      "nombre": this.usuario.nombre,
+      "correo":this.usuario.correo,
       "pregunta1":this.pregunta1,
       "respuesta1":this.respuesta1,
       "pregunta2":this.pregunta2,
-      "respuesta2":this.respuesta2
+      "respuesta2":this.respuesta2,
+      "pregunta3":this.pregunta3,
+      "respuesta3":this.respuesta3,
+      "comentario": this.comentario
        
     }
    console.log(data);

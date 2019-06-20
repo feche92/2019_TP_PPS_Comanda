@@ -80,8 +80,10 @@ export interface encuestaCliente {
   pregunta1: string,
   respuesta1:string,
   pregunta2: string,  
-  respuesta2:string
-  comentarios:Array<any>,
+  respuesta2:string,
+  pregunta3: string,  
+  respuesta3:string,
+  comentario:Array<any>
 
 
 
@@ -245,7 +247,7 @@ export class AuthProvider {
     return this.db.collection('encuestaCliente').add(data);
   }
   getEncuestaCliente(){
-  return this.db.collection('encuestaCliente').snapshotChanges().pipe(map(rooms => {
+  return this.db.collection('encuestasClientes').snapshotChanges().pipe(map(rooms => {
     return rooms.map(a =>{
       const data = a.payload.doc.data() as encuestaCliente;
       data.id = a.payload.doc.id;
