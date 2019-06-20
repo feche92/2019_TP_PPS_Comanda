@@ -23,7 +23,7 @@ export class AltaClienteComponent {
   nombre: string;
   apellido: string;
   dni: number;
-  foto: string = "prueba"; 
+  foto: string; 
   perfil: string = "cliente registrado"; //cliente anonimo
   //anonimo: boolean = false;
   email: string;
@@ -39,7 +39,7 @@ export class AltaClienteComponent {
     let data;
     if(this.nombre != undefined && this.foto != undefined && this.email != undefined
       && this.clave != undefined && this.apellido != undefined && this.dni != undefined
-      && this.dni.toString().length == 8 && this.clave2 != undefined){
+      && this.dni.toString().length == 8 && this.clave2 != undefined && this.clave.length >= 6){
         if(this.clave == this.clave2){
           this.perfil = "cliente registrado";
           data = {
@@ -57,25 +57,33 @@ export class AltaClienteComponent {
 
           this.auth.guardarUsuario(data).then(response =>{
               this.alert.mostrarMensaje("Cliente registrado");
-              //this.navCtrl.setRoot(HomePage);
+              this.navCtrl.setRoot(HomePage);
           });
         }
         else{
-          this.alert.mostrarError("Las contraseñas son distintas");
+          this.alert.mostrarErrorLiteral("Las contraseñas son distintas");
         }
     }
     else{
       if(this.nombre == undefined || this.email == undefined || this.clave == undefined 
         ||  this.apellido == undefined ||  this.dni == undefined || this.clave2 == undefined){
-        this.alert.mostrarError("Hay campos sin rellenar");
+        this.alert.mostrarErrorLiteral("Hay campos sin rellenar");
+      }
+      else{
+        if(this.dni.toString().length < 8 || this.dni.toString().length > 8)
+          this.alert.mostrarErrorLiteral("El dni debe tener 8 caracteres");
+        if(this.clave.length < 6)
+          this.alert.mostrarErrorLiteral("La clave debe tener por lo menos 6 caracteres");
       }
       if(this.foto == undefined){
-        this.alert.mostrarError("Falta cargar una foto");
+        this.alert.mostrarErrorLiteral("Falta cargar una foto");
       }
-      if(this.dni.toString().length < 8 || this.dni.toString().length > 8)
-        this.alert.mostrarError("El dni debe tener 8 caracteres");
     }
   	
+  }
+
+  volver(){
+    this.navCtrl.setRoot(HomePage);
   }
 
   async abrirCamara() {
@@ -121,8 +129,10 @@ export class AltaClienteComponent {
     let options = { prompt: "Escaneá el DNI", formats: "PDF_417" };
 
     this.scanner.scan(options).then(barcodeData => {
-      //alert(barcodeData.text);
-      this.dni = +barcodeData.text;
+      alert(barcodeData.text);
+      let contenido = barcodeData.text;
+      let array = contenido.split('@');
+      this.dni = +array[4];
 
     }).catch(err => { 
       console.log('Error', err);

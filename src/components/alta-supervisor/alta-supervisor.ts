@@ -22,7 +22,7 @@ export class AltaSupervisorComponent {
   apellido: string;
   dni: number;
   cuil: string;
-  foto: string = "prueba";
+  foto: string;
   perfil: string = "supervisor";
   email: string;
   clave: string;
@@ -56,23 +56,23 @@ export class AltaSupervisorComponent {
                 this.alert.mostrarMensaje("Supervisor creado");
               })
               .catch(error => {
-                this.alert.mostrarError(error,"Ocurrio un error al registrar el usuario");
+                this.alert.mostrarErrorLiteral(error,"Ocurrio un error al registrar el usuario");
                 console.log(error);
               })
             });
         }
         else{
             if(this.dni.toString().length != 8){
-              this.alert.mostrarError("El dni debe tener 8 números");
+              this.alert.mostrarErrorLiteral("El dni debe tener 8 números");
             }
             if(this.cuil.toString().length != 11){
-              this.alert.mostrarError("El cuil debe tener 11 números");
+              this.alert.mostrarErrorLiteral("El cuil debe tener 11 números");
             }
             if(this.clave.length < 6){
-              this.alert.mostrarError("La clave debe tener por lo menos 6 caracteres");
+              this.alert.mostrarErrorLiteral("La clave debe tener por lo menos 6 caracteres");
             }
             if(this.clave != this.clave2){
-              this.alert.mostrarError("Las claves deben ser iguales");
+              this.alert.mostrarErrorLiteral("Las claves deben ser iguales");
             }
         }
     }
@@ -80,10 +80,10 @@ export class AltaSupervisorComponent {
       if(this.nombre == undefined || this.apellido == undefined || this.dni == undefined || 
         this.cuil == undefined || this.email == undefined || this.clave == undefined
         || this.clave2 == undefined){
-        this.alert.mostrarError("Hay campos sin rellenar");
+        this.alert.mostrarErrorLiteral("Hay campos sin rellenar");
       }
       if(this.foto == undefined){
-        this.alert.mostrarError("Se debe cargar una foto");
+        this.alert.mostrarErrorLiteral("Se debe cargar una foto");
       }
     }
   	
@@ -135,8 +135,8 @@ export class AltaSupervisorComponent {
   escanear(){
     let options = { prompt: "Escaneá el DNI", formats: "PDF_417" };
 
-    this.scanner.scan(options).then(barcodeData => {
-      //alert(barcodeData.text);
+    this.scanner.scan().then(barcodeData => {
+      alert(barcodeData.text);
       this.dni = +barcodeData.text;
 
     }).catch(err => { 

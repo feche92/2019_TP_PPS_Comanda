@@ -1,0 +1,59 @@
+<!--
+  Generated template for the PagarPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Cuenta</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div *ngIf="mostrar">
+  <div style="width: 100%;text-align: center;margin: 0;position: relative;">
+    <h1>Cuenta</h1>
+  </div>
+  <ng-container *ngFor="let item of pedido.productos">
+
+      <div>
+        <span>{{item.nombre}}  *  {{item.cantidad}}</span><span style="float: right;">${{item.cantidad * item.precio}}</span>
+      </div>
+      <div class="puntos"></div>
+      
+  </ng-container>
+
+  <div >
+      <span class="total">Monto</span><span style="float: right;">${{monto}}</span>
+  </div>
+  <div class="puntos"></div>
+
+  <ng-container *ngIf="descuentoJuego">
+      <div>
+        <span>Descuento del 10% por jugar</span><span style="float: right;">(${{descuento}})</span>
+      </div>
+      <div class="puntos"></div>
+  </ng-container>
+
+  <div *ngIf="propina!='sin propina'">
+      <span>Propina</span><span style="float: right;">${{propina}}</span>
+  </div>
+  <div class="puntos"></div>
+
+  <div >
+      <span class="total">Monto Total</span><span style="float: right;">${{total}}</span>
+  </div>
+  <div class="puntos"></div>
+
+  <span class="rating">¡Calificá nuestro servicio y dejá tu propina!</span>
+  <button ion-button block color="primary"  (click)="qr()">Leer QR de propina</button>
+  <button ion-button block color="primary"  (click)="pagar()">Pagar!</button>
+  </div>
+</ion-content>

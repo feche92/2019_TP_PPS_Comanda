@@ -5,6 +5,8 @@ import { AlertProvider } from '../../providers/alert/alert';
 import { SpinnerProvider } from '../../providers/spinner/spinner';
 import * as firebase from "firebase";
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { PrincipalPage } from '../principal/principal';
+
 
 
 /**
@@ -59,7 +61,7 @@ export class EncuestaClientePage {
   }
 
   VolverAtras() {
-    this.navCtrl.pop();
+    this.navCtrl.setRoot(PrincipalPage);
   }
 
   ModificarTextoRange() {

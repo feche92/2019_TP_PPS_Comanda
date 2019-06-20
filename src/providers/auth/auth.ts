@@ -13,11 +13,12 @@ export interface usuario {
   tipo:string,
   logueado:boolean,
   estado:string,
-  DNI:string,
-  CUIL:string,
+  dni:string,
+  cuil:string,
   nombre:string,
   apellido:string,
-  id:string
+  id: string,
+  clave: string,
 }
 
 export interface mesa {
@@ -103,8 +104,6 @@ export interface reserva {
   id:string
 }
 
-
-
 export interface pedido {
   correo:string,
   nombreCliente:string,
@@ -116,6 +115,8 @@ export interface pedido {
   productos:Array<any>,
   montoTotal:string,
   id:string,
+  tiempoElaboracion: number,
+  horaFinalizacion: string
 }
 
 export interface producto {
@@ -130,6 +131,7 @@ export interface producto {
   numeroProducto:number;
   id:string
 }
+
 @Injectable()
 export class AuthProvider {
 
@@ -160,6 +162,16 @@ export class AuthProvider {
   }
 
 //-----USUARIOS-----
+  getUsuarios() {
+    return this.db.collection('usuarios').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as usuario;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
   updateUsuario(data) {
     return this.db.collection('usuarios').doc(data.id).update(data);
   }
@@ -177,7 +189,7 @@ export class AuthProvider {
   }
 
   crearUsuario(correo,pass) {
-    return this.auth.auth.createUserWithEmailAndPassword(correo,pass);
+    return this.auth.auth.createUserWithEmailAndPassword(correo, pass);
   }
   //-----CLIENTES-----
   guardarCliente(data) {

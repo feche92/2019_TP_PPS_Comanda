@@ -26,6 +26,7 @@ export class HomePage {
     private serviceAlert:AlertProvider,
     private spiner:SpinnerProvider) {
       this.usuarios = new Array();
+      localStorage.clear();
   }
 
   /*ionViewDidLoad() {
@@ -37,11 +38,6 @@ export class HomePage {
       }, 5000);
     }    
   }*/
-
-  rellenar(){
-    this.email = "samy32m@gmail.com";
-    this.pass = "222222";
-  }
 
   entrarComoAnonimo(){
     if(this.nombre != undefined){

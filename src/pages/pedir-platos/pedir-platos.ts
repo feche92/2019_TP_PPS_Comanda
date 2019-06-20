@@ -62,7 +62,6 @@ export class PedirPlatosPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PedirPlatosPage');
   }
 
   back() {
@@ -88,7 +87,7 @@ export class PedirPlatosPage {
         let estaCorreo=false;
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].correo == this.usuario.correo /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado'/* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
             estaCorreo=true;
             //this.pedidoPendiente=this.pedidos[i];
             //this.puedePedir=true;
@@ -227,7 +226,7 @@ export class PedirPlatosPage {
       spiner.present();
       let momentoActual = moment(new Date());
       let data= {
-          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"esperando pedido",
+          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
          "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
           "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
       }

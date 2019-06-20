@@ -6,6 +6,7 @@ import { QrMesaComponent } from './qr-mesa/qr-mesa';
 import { EncuestaEmpleadoComponent } from './encuesta-empleado/encuesta-empleado';
 import { ListaClienteEstadoComponent } from './lista-cliente-estado/lista-cliente-estado';
 import { HomeClienteComponent } from './home-cliente/home-cliente';
+import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendientes';
 
 import { AltaProductoComponent } from './alta-producto/alta-producto';
 @NgModule({
@@ -16,7 +17,8 @@ import { AltaProductoComponent } from './alta-producto/alta-producto';
     EncuestaEmpleadoComponent,
     ListaClienteEstadoComponent,
     HomeClienteComponent,
-    AltaProductoComponent
+    PedidosPendientesComponent,
+    AltaProductoComponent,
     ],
 	imports: [],
 	exports: [AltaSupervisorComponent,
@@ -26,6 +28,8 @@ import { AltaProductoComponent } from './alta-producto/alta-producto';
     EncuestaEmpleadoComponent,
     ListaClienteEstadoComponent,
     HomeClienteComponent,
-    AltaProductoComponent]
+    PedidosPendientesComponent,
+    AltaProductoComponent,
+    ]
 })
 export class ComponentsModule {}

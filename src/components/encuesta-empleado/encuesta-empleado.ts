@@ -90,11 +90,11 @@ export class EncuestaEmpleadoComponent {
 
 	  	}
 	  	else{
-	  		this.alert.mostrarError("Hay campos sin rellenar");
+	  		this.alert.mostrarErrorLiteral("Hay campos sin rellenar");
 	  	}
   	}
   	else{
-  		this.alert.mostrarError("Falta cargar una foto");
+  		this.alert.mostrarErrorLiteral("Falta cargar una foto");
   	}
   }
 
@@ -135,7 +135,7 @@ export class EncuestaEmpleadoComponent {
       });
 
     } catch (error) {
-      this.alert.mostrarError(error, "Ocurrio un error");
+      this.alert.mostrarErrorLiteral(error, "Ocurrio un error");
     }
   }
 
