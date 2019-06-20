@@ -15,6 +15,7 @@ import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
 import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
+import { EncuestaClientePage } from "../pages/encuesta-cliente/encuesta-cliente";
 import { ReservaPage } from "../pages/reserva/reserva";
 import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
 import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
@@ -72,6 +73,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     ListadoSupervisorPage,
     AltaClienteComponent,
     EncuestaSupervisorPage,
+    EncuestaClientePage,
     ReservaPage,
     ListadoReservaPage,
     EstadisticasSupervisorPage,
@@ -116,6 +118,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     AltaSupervisorComponent,
     AltaClienteComponent,
     EncuestaSupervisorPage,
+    EncuestaClientePage,
     ReservaPage,
     ListadoReservaPage,
     EstadisticasSupervisorPage,

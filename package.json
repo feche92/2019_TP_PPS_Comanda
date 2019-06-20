@@ -47,6 +47,7 @@
     "moment": "^2.24.0",
     "natives": "^1.1.6",
     "ng2-charts": "^2.2.2",
+    "npm": "6.9.0",
     "phonegap-plugin-barcodescanner": "8.0.1",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.4.0",

@@ -3,6 +3,8 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
 import { HttpClient } from '@angular/common/http';
+import { EncuestaSupervisorPageModule } from '../../pages/encuesta-supervisor/encuesta-supervisor.module';
+import { EncuestaClientePageModule } from '../../pages/encuesta-cliente/encuesta-cliente.module';
 //import 'rxjs/add/operator/map';
 
 export interface usuario {
@@ -70,6 +72,22 @@ export interface encUsuario {
     item3:number,
     item4:number
   }
+}
+
+
+export interface encuestaCliente {
+  id:string,
+  correo:string,
+  pregunta1: string,
+  respuesta1:string,
+  pregunta2: string,  
+  respuesta2:string,
+  pregunta3: string,  
+  respuesta3:string,
+  comentario:Array<any>
+
+
+
 }
 
 export interface reserva {
@@ -235,6 +253,26 @@ export class AuthProvider {
       })
     }));
   }
+
+  //---- Encuesta cliente -----//
+  nuevaEncuestaCliente(data) {
+    return this.db.collection('encuestaCliente').add(data);
+  }
+  getEncuestaCliente(){
+  return this.db.collection('encuestasClientes').snapshotChanges().pipe(map(rooms => {
+    return rooms.map(a =>{
+      const data = a.payload.doc.data() as encuestaCliente;
+      data.id = a.payload.doc.id;
+      return data;
+    })
+  }));
+}
+
+modificarEncuestaCliente(data) {
+  return this.db.collection('encuestaCliente').doc(data.id).update(data);
+}
+
+//---FIN --Encuesta cliente -----//
 
   nuevaReserva(data) {
     return this.db.collection('reservas').add(data);
