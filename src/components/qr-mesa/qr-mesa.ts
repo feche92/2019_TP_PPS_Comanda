@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
 import { HomeClienteComponent } from "../home-cliente/home-cliente";
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { PedirPlatosPage } from "../../pages/pedir-platos/pedir-platos";
 
 export interface mesa {
@@ -22,7 +22,7 @@ export interface mesa {
 export class QrMesaComponent {
 
   texto: string;
-  codigo: string = ['mesa', '1', 'normal']; //codigo qr de mesa
+  codigo: string[] = ['mesa', '1', 'normal']; //codigo qr de mesa
   title: string = "";
   mesas: mesa[] = [];
   estado: number = 0; 
@@ -157,8 +157,7 @@ export class QrMesaComponent {
           this.pedidoActual = item;
           break;
         }
-      }
-    });
+      });
   }
 
   mostrarEncuestaDeSatisfaccion(){
@@ -179,7 +178,7 @@ export class QrMesaComponent {
   }
 
   pedidoRecibido(){
-
+    console.log("pedido recibido");
   }
 
   pagar(){

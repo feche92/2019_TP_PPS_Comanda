@@ -119,7 +119,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     ListadoMesasPage,
     AltaDeProductoPage,
     AltaProductoComponent,
-    PedidosPendientesComponent
+    PedidosPendientesComponent,
     JuegosPage,
     JuegoDescuentoPage
   ],

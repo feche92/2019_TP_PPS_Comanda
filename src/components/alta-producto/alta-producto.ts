@@ -42,10 +42,10 @@ export class AltaProductoComponent {
     }
     else{
       if(this.nombre == undefined){
-        this.alert.mostrarMensaje("Hay campos sin rellenar");
+        this.alert.mostrarErrorLiteral("Hay campos sin rellenar");
       }
       if(this.foto == undefined){
-        this.alert.mostrarMensaje("Falta cargar una foto");
+        this.alert.mostrarErrorLiteral("Falta cargar una foto");
       }
     }
   }
