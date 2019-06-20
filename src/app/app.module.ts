@@ -30,7 +30,7 @@ import { PagarPage } from "../pages/pagar/pagar";
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { Firebase } from '@ionic-native/firebase';
+//import { Firebase } from '@ionic-native/firebase';
 
 import { configs } from './globalConfig';
 import { AuthProvider } from '../providers/auth/auth';
@@ -134,7 +134,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: FirestoreSettingsToken, useValue: {}},
-    Firebase,
+    //Firebase,
     Camera,
     BarcodeScanner,
     AuthProvider,

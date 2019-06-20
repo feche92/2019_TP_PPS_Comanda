@@ -13,7 +13,7 @@ import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
 import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
-import { FcmProvider } from '../../providers/fcm/fcm';
+//import { FcmProvider } from '../../providers/fcm/fcm';
 import { ToastController } from 'ionic-angular';
 import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
@@ -43,9 +43,9 @@ export class PrincipalPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
     private auth: AuthProvider,
-    private fcm: FcmProvider, 
+    //private fcm: FcmProvider, 
     private toastCtrl: ToastController) {
-      this.fcm.getToken()
+      /*this.fcm.getToken()
 
     // Listen to incoming messages
     this.fcm.listenToNotifications().pipe(
@@ -62,7 +62,7 @@ export class PrincipalPage {
         toast.present();
       })
     )
-      .subscribe()
+      .subscribe()*/
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       console.log(this.usuario.tipo);
       switch(this.usuario.tipo) {

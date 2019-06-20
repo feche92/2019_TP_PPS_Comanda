@@ -87,7 +87,7 @@ export class PedirPlatosPage {
         let estaCorreo=false;
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].correo == this.usuario.correo /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado'/* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
             estaCorreo=true;
             //this.pedidoPendiente=this.pedidos[i];
             //this.puedePedir=true;
