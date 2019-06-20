@@ -17,6 +17,7 @@ import { ToastController } from 'ionic-angular';
 import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
 import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
+import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
 import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
 import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
@@ -94,6 +95,7 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
             { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
+            { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage}
           ];
           break;
