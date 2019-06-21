@@ -15,6 +15,7 @@ import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
 import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
+import { EncuestaClientePage } from "../pages/encuesta-cliente/encuesta-cliente";
 import { ReservaPage } from "../pages/reserva/reserva";
 import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
 import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
@@ -23,12 +24,14 @@ import { ListadoMesasPage } from "../pages/listado-mesas/listado-mesas";
 import { AltaDeProductoPage } from "../pages/alta-de-producto/alta-de-producto";
 import { JuegosPage } from "../pages/juegos/juegos";
 import { JuegoDescuentoPage } from "../pages/juego-descuento/juego-descuento";
+import { ConfirmarPedidoPage } from "../pages/confirmar-pedido/confirmar-pedido";
+import { PagarPage } from "../pages/pagar/pagar";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { Firebase } from '@ionic-native/firebase';
+//import { Firebase } from '@ionic-native/firebase';
 
 import { configs } from './globalConfig';
 import { AuthProvider } from '../providers/auth/auth';
@@ -70,6 +73,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     ListadoSupervisorPage,
     AltaClienteComponent,
     EncuestaSupervisorPage,
+    EncuestaClientePage,
     ReservaPage,
     ListadoReservaPage,
     EstadisticasSupervisorPage,
@@ -82,7 +86,9 @@ import { EmailComposer } from '@ionic-native/email-composer';
     AltaProductoComponent,
     PedidosPendientesComponent,
     JuegosPage,
-    JuegoDescuentoPage
+    JuegoDescuentoPage,
+    ConfirmarPedidoPage,
+    PagarPage
     ],
   imports: [
     BrowserModule,
@@ -112,6 +118,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     AltaSupervisorComponent,
     AltaClienteComponent,
     EncuestaSupervisorPage,
+    EncuestaClientePage,
     ReservaPage,
     ListadoReservaPage,
     EstadisticasSupervisorPage,
@@ -121,14 +128,16 @@ import { EmailComposer } from '@ionic-native/email-composer';
     AltaProductoComponent,
     PedidosPendientesComponent,
     JuegosPage,
-    JuegoDescuentoPage
+    JuegoDescuentoPage,
+    ConfirmarPedidoPage,
+    PagarPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: FirestoreSettingsToken, useValue: {}},
-    Firebase,
+    //Firebase,
     Camera,
     BarcodeScanner,
     AuthProvider,

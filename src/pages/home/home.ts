@@ -26,6 +26,7 @@ export class HomePage {
     private serviceAlert:AlertProvider,
     private spiner:SpinnerProvider) {
       this.usuarios = new Array();
+      localStorage.clear();
   }
 
   /*ionViewDidLoad() {

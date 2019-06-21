@@ -3,6 +3,8 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
 import { HttpClient } from '@angular/common/http';
+import { EncuestaSupervisorPageModule } from '../../pages/encuesta-supervisor/encuesta-supervisor.module';
+import { EncuestaClientePageModule } from '../../pages/encuesta-cliente/encuesta-cliente.module';
 //import 'rxjs/add/operator/map';
 
 export interface usuario {
@@ -28,6 +30,15 @@ export interface mesa {
   foto:string,
   codigo:string
 }
+
+export interface listaEspera {
+  id:string,
+  idCliente:string,
+  turno:string
+ 
+}
+
+
 
 export interface encUsuario {
   id:string,
@@ -72,6 +83,21 @@ export interface encUsuario {
   }
 }
 
+
+export interface encuestaCliente {
+  id: string,
+  correo: string,
+  pregunta1: string,
+  respuesta1: string,
+  pregunta2: string,  
+  respuesta2: string,
+  pregunta3: string,  
+  respuesta3: string,
+  pregunta4: string,  
+  respuesta4: string,
+  comentario: string
+}
+
 export interface reserva {
   correo:string,
   nombre:string,
@@ -103,7 +129,6 @@ export interface producto {
   tipo:string,
   descripcion:string,
   nombre:string,
-  lectroQR:string,
   foto:string,
   tiempoPromedioElaboracion:number; 
   precio: number;
@@ -190,6 +215,25 @@ export class AuthProvider {
       })
     }));
   }
+  
+//---Lista Espera ---//
+getListaEspera() {
+  return this.db.collection('listaEspera').snapshotChanges().pipe(map(rooms => {
+    return rooms.map(a =>{
+      const data = a.payload.doc.data() as listaEspera;
+      data.id = a.payload.doc.id;
+      return data;
+    })
+  }));
+}
+
+
+updateListaEspera(data) {
+  return this.db.collection('listaEspera').doc(data.id).update(data);
+}
+//--FIN ---Lista Espera ---//
+
+
   //-----PRODUCTOS------
   getListaProdcutos(tipo:string) {
     return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
@@ -235,6 +279,26 @@ export class AuthProvider {
       })
     }));
   }
+
+  //---- Encuesta cliente -----//
+  nuevaEncuestaCliente(data) {
+    return this.db.collection('encuestaCliente').add(data);
+  }
+  getEncuestaCliente(){
+  return this.db.collection('encuestasClientes').snapshotChanges().pipe(map(rooms => {
+    return rooms.map(a =>{
+      const data = a.payload.doc.data() as encuestaCliente;
+      data.id = a.payload.doc.id;
+      return data;
+    })
+  }));
+}
+
+modificarEncuestaCliente(data) {
+  return this.db.collection('encuestaCliente').doc(data.id).update(data);
+}
+
+//---FIN --Encuesta cliente -----//
 
   nuevaReserva(data) {
     return this.db.collection('reservas').add(data);

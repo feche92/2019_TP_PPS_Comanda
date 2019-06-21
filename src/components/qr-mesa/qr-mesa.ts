@@ -156,10 +156,11 @@ export class QrMesaComponent {
     this.auth.getPedidos().subscribe(lista => {
       
       for(let item of lista){
-        if(this.pedidoActual.id == item.id)
+        if(this.pedidoActual.id == item.id) {
           this.pedidoActual = item;
           break;
         }
+      }
       });
   }
 

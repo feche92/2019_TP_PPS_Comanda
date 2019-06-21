@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { QrMesaComponent } from "../qr-mesa/qr-mesa";
+import { QrEntradaComponent } from "../qr-entrada/qr-entrada";
+
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
@@ -35,6 +37,9 @@ export class HomeClienteComponent {
         case 'producto':
         break;
         case 'encuesta':
+        break;
+        case 'entradaLocal':
+          this.modalCtrl.create(QrEntradaComponent, { codigo: this.codigo }).present();
         break;
         default:
           console.log("Codigo erroneo");

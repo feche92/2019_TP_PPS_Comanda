@@ -6,6 +6,7 @@ import { AuthProvider } from "../../providers/auth/auth";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import * as firebase from "firebase";
 
 
 
@@ -15,6 +16,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
   templateUrl: 'alta-de-producto.html',
 })
 export class AltaDeProductoPage {
+  firebase = firebase;
   //atributos
   public tipo: string = "plato";
   public descripcion: string;
@@ -22,6 +24,7 @@ export class AltaDeProductoPage {
   public tiempoPromedioElaboracion: number;
   public foto: string = "../../assets/Imagenes/producto.png";
   public lectorQR: string;
+  public codigo: string;
   public precio: number;
 
   public estado :string = "Definir estado inicial";
@@ -107,52 +110,70 @@ export class AltaDeProductoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AltaDeProductoPage');
+      console.log('ionViewDidLoad AltaDeProductoPage');
   }
 
-    private LimpiarCampos() {     
-    this.nombre="";
-    this.tiempoPromedioElaboracion = 0;
-    this.descripcion ="";
-    this.tipo = "plato";
-    this.foto="../../assets/Imagenes/producto.png";
-    this.precio=0;
-    this.lectorQR="";
+  private LimpiarCampos() {     
+      this.nombre="";
+      this.tiempoPromedioElaboracion = 0;
+      this.descripcion ="";
+      this.tipo = "plato";
+      this.foto="../../assets/Imagenes/producto.png";
+      this.precio=0;
+      this.lectorQR="";
     
     
-  }
+  }  
   
-  SacarFoto() {
-    console.log('AltaDeProductoPage - Sacar fotos');
-    let options: CameraOptions = {
-      quality: 50,
-      encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: 600,
-      targetHeight: 600,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      correctOrientation: true
+  async SacarFoto() {
+    let imageName = this.numeroProducto + this.nombre;
+    try {
+
+      let options: CameraOptions = {
+        quality: 50,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        correctOrientation: true,
+        targetHeight: 600,
+        targetWidth: 600,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      };
+
+      let result = await this.camera.getPicture(options);
+
+      let image = `data:image/jpeg;base64,${result}`;
+
+      //guardo en Firebase Storage
+      let pictures = this.firebase.storage().ref(`productos/${imageName}`);
+      
+
+      //tomo url de foto en Firebase Storage
+      pictures.putString(image, "data_url").then(() => {
+        pictures.getDownloadURL().then((url) => {
+      	   this.foto = url;
+        });        
+      });
+    } catch (error) {
+      alert(error);
     }
-    this.camera.getPicture( options )
-    .then(imageData => {
-      this.foto = `data:image/jpeg;base64,${imageData}`;
-    })
   }
+
+
 
 
   InicializarLectorQR() {
-    console.log('AltaDeProductoPage - Inicializo lector de QR');
-    let options = { prompt: "Escanea la bebida o el plato", formats: "PDF_417" };
-
-    this.barcodeScanner.scan(options).then(barcodeData => {
-
-      let productoDatos = barcodeData;
-      this.tipo = productoDatos[1];
-      this.nombre = productoDatos[2];
-      this.descripcion = productoDatos[3];
-      this.tiempoPromedioElaboracion=productoDatos[4];
-      this.foto=productoDatos[5];;
-    }).catch(err => { });
-
+    this.barcodeScanner.scan().then((barcodeData) => {
+      this.codigo = barcodeData.text;
+      let dato=this.codigo.split(",");
+      this.nombre=dato[0];
+      this.descripcion=dato[1];
+      this.precio=parseInt(dato[2]);
+      this.tiempoPromedioElaboracion=parseInt(dato[3]);
+      this.numeroProducto=parseInt (dato[4]);  
+      this.tipo=dato[5]; 
+    }, (error) => {
+      this.error.mostrarErrorLiteral(error);
+    });
   }
 }
