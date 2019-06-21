@@ -44428,6 +44428,21 @@ pedidos-pendientes .Contenido {
   grid-area: Contenido;
 }
 
+qr-entrada .card {
+  margin: auto;
+  border-radius: 5%;
+  padding: 10px;
+  margin-top: 10%;
+}
+
+qr-entrada .text-center {
+  text-align: center;
+}
+
+qr-entrada .tiempoEstimado {
+  margin: 0 0 10px 10px;
+}
+
 qr-mesa .card {
   margin: auto;
   border-radius: 5%;

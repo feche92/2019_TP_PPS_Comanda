@@ -31,6 +31,15 @@ export interface mesa {
   codigo:string
 }
 
+export interface listaEspera {
+  id:string,
+  idCliente:string,
+  turno:string
+ 
+}
+
+
+
 export interface encUsuario {
   id:string,
   correo:string,
@@ -206,6 +215,25 @@ export class AuthProvider {
       })
     }));
   }
+  
+//---Lista Espera ---//
+getListaEspera() {
+  return this.db.collection('listaEspera').snapshotChanges().pipe(map(rooms => {
+    return rooms.map(a =>{
+      const data = a.payload.doc.data() as listaEspera;
+      data.id = a.payload.doc.id;
+      return data;
+    })
+  }));
+}
+
+
+updateListaEspera(data) {
+  return this.db.collection('listaEspera').doc(data.id).update(data);
+}
+//--FIN ---Lista Espera ---//
+
+
   //-----PRODUCTOS------
   getListaProdcutos(tipo:string) {
     return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
