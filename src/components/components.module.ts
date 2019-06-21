@@ -9,8 +9,8 @@ import { HomeClienteComponent } from './home-cliente/home-cliente';
 import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendientes';
 
 import { AltaProductoComponent } from './alta-producto/alta-producto';
-import { EntradaLocalComponent } from './entrada-local/entrada-local';
-import { QrEntradaLocalComponent } from './qr-entrada-local/qr-entrada-local';
+//import { EntradaLocalComponent } from './entrada-local/entrada-local';
+//import { QrEntradaLocalComponent } from './qr-entrada-local/qr-entrada-local';
 import { QrEntradaComponent } from './qr-entrada/qr-entrada';
 @NgModule({
 	declarations: [AltaSupervisorComponent,
@@ -22,8 +22,8 @@ import { QrEntradaComponent } from './qr-entrada/qr-entrada';
     HomeClienteComponent,
     PedidosPendientesComponent,
     AltaProductoComponent,
-    EntradaLocalComponent,
-    QrEntradaLocalComponent,
+    //EntradaLocalComponent,
+    //QrEntradaLocalComponent,
     QrEntradaComponent,
     ],
 	imports: [],
@@ -36,8 +36,8 @@ import { QrEntradaComponent } from './qr-entrada/qr-entrada';
     HomeClienteComponent,
     PedidosPendientesComponent,
     AltaProductoComponent,
-    EntradaLocalComponent,
-    QrEntradaLocalComponent,
+    //EntradaLocalComponent,
+    //QrEntradaLocalComponent,
     QrEntradaComponent,
     ]
 })

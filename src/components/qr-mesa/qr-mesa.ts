@@ -5,6 +5,7 @@ import { HomeClienteComponent } from "../home-cliente/home-cliente";
 import { NavController, NavParams } from 'ionic-angular';
 import { PedirPlatosPage } from "../../pages/pedir-platos/pedir-platos";
 import { PrincipalPage } from "../../pages/principal/principal";
+import { EncuestaClientePage } from "../../pages/encuesta-cliente/encuesta-cliente";
 
 export interface mesa {
   id:string,
@@ -100,6 +101,8 @@ export class QrMesaComponent {
                       break;
                       case 'por pagar':
                       //liberar mesa
+                        item.estado = "libre";
+                        this.auth.updateMesa(item);
                       break;
                     }
                     break;
@@ -166,13 +169,10 @@ export class QrMesaComponent {
 
   mostrarEncuestaDeSatisfaccion(){
     console.log("mostrar encuesta");
-    /*
-    * link a encuesta de satisfaccion de cliente
-    */
+    this.navCtrl.setRoot(EncuestaClientePage);
   }
 
   hacerPedido(){
-    //lamar componente de hacer pedido de productos
     console.log("En Hacer Pedido");
     this.navCtrl.setRoot(PedirPlatosPage);
   }
@@ -183,14 +183,18 @@ export class QrMesaComponent {
 
   pedidoRecibido(){
     console.log("pedido recibido");
-    this.pedidoActual.estado = "comiendo";
     console.log(this.pedidoActual);
-    //this.auth.guardarPedido(this.pedidoActual);
-
+    this.pedidoActual.estado = "comiendo";
+    this.auth.actualizarPedido(this.pedidoActual);
+    this.navCtrl.setRoot(HomeClienteComponent);
   }
 
   pagar(){
     console.log("pagando");
+    this.pedidoActual.estado = "por pagar";
+    //enviar notificacion al mozo
+    this.auth.actualizarPedido(this.pedidoActual);
+    this.navCtrl.setRoot(HomeClienteComponent);
   }
 
   back() {
