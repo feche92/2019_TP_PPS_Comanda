@@ -7,7 +7,7 @@ webpackJsonp([15],{
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__principal_principal__ = __webpack_require__(26);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -59,7 +59,7 @@ var JuegosPage = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(256);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(257);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__(147);
@@ -236,10 +236,214 @@ var AuthProvider = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QrMesaComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_principal_principal__ = __webpack_require__(26);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var QrMesaComponent = /** @class */ (function () {
+    /*estado pedido:
+       por pedir, esperando pedido, preparando pedido, pedido terminado, comiendo, por pagar
+      
+      estado mesa:
+      libre, ocupada
+     */
+    function QrMesaComponent(auth, alert, navCtrl, navParams) {
+        this.auth = auth;
+        this.alert = alert;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.codigo = ['mesa', '4', 'normal']; //codigo qr de mesa
+        this.title = "";
+        this.mesas = [];
+        this.estado = 0;
+        this.ocupada = false;
+        this.verificarCodigo();
+        //this.codigo = navParams.get("codigo");
+    }
+    //verifico si existe el codigo
+    QrMesaComponent.prototype.verificarCodigo = function () {
+        var _this = this;
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        this.title = "Mesa Actual";
+        this.auth.getMesas().subscribe(function (lista) {
+            console.log(_this.codigo);
+            console.table(lista);
+            var flag = false;
+            var _loop_1 = function (item) {
+                if (item.numero == _this.codigo[1]) {
+                    if (item.estado == 'libre') {
+                        /*
+                        * mostrar ventana de mesa libre y boton tomar mesa
+                        */
+                        _this.mesas.push(item);
+                        _this.estado = 1;
+                        _this.ocupada = false;
+                        flag = true;
+                        return "break";
+                    }
+                    else {
+                        /*
+                        * si es el usuario que tomo la mesa, muestro su estado, monto total si ya hizo el
+                        * pedido, y los respectivos botones
+                        * si no es el usuario que tomo la mesa muestro muestro "mesa ocupada" -> flag = false
+                        */
+                        _this.auth.getPedidos().subscribe(function (l) {
+                            for (var _i = 0, l_1 = l; _i < l_1.length; _i++) {
+                                var i = l_1[_i];
+                                if (i.correo == _this.usuario.correo && i.numero == item.numero) {
+                                    //console.log(i);
+                                    _this.pedidoActual = i;
+                                    _this.ocupada = false;
+                                    switch (i.estado) {
+                                        case 'por pedir':
+                                            //mostrar boton hacer pedido
+                                            _this.estado = 2;
+                                            break;
+                                        case 'esperando pedido':
+                                        case 'preparando pedido':
+                                            /*mostrar estado del pedido y monto total, ademas de boton
+                                            * encuesta, juegos
+                                            */
+                                            _this.estado = 3;
+                                            break;
+                                        case 'pedido terminado':
+                                            //mostrar boton de pedido recibido
+                                            _this.estado = 4;
+                                            break;
+                                        case 'comiendo':
+                                            //mostrar monto total, encuesta, juegos, boton pagar
+                                            _this.estado = 5;
+                                            break;
+                                        case 'por pagar':
+                                            //liberar mesa
+                                            break;
+                                    }
+                                    break;
+                                }
+                            }
+                        });
+                        return "break";
+                    }
+                }
+            };
+            for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
+                var item = lista_1[_i];
+                var state_1 = _loop_1(item);
+                if (state_1 === "break")
+                    break;
+            }
+            //console.log(this.mesas);
+            if (!flag) {
+                _this.texto = "La mesa esta ocupada";
+                _this.ocupada = true;
+            }
+        });
+    };
+    QrMesaComponent.prototype.tomarMesa = function (e) {
+        //console.log(e);
+        this.estado = 0;
+        var data = {
+            cantidadComensales: e.cantidadComensales,
+            estado: 'ocupada',
+            foto: e.foto,
+            numero: e.numero,
+            tipo: e.tipo,
+            codigo: e.codigo,
+            id: e.id
+        };
+        this.auth.updateMesa(data);
+        var date = new Date();
+        var fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+        var dataPedido = {
+            estado: 'por pedir',
+            numero: e.numero,
+            tipo: e.tipo,
+            'nombreCliente': this.usuario.nombre,
+            'apellidoCliente': this.usuario.apellido,
+            'correo': this.usuario.correo,
+            'fecha': fecha
+        };
+        this.auth.guardarPedido(dataPedido);
+        this.alert.mostrarMensaje("Mesa asignada");
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__["a" /* HomeClienteComponent */]);
+    };
+    QrMesaComponent.prototype.verEstadoPedido = function () {
+        var _this = this;
+        this.title = "Estado Actual del Pedido";
+        this.auth.getPedidos().subscribe(function (lista) {
+            for (var _i = 0, lista_2 = lista; _i < lista_2.length; _i++) {
+                var item = lista_2[_i];
+                if (_this.pedidoActual.id == item.id)
+                    _this.pedidoActual = item;
+                break;
+            }
+        });
+    };
+    QrMesaComponent.prototype.mostrarEncuestaDeSatisfaccion = function () {
+        console.log("mostrar encuesta");
+        /*
+        * link a encuesta de satisfaccion de cliente
+        */
+    };
+    QrMesaComponent.prototype.hacerPedido = function () {
+        //lamar componente de hacer pedido de productos
+        console.log("En Hacer Pedido");
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */]);
+    };
+    QrMesaComponent.prototype.mostrarJuegos = function () {
+        console.log("mostrar juegos");
+    };
+    QrMesaComponent.prototype.pedidoRecibido = function () {
+        console.log("pedido recibido");
+    };
+    QrMesaComponent.prototype.pagar = function () {
+        console.log("pagando");
+    };
+    QrMesaComponent.prototype.back = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__pages_principal_principal__["a" /* PrincipalPage */]);
+    };
+    QrMesaComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4>¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n  	</ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */]])
+    ], QrMesaComponent);
+    return QrMesaComponent;
+}());
+
+//# sourceMappingURL=qr-mesa.js.map
+
+/***/ }),
+
+/***/ 150:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FcmProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__ = __webpack_require__(143);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_firebase__ = __webpack_require__(397);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_firebase__ = __webpack_require__(399);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(12);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -353,19 +557,18 @@ var FcmProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 171:
+/***/ 172:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AltaDeProductoPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AltaDeMesaPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(54);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -382,96 +585,80 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-var AltaDeProductoPage = /** @class */ (function () {
-    function AltaDeProductoPage(navCtrl, navParams, auth, error, spiner, camera, barcodeScanner) {
+var AltaDeMesaPage = /** @class */ (function () {
+    function AltaDeMesaPage(navCtrl, navParams, auth, error, camera, barcodeScanner) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.auth = auth;
         this.error = error;
-        this.spiner = spiner;
         this.camera = camera;
         this.barcodeScanner = barcodeScanner;
-        //atributos
-        this.tipo = "plato";
-        this.foto = "../../assets/Imagenes/producto.png";
-        this.estado = "Definir estado inicial";
-        this.usuarios = new Array();
-        this.auth.getLista("usuarios").subscribe(function (lista) {
-            _this.usuarios = lista;
+        this.tipo = "normal";
+        this.foto = "../../assets/Imagenes/ocupar-mesa.jpg";
+        this.mostrarSpiner = false;
+        this.mesas = new Array();
+        this.auth.getMesas().subscribe(function (lista) {
+            _this.mesas = lista;
         });
-        this.productos = new Array();
-        this.auth.getListaProdcutos("productos").subscribe(function (lista) {
-            _this.productos = lista;
-        });
+        console.log(this.mesas);
     }
-    AltaDeProductoPage.prototype.back = function () {
+    AltaDeMesaPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad AltaDeMesaPage');
+    };
+    AltaDeMesaPage.prototype.back = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
     };
-    AltaDeProductoPage.prototype.Alta = function () {
+    AltaDeMesaPage.prototype.Alta = function () {
         var _this = this;
-        console.log('AltaDeProductoPage - Inicio alta de producto');
-        var spiner = this.spiner.getAllPageSpinner();
-        spiner.present();
-        console.log(this);
-        if (!this.nombre || !this.tiempoPromedioElaboracion || !this.descripcion
-            || !this.tipo || this.foto == "" || !this.precio || !this.lectorQR) {
+        //let spiner=this.spiner.getAllPageSpinner();
+        //spiner.present();
+        console.log(this.mesas);
+        this.mostrarSpiner = true;
+        if (!this.numeroMesa || !this.cantidadComensales || !this.tipo || this.foto == "") {
             this.error.mostrarErrorLiteral("Todos los campos deben ser completados.");
-            spiner.dismiss();
+            this.mostrarSpiner = false;
             return;
         }
-        if (this.tiempoPromedioElaboracion < 1) {
-            this.error.mostrarErrorLiteral("El tiempo promedio de elaboracion debe ser mayor a 1");
-            spiner.dismiss();
-            return;
-        }
-        if (this.precio < 0) {
-            this.error.mostrarErrorLiteral("El precio no puede ser negativo");
-            spiner.dismiss();
+        if (this.cantidadComensales < 1 || this.cantidadComensales > 8) {
+            this.error.mostrarErrorLiteral("Los comensales solo pueden ser de 1 a 8.");
+            this.mostrarSpiner = false;
             return;
         }
         var esValido = true;
+        for (var i = 0; i < this.mesas.length; i++) {
+            if (this.mesas[i].numero == this.numeroMesa) {
+                this.error.mostrarErrorLiteral("El numero ingresado ya corresponde a otra mesa registrada.");
+                esValido = false;
+                break;
+            }
+        }
         if (esValido) {
             var data = {
-                "nombre": this.nombre,
-                "descripcion": this.descripcion,
-                "foto": this.foto,
-                "tipo": this.tipo,
-                "precio": this.precio,
-                "lectorQR": this.lectorQR,
-                "tiempoPromedioElaboracion": this.tiempoPromedioElaboracion,
-                "estado": this.estado,
-                "numeroProducto": this.productos.length + 1
+                "numero": this.numeroMesa, "cantidadComensales": this.cantidadComensales, "foto": this.foto,
+                "tipo": this.tipo, "estado": "libre", "cliente": ""
             };
-            this.auth.guardarProducto(data).then(function (res) {
-                _this.error.mostrarMensaje("producto guardado");
+            this.auth.guardarMesa(data).then(function (res) {
+                _this.error.mostrarMensaje("mesa registrada");
                 _this.LimpiarCampos();
-                spiner.dismiss();
+                _this.mostrarSpiner = false;
             }).catch(function (error) {
-                _this.error.mostrarError(error, "error al guardar el producto");
-                spiner.dismiss();
+                _this.error.mostrarError(error, "error al registrar la mesa");
+                _this.mostrarSpiner = false;
             });
         }
         else {
-            spiner.dismiss();
+            this.mostrarSpiner = false;
         }
     };
-    AltaDeProductoPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad AltaDeProductoPage');
+    AltaDeMesaPage.prototype.LimpiarCampos = function () {
+        this.numeroMesa = "";
+        this.cantidadComensales = "";
+        this.tipo = "normal";
+        this.foto = "../../assets/Imagenes/ocupar-mesa.jpg";
     };
-    AltaDeProductoPage.prototype.LimpiarCampos = function () {
-        this.nombre = "";
-        this.tiempoPromedioElaboracion = 0;
-        this.descripcion = "";
-        this.tipo = "plato";
-        this.foto = "../../assets/Imagenes/producto.png";
-        this.precio = 0;
-        this.lectorQR = "";
-    };
-    AltaDeProductoPage.prototype.SacarFoto = function () {
+    AltaDeMesaPage.prototype.SacarFoto = function () {
         var _this = this;
-        console.log('AltaDeProductoPage - Sacar fotos');
         var options = {
             quality: 50,
             encodingType: this.camera.EncodingType.JPEG,
@@ -486,39 +673,36 @@ var AltaDeProductoPage = /** @class */ (function () {
             _this.foto = "data:image/jpeg;base64," + imageData;
         });
     };
-    AltaDeProductoPage.prototype.InicializarLectorQR = function () {
+    AltaDeMesaPage.prototype.InicializarLectorQR = function () {
         var _this = this;
-        console.log('AltaDeProductoPage - Inicializo lector de QR');
-        var options = { prompt: "Escanea la bebida o el plato", formats: "PDF_417" };
-        this.barcodeScanner.scan(options).then(function (barcodeData) {
-            var productoDatos = barcodeData;
-            _this.tipo = productoDatos[1];
-            _this.nombre = productoDatos[2];
-            _this.descripcion = productoDatos[3];
-            _this.tiempoPromedioElaboracion = productoDatos[4];
-            _this.foto = productoDatos[5];
-            ;
-        }).catch(function (err) { });
+        this.barcodeScanner.scan().then(function (barcodeData) {
+            _this.codigo = barcodeData.text;
+            var dato = _this.codigo.split(",");
+            _this.numeroMesa = dato[0];
+            _this.cantidadComensales = dato[1];
+            _this.tipo = dato[2];
+        }, function (error) {
+            _this.error.mostrarErrorLiteral(error);
+        });
     };
-    AltaDeProductoPage = __decorate([
+    AltaDeMesaPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-alta-de-producto',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-producto/alta-de-producto.html"*/'<!--\n  Generated template for the AltaProductoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Alta de Producto</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <ion-row>\n    <ion-col>\n      <ion-list inset>\n        <ion-item>\n          <ion-input type="text" class="tipoProducto" placeholder="Nombre" [(ngModel)]="nombre" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text"  class="tipoProducto"  placeholder="Descripcion" [(ngModel)]="descripcion" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text" class="tipoProducto"   placeholder="Precio" [(ngModel)]="precio" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text"  class="tipoProducto"  placeholder="lectorQR" [(ngModel)]="lectorQR"></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text"  class="tipoProducto"  placeholder="Tiempo Promedio Elaboracion" [(ngModel)]="tiempoPromedioElaboracion" ></ion-input>\n        </ion-item>       \n        \n          <select [(ngModel)]="tipo" class="tipoProducto" style="margin: 0 30px 0 0;width: 70%;display: block;\n              margin: 0 auto;">\n            <option value="plato">Plato</option>\n            <option value="bebida">Bebida</option>                   \n          </select>\n        \n        <ion-item>\n          <img [src]="foto" alt="" height="125px" width="125px">\n        </ion-item>\n      </ion-list>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n    <ion-col>\n      <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>\n      <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>\n      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Guardar Producto</button>\n    </ion-col>\n  </ion-row> \n</ion-content>'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-producto/alta-de-producto.html"*/,
+            selector: 'page-alta-de-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-mesa/alta-de-mesa.html"*/'<!--\n  Generated template for the AltaDeMesaPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Registrar Mesa</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-row>\n    <ion-col>\n      <ion-list inset>\n        <ion-item>\n          <ion-input type="text" class="numeroMesa" placeholder="Número de mesa" name="email" [(ngModel)]="numeroMesa" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text" class="numeroMesa"  placeholder="Cantidad de comensales" name="password" [(ngModel)]="cantidadComensales"></ion-input>\n        </ion-item>\n        <select [(ngModel)]="tipo" class="numeroMesa" style="margin: 0 30px 0 0;width: 70%;display: block; margin: 0 auto;">\n          <option value="normal">Tipo de mesa normal</option>\n          <option value="vip">Tipo de mesa VIP</option>\n          <option value="discapacitados">Tipo de mesa discapacitados</option>              \n        </select>\n        <ion-item>\n          <img [src]="foto" alt="" height="125px" width="125px">\n        </ion-item>\n      </ion-list>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n    <ion-col>\n      <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>\n      <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>\n      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Registrar mesa</button>\n    </ion-col>\n  </ion-row>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-mesa/alta-de-mesa.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
             __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__["a" /* SpinnerProvider */],
-            __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */],
-            __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]])
-    ], AltaDeProductoPage);
-    return AltaDeProductoPage;
+            __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__["a" /* Camera */],
+            __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]])
+    ], AltaDeMesaPage);
+    return AltaDeMesaPage;
 }());
 
-//# sourceMappingURL=alta-de-producto.js.map
+//# sourceMappingURL=alta-de-mesa.js.map
 
 /***/ }),
 
-/***/ 172:
+/***/ 173:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -700,151 +884,6 @@ var AltaempleadoPage = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=altaempleado.js.map
-
-/***/ }),
-
-/***/ 173:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AltaDeMesaPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(54);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-var AltaDeMesaPage = /** @class */ (function () {
-    function AltaDeMesaPage(navCtrl, navParams, auth, error, camera, barcodeScanner) {
-        var _this = this;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.auth = auth;
-        this.error = error;
-        this.camera = camera;
-        this.barcodeScanner = barcodeScanner;
-        this.tipo = "normal";
-        this.foto = "../../assets/Imagenes/ocupar-mesa.jpg";
-        this.mostrarSpiner = false;
-        this.mesas = new Array();
-        this.auth.getMesas().subscribe(function (lista) {
-            _this.mesas = lista;
-        });
-        console.log(this.mesas);
-    }
-    AltaDeMesaPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad AltaDeMesaPage');
-    };
-    AltaDeMesaPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
-    };
-    AltaDeMesaPage.prototype.Alta = function () {
-        var _this = this;
-        //let spiner=this.spiner.getAllPageSpinner();
-        //spiner.present();
-        console.log(this.mesas);
-        this.mostrarSpiner = true;
-        if (!this.numeroMesa || !this.cantidadComensales || !this.tipo || this.foto == "") {
-            this.error.mostrarErrorLiteral("Todos los campos deben ser completados.");
-            this.mostrarSpiner = false;
-            return;
-        }
-        if (this.cantidadComensales < 1 || this.cantidadComensales > 8) {
-            this.error.mostrarErrorLiteral("Los comensales solo pueden ser de 1 a 8.");
-            this.mostrarSpiner = false;
-            return;
-        }
-        var esValido = true;
-        for (var i = 0; i < this.mesas.length; i++) {
-            if (this.mesas[i].numero == this.numeroMesa) {
-                this.error.mostrarErrorLiteral("El numero ingresado ya corresponde a otra mesa registrada.");
-                esValido = false;
-                break;
-            }
-        }
-        if (esValido) {
-            var data = {
-                "numero": this.numeroMesa, "cantidadComensales": this.cantidadComensales, "foto": this.foto,
-                "tipo": this.tipo, "estado": "libre", "cliente": ""
-            };
-            this.auth.guardarMesa(data).then(function (res) {
-                _this.error.mostrarMensaje("mesa registrada");
-                _this.LimpiarCampos();
-                _this.mostrarSpiner = false;
-            }).catch(function (error) {
-                _this.error.mostrarError(error, "error al registrar la mesa");
-                _this.mostrarSpiner = false;
-            });
-        }
-        else {
-            this.mostrarSpiner = false;
-        }
-    };
-    AltaDeMesaPage.prototype.LimpiarCampos = function () {
-        this.numeroMesa = "";
-        this.cantidadComensales = "";
-        this.tipo = "normal";
-        this.foto = "../../assets/Imagenes/ocupar-mesa.jpg";
-    };
-    AltaDeMesaPage.prototype.SacarFoto = function () {
-        var _this = this;
-        var options = {
-            quality: 50,
-            encodingType: this.camera.EncodingType.JPEG,
-            targetWidth: 600,
-            targetHeight: 600,
-            destinationType: this.camera.DestinationType.DATA_URL,
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            correctOrientation: true
-        };
-        this.camera.getPicture(options)
-            .then(function (imageData) {
-            _this.foto = "data:image/jpeg;base64," + imageData;
-        });
-    };
-    AltaDeMesaPage.prototype.InicializarLectorQR = function () {
-        var _this = this;
-        this.barcodeScanner.scan().then(function (barcodeData) {
-            _this.codigo = barcodeData.text;
-            var dato = _this.codigo.split(",");
-            _this.numeroMesa = dato[0];
-            _this.cantidadComensales = dato[1];
-            _this.tipo = dato[2];
-        }, function (error) {
-            _this.error.mostrarErrorLiteral(error);
-        });
-    };
-    AltaDeMesaPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-alta-de-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-mesa/alta-de-mesa.html"*/'<!--\n  Generated template for the AltaDeMesaPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Registrar Mesa</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-row>\n    <ion-col>\n      <ion-list inset>\n        <ion-item>\n          <ion-input type="text" class="numeroMesa" placeholder="Número de mesa" name="email" [(ngModel)]="numeroMesa" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text" class="numeroMesa"  placeholder="Cantidad de comensales" name="password" [(ngModel)]="cantidadComensales"></ion-input>\n        </ion-item>\n        <select [(ngModel)]="tipo" class="numeroMesa" style="margin: 0 30px 0 0;width: 70%;display: block; margin: 0 auto;">\n          <option value="normal">Tipo de mesa normal</option>\n          <option value="vip">Tipo de mesa VIP</option>\n          <option value="discapacitados">Tipo de mesa discapacitados</option>              \n        </select>\n        <ion-item>\n          <img [src]="foto" alt="" height="125px" width="125px">\n        </ion-item>\n      </ion-list>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n    <ion-col>\n      <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>\n      <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>\n      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Registrar mesa</button>\n    </ion-col>\n  </ion-row>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-mesa/alta-de-mesa.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__["a" /* Camera */],
-            __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]])
-    ], AltaDeMesaPage);
-    return AltaDeMesaPage;
-}());
-
-//# sourceMappingURL=alta-de-mesa.js.map
 
 /***/ }),
 
@@ -2065,6 +2104,171 @@ var AlertProvider = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AltaDeProductoPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__ = __webpack_require__(54);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+var AltaDeProductoPage = /** @class */ (function () {
+    function AltaDeProductoPage(navCtrl, navParams, auth, error, spiner, camera, barcodeScanner) {
+        var _this = this;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.auth = auth;
+        this.error = error;
+        this.spiner = spiner;
+        this.camera = camera;
+        this.barcodeScanner = barcodeScanner;
+        //atributos
+        this.tipo = "plato";
+        this.foto = "../../assets/Imagenes/producto.png";
+        this.estado = "Definir estado inicial";
+        this.usuarios = new Array();
+        this.auth.getLista("usuarios").subscribe(function (lista) {
+            _this.usuarios = lista;
+        });
+        this.productos = new Array();
+        this.auth.getListaProdcutos("productos").subscribe(function (lista) {
+            _this.productos = lista;
+        });
+    }
+    AltaDeProductoPage.prototype.back = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
+    };
+    AltaDeProductoPage.prototype.Alta = function () {
+        var _this = this;
+        console.log('AltaDeProductoPage - Inicio alta de producto');
+        var spiner = this.spiner.getAllPageSpinner();
+        spiner.present();
+        console.log(this);
+        if (!this.nombre || !this.tiempoPromedioElaboracion || !this.descripcion
+            || !this.tipo || this.foto == "" || !this.precio || !this.lectorQR) {
+            this.error.mostrarErrorLiteral("Todos los campos deben ser completados.");
+            spiner.dismiss();
+            return;
+        }
+        if (this.tiempoPromedioElaboracion < 1) {
+            this.error.mostrarErrorLiteral("El tiempo promedio de elaboracion debe ser mayor a 1");
+            spiner.dismiss();
+            return;
+        }
+        if (this.precio < 0) {
+            this.error.mostrarErrorLiteral("El precio no puede ser negativo");
+            spiner.dismiss();
+            return;
+        }
+        var esValido = true;
+        if (esValido) {
+            var data = {
+                "nombre": this.nombre,
+                "descripcion": this.descripcion,
+                "foto": this.foto,
+                "tipo": this.tipo,
+                "precio": this.precio,
+                "lectorQR": this.lectorQR,
+                "tiempoPromedioElaboracion": this.tiempoPromedioElaboracion,
+                "estado": this.estado,
+                "numeroProducto": this.productos.length + 1
+            };
+            this.auth.guardarProducto(data).then(function (res) {
+                _this.error.mostrarMensaje("producto guardado");
+                _this.LimpiarCampos();
+                spiner.dismiss();
+            }).catch(function (error) {
+                _this.error.mostrarError(error, "error al guardar el producto");
+                spiner.dismiss();
+            });
+        }
+        else {
+            spiner.dismiss();
+        }
+    };
+    AltaDeProductoPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad AltaDeProductoPage');
+    };
+    AltaDeProductoPage.prototype.LimpiarCampos = function () {
+        this.nombre = "";
+        this.tiempoPromedioElaboracion = 0;
+        this.descripcion = "";
+        this.tipo = "plato";
+        this.foto = "../../assets/Imagenes/producto.png";
+        this.precio = 0;
+        this.lectorQR = "";
+    };
+    AltaDeProductoPage.prototype.SacarFoto = function () {
+        var _this = this;
+        console.log('AltaDeProductoPage - Sacar fotos');
+        var options = {
+            quality: 50,
+            encodingType: this.camera.EncodingType.JPEG,
+            targetWidth: 600,
+            targetHeight: 600,
+            destinationType: this.camera.DestinationType.DATA_URL,
+            sourceType: this.camera.PictureSourceType.CAMERA,
+            correctOrientation: true
+        };
+        this.camera.getPicture(options)
+            .then(function (imageData) {
+            _this.foto = "data:image/jpeg;base64," + imageData;
+        });
+    };
+    AltaDeProductoPage.prototype.InicializarLectorQR = function () {
+        var _this = this;
+        console.log('AltaDeProductoPage - Inicializo lector de QR');
+        var options = { prompt: "Escanea la bebida o el plato", formats: "PDF_417" };
+        this.barcodeScanner.scan(options).then(function (barcodeData) {
+            var productoDatos = barcodeData;
+            _this.tipo = productoDatos[1];
+            _this.nombre = productoDatos[2];
+            _this.descripcion = productoDatos[3];
+            _this.tiempoPromedioElaboracion = productoDatos[4];
+            _this.foto = productoDatos[5];
+            ;
+        }).catch(function (err) { });
+    };
+    AltaDeProductoPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-alta-de-producto',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-producto/alta-de-producto.html"*/'<!--\n  Generated template for the AltaProductoPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Alta de Producto</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <ion-row>\n    <ion-col>\n      <ion-list inset>\n        <ion-item>\n          <ion-input type="text" class="tipoProducto" placeholder="Nombre" [(ngModel)]="nombre" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text"  class="tipoProducto"  placeholder="Descripcion" [(ngModel)]="descripcion" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text" class="tipoProducto"   placeholder="Precio" [(ngModel)]="precio" ></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text"  class="tipoProducto"  placeholder="lectorQR" [(ngModel)]="lectorQR"></ion-input>\n        </ion-item>\n        <ion-item>\n          <ion-input type="text"  class="tipoProducto"  placeholder="Tiempo Promedio Elaboracion" [(ngModel)]="tiempoPromedioElaboracion" ></ion-input>\n        </ion-item>       \n        \n          <select [(ngModel)]="tipo" class="tipoProducto" style="margin: 0 30px 0 0;width: 70%;display: block;\n              margin: 0 auto;">\n            <option value="plato">Plato</option>\n            <option value="bebida">Bebida</option>                   \n          </select>\n        \n        <ion-item>\n          <img [src]="foto" alt="" height="125px" width="125px">\n        </ion-item>\n      </ion-list>\n    </ion-col>\n  </ion-row>\n  <ion-row>\n    <ion-col>\n      <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>\n      <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>\n      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Guardar Producto</button>\n    </ion-col>\n  </ion-row> \n</ion-content>'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/alta-de-producto/alta-de-producto.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__["a" /* SpinnerProvider */],
+            __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */],
+            __WEBPACK_IMPORTED_MODULE_7__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]])
+    ], AltaDeProductoPage);
+    return AltaDeProductoPage;
+}());
+
+//# sourceMappingURL=alta-de-producto.js.map
+
+/***/ }),
+
+/***/ 181:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegoDescuentoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
@@ -2185,7 +2389,7 @@ var JuegoDescuentoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 213:
+/***/ 214:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -2198,32 +2402,32 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 213;
+webpackEmptyAsyncContext.id = 214;
 
 /***/ }),
 
-/***/ 255:
+/***/ 256:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"../pages/alta-de-mesa/alta-de-mesa.module": [
-		649,
+		648,
 		14
 	],
 	"../pages/alta-de-producto/alta-de-producto.module": [
-		648,
+		650,
 		13
 	],
 	"../pages/altaempleado/altaempleado.module": [
-		650,
+		649,
 		12
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
-		662,
+		661,
 		11
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
-		661,
+		662,
 		10
 	],
 	"../pages/juego-descuento/juego-descuento.module": [
@@ -2278,7 +2482,7 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 255;
+webpackAsyncContext.id = 256;
 module.exports = webpackAsyncContext;
 
 /***/ }),
@@ -2291,23 +2495,24 @@ module.exports = webpackAsyncContext;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(172);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(265);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(266);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(395);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(396);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(398);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__providers_fcm_fcm__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__providers_fcm_fcm__ = __webpack_require__(150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_rxjs_operators__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__listado_reserva_listado_reserva__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pedir_platos_pedir_platos__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__listado_mesas_listado_mesas__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__alta_de_producto_alta_de_producto__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__alta_de_producto_alta_de_producto__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__juegos_juegos__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_home_cliente_home_cliente__ = __webpack_require__(267);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2317,6 +2522,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2381,7 +2587,6 @@ var PrincipalPage = /** @class */ (function () {
                     { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__["a" /* ListadoSupervisorPage */] },
                     { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */] },
                     { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */] },
-                    //{ accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
                     { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */] },
                     { accion: "Confirmar reservas", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_15__listado_reserva_listado_reserva__["a" /* ListadoReservaPage */] },
                     { accion: "Nuevo producto", img: "producto.png", ruta: __WEBPACK_IMPORTED_MODULE_18__alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */] },
@@ -2395,7 +2600,8 @@ var PrincipalPage = /** @class */ (function () {
                 this.acciones = [
                     { accion: "Reservar", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__["a" /* ReservaPage */] },
                     { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_16__pedir_platos_pedir_platos__["a" /* PedirPlatosPage */] },
-                    { accion: "Jugar", img: "juegos.jpg", ruta: __WEBPACK_IMPORTED_MODULE_19__juegos_juegos__["a" /* JuegosPage */] }
+                    { accion: "Jugar", img: "juegos.jpg", ruta: __WEBPACK_IMPORTED_MODULE_19__juegos_juegos__["a" /* JuegosPage */] },
+                    { accion: "Escanear código", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_20__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
                 ];
                 break;
             case "mozo":
@@ -2441,7 +2647,7 @@ var PrincipalPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 263:
+/***/ 264:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2620,6 +2826,8 @@ var AltaClienteComponent = /** @class */ (function () {
             var contenido = barcodeData.text;
             var array = contenido.split('@');
             _this.dni = +array[4];
+            _this.nombre = +array[2];
+            _this.apellido = +array[1];
         }).catch(function (err) {
             console.log('Error', err);
         });
@@ -2628,17 +2836,17 @@ var AltaClienteComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'alta-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/alta-cliente/alta-cliente.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>Registro Cliente</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	\n  <ion-item>\n    <ion-label floating>Nombre </ion-label>\n    <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>\n  </ion-item>\n  <ion-item *ngIf="!anonimo">\n    <ion-label floating>Apellido </ion-label>\n    <ion-input type="text" required [(ngModel)]="apellido" name="apellido"></ion-input>\n  </ion-item>\n  <ion-item *ngIf="!anonimo">\n    <ion-label floating>DNI </ion-label>\n    <ion-input type="number" minlength="8" maxlength="8" required [(ngModel)]="dni" name="dni"></ion-input>\n    <button ion-button block color="primary">Escanear DNI</button>\n  </ion-item>\n  <ion-item>\n    <ion-label floating>Correo Electrónico </ion-label>\n    <ion-input type="email" required [(ngModel)]="email" name="email"></ion-input>\n  </ion-item>\n  <ion-item>\n    <ion-label floating>Clave </ion-label>\n    <ion-input type="password" minlength="6" required [(ngModel)]="clave" name="clave"></ion-input>\n  </ion-item>\n  <ion-item>\n    <ion-label floating>Repetir Clave </ion-label>\n    <ion-input type="password" minlength="6" required [(ngModel)]="clave2" name="clave2"></ion-input>\n  </ion-item>\n  <br>\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n  <button *ngIf="!anonimo" ion-button block color="primary" (click)="escanear()">Escanear DNI</button>\n  <button ion-button block color="secondary" (click)="alta()">Registrar</button>\n  <button ion-button block color="danger" (click)="volver()">Cancelar</button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/alta-cliente/alta-cliente.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */], __WEBPACK_IMPORTED_MODULE_6_ionic_angular__["i" /* NavController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ionic_native_camera__["a" /* Camera */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ionic_angular__["i" /* NavController */]) === "function" && _e || Object])
     ], AltaClienteComponent);
     return AltaClienteComponent;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=alta-cliente.js.map
 
 /***/ }),
 
-/***/ 265:
+/***/ 266:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2837,7 +3045,84 @@ var AltaSupervisorComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 266:
+/***/ 267:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeClienteComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(12);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/**
+ * Generated class for the HomeClienteComponent component.
+ *
+ * See https://angular.io/api/core/Component for more info on Angular
+ * Components.
+ */
+var HomeClienteComponent = /** @class */ (function () {
+    function HomeClienteComponent(scanner, navCtrl, modalCtrl) {
+        this.scanner = scanner;
+        this.navCtrl = navCtrl;
+        this.modalCtrl = modalCtrl;
+        this.codigo = [];
+    }
+    HomeClienteComponent.prototype.escanear = function () {
+        var _this = this;
+        var options = { prompt: "Escaneá un código", formats: "PDF_417" };
+        this.scanner.scan(options).then(function (barcodeData) {
+            //alert(barcodeData.text);
+            var codigo = barcodeData.text;
+            _this.codigo = codigo.split(',');
+            switch (_this.codigo[0]) {
+                case 'mesa':
+                    _this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__["a" /* QrMesaComponent */], { codigo: _this.codigo }).present();
+                    break;
+                case 'producto':
+                    break;
+                case 'encuesta':
+                    break;
+                default:
+                    console.log("Codigo erroneo");
+                    break;
+            }
+        }).catch(function (err) {
+            console.log('Error', err);
+        });
+    };
+    HomeClienteComponent.prototype.codigoMesa = function () {
+        //this.navCtrl.setRoot(QrMesaComponent);
+        this.codigo[0] = 1;
+        this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__["a" /* QrMesaComponent */], { codigo: this.codigo }).present();
+    };
+    HomeClienteComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'home-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/'	\n  <button ion-button block color="primary" (click)="escanear()">Escanear Código</button>\n  <button ion-button block color="primary" (click)="codigoMesa()">Código Mesa</button>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__["a" /* BarcodeScanner */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* ModalController */]])
+    ], HomeClienteComponent);
+    return HomeClienteComponent;
+}());
+
+//# sourceMappingURL=home-cliente.js.map
+
+/***/ }),
+
+/***/ 395:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3032,7 +3317,7 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 267:
+/***/ 396:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3042,7 +3327,7 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_email_composer__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_email_composer__ = __webpack_require__(397);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3113,8 +3398,8 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
     ListaClienteEstadoComponent.prototype.sendMail = function (e) {
         var image = "../../assets/Imagenes/icon.png";
         var email = {
-            //to: this.email,
-            to: 'samy32m@gmail.com',
+            to: e.email,
+            //to: 'samy32m@gmail.com',
             //cc: 'samy32m@gmail.com',
             attachments: [
                 image
@@ -3141,7 +3426,7 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 269:
+/***/ 398:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3384,280 +3669,6 @@ var SpinnerProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 439:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QrMesaComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__ = __webpack_require__(78);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var QrMesaComponent = /** @class */ (function () {
-    /*estado pedido:
-       por pedir, esperando pedido, preparando pedido, pedido terminado, comiendo, por pagar
-      
-      estado mesa:
-      libre, ocupada
-     */
-    function QrMesaComponent(auth, alert, navCtrl, navParams) {
-        this.auth = auth;
-        this.alert = alert;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.codigo = ['mesa', '1', 'normal']; //codigo qr de mesa
-        this.title = "";
-        this.mesas = [];
-        this.estado = 0;
-        this.ocupada = false;
-        this.verificarCodigo();
-        this.codigo = navParams.get("codigo");
-    }
-    //verifico si existe el codigo
-    QrMesaComponent.prototype.verificarCodigo = function () {
-        var _this = this;
-        this.usuario = JSON.parse(localStorage.getItem("usuario"));
-        this.title = "Mesa Actual";
-        this.auth.getMesas().subscribe(function (lista) {
-            var flag = false;
-            var _loop_1 = function (item) {
-                if (item.numero == _this.codigo[1]) {
-                    if (item.estado == 'libre') {
-                        /*
-                        * mostrar ventana de mesa libre y boton tomar mesa
-                        */
-                        _this.mesas.push(item);
-                        _this.estado = 1;
-                        _this.ocupada = false;
-                        flag = true;
-                        return "break";
-                    }
-                    else {
-                        /*
-                        * si es el usuario que tomo la mesa, muestro su estado, monto total si ya hizo el
-                        * pedido, y los respectivos botones
-                        * si no es el usuario que tomo la mesa muestro muestro "mesa ocupada" -> flag = false
-                        */
-                        _this.auth.getPedidos().subscribe(function (l) {
-                            for (var _i = 0, l_1 = l; _i < l_1.length; _i++) {
-                                var i = l_1[_i];
-                                if (i.correo == _this.usuario.correo && i.numero == item.numero) {
-                                    //console.log(i);
-                                    _this.pedidoActual = i;
-                                    _this.ocupada = false;
-                                    switch (i.estado) {
-                                        case 'por pedir':
-                                            //mostrar boton hacer pedido
-                                            _this.estado = 2;
-                                            break;
-                                        case 'esperando pedido':
-                                        case 'preparando pedido':
-                                            /*mostrar estado del pedido y monto total, ademas de boton
-                                            * encuesta, juegos
-                                            */
-                                            _this.estado = 3;
-                                            break;
-                                        case 'pedido terminado':
-                                            //mostrar boton de pedido recibido
-                                            _this.estado = 4;
-                                            break;
-                                        case 'comiendo':
-                                            //mostrar monto total, encuesta, juegos, boton pagar
-                                            _this.estado = 5;
-                                            break;
-                                        case 'por pagar':
-                                            //liberar mesa
-                                            break;
-                                    }
-                                    break;
-                                }
-                            }
-                        });
-                        return "break";
-                    }
-                }
-            };
-            for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
-                var item = lista_1[_i];
-                var state_1 = _loop_1(item);
-                if (state_1 === "break")
-                    break;
-            }
-            //console.log(this.mesas);
-            if (!flag) {
-                _this.texto = "La mesa esta ocupada";
-                _this.ocupada = true;
-            }
-        });
-    };
-    QrMesaComponent.prototype.tomarMesa = function (e) {
-        //console.log(e);
-        this.estado = 0;
-        var data = {
-            cantidadComensales: e.cantidadComensales,
-            estado: 'ocupada',
-            foto: e.foto,
-            numero: e.numero,
-            tipo: e.tipo,
-            codigo: e.codigo,
-            id: e.id
-        };
-        this.auth.updateMesa(data);
-        var date = new Date();
-        var fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
-        var dataPedido = {
-            estado: 'por pedir',
-            numero: e.numero,
-            tipo: e.tipo,
-            'nombreCliente': this.usuario.nombre,
-            'apellidoCliente': this.usuario.apellido,
-            'correo': this.usuario.correo,
-            'fecha': fecha
-        };
-        this.auth.guardarPedido(dataPedido);
-        this.alert.mostrarMensaje("Mesa asignada");
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__["a" /* HomeClienteComponent */]);
-    };
-    QrMesaComponent.prototype.verEstadoPedido = function () {
-        var _this = this;
-        this.title = "Estado Actual del Pedido";
-        this.auth.getPedidos().subscribe(function (lista) {
-            for (var _i = 0, lista_2 = lista; _i < lista_2.length; _i++) {
-                var item = lista_2[_i];
-                if (_this.pedidoActual.id == item.id)
-                    _this.pedidoActual = item;
-                break;
-            }
-        });
-    };
-    QrMesaComponent.prototype.mostrarEncuestaDeSatisfaccion = function () {
-        console.log("mostrar encuesta");
-        /*
-        * link a encuesta de satisfaccion de cliente
-        */
-    };
-    QrMesaComponent.prototype.hacerPedido = function () {
-        //lamar componente de hacer pedido de productos
-        console.log("En Hacer Pedido");
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */]);
-    };
-    QrMesaComponent.prototype.mostrarJuegos = function () {
-        console.log("mostrar juegos");
-    };
-    QrMesaComponent.prototype.pedidoRecibido = function () {
-        console.log("pedido recibido");
-    };
-    QrMesaComponent.prototype.pagar = function () {
-        console.log("pagando");
-    };
-    QrMesaComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 18rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body">\n	    <h5 class="card-title">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad maxima de comensales:{{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n  		</ion-row>\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n  	</ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */]])
-    ], QrMesaComponent);
-    return QrMesaComponent;
-}());
-
-//# sourceMappingURL=qr-mesa.js.map
-
-/***/ }),
-
-/***/ 440:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeClienteComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(439);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(12);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-/**
- * Generated class for the HomeClienteComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
-var HomeClienteComponent = /** @class */ (function () {
-    function HomeClienteComponent(scanner, navCtrl, modalCtrl) {
-        this.scanner = scanner;
-        this.navCtrl = navCtrl;
-        this.modalCtrl = modalCtrl;
-        this.codigo = [];
-    }
-    HomeClienteComponent.prototype.escanear = function () {
-        var _this = this;
-        var options = { prompt: "Escaneá un código", formats: "PDF_417" };
-        this.scanner.scan(options).then(function (barcodeData) {
-            //alert(barcodeData.text);
-            var codigo = barcodeData.text;
-            _this.codigo = codigo.split(',');
-            switch (_this.codigo[0]) {
-                case 'mesa':
-                    _this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__["a" /* QrMesaComponent */], { codigo: _this.codigo }).present();
-                    break;
-                case 'producto':
-                    break;
-                case 'encuesta':
-                    break;
-                default:
-                    console.log("Codigo erroneo");
-                    break;
-            }
-        }).catch(function (err) {
-            console.log('Error', err);
-        });
-    };
-    HomeClienteComponent.prototype.codigoMesa = function () {
-        //this.navCtrl.setRoot(QrMesaComponent);
-        this.codigo[0] = 1;
-        this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__["a" /* QrMesaComponent */], { codigo: this.codigo }).present();
-    };
-    HomeClienteComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'home-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/'	\n  <button ion-button block color="primary" (click)="escanear()">Escanear Código</button>\n  <button ion-button block color="primary" (click)="codigoMesa()">Código Mesa</button>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__["a" /* BarcodeScanner */], __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["i" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["g" /* ModalController */]])
-    ], HomeClienteComponent);
-    return HomeClienteComponent;
-}());
-
-//# sourceMappingURL=home-cliente.js.map
-
-/***/ }),
-
 /***/ 441:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3769,8 +3780,8 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(437);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(438);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(440);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(640);
@@ -3778,8 +3789,8 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__ = __webpack_require__(442);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(441);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_altaempleado_altaempleado__ = __webpack_require__(172);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_altaempleado_altaempleado__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(172);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_listado_supervisor_listado_supervisor__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_reserva_reserva__ = __webpack_require__(177);
@@ -3787,31 +3798,31 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(176);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_pedir_platos_pedir_platos__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_listado_mesas_listado_mesas__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_juegos_juegos__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_juego_descuento_juego_descuento__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_juego_descuento_juego_descuento__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__angular_fire__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__angular_fire_firestore__ = __webpack_require__(143);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_fire_auth__ = __webpack_require__(256);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__ionic_native_firebase__ = __webpack_require__(397);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__angular_fire_auth__ = __webpack_require__(257);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__ionic_native_firebase__ = __webpack_require__(399);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__globalConfig__ = __webpack_require__(643);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__providers_auth_auth__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__providers_alert_alert__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__providers_spinner_spinner__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__providers_json_json__ = __webpack_require__(644);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_alta_supervisor_alta_supervisor__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_alta_supervisor_alta_supervisor__ = __webpack_require__(266);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_splash_splash__ = __webpack_require__(645);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_alta_cliente_alta_cliente__ = __webpack_require__(263);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_qr_mesa_qr_mesa__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_alta_cliente_alta_cliente__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_qr_mesa_qr_mesa__ = __webpack_require__(149);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__angular_common_http__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__angular_http__ = __webpack_require__(646);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(266);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_home_cliente_home_cliente__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__providers_fcm_fcm__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(395);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(396);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_home_cliente_home_cliente__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__providers_fcm_fcm__ = __webpack_require__(150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_alta_producto_alta_producto__ = __webpack_require__(647);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(269);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__ionic_native_email_composer__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(398);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__ionic_native_email_composer__ = __webpack_require__(397);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3907,9 +3918,9 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/alta-de-mesa/alta-de-mesa.module#AltaDeMesaPageModule', name: 'AltaDeMesaPage', segment: 'alta-de-mesa', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juego-descuento/juego-descuento.module#JuegoDescuentoPageModule', name: 'JuegoDescuentoPage', segment: 'juego-descuento', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juegos/juegos.module#JuegosPageModule', name: 'JuegosPage', segment: 'juegos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-mesas/listado-mesas.module#ListadoMesasPageModule', name: 'ListadoMesasPage', segment: 'listado-mesas', priority: 'low', defaultHistory: [] },
@@ -3920,8 +3931,8 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_24__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_28__globalConfig__["a" /* configs */].firebaseConfig),
@@ -3989,260 +4000,260 @@ var AppModule = /** @class */ (function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 270,
-	"./af.js": 270,
-	"./ar": 271,
-	"./ar-dz": 272,
-	"./ar-dz.js": 272,
-	"./ar-kw": 273,
-	"./ar-kw.js": 273,
-	"./ar-ly": 274,
-	"./ar-ly.js": 274,
-	"./ar-ma": 275,
-	"./ar-ma.js": 275,
-	"./ar-sa": 276,
-	"./ar-sa.js": 276,
-	"./ar-tn": 277,
-	"./ar-tn.js": 277,
-	"./ar.js": 271,
-	"./az": 278,
-	"./az.js": 278,
-	"./be": 279,
-	"./be.js": 279,
-	"./bg": 280,
-	"./bg.js": 280,
-	"./bm": 281,
-	"./bm.js": 281,
-	"./bn": 282,
-	"./bn.js": 282,
-	"./bo": 283,
-	"./bo.js": 283,
-	"./br": 284,
-	"./br.js": 284,
-	"./bs": 285,
-	"./bs.js": 285,
-	"./ca": 286,
-	"./ca.js": 286,
-	"./cs": 287,
-	"./cs.js": 287,
-	"./cv": 288,
-	"./cv.js": 288,
-	"./cy": 289,
-	"./cy.js": 289,
-	"./da": 290,
-	"./da.js": 290,
-	"./de": 291,
-	"./de-at": 292,
-	"./de-at.js": 292,
-	"./de-ch": 293,
-	"./de-ch.js": 293,
-	"./de.js": 291,
-	"./dv": 294,
-	"./dv.js": 294,
-	"./el": 295,
-	"./el.js": 295,
-	"./en-SG": 296,
-	"./en-SG.js": 296,
-	"./en-au": 297,
-	"./en-au.js": 297,
-	"./en-ca": 298,
-	"./en-ca.js": 298,
-	"./en-gb": 299,
-	"./en-gb.js": 299,
-	"./en-ie": 300,
-	"./en-ie.js": 300,
-	"./en-il": 301,
-	"./en-il.js": 301,
-	"./en-nz": 302,
-	"./en-nz.js": 302,
-	"./eo": 303,
-	"./eo.js": 303,
-	"./es": 304,
-	"./es-do": 305,
-	"./es-do.js": 305,
-	"./es-us": 306,
-	"./es-us.js": 306,
-	"./es.js": 304,
-	"./et": 307,
-	"./et.js": 307,
-	"./eu": 308,
-	"./eu.js": 308,
-	"./fa": 309,
-	"./fa.js": 309,
-	"./fi": 310,
-	"./fi.js": 310,
-	"./fo": 311,
-	"./fo.js": 311,
-	"./fr": 312,
-	"./fr-ca": 313,
-	"./fr-ca.js": 313,
-	"./fr-ch": 314,
-	"./fr-ch.js": 314,
-	"./fr.js": 312,
-	"./fy": 315,
-	"./fy.js": 315,
-	"./ga": 316,
-	"./ga.js": 316,
-	"./gd": 317,
-	"./gd.js": 317,
-	"./gl": 318,
-	"./gl.js": 318,
-	"./gom-latn": 319,
-	"./gom-latn.js": 319,
-	"./gu": 320,
-	"./gu.js": 320,
-	"./he": 321,
-	"./he.js": 321,
-	"./hi": 322,
-	"./hi.js": 322,
-	"./hr": 323,
-	"./hr.js": 323,
-	"./hu": 324,
-	"./hu.js": 324,
-	"./hy-am": 325,
-	"./hy-am.js": 325,
-	"./id": 326,
-	"./id.js": 326,
-	"./is": 327,
-	"./is.js": 327,
-	"./it": 328,
-	"./it-ch": 329,
-	"./it-ch.js": 329,
-	"./it.js": 328,
-	"./ja": 330,
-	"./ja.js": 330,
-	"./jv": 331,
-	"./jv.js": 331,
-	"./ka": 332,
-	"./ka.js": 332,
-	"./kk": 333,
-	"./kk.js": 333,
-	"./km": 334,
-	"./km.js": 334,
-	"./kn": 335,
-	"./kn.js": 335,
-	"./ko": 336,
-	"./ko.js": 336,
-	"./ku": 337,
-	"./ku.js": 337,
-	"./ky": 338,
-	"./ky.js": 338,
-	"./lb": 339,
-	"./lb.js": 339,
-	"./lo": 340,
-	"./lo.js": 340,
-	"./lt": 341,
-	"./lt.js": 341,
-	"./lv": 342,
-	"./lv.js": 342,
-	"./me": 343,
-	"./me.js": 343,
-	"./mi": 344,
-	"./mi.js": 344,
-	"./mk": 345,
-	"./mk.js": 345,
-	"./ml": 346,
-	"./ml.js": 346,
-	"./mn": 347,
-	"./mn.js": 347,
-	"./mr": 348,
-	"./mr.js": 348,
-	"./ms": 349,
-	"./ms-my": 350,
-	"./ms-my.js": 350,
-	"./ms.js": 349,
-	"./mt": 351,
-	"./mt.js": 351,
-	"./my": 352,
-	"./my.js": 352,
-	"./nb": 353,
-	"./nb.js": 353,
-	"./ne": 354,
-	"./ne.js": 354,
-	"./nl": 355,
-	"./nl-be": 356,
-	"./nl-be.js": 356,
-	"./nl.js": 355,
-	"./nn": 357,
-	"./nn.js": 357,
-	"./pa-in": 358,
-	"./pa-in.js": 358,
-	"./pl": 359,
-	"./pl.js": 359,
-	"./pt": 360,
-	"./pt-br": 361,
-	"./pt-br.js": 361,
-	"./pt.js": 360,
-	"./ro": 362,
-	"./ro.js": 362,
-	"./ru": 363,
-	"./ru.js": 363,
-	"./sd": 364,
-	"./sd.js": 364,
-	"./se": 365,
-	"./se.js": 365,
-	"./si": 366,
-	"./si.js": 366,
-	"./sk": 367,
-	"./sk.js": 367,
-	"./sl": 368,
-	"./sl.js": 368,
-	"./sq": 369,
-	"./sq.js": 369,
-	"./sr": 370,
-	"./sr-cyrl": 371,
-	"./sr-cyrl.js": 371,
-	"./sr.js": 370,
-	"./ss": 372,
-	"./ss.js": 372,
-	"./sv": 373,
-	"./sv.js": 373,
-	"./sw": 374,
-	"./sw.js": 374,
-	"./ta": 375,
-	"./ta.js": 375,
-	"./te": 376,
-	"./te.js": 376,
-	"./tet": 377,
-	"./tet.js": 377,
-	"./tg": 378,
-	"./tg.js": 378,
-	"./th": 379,
-	"./th.js": 379,
-	"./tl-ph": 380,
-	"./tl-ph.js": 380,
-	"./tlh": 381,
-	"./tlh.js": 381,
-	"./tr": 382,
-	"./tr.js": 382,
-	"./tzl": 383,
-	"./tzl.js": 383,
-	"./tzm": 384,
-	"./tzm-latn": 385,
-	"./tzm-latn.js": 385,
-	"./tzm.js": 384,
-	"./ug-cn": 386,
-	"./ug-cn.js": 386,
-	"./uk": 387,
-	"./uk.js": 387,
-	"./ur": 388,
-	"./ur.js": 388,
-	"./uz": 389,
-	"./uz-latn": 390,
-	"./uz-latn.js": 390,
-	"./uz.js": 389,
-	"./vi": 391,
-	"./vi.js": 391,
-	"./x-pseudo": 392,
-	"./x-pseudo.js": 392,
-	"./yo": 393,
-	"./yo.js": 393,
-	"./zh-cn": 394,
-	"./zh-cn.js": 394,
-	"./zh-hk": 395,
-	"./zh-hk.js": 395,
-	"./zh-tw": 396,
-	"./zh-tw.js": 396
+	"./af": 268,
+	"./af.js": 268,
+	"./ar": 269,
+	"./ar-dz": 270,
+	"./ar-dz.js": 270,
+	"./ar-kw": 271,
+	"./ar-kw.js": 271,
+	"./ar-ly": 272,
+	"./ar-ly.js": 272,
+	"./ar-ma": 273,
+	"./ar-ma.js": 273,
+	"./ar-sa": 274,
+	"./ar-sa.js": 274,
+	"./ar-tn": 275,
+	"./ar-tn.js": 275,
+	"./ar.js": 269,
+	"./az": 276,
+	"./az.js": 276,
+	"./be": 277,
+	"./be.js": 277,
+	"./bg": 278,
+	"./bg.js": 278,
+	"./bm": 279,
+	"./bm.js": 279,
+	"./bn": 280,
+	"./bn.js": 280,
+	"./bo": 281,
+	"./bo.js": 281,
+	"./br": 282,
+	"./br.js": 282,
+	"./bs": 283,
+	"./bs.js": 283,
+	"./ca": 284,
+	"./ca.js": 284,
+	"./cs": 285,
+	"./cs.js": 285,
+	"./cv": 286,
+	"./cv.js": 286,
+	"./cy": 287,
+	"./cy.js": 287,
+	"./da": 288,
+	"./da.js": 288,
+	"./de": 289,
+	"./de-at": 290,
+	"./de-at.js": 290,
+	"./de-ch": 291,
+	"./de-ch.js": 291,
+	"./de.js": 289,
+	"./dv": 292,
+	"./dv.js": 292,
+	"./el": 293,
+	"./el.js": 293,
+	"./en-SG": 294,
+	"./en-SG.js": 294,
+	"./en-au": 295,
+	"./en-au.js": 295,
+	"./en-ca": 296,
+	"./en-ca.js": 296,
+	"./en-gb": 297,
+	"./en-gb.js": 297,
+	"./en-ie": 298,
+	"./en-ie.js": 298,
+	"./en-il": 299,
+	"./en-il.js": 299,
+	"./en-nz": 300,
+	"./en-nz.js": 300,
+	"./eo": 301,
+	"./eo.js": 301,
+	"./es": 302,
+	"./es-do": 303,
+	"./es-do.js": 303,
+	"./es-us": 304,
+	"./es-us.js": 304,
+	"./es.js": 302,
+	"./et": 305,
+	"./et.js": 305,
+	"./eu": 306,
+	"./eu.js": 306,
+	"./fa": 307,
+	"./fa.js": 307,
+	"./fi": 308,
+	"./fi.js": 308,
+	"./fo": 309,
+	"./fo.js": 309,
+	"./fr": 310,
+	"./fr-ca": 311,
+	"./fr-ca.js": 311,
+	"./fr-ch": 312,
+	"./fr-ch.js": 312,
+	"./fr.js": 310,
+	"./fy": 313,
+	"./fy.js": 313,
+	"./ga": 314,
+	"./ga.js": 314,
+	"./gd": 315,
+	"./gd.js": 315,
+	"./gl": 316,
+	"./gl.js": 316,
+	"./gom-latn": 317,
+	"./gom-latn.js": 317,
+	"./gu": 318,
+	"./gu.js": 318,
+	"./he": 319,
+	"./he.js": 319,
+	"./hi": 320,
+	"./hi.js": 320,
+	"./hr": 321,
+	"./hr.js": 321,
+	"./hu": 322,
+	"./hu.js": 322,
+	"./hy-am": 323,
+	"./hy-am.js": 323,
+	"./id": 324,
+	"./id.js": 324,
+	"./is": 325,
+	"./is.js": 325,
+	"./it": 326,
+	"./it-ch": 327,
+	"./it-ch.js": 327,
+	"./it.js": 326,
+	"./ja": 328,
+	"./ja.js": 328,
+	"./jv": 329,
+	"./jv.js": 329,
+	"./ka": 330,
+	"./ka.js": 330,
+	"./kk": 331,
+	"./kk.js": 331,
+	"./km": 332,
+	"./km.js": 332,
+	"./kn": 333,
+	"./kn.js": 333,
+	"./ko": 334,
+	"./ko.js": 334,
+	"./ku": 335,
+	"./ku.js": 335,
+	"./ky": 336,
+	"./ky.js": 336,
+	"./lb": 337,
+	"./lb.js": 337,
+	"./lo": 338,
+	"./lo.js": 338,
+	"./lt": 339,
+	"./lt.js": 339,
+	"./lv": 340,
+	"./lv.js": 340,
+	"./me": 341,
+	"./me.js": 341,
+	"./mi": 342,
+	"./mi.js": 342,
+	"./mk": 343,
+	"./mk.js": 343,
+	"./ml": 344,
+	"./ml.js": 344,
+	"./mn": 345,
+	"./mn.js": 345,
+	"./mr": 346,
+	"./mr.js": 346,
+	"./ms": 347,
+	"./ms-my": 348,
+	"./ms-my.js": 348,
+	"./ms.js": 347,
+	"./mt": 349,
+	"./mt.js": 349,
+	"./my": 350,
+	"./my.js": 350,
+	"./nb": 351,
+	"./nb.js": 351,
+	"./ne": 352,
+	"./ne.js": 352,
+	"./nl": 353,
+	"./nl-be": 354,
+	"./nl-be.js": 354,
+	"./nl.js": 353,
+	"./nn": 355,
+	"./nn.js": 355,
+	"./pa-in": 356,
+	"./pa-in.js": 356,
+	"./pl": 357,
+	"./pl.js": 357,
+	"./pt": 358,
+	"./pt-br": 359,
+	"./pt-br.js": 359,
+	"./pt.js": 358,
+	"./ro": 360,
+	"./ro.js": 360,
+	"./ru": 361,
+	"./ru.js": 361,
+	"./sd": 362,
+	"./sd.js": 362,
+	"./se": 363,
+	"./se.js": 363,
+	"./si": 364,
+	"./si.js": 364,
+	"./sk": 365,
+	"./sk.js": 365,
+	"./sl": 366,
+	"./sl.js": 366,
+	"./sq": 367,
+	"./sq.js": 367,
+	"./sr": 368,
+	"./sr-cyrl": 369,
+	"./sr-cyrl.js": 369,
+	"./sr.js": 368,
+	"./ss": 370,
+	"./ss.js": 370,
+	"./sv": 371,
+	"./sv.js": 371,
+	"./sw": 372,
+	"./sw.js": 372,
+	"./ta": 373,
+	"./ta.js": 373,
+	"./te": 374,
+	"./te.js": 374,
+	"./tet": 375,
+	"./tet.js": 375,
+	"./tg": 376,
+	"./tg.js": 376,
+	"./th": 377,
+	"./th.js": 377,
+	"./tl-ph": 378,
+	"./tl-ph.js": 378,
+	"./tlh": 379,
+	"./tlh.js": 379,
+	"./tr": 380,
+	"./tr.js": 380,
+	"./tzl": 381,
+	"./tzl.js": 381,
+	"./tzm": 382,
+	"./tzm-latn": 383,
+	"./tzm-latn.js": 383,
+	"./tzm.js": 382,
+	"./ug-cn": 384,
+	"./ug-cn.js": 384,
+	"./uk": 385,
+	"./uk.js": 385,
+	"./ur": 386,
+	"./ur.js": 386,
+	"./uz": 387,
+	"./uz-latn": 388,
+	"./uz-latn.js": 388,
+	"./uz.js": 387,
+	"./vi": 389,
+	"./vi.js": 389,
+	"./x-pseudo": 390,
+	"./x-pseudo.js": 390,
+	"./yo": 391,
+	"./yo.js": 391,
+	"./zh-cn": 392,
+	"./zh-cn.js": 392,
+	"./zh-hk": 393,
+	"./zh-hk.js": 393,
+	"./zh-tw": 394,
+	"./zh-tw.js": 394
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -4269,12 +4280,12 @@ webpackContext.id = 621;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(437);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(438);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(440);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__ = __webpack_require__(641);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_fcm_fcm__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_fcm_fcm__ = __webpack_require__(150);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4866,7 +4877,7 @@ var PedirPlatosPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(264);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);

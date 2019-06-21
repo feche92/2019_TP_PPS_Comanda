@@ -67,8 +67,8 @@ export class ListaClienteEstadoComponent {
   sendMail(e){
     let image = "../../assets/Imagenes/icon.png";
     let email = {
-      //to: this.email,
-      to: 'samy32m@gmail.com',
+      to: e.email,
+      //to: 'samy32m@gmail.com',
       //cc: 'samy32m@gmail.com',
       attachments: [
         image
