@@ -2,6 +2,11 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>Registro de Clientes</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -19,7 +24,6 @@
 	</div>
   </div>
 </ion-item>
-  <button ion-button block color="primary" (click)="cancelar()">Cancelar</button>
   
 </ion-content>
 

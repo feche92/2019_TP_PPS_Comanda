@@ -17,8 +17,8 @@
 
 <ion-content padding>
   <page-spinner *ngIf="mostrarSpiner"></page-spinner>
-  <div *ngIf="ocultar">
-  <div class="flex-v buttons-container" *ngIf="!juegoEmpezado">
+  <div class="flex-v buttons-container" *ngIf="ocultar">
+  <div *ngIf="!juegoEmpezado">
     <h1>Se le mostraran 8 imagenes de animales al azar y tendrá que memorizarlas en 8 segundos.
       Al acabar el tiempo se le preguntará por un animal, 
       si responde correctamente ganará un 10% de descuento en su pedido</h1>

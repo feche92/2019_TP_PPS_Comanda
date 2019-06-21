@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 //import { SplashComponent } from '../components/splash/splash';
 import { HomePage } from '../pages/home/home';
 import { timer } from 'rxjs/observable/timer';
-import { FcmProvider } from '../providers/fcm/fcm';
+//import { FcmProvider } from '../providers/fcm/fcm';
 import { ToastController } from 'ionic-angular';
 
 @Component({
@@ -17,7 +17,7 @@ export class MyApp {
   rootPage: any = HomePage;
   showSplash = true;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, fcm: FcmProvider, toastCtrl: ToastController) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, toastCtrl: ToastController) {
     this.initializeApp();
   }
 
@@ -33,7 +33,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      timer(3000).subscribe(() => this.showSplash = false) // <-- hide animation after 2s
+      timer(3000).subscribe(() => this.showSplash = false) // <-- hide animation after 3s
     });
   }
 }

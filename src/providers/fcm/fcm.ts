@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Firebase } from '@ionic-native/firebase';
+//import { Firebase } from '@ionic-native/firebase';
 import { Platform } from 'ionic-angular';
 
 
 @Injectable()
 export class FcmProvider {
   usuario;
-  constructor(public firebaseNative: Firebase,
+  constructor(//public firebaseNative: Firebase,
     public afs: AngularFirestore,
     private platform: Platform) {
     console.log('Hello FcmProvider Provider');
   }
 
-  async getToken() {
+  /*async getToken() {
     let token;
 
     if (this.platform.is('android')) {
@@ -54,6 +54,6 @@ export class FcmProvider {
   listenToNotifications() {
     return this.firebaseNative.onNotificationOpen()
 
-  }
+  }*/
 
 }
