@@ -3,7 +3,10 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { AuthProvider } from '../../providers/auth/auth';
 import { AlertProvider } from '../../providers/alert/alert';
 import { SpinnerProvider } from '../../providers/spinner/spinner';
+import * as firebase from "firebase";
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PrincipalPage } from '../principal/principal';
+
 
 
 /**
@@ -19,39 +22,39 @@ import { PrincipalPage } from '../principal/principal';
   templateUrl: 'encuesta-cliente.html',
 })
 export class EncuestaClientePage {
+  
+  firebase = firebase;
+  foto: string = "prueba";
+  fecha: string;
   usuario;
   encuestaClientes;
   encuestaCliente;
   public pregunta1: string = "Cuál es la razón por la que nos elije?";
-  public pregunta2: string = "Como conocio nuestro restaurant?";
+  public pregunta2: string = "¿Como conocio nuestro restaurant?";
   public pregunta3: string = "¿Cómo calificaría la cortesía y trato de los empleados de “Grill”?";
+  public pregunta4: string = "¿Recomendaria nuestro restaurant “Grill”?";
   public respuesta1: string ="Calidad";
   public respuesta2: string ="Internet";
   public respuesta3: string ="Muy Buena";
+  public respuesta4: string;
   public correo: string ="";
   public comentario: string = "";
   public nombre:string="";
    
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public alert: AlertProvider, private camera: Camera, public navCtrl: NavController, public navParams: NavParams,
     private auth:AuthProvider,
     private error: AlertProvider,
     private spiner: SpinnerProvider,
-    private modalCtrl: ModalController,) {
- 
-    
+    private modalCtrl: ModalController,) {   
 
     //this.usuario = navParams.get("usuario");
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     console.log(this.usuario);
 
     //creo una nueva encuesta
-    this.encuestaCliente=new Array();   
-
-   
-       
-
-
+    this.encuestaCliente=new Array();    
   }
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EncuestaClientePage');
@@ -63,7 +66,7 @@ export class EncuestaClientePage {
 
   ModificarTextoRange() {
     console.log("modificar rango");
-    let arrayAux = ['Pésimo'];
+    let arrayAux = ['18 - 25'];
   
   }
 
@@ -85,6 +88,8 @@ export class EncuestaClientePage {
       "pregunta2":this.pregunta2,
       "respuesta2":this.respuesta2,
       "pregunta3":this.pregunta3,
+      "pregunta4":this.pregunta4,
+      "respuesta4":this.respuesta4,
       "respuesta3":this.respuesta3,
       "comentario": this.comentario
        
@@ -101,5 +106,43 @@ export class EncuestaClientePage {
     });
 
   }
+
+  async abrirCamara() {
+    let date = new Date();
+  	let fecha = this.fecha + `${date.getHours()}:${date.getMinutes()}`;
+    let imageName = fecha;
+
+    try {
+
+      let options: CameraOptions = {
+        quality: 50,
+        targetHeight: 600,
+        targetWidth: 600,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      };
+
+      let result = await this.camera.getPicture(options);
+      let image = `data:image/jpeg;base64,${result}`;
+      //guardo en Firebase Storage
+      let pictures = this.firebase.storage().ref(`encuestaCliente/${imageName}`);     
+
+      //tomo url de foto en Firebase Storage
+      pictures.putString(image, "data_url").then(() => {
+
+        pictures.getDownloadURL().then((url) => {
+
+      	   this.foto = url;
+        });
+        
+      });
+
+    } catch (error) {
+      this.alert.mostrarError(error, "Ocurrio un error");
+    }
+  }
+
+
 
 }

@@ -24,6 +24,7 @@ export class AltaDeProductoPage {
   public tiempoPromedioElaboracion: number;
   public foto: string = "../../assets/Imagenes/producto.png";
   public lectorQR: string;
+  public codigo: string;
   public precio: number;
 
   public estado :string = "Definir estado inicial";
@@ -161,20 +162,18 @@ export class AltaDeProductoPage {
 
 
 
-  async InicializarLectorQR() {
-    console.log('AltaDeProductoPage - Inicializo lector de QR');
-    let options = { prompt: "Escanea la bebida o el plato", formats: "PDF_417" };
-
-    this.barcodeScanner.scan(options).then(barcodeData => {
-
-      let productoDatos = barcodeData;
-      this.tipo = productoDatos[1];
-      this.nombre = productoDatos[2];
-      this.descripcion = productoDatos[3];
-      this.tiempoPromedioElaboracion=productoDatos[4];
-      this.foto=productoDatos[5];
-      console.log("fin de escaner")
-    }).catch(err => { });
-
+  InicializarLectorQR() {
+    this.barcodeScanner.scan().then((barcodeData) => {
+      this.codigo = barcodeData.text;
+      let dato=this.codigo.split(",");
+      this.nombre=dato[0];
+      this.descripcion=dato[1];
+      this.precio=parseInt(dato[2]);
+      this.tiempoPromedioElaboracion=parseInt(dato[3]);
+      this.numeroProducto=parseInt (dato[4]);  
+      this.tipo=dato[5]; 
+    }, (error) => {
+      this.error.mostrarErrorLiteral(error);
+    });
   }
 }

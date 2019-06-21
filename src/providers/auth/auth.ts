@@ -31,6 +31,15 @@ export interface mesa {
   codigo:string
 }
 
+export interface listaEspera {
+  id:string,
+  idCliente:string,
+  turno:string
+ 
+}
+
+
+
 export interface encUsuario {
   id:string,
   correo:string,
@@ -76,18 +85,17 @@ export interface encUsuario {
 
 
 export interface encuestaCliente {
-  id:string,
-  correo:string,
+  id: string,
+  correo: string,
   pregunta1: string,
-  respuesta1:string,
+  respuesta1: string,
   pregunta2: string,  
-  respuesta2:string,
+  respuesta2: string,
   pregunta3: string,  
-  respuesta3:string,
-  comentario:Array<any>
-
-
-
+  respuesta3: string,
+  pregunta4: string,  
+  respuesta4: string,
+  comentario: string
 }
 
 export interface reserva {
@@ -121,7 +129,6 @@ export interface producto {
   tipo:string,
   descripcion:string,
   nombre:string,
-  lectroQR:string,
   foto:string,
   tiempoPromedioElaboracion:number; 
   precio: number;
@@ -208,6 +215,25 @@ export class AuthProvider {
       })
     }));
   }
+  
+//---Lista Espera ---//
+getListaEspera() {
+  return this.db.collection('listaEspera').snapshotChanges().pipe(map(rooms => {
+    return rooms.map(a =>{
+      const data = a.payload.doc.data() as listaEspera;
+      data.id = a.payload.doc.id;
+      return data;
+    })
+  }));
+}
+
+
+updateListaEspera(data) {
+  return this.db.collection('listaEspera').doc(data.id).update(data);
+}
+//--FIN ---Lista Espera ---//
+
+
   //-----PRODUCTOS------
   getListaProdcutos(tipo:string) {
     return this.db.collection(tipo).snapshotChanges().pipe(map(rooms => {
