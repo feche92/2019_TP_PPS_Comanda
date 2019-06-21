@@ -182,6 +182,10 @@ export class QrMesaComponent {
 
   pedidoRecibido(){
     console.log("pedido recibido");
+    this.pedidoActual.estado = "comiendo";
+    console.log(this.pedidoActual);
+    //this.auth.guardarPedido(this.pedidoActual);
+
   }
 
   pagar(){

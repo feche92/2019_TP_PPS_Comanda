@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
-import { AlertProvider } from "../../providers/alert/alert";
+//import { AlertProvider } from "../../providers/alert/alert";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { Chart } from 'chart.js'
 
@@ -34,7 +34,7 @@ export class EstadisticasSupervisorPage {
   public doughnutChartType: string = 'doughnut';
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
-    private error: AlertProvider,
+    //private error: AlertProvider,
     private spinner: SpinnerProvider,
     private alertCtrl : AlertController) {
       let spiner=this.spinner.getAllPageSpinner();

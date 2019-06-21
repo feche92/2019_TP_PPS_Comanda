@@ -45,6 +45,7 @@
       <ion-row>
         <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
       </ion-row>
+      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
     </ion-grid>
@@ -53,8 +54,9 @@
   <div *ngIf="estado == 4">
     <ion-grid>
       <ion-row>
-        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>
       </ion-row>
+      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
       <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>
     </ion-grid>
   </div>

@@ -1077,10 +1077,9 @@ var EncuestaSupervisorPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_chart_js__ = __webpack_require__(622);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_chart_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js__ = __webpack_require__(622);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_chart_js__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1093,16 +1092,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
+//import { AlertProvider } from "../../providers/alert/alert";
 
 
 var EstadisticasSupervisorPage = /** @class */ (function () {
-    function EstadisticasSupervisorPage(navCtrl, navParams, auth, error, spinner, alertCtrl) {
+    function EstadisticasSupervisorPage(navCtrl, navParams, auth, 
+        //private error: AlertProvider,
+        spinner, alertCtrl) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.auth = auth;
-        this.error = error;
         this.spinner = spinner;
         this.alertCtrl = alertCtrl;
         this.pregunta1Labels = ['Pésimo', 'Malo', 'Mediocre', 'Bueno', 'Excelente'];
@@ -1188,7 +1188,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
     };
     EstadisticasSupervisorPage.prototype.GenerarCharts = function () {
         var ctx1 = document.getElementById('canvas-chart1').getContext('2d');
-        this.myChart = new __WEBPACK_IMPORTED_MODULE_5_chart_js__["Chart"](ctx1, {
+        this.myChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](ctx1, {
             // The type of chart we want to create
             type: 'bar',
             // The data for our dataset
@@ -1237,16 +1237,16 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
                     message += ("<li>" + this.comentarios[i] + "</li>");
                 }
                 message += "</ul>";
-                var alert_1 = this.alertCtrl.create({
+                var alert = this.alertCtrl.create({
                     title: 'Inconvenientes que tuvo Ivagaza Federico',
                     buttons: ['Cerrar'],
                     message: message,
                     cssClass: "foto-alert"
                 });
-                alert_1.present();
+                alert.present();
             }
         }.bind(this);
-        this.myChart = new __WEBPACK_IMPORTED_MODULE_5_chart_js__["Chart"](ctx2, {
+        this.myChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](ctx2, {
             type: 'pie',
             data: {
                 labels: this.pregunta2Labels,
@@ -1269,7 +1269,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
         });
         if (this.usuario.tipo != 'cliente') {
             var ctx3 = document.getElementById('canvas-chart3').getContext('2d');
-            this.myChart = new __WEBPACK_IMPORTED_MODULE_5_chart_js__["Chart"](ctx3, {
+            this.myChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](ctx3, {
                 // The type of chart we want to create
                 type: 'bar',
                 // The data for our dataset
@@ -1311,7 +1311,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
                 }
             });
             var ctx4 = document.getElementById('canvas-chart4').getContext('2d');
-            this.myChart = new __WEBPACK_IMPORTED_MODULE_5_chart_js__["Chart"](ctx4, {
+            this.myChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](ctx4, {
                 type: 'doughnut',
                 data: {
                     labels: this.pregunta4Labels,
@@ -1336,7 +1336,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
         }
         else {
             var ctx5 = document.getElementById('canvas-chart5').getContext('2d');
-            this.myChart = new __WEBPACK_IMPORTED_MODULE_5_chart_js__["Chart"](ctx5, {
+            this.myChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](ctx5, {
                 // The type of chart we want to create
                 type: 'bar',
                 // The data for our dataset
@@ -1376,7 +1376,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
                 }
             });
             var ctx6 = document.getElementById('canvas-chart6').getContext('2d');
-            this.myChart = new __WEBPACK_IMPORTED_MODULE_5_chart_js__["Chart"](ctx6, {
+            this.myChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](ctx6, {
                 type: 'doughnut',
                 data: {
                     labels: this.pregunta6Labels,
@@ -1404,13 +1404,10 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-estadisticas-supervisor',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/estadisticas-supervisor/estadisticas-supervisor.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Estadisticas</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button (click)="VolverAtras()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h1>Conducta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>\n  <div class="encuesta">\n      <canvas id="canvas-chart1"></canvas>\n  </div>\n  <h1>Cantidad de inconvenientes de {{usuario.apellido}}, {{usuario.nombre}}.</h1>\n  <div class="encuesta">\n      <canvas id="canvas-chart2"></canvas>\n  </div>\n  <div *ngIf="usuario.tipo!=\'cliente\'">\n    <h1>Aspectos a tener en cuenta de {{usuario.apellido}}, {{usuario.nombre}}.</h1>\n    <div class="encuesta">\n        <canvas id="canvas-chart3"></canvas>\n    </div>\n  </div>\n  <div *ngIf="usuario.tipo!=\'cliente\'">\n    <h1>Nivel de compañerismo de {{usuario.apellido}}, {{usuario.nombre}}.</h1>\n    <div class="encuesta">\n        <canvas id="canvas-chart4"></canvas>\n    </div>\n  </div>\n  <div *ngIf="usuario.tipo==\'cliente\'">\n    <h1>La propina que deja {{usuario.apellido}}, {{usuario.nombre}}.</h1>\n    <div class="encuesta">\n        <canvas id="canvas-chart5"></canvas>\n    </div>\n  </div>\n  <div *ngIf="usuario.tipo==\'cliente\'">\n    <h1>Cantidad de veces que suele venir {{usuario.apellido}}, {{usuario.nombre}}.</h1>\n    <div class="encuesta">\n        <canvas id="canvas-chart6"></canvas>\n    </div>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/estadisticas-supervisor/estadisticas-supervisor.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__["a" /* SpinnerProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__["a" /* SpinnerProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _e || Object])
     ], EstadisticasSupervisorPage);
     return EstadisticasSupervisorPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=estadisticas-supervisor.js.map
@@ -2448,19 +2445,19 @@ var map = {
 		14
 	],
 	"../pages/alta-de-producto/alta-de-producto.module": [
-		649,
+		650,
 		13
 	],
 	"../pages/altaempleado/altaempleado.module": [
-		650,
+		649,
 		12
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
-		661,
+		662,
 		11
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
-		662,
+		661,
 		10
 	],
 	"../pages/juego-descuento/juego-descuento.module": [
@@ -2480,11 +2477,11 @@ var map = {
 		6
 	],
 	"../pages/listado-supervisor/listado-supervisor.module": [
-		656,
+		655,
 		5
 	],
 	"../pages/pedir-platos/pedir-platos.module": [
-		655,
+		656,
 		4
 	],
 	"../pages/principal/principal.module": [
@@ -3607,7 +3604,7 @@ var QrMesaComponent = /** @class */ (function () {
     };
     QrMesaComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4>¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n  	</ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
+            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4>¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n  	</ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */]])
@@ -3919,20 +3916,20 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/alta-de-mesa/alta-de-mesa.module#AltaDeMesaPageModule', name: 'AltaDeMesaPage', segment: 'alta-de-mesa', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juego-descuento/juego-descuento.module#JuegoDescuentoPageModule', name: 'JuegoDescuentoPage', segment: 'juego-descuento', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juegos/juegos.module#JuegosPageModule', name: 'JuegosPage', segment: 'juegos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-mesas/listado-mesas.module#ListadoMesasPageModule', name: 'ListadoMesasPage', segment: 'listado-mesas', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-reserva/listado-reserva.module#ListadoReservaPageModule', name: 'ListadoReservaPage', segment: 'listado-reserva', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_24__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_28__globalConfig__["a" /* configs */].firebaseConfig),
