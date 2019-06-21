@@ -2190,23 +2190,18 @@ var AltaDeProductoPage = /** @class */ (function () {
         });
     };
     AltaDeProductoPage.prototype.InicializarLectorQR = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var options;
-            var _this = this;
-            return __generator(this, function (_a) {
-                console.log('AltaDeProductoPage - Inicializo lector de QR');
-                options = { prompt: "Escanea la bebida o el plato", formats: "PDF_417" };
-                this.barcodeScanner.scan(options).then(function (barcodeData) {
-                    var productoDatos = barcodeData;
-                    _this.tipo = productoDatos[1];
-                    _this.nombre = productoDatos[2];
-                    _this.descripcion = productoDatos[3];
-                    _this.tiempoPromedioElaboracion = productoDatos[4];
-                    _this.foto = productoDatos[5];
-                    console.log("fin de escaner");
-                }).catch(function (err) { });
-                return [2 /*return*/];
-            });
+        var _this = this;
+        this.barcodeScanner.scan().then(function (barcodeData) {
+            _this.codigo = barcodeData.text;
+            var dato = _this.codigo.split(",");
+            _this.nombre = dato[0];
+            _this.descripcion = dato[1];
+            _this.precio = parseInt(dato[2]);
+            _this.tiempoPromedioElaboracion = parseInt(dato[3]);
+            _this.numeroProducto = parseInt(dato[4]);
+            _this.tipo = dato[5];
+        }, function (error) {
+            _this.error.mostrarErrorLiteral(error);
         });
     };
     AltaDeProductoPage = __decorate([
@@ -2868,11 +2863,11 @@ var map = {
 		13
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
-		666,
+		667,
 		12
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
-		667,
+		666,
 		11
 	],
 	"../pages/juego-descuento/juego-descuento.module": [
@@ -4427,8 +4422,8 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_27__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_30__globalConfig__["a" /* configs */].firebaseConfig),

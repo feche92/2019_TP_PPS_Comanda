@@ -76,20 +76,17 @@ export interface encUsuario {
 
 
 export interface encuestaCliente {
-  id:string,
-  correo:string,
+  id: string,
+  correo: string,
   pregunta1: string,
-  respuesta1:string,
+  respuesta1: string,
   pregunta2: string,  
-  respuesta2:string,
+  respuesta2: string,
   pregunta3: string,  
-  respuesta3:string,
+  respuesta3: string,
   pregunta4: string,  
-  respuesta4:string,
-  comentario:string
-
-
-
+  respuesta4: string,
+  comentario: string
 }
 
 export interface reserva {
@@ -123,7 +120,6 @@ export interface producto {
   tipo:string,
   descripcion:string,
   nombre:string,
-  lectroQR:string,
   foto:string,
   tiempoPromedioElaboracion:number; 
   precio: number;
