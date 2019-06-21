@@ -44464,6 +44464,10 @@ qr-mesa .img-mozo {
   margin: 5% 15% 5% 15%;
 }
 
+qr-mesa .estado {
+  text-transform: capitalize;
+}
+
 splash {
   /*
 @-webkit-keyframes sk-rotateplane {

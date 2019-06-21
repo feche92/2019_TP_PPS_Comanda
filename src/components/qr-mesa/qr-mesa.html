@@ -40,9 +40,11 @@
   <div *ngIf="estado == 3">
     <ion-grid>
       <ion-row>
-        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>
       </ion-row>
-        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>
+      <ion-row>
+        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
+      </ion-row>
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
     </ion-grid>
@@ -60,9 +62,11 @@
   <div *ngIf="estado == 5">
     <ion-grid>
       <ion-row>
-        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+        <h2>Estado de Pedido: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>
       </ion-row>
-        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>
+      <ion-row>
+        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
+      </ion-row>
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
       <button ion-button block color="primary" (click)="pagar()">Pagar</button>
