@@ -8,11 +8,11 @@
 <ion-content padding>
   
   <div *ngIf="estado == 1">
-  	<div *ngFor="let mesa of mesas" class="card" style="width: 18rem;">
+  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">
 	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">
-	  <div class="card-body">
-	    <h5 class="card-title">Mesa Nº {{mesa.numero}}</h5>
-	    <p class="card-text">Cantidad maxima de comensales:{{mesa.cantidadComensales}}</p>
+	  <div class="card-body cb">
+	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>
+	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>
 	    <p class="card-text">Tipo: {{mesa.tipo}}</p>
   		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>
 	  </div>
@@ -21,14 +21,18 @@
 
   <div *ngIf="ocupada" class="ocupada">
     <h1 class="text-center">{{texto}}</h1>
+    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">
+    <button ion-button block color="primary" (click)="back()">Volver</button>
   </div>
 
 
   <div *ngIf="estado == 2">
   	<ion-grid>
   		<ion-row>
-  			<h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->
+          <h4>¿Desea realizar un pedido?</h4>
   		</ion-row>
+      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
       <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>
   	</ion-grid>
   </div>

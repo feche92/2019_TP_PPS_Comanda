@@ -4,6 +4,7 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { HomeClienteComponent } from "../home-cliente/home-cliente";
 import { NavController, NavParams } from 'ionic-angular';
 import { PedirPlatosPage } from "../../pages/pedir-platos/pedir-platos";
+import { PrincipalPage } from "../../pages/principal/principal";
 
 export interface mesa {
   id:string,
@@ -12,7 +13,7 @@ export interface mesa {
   tipo:string,
   estado:string,
   foto:string,
-  codigo: string
+  codigo: string,
 }
 
 @Component({
@@ -22,7 +23,7 @@ export interface mesa {
 export class QrMesaComponent {
 
   texto: string;
-  codigo: string[] = ['mesa', '1', 'normal']; //codigo qr de mesa
+  codigo: string[] = ['mesa', '4', 'normal']; //codigo qr de mesa
   title: string = "";
   mesas: mesa[] = [];
   estado: number = 0; 
@@ -41,7 +42,7 @@ export class QrMesaComponent {
   constructor(private auth: AuthProvider, public alert: AlertProvider,
     public navCtrl: NavController, public navParams: NavParams) {
     this.verificarCodigo();
-    this.codigo = navParams.get("codigo");
+    //this.codigo = navParams.get("codigo");
   }
 
   //verifico si existe el codigo
@@ -49,6 +50,8 @@ export class QrMesaComponent {
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     this.title = "Mesa Actual";
     this.auth.getMesas().subscribe(lista =>{
+      console.log(this.codigo);
+      console.table(lista);
       let flag = false;
       for(let item of lista){
         if(item.numero == this.codigo[1]){
@@ -184,6 +187,10 @@ export class QrMesaComponent {
 
   pagar(){
     console.log("pagando");
+  }
+
+  back() {
+    this.navCtrl.setRoot(PrincipalPage);
   }
 
 }
