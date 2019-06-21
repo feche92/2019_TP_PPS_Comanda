@@ -12,12 +12,12 @@
 
 <ion-content padding>
   
-  <div>
+  <div *ngIf="usuario.tipo=='cocinero'">
   	<div *ngFor="let pedido of pedidos" class="card">
 	  <div class="card-body">
 	  	<h4 class="card-title text-center">Mesa Nº {{pedido.numero}}</h4>
 	  	<div *ngFor="let item of pedido.productos" class="">
-		    <div class="item-producto grid-container">
+		    <div *ngIf="item.tipo=='plato'" class="item-producto grid-container">
 		    	<div class="Contenido">
 			    	<p class="card-text item-nombre">{{item.nombre}}</p>
 				    <p class="card-text item-descripcion">{{item.descripcion}}</p>
@@ -27,11 +27,31 @@
 		    	</div>
 		    </div>
 	  	</div>
-  		<button *ngIf="!(pedido.estado == 'preparando pedido')" ion-button block color="primary" (click)="pedirPreparar(pedido)">Preparar</button>
-  		<button *ngIf="(pedido.estado == 'preparando pedido')" ion-button block color="primary" (click)="terminar(pedido)">Terminar pedido</button>
+  		<button *ngIf="(pedido.estado == 'esperando pedido')" ion-button block color="primary" (click)="pedirPreparar(pedido)">Preparar</button>
+  		<button *ngIf="!(pedido.estado == 'esperando pedido')" ion-button block color="primary" (click)="terminar(pedido)">Terminar pedido</button>
 	  </div>
 	  </div>
   </div>
+  <div *ngIf="usuario.tipo=='bartender'">
+	<div *ngFor="let pedido of pedidos" class="card">
+	<div class="card-body">
+		<h4 class="card-title text-center">Mesa Nº {{pedido.numero}}</h4>
+		<div *ngFor="let item of pedido.productos" class="">
+		  <div *ngIf="item.tipo=='bebida'" class="item-producto grid-container">
+			  <div class="Contenido">
+				  <p class="card-text item-nombre">{{item.nombre}}</p>
+				  <p class="card-text item-descripcion">{{item.descripcion}}</p>
+			  </div>
+			  <div>
+				  <h3 class="item-cantidad">{{item.cantidad}}</h3><p class="card-text item-porcion">Porciones</p>
+			  </div>
+		  </div>
+		</div>
+		<button *ngIf="(pedido.estado == 'esperando pedido')" ion-button block color="primary" (click)="pedirPreparar(pedido)">Preparar</button>
+		<button *ngIf="!(pedido.estado == 'esperando pedido')" ion-button block color="primary" (click)="terminar(pedido)">Terminar pedido</button>
+	</div>
+	</div>
+</div>
 
   <div *ngIf="!hayProducto">
   	<h2 class="text-center">No hay pedidos pendientes</h2>

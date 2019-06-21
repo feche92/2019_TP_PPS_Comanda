@@ -25,6 +25,7 @@ import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisti
 import { JuegosPage } from '../juegos/juegos';
 import { ConfirmarPedidoPage } from '../confirmar-pedido/confirmar-pedido';
 import { PagarPage } from '../pagar/pagar';
+import { HomeClienteComponent } from '../../components/home-cliente/home-cliente';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -80,7 +81,6 @@ export class PrincipalPage {
             { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
             { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent }, 
-            //{ accion: "Probar qr mesa", img: "nuevo-empleado.jpg", ruta: QrMesaComponent }, // quitar despues, es solo para prueba
             { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
             { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
@@ -95,6 +95,7 @@ export class PrincipalPage {
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
+            { accion: "Leer QR de la mesa", img: "qr.jpg", ruta: HomeClienteComponent },
             { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },

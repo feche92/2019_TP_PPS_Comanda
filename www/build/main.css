@@ -44462,6 +44462,33 @@ qr-mesa .estado {
   margin: 0 0 10px 10px;
 }
 
+qr-mesa .img-reserva {
+  max-width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 6%;
+  margin-bottom: 5%;
+}
+
+qr-mesa .cb {
+  margin-top: 7%;
+}
+
+qr-mesa .img-mozo {
+  max-width: 70% !important;
+  margin: 5% 15% 5% 15%;
+}
+
+qr-mesa .buttons-container {
+  height: calc(100% - 1em);
+}
+
+qr-mesa .big-button-container {
+  border-radius: 1em;
+  cursor: pointer;
+  border-radius: 1em;
+}
+
 splash {
   /*
 @-webkit-keyframes sk-rotateplane {

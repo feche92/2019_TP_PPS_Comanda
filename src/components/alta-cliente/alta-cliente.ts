@@ -133,6 +133,8 @@ export class AltaClienteComponent {
       let contenido = barcodeData.text;
       let array = contenido.split('@');
       this.dni = +array[4];
+      this.nombre = array[2];
+      this.apellido = array[1];
 
     }).catch(err => { 
       console.log('Error', err);
