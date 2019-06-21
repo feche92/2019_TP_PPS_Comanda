@@ -25,6 +25,7 @@ import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisti
 import { JuegosPage } from '../juegos/juegos';
 import { ConfirmarPedidoPage } from '../confirmar-pedido/confirmar-pedido';
 import { PagarPage } from '../pagar/pagar';
+import { HomeClienteComponent } from '../../components/home-cliente/home-cliente';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -95,6 +96,7 @@ export class PrincipalPage {
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
+            { accion: "Leer QR de la mesa", img: "qr.jpg", ruta: HomeClienteComponent },
             { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
