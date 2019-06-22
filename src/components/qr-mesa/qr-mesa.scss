@@ -34,4 +34,16 @@ qr-mesa {
 		max-width: 70% !important;
 		margin: 5% 15% 5% 15%;
 	}
+
+	.buttons-container{
+        height: calc(100% - 1em);
+    }
+
+    .big-button-container{
+        border-radius: 1em;
+        cursor: pointer;            
+        //background-color: #053b05;
+        border-radius: 1em;
+        
+    }
 }

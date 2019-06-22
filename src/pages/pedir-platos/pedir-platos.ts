@@ -32,7 +32,7 @@ export class PedirPlatosPage {
     private error: AlertProvider,
     private spinner: SpinnerProvider) {
       this.montoActual=0;
-      this.puedePedir=true;
+      this.puedePedir=false;
       this.monto=false;
       this.ocultarBebidas=false;
       this.ocultarPLatos=false;

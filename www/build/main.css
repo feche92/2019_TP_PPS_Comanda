@@ -44479,6 +44479,16 @@ qr-mesa .img-mozo {
   margin: 5% 15% 5% 15%;
 }
 
+qr-mesa .buttons-container {
+  height: calc(100% - 1em);
+}
+
+qr-mesa .big-button-container {
+  border-radius: 1em;
+  cursor: pointer;
+  border-radius: 1em;
+}
+
 splash {
   /*
 @-webkit-keyframes sk-rotateplane {

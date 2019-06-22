@@ -53,4 +53,7 @@
       <button ion-button block color="primary" (click)="entregarPedido(pedido)">Entregar</button>
     </div>
   </div>
+  <ng-container *ngIf="!mostrarSpiner && pedidosParaEntregar.length==0 && pedidosPorConfirmar.length==0">
+    <h2 class="titulo"><u>No hay pedidos por confirmar o entregar</u></h2>
+  </ng-container>
 </ion-content>
