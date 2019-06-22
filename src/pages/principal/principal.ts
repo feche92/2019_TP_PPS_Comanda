@@ -6,7 +6,7 @@ import { AltaDeMesaPage } from "../alta-de-mesa/alta-de-mesa";
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
-//import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
+import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
 import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
 import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/pedidos-pendientes";
@@ -44,7 +44,7 @@ export class PrincipalPage {
   usuario;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
-    private auth: AuthProvider,
+    private auth: AuthProvider){
     //private fcm: FcmProvider, 
     //private toastCtrl: ToastController) {
       /*this.fcm.getToken()
@@ -95,7 +95,8 @@ export class PrincipalPage {
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
-            { accion: "Leer QR de la mesa", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "QR prueba", img: "juegos.jpg", ruta: QrMesaComponent},
             /*{ accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },

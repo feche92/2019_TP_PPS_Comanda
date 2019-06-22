@@ -8,7 +8,6 @@ import { PrincipalPage } from "../../pages/principal/principal";
 import { EncuestaClientePage } from "../../pages/encuesta-cliente/encuesta-cliente";
 import { JuegosPage } from '../../pages/juegos/juegos';
 import { PagarPage } from '../../pages/pagar/pagar';
-import { EncuestaClientePage } from '../../pages/encuesta-cliente/encuesta-cliente';
 
 export interface mesa {
   id:string,
@@ -49,7 +48,7 @@ export class QrMesaComponent {
   constructor(private auth: AuthProvider, public alert: AlertProvider,
     public navCtrl: NavController, public navParams: NavParams) {
       this.myColor = 'primary';
-      this.codigo = navParams.get("codigo");
+      //this.codigo = navParams.get("codigo");
       this.verificarCodigo();
     
   }
