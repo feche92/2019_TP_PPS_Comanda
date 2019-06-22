@@ -6,25 +6,25 @@ import { AltaDeMesaPage } from "../alta-de-mesa/alta-de-mesa";
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { AltaSupervisorComponent } from "../../components/alta-supervisor/alta-supervisor";
-import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
+//import { QrMesaComponent } from "../../components/qr-mesa/qr-mesa";
 import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/encuesta-empleado";
 import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
 import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/pedidos-pendientes";
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
-import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
+//import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
 //import { FcmProvider } from '../../providers/fcm/fcm';
-import { ToastController } from 'ionic-angular';
-import { tap } from 'rxjs/operators';
+//import { ToastController } from 'ionic-angular';
+//import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
-import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
-import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
+//import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
+//import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
 import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
-import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
-import { JuegosPage } from '../juegos/juegos';
+//import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
+//import { JuegosPage } from '../juegos/juegos';
 import { ConfirmarPedidoPage } from '../confirmar-pedido/confirmar-pedido';
-import { PagarPage } from '../pagar/pagar';
+//import { PagarPage } from '../pagar/pagar';
 import { HomeClienteComponent } from '../../components/home-cliente/home-cliente';
 
 /**
@@ -46,7 +46,7 @@ export class PrincipalPage {
     private error: AlertProvider,
     private auth: AuthProvider,
     //private fcm: FcmProvider, 
-    private toastCtrl: ToastController) {
+    //private toastCtrl: ToastController) {
       /*this.fcm.getToken()
 
     // Listen to incoming messages
@@ -71,7 +71,7 @@ export class PrincipalPage {
         case "cocinero":
         case "bartender":
           this.acciones = [
-            { accion: "Pedidos Pendientes", img: "nuevo-empleado.jpg", ruta: PedidosPendientesComponent },
+            { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: PedidosPendientesComponent },
           ];        
           break;
         case "supervisor":

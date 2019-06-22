@@ -1,14 +1,18 @@
 webpackJsonp([18],{
 
-/***/ 103:
+/***/ 102:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegosPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PedirPlatosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__ = __webpack_require__(181);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__principal_principal__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,34 +26,222 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var JuegosPage = /** @class */ (function () {
-    function JuegosPage(navCtrl, navParams) {
+
+
+
+var PedirPlatosPage = /** @class */ (function () {
+    function PedirPlatosPage(navCtrl, navParams, auth, error, spinner) {
+        var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.auth = auth;
+        this.error = error;
+        this.spinner = spinner;
+        this.mensajePedido = "";
+        this.montoActual = 0;
+        this.puedePedir = true;
+        this.monto = false;
+        this.ocultarBebidas = false;
+        this.ocultarPLatos = false;
         this.usuario = JSON.parse(localStorage.getItem("usuario"));
-        this.juegos = [
-            { accion: "Juego de memoria", img: "memoria.jpg", ruta: __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */] },
-        ];
+        this.productos = new Array();
+        this.platos = new Array();
+        this.bebidas = new Array();
+        this.pedidoActual = new Array();
+        var spiner = this.spinner.getAllPageSpinner();
+        spiner.present();
+        this.auth.getProductos().subscribe(function (lista) {
+            _this.productos = lista;
+            for (var i = 0; i < _this.productos.length; i++) {
+                if (_this.productos[i].tipo == 'bebida') {
+                    _this.bebidas.push({ "nombre": _this.productos[i].nombre, "descripcion": _this.productos[i].descripcion, "foto": _this.productos[i].foto, "cantidad": 0, "tipo": "bebida", "tiempoPromedioElaboracion": _this.productos[i].tiempoPromedioElaboracion, "estado": "pendiente", "precio": _this.productos[i].precio });
+                }
+                else {
+                    _this.platos.push({ "nombre": _this.productos[i].nombre, "descripcion": _this.productos[i].descripcion, "foto": _this.productos[i].foto, "cantidad": 0, "tipo": "plato", "tiempoPromedioElaboracion": _this.productos[i].tiempoPromedioElaboracion, "estado": "pendiente", "precio": _this.productos[i].precio });
+                }
+            }
+            spiner.dismiss();
+            console.log(_this.bebidas);
+            console.log(_this.platos);
+            _this.puedeHacerPedido();
+        });
     }
-    JuegosPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad JuegosPage');
+    PedirPlatosPage.prototype.ionViewDidLoad = function () {
     };
-    JuegosPage.prototype.Redireccionar = function (ruta) {
-        this.navCtrl.setRoot(ruta);
+    PedirPlatosPage.prototype.back = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
     };
-    JuegosPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__principal_principal__["a" /* PrincipalPage */]);
+    PedirPlatosPage.prototype.puedeHacerPedido = function () {
+        var _this = this;
+        this.auth.getPedidos().subscribe(function (lista) {
+            _this.pedidos = lista;
+            if (_this.usuario.tipo == 'mozo') {
+                var pedido = _this.navParams.get("pedido");
+                for (var i = 0; i < _this.pedidos.length; i++) {
+                    if (_this.pedidos[i].id == pedido.idPedido) {
+                        _this.pedidoPendiente = _this.pedidos[i];
+                        _this.puedePedir = true;
+                        break;
+                    }
+                }
+                console.log(_this.pedidoPendiente);
+            }
+            else {
+                var estaCorreo = false;
+                for (var i = 0; i < _this.pedidos.length; i++) {
+                    if (_this.pedidos[i].correo == _this.usuario.correo && _this.pedidos[i].estado != 'pagado' /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+                        estaCorreo = true;
+                        //this.pedidoPendiente=this.pedidos[i];
+                        //this.puedePedir=true;
+                        break;
+                    }
+                }
+                if (estaCorreo) {
+                    _this.mensajePedido = "Ya hizo un pedido.No puede pedir otro";
+                    for (var i = 0; i < _this.pedidos.length; i++) {
+                        if (_this.pedidos[i].estado == 'por pedir' && _this.pedidos[i].correo == _this.usuario.correo) {
+                            _this.pedidoPendiente = _this.pedidos[i];
+                            _this.puedePedir = true;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    _this.mensajePedido = "No puede hacer un pedido sin antes estar en una mesa";
+                }
+                console.log(_this.pedidos);
+                console.log(_this.pedidoPendiente);
+            }
+        });
     };
-    JuegosPage = __decorate([
+    PedirPlatosPage.prototype.Platos = function () {
+        this.ocultarPLatos = true;
+        this.titulo = "Nuestros platos";
+    };
+    PedirPlatosPage.prototype.Bebidas = function () {
+        this.ocultarBebidas = true;
+        this.titulo = "Nuestras bebidas";
+    };
+    PedirPlatosPage.prototype.AumentarCantidad = function (item) {
+        if (item.cantidad < 20) {
+            item.cantidad++;
+        }
+        console.log(item);
+    };
+    PedirPlatosPage.prototype.DisminuirCantidad = function (item) {
+        if (item.cantidad > 0) {
+            item.cantidad--;
+        }
+        console.log(item);
+    };
+    PedirPlatosPage.prototype.AceptarPedido = function (texto) {
+        if (texto == 'plato') {
+            for (var i = 0; i < this.platos.length; i++) {
+                var pidioPlato = true;
+                for (var j = 0; j < this.pedidoActual.length; j++) {
+                    if (this.platos[i].nombre == this.pedidoActual[j].nombre) {
+                        this.pedidoActual[j] = this.platos[i];
+                        pidioPlato = false;
+                        break;
+                    }
+                }
+                if (this.platos[i].cantidad > 0 && pidioPlato) {
+                    this.pedidoActual.push(this.platos[i]);
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < this.bebidas.length; i++) {
+                var pidio = true;
+                for (var j = 0; j < this.pedidoActual.length; j++) {
+                    if (this.bebidas[i].nombre == this.pedidoActual[j].nombre) {
+                        this.pedidoActual[j] = this.bebidas[i];
+                        pidio = false;
+                        break;
+                    }
+                }
+                if (this.bebidas[i].cantidad > 0 && pidio) {
+                    this.pedidoActual.push(this.bebidas[i]);
+                }
+            }
+        }
+        console.log(this.pedidoActual);
+        this.ocultarBebidas = false;
+        this.ocultarPLatos = false;
+        this.limpiarPedido();
+    };
+    PedirPlatosPage.prototype.calcularMonto = function () {
+        var tieneProductos = false;
+        for (var i = 0; i < this.pedidoActual.length; i++) {
+            if (this.pedidoActual[i].cantidad > 0) {
+                tieneProductos = true;
+                break;
+            }
+        }
+        if (tieneProductos) {
+            this.montoActual = 0;
+            for (var i = 0; i < this.pedidoActual.length; i++) {
+                if (this.pedidoActual[i].cantidad > 0) {
+                    this.montoActual += this.pedidoActual[i].precio * this.pedidoActual[i].cantidad;
+                }
+            }
+            this.monto = true;
+            console.log(this.montoActual);
+        }
+    };
+    PedirPlatosPage.prototype.limpiarPedido = function () {
+        for (var i = 0; i < this.pedidoActual.length; i++) {
+            if (this.pedidoActual[i].cantidad == 0) {
+                this.pedidoActual.splice(i, 1);
+                this.limpiarPedido();
+            }
+        }
+        console.log(this.pedidoActual);
+        this.calcularMonto();
+    };
+    PedirPlatosPage.prototype.CancelarPedido = function () {
+        this.ocultarBebidas = false;
+        this.ocultarPLatos = false;
+    };
+    PedirPlatosPage.prototype.PedirFinal = function () {
+        var _this = this;
+        if (this.pedidoActual.length > 0) {
+            var spiner_1 = this.spinner.getAllPageSpinner();
+            spiner_1.present();
+            var momentoActual = __WEBPACK_IMPORTED_MODULE_6_moment__(new Date());
+            var data = {
+                "correo": this.pedidoPendiente.correo, "nombreCliente": this.pedidoPendiente.nombreCliente, "apellidoCliente": this.pedidoPendiente.apellidoCliente, "estado": "pedido por confirmar",
+                "productos": this.pedidoActual, "numero": this.pedidoPendiente.numero, "fecha": momentoActual.format("DD/MM/YYYY HH:mm"), "montoTotal": this.montoActual,
+                "tipo": this.pedidoPendiente.tipo, "id": this.pedidoPendiente.id,
+            };
+            this.auth.actualizarPedido(data).then(function (res) {
+                spiner_1.dismiss();
+                _this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
+                setTimeout(function () {
+                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
+                }, 500);
+            }).catch(function (error) {
+                _this.error.mostrarErrorLiteral(error, "Hubo un error al enviar su pedido.");
+                spiner_1.dismiss();
+            });
+        }
+        else {
+            this.error.mostrarErrorLiteral("Elija algun producto antes de aceptar un pedido");
+        }
+    };
+    PedirPlatosPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-juegos',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/juegos/juegos.html"*/'<!--\n  Generated template for the JuegosPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Juegos</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="card-background-page" padding>\n  <button ion-button *ngFor="let item of juegos" (click)="Redireccionar(item.ruta)">\n      <div class="sombreado"></div>\n      <img src="../../assets/Imagenes/{{item.img}}" />\n      <span>{{item.accion}}</span>\n    </button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/juegos/juegos.html"*/,
+            selector: 'page-pedir-platos',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pedir-platos/pedir-platos.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<div class="platos" *ngIf="ocultarPLatos==true">\n  <h1 class="tituloPlatos"  >{{titulo}}:</h1>\n  <ion-list>\n\n    <ion-item *ngFor="let item of platos">\n      <ion-thumbnail item-start>\n        <img src={{item.foto}}>\n      </ion-thumbnail>\n\n      <h1>{{item.nombre}}</h1>\n      <p>Descripcion • {{item.descripcion}}</p>\n      <p>cantidad • {{item.cantidad}}</p>\n\n      <button ion-button clear item-end (click)="AumentarCantidad(item)">\n        <ion-icon name="add"></ion-icon>\n      </button>\n      <button ion-button clear item-end (click)="DisminuirCantidad(item)">\n        <ion-icon name="remove"></ion-icon>\n      </button>\n    </ion-item>\n\n  </ion-list>\n  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarPedido(\'plato\')">Aceptar</button>\n  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarPedido()">Cancelar</button>\n</div>\n\n<div class="platos" *ngIf="ocultarBebidas==true">\n  <h1 class="tituloPlatos"  >{{titulo}}:</h1>\n  <ion-list>\n\n    <ion-item *ngFor="let item of bebidas">\n      <ion-thumbnail item-start>\n        <img src={{item.foto}}>\n      </ion-thumbnail>\n\n      <h1>{{item.nombre}}</h1>\n      <p>Descripcion • {{item.descripcion}}</p>\n      <p>cantidad • {{item.cantidad}}</p>\n\n      <button ion-button clear item-end (click)="AumentarCantidad(item)">\n        <ion-icon name="add"></ion-icon>\n      </button>\n      <button ion-button clear item-end (click)="DisminuirCantidad(item)">\n        <ion-icon name="remove"></ion-icon>\n      </button>\n    </ion-item>\n\n  </ion-list>\n  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarPedido(\'bebida\')">Aceptar</button>\n  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarPedido()">Cancelar</button>\n</div>\n\n<ion-content padding>\n  <div class="contenido">\n    <h1 class="tituloPag" >¡Haga su pedido!</h1>\n    <div *ngIf="monto">\n      <h1>Su pedido actual</h1>\n      <ion-list>\n        <ion-item *ngFor="let item of pedidoActual">\n          <ion-label>{{item.nombre}}  -- precio: {{item.precio}} -- cantidad: {{item.cantidad}}</ion-label>\n        </ion-item>\n      </ion-list>\n      <h1>Monto actual: {{montoActual}}</h1>\n    </div>\n    <div class="botonespp">\n          <button class="btnPlatos" (click)="Platos()" ion-button color="primary"  ><img src="assets/Imagenes/comida.png"> Platos</button>\n          <button class="btnBebidas"  (click)="Bebidas()" ion-button color="primary" ><img src="assets/Imagenes/bebidas.png">Bebidas</button>\n    </div>\n    <!--input class="inpDireccion" type="text" placeholder="Su direcci&oacute;n"-->\n    <button class="btnPedir" (click)="PedirFinal()" ion-button color="primary" >¡Pedir!</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pedir-platos/pedir-platos.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
-    ], JuegosPage);
-    return JuegosPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__["a" /* SpinnerProvider */]])
+    ], PedirPlatosPage);
+    return PedirPlatosPage;
 }());
 
-//# sourceMappingURL=juegos.js.map
+//# sourceMappingURL=pedir-platos.js.map
 
 /***/ }),
 
@@ -59,10 +251,10 @@ var JuegosPage = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(259);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__(147);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -389,7 +581,7 @@ var AlertProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 171:
+/***/ 170:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -534,7 +726,7 @@ var AltaDeMesaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 172:
+/***/ 171:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -719,7 +911,7 @@ var AltaempleadoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 173:
+/***/ 172:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -729,7 +921,7 @@ var AltaempleadoPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__principal_principal__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(173);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -807,7 +999,7 @@ var ListadoSupervisorPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 174:
+/***/ 173:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -817,7 +1009,7 @@ var ListadoSupervisorPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(174);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1028,7 +1220,7 @@ var EncuestaSupervisorPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 175:
+/***/ 174:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1375,7 +1567,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 176:
+/***/ 175:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1532,7 +1724,7 @@ var ReservaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 177:
+/***/ 176:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1718,207 +1910,7 @@ var ListadoReservaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 178:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EncuestaClientePage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__principal_principal__ = __webpack_require__(19);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-
-
-
-
-
-
-
-/**
- * Generated class for the EncuestaClientePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var EncuestaClientePage = /** @class */ (function () {
-    function EncuestaClientePage(alert, camera, navCtrl, navParams, auth, error, spiner, modalCtrl) {
-        this.alert = alert;
-        this.camera = camera;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.auth = auth;
-        this.error = error;
-        this.spiner = spiner;
-        this.modalCtrl = modalCtrl;
-        this.firebase = __WEBPACK_IMPORTED_MODULE_5_firebase__;
-        this.foto = "prueba";
-        this.pregunta1 = "Cuál es la razón por la que nos elije?";
-        this.pregunta2 = "¿Como conocio nuestro restaurant?";
-        this.pregunta3 = "¿Cómo calificaría la cortesía y trato de los empleados de “Grill”?";
-        this.pregunta4 = "¿Recomendaria nuestro restaurant “Grill”?";
-        this.respuesta1 = "Calidad";
-        this.respuesta2 = "Internet";
-        this.respuesta3 = "Muy Buena";
-        this.correo = "";
-        this.comentario = "";
-        this.nombre = "";
-        //this.usuario = navParams.get("usuario");
-        this.usuario = JSON.parse(localStorage.getItem("usuario"));
-        console.log(this.usuario);
-        //creo una nueva encuesta
-        this.encuestaCliente = new Array();
-    }
-    EncuestaClientePage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad EncuestaClientePage');
-    };
-    EncuestaClientePage.prototype.VolverAtras = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_7__principal_principal__["a" /* PrincipalPage */]);
-    };
-    EncuestaClientePage.prototype.ModificarTextoRange = function () {
-        console.log("modificar rango");
-        var arrayAux = ['18 - 25'];
-    };
-    EncuestaClientePage.prototype.EnviarEncuesta = function () {
-        var _this = this;
-        console.log("enviar encuesta");
-        var spiner = this.spiner.getAllPageSpinner();
-        spiner.present();
-        console.log(this);
-        console.log(this.encuestaCliente);
-        console.log(this.encuestaCliente);
-        var data = {
-            "nombre": this.usuario.nombre,
-            "correo": this.usuario.correo,
-            "pregunta1": this.pregunta1,
-            "respuesta1": this.respuesta1,
-            "pregunta2": this.pregunta2,
-            "respuesta2": this.respuesta2,
-            "pregunta3": this.pregunta3,
-            "pregunta4": this.pregunta4,
-            "respuesta4": this.respuesta4,
-            "respuesta3": this.respuesta3,
-            "comentario": this.comentario
-        };
-        console.log(data);
-        this.auth.nuevaEncuestaCliente(data).then(function (res) {
-            _this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
-            spiner.dismiss();
-            // this.modalCtrl.create(EstadisticasClientePage, { usuario: this.usuario }).present();
-        }).catch(function (error) {
-            _this.error.mostrarError(error, "error al guardar la encuesta");
-            spiner.dismiss();
-        });
-    };
-    EncuestaClientePage.prototype.abrirCamara = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var date, fecha, imageName, options, result, image, pictures_1, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        date = new Date();
-                        fecha = this.fecha + (date.getHours() + ":" + date.getMinutes());
-                        imageName = fecha;
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        options = {
-                            quality: 50,
-                            targetHeight: 600,
-                            targetWidth: 600,
-                            destinationType: this.camera.DestinationType.DATA_URL,
-                            encodingType: this.camera.EncodingType.JPEG,
-                            mediaType: this.camera.MediaType.PICTURE
-                        };
-                        return [4 /*yield*/, this.camera.getPicture(options)];
-                    case 2:
-                        result = _a.sent();
-                        image = "data:image/jpeg;base64," + result;
-                        pictures_1 = this.firebase.storage().ref("encuestaCliente/" + imageName);
-                        //tomo url de foto en Firebase Storage
-                        pictures_1.putString(image, "data_url").then(function () {
-                            pictures_1.getDownloadURL().then(function (url) {
-                                _this.foto = url;
-                            });
-                        });
-                        return [3 /*break*/, 4];
-                    case 3:
-                        error_1 = _a.sent();
-                        this.alert.mostrarError(error_1, "Ocurrio un error");
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    EncuestaClientePage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-encuesta-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/'<!--\n  Generated template for the EncuestaClientePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons>\n      <button ion-button (click)="VolverAtras()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h1>{{pregunta1}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta1">\n      <option value="Calidad">Calidad</option>\n      <option value="Precio">Precio</option>\n      <option value="Publicidad">Publicidad</option>\n      <option value="Recomendacion">Recomendacion</option>\n      <option value="Servicio">Servicio</option>\n    </select>\n  </div>\n\n  <h1>{{pregunta2}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta2">\n      <option value="Internet">Internet</option>\n      <option value="Amigos">Amigos</option>\n      <option value="Facebook">Facebook</option>\n      <option value="Recomendacion">Recomendacion</option>     \n    </select>\n  </div>\n\n\n  <h1>{{pregunta3}}</h1>\n  <div class="encuesta">\n        <ion-list radio-group [(ngModel)]="respuesta3">\n            <ion-item>\n              <ion-label>Muy Buena</ion-label>\n              <ion-radio color="primary" value="Muy Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Buena</ion-label>\n              <ion-radio color="primary" value="Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Regular</ion-label>\n              <ion-radio color="primary" value="Regular"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Mala</ion-label>\n              <ion-radio color="primary" value="Mala"></ion-radio>\n            </ion-item>\n            <ion-item>\n                <ion-label>Muy Mala</ion-label>\n                <ion-radio color="primary" value="Muy Mala"></ion-radio>\n              </ion-item>\n          </ion-list>        \n  </div>\n\n  <h1>{{pregunta4}}</h1>\n  <div class="encuesta">\n    <ion-list radio-group [(ngModel)]="respuesta4">\n        <ion-item>\n            <ion-label>Sí</ion-label>\n            <ion-radio slot="start" value="si" checked></ion-radio>\n          </ion-item>\n          <ion-item>\n            <ion-label>No</ion-label>\n            <ion-radio slot="start" value="no" checked></ion-radio>\n          </ion-item>\n    </ion-list>\n  </div>\n\n  <h1>Comentarios</h1>\n  <div class="encuesta">\n    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>\n  </div>\n \n  <br>\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">>Enviar encuesta</button>\n  <button ion-button block color="danger">Cancelar</button>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]])
-    ], EncuestaClientePage);
-    return EncuestaClientePage;
-}());
-
-//# sourceMappingURL=encuesta-cliente.js.map
-
-/***/ }),
-
-/***/ 179:
+/***/ 177:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1927,7 +1919,7 @@ var EncuestaClientePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pedir_platos_pedir_platos__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pedir_platos_pedir_platos__ = __webpack_require__(102);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2005,7 +1997,7 @@ var ListadoMesasPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 180:
+/***/ 178:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2235,6 +2227,323 @@ var AltaDeProductoPage = /** @class */ (function () {
 
 /***/ }),
 
+/***/ 179:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmarPedidoPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__principal_principal__ = __webpack_require__(19);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var ConfirmarPedidoPage = /** @class */ (function () {
+    function ConfirmarPedidoPage(navCtrl, navParams, auth, error, spinner) {
+        var _this = this;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.auth = auth;
+        this.error = error;
+        this.spinner = spinner;
+        this.pedidos = new Array();
+        this.pedidosParaEntregar = new Array();
+        this.pedidosPorConfirmar = new Array();
+        this.mostrarSpiner = true;
+        this.auth.getPedidos().subscribe(function (lista) {
+            _this.pedidos = lista;
+            _this.pedidosParaEntregar = [];
+            _this.pedidosPorConfirmar = [];
+            for (var i = 0; i < _this.pedidos.length; i++) {
+                if (_this.pedidos[i].estado == 'pedido por confirmar') {
+                    _this.pedidosPorConfirmar.push(_this.pedidos[i]);
+                }
+                if (_this.pedidos[i].estado == 'pedido terminado') {
+                    _this.pedidosParaEntregar.push(_this.pedidos[i]);
+                }
+            }
+            _this.mostrarSpiner = false;
+        });
+    }
+    ConfirmarPedidoPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ConfirmarPedidoPage');
+    };
+    ConfirmarPedidoPage.prototype.back = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__principal_principal__["a" /* PrincipalPage */]);
+    };
+    ConfirmarPedidoPage.prototype.aceptarPedido = function (pedido) {
+        var _this = this;
+        console.log(pedido);
+        var spiner = this.spinner.getAllPageSpinner();
+        spiner.present();
+        pedido.estado = "esperando pedido";
+        this.auth.actualizarPedido(pedido).then(function (res) {
+            spiner.dismiss();
+            _this.error.mostrarMensaje("Pedido confirmado");
+        });
+    };
+    ConfirmarPedidoPage.prototype.cancelarPedido = function (pedido) {
+        var _this = this;
+        console.log(pedido);
+        var spiner = this.spinner.getAllPageSpinner();
+        spiner.present();
+        pedido.estado = "cancelado";
+        this.auth.actualizarPedido(pedido).then(function (res) {
+            spiner.dismiss();
+            _this.error.mostrarMensaje("Pedido cancelado");
+        });
+    };
+    ConfirmarPedidoPage.prototype.entregarPedido = function (pedido) {
+        var _this = this;
+        var spiner = this.spinner.getAllPageSpinner();
+        spiner.present();
+        pedido.estado = "camino a entrega";
+        this.auth.actualizarPedido(pedido).then(function (res) {
+            spiner.dismiss();
+            _this.error.mostrarMensaje("Entregando pedido..Esperando confirmacion del cliente");
+        });
+        var pdidos = new Array();
+        this.auth.getPedidos().subscribe(function (lista) {
+            pdidos = lista;
+            for (var i = 0; i < pdidos.length; i++) {
+                if (pdidos[i].id == pedido.id && pdidos[i].estado == 'comiendo') {
+                    _this.error.mostrarMensaje("Pedido entregado");
+                    break;
+                }
+            }
+        });
+    };
+    ConfirmarPedidoPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-confirmar-pedido',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/confirmar-pedido/confirmar-pedido.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <ng-container *ngIf="!mostrarSpiner && pedidosPorConfirmar.length > 0">\n    <h2 class="titulo"><u>Pedidos pendientes de confirmación</u></h2>\n  </ng-container>\n  <div *ngFor="let pedido of pedidosPorConfirmar" class="card">\n    <div class="card-body">\n        <h4 class="card-title text-center">Mesa Nº {{pedido.numero}}</h4>\n        <div *ngFor="let item of pedido.productos" class="">\n          <div class="item-producto grid-container">\n            <div class="Contenido">\n              <p class="card-text item-nombre">{{item.nombre}}</p>\n              <p class="card-text item-descripcion">{{item.descripcion}}</p>\n            </div>\n            <div>\n              <h3 class="item-cantidad">{{item.cantidad}}</h3><p class="card-text item-porcion">Porciones</p>\n            </div>\n          </div>\n        </div>\n        <button ion-button block color="primary" (click)="aceptarPedido(pedido)">Aceptar</button>\n        <button ion-button block color="red" (click)="cancelarPedido(pedido)">Cancelar</button>\n    </div>\n  </div>\n  <ng-container *ngIf="!mostrarSpiner && pedidosParaEntregar.length > 0">\n    <h2 class="titulo"><u>Pedidos pendientes por entregar</u></h2>\n  </ng-container>\n  <div *ngFor="let pedido of pedidosParaEntregar" class="card">\n    <div class="card-body">\n      <h4 class="card-title text-center">Mesa Nº {{pedido.numero}}</h4>\n      <div *ngFor="let item of pedido.productos" class="">\n        <div class="item-producto grid-container">\n          <div class="Contenido">\n            <p class="card-text item-nombre">{{item.nombre}}</p>\n            <p class="card-text item-descripcion">{{item.descripcion}}</p>\n          </div>\n          <div>\n            <h3 class="item-cantidad">{{item.cantidad}}</h3><p class="card-text item-porcion">Porciones</p>\n          </div>\n        </div>\n      </div>\n      <button ion-button block color="primary" (click)="entregarPedido(pedido)">Entregar</button>\n    </div>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/confirmar-pedido/confirmar-pedido.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]])
+    ], ConfirmarPedidoPage);
+    return ConfirmarPedidoPage;
+}());
+
+//# sourceMappingURL=confirmar-pedido.js.map
+
+/***/ }),
+
+/***/ 180:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EncuestaClientePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__principal_principal__ = __webpack_require__(19);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
+
+
+
+
+
+/**
+ * Generated class for the EncuestaClientePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var EncuestaClientePage = /** @class */ (function () {
+    function EncuestaClientePage(alert, camera, navCtrl, navParams, auth, error, spiner, modalCtrl) {
+        this.alert = alert;
+        this.camera = camera;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.auth = auth;
+        this.error = error;
+        this.spiner = spiner;
+        this.modalCtrl = modalCtrl;
+        this.firebase = __WEBPACK_IMPORTED_MODULE_5_firebase__;
+        this.foto = "prueba";
+        this.pregunta1 = "Cuál es la razón por la que nos elije?";
+        this.pregunta2 = "¿Como conocio nuestro restaurant?";
+        this.pregunta3 = "¿Cómo calificaría la cortesía y trato de los empleados de “Grill”?";
+        this.pregunta4 = "¿Recomendaria nuestro restaurant “Grill”?";
+        this.respuesta1 = "Calidad";
+        this.respuesta2 = "Internet";
+        this.respuesta3 = "Muy Buena";
+        this.correo = "";
+        this.comentario = "";
+        this.nombre = "";
+        //this.usuario = navParams.get("usuario");
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        console.log(this.usuario);
+        //creo una nueva encuesta
+        this.encuestaCliente = new Array();
+    }
+    EncuestaClientePage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad EncuestaClientePage');
+    };
+    EncuestaClientePage.prototype.VolverAtras = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_7__principal_principal__["a" /* PrincipalPage */]);
+    };
+    EncuestaClientePage.prototype.ModificarTextoRange = function () {
+        console.log("modificar rango");
+        var arrayAux = ['18 - 25'];
+    };
+    EncuestaClientePage.prototype.EnviarEncuesta = function () {
+        var _this = this;
+        console.log("enviar encuesta");
+        var spiner = this.spiner.getAllPageSpinner();
+        spiner.present();
+        console.log(this);
+        console.log(this.encuestaCliente);
+        console.log(this.encuestaCliente);
+        var data = {
+            "nombre": this.usuario.nombre,
+            "correo": this.usuario.correo,
+            "pregunta1": this.pregunta1,
+            "respuesta1": this.respuesta1,
+            "pregunta2": this.pregunta2,
+            "respuesta2": this.respuesta2,
+            "pregunta3": this.pregunta3,
+            "pregunta4": this.pregunta4,
+            "respuesta4": this.respuesta4,
+            "respuesta3": this.respuesta3,
+            "comentario": this.comentario
+        };
+        console.log(data);
+        this.auth.nuevaEncuestaCliente(data).then(function (res) {
+            _this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
+            spiner.dismiss();
+            // this.modalCtrl.create(EstadisticasClientePage, { usuario: this.usuario }).present();
+        }).catch(function (error) {
+            _this.error.mostrarError(error, "error al guardar la encuesta");
+            spiner.dismiss();
+        });
+    };
+    EncuestaClientePage.prototype.abrirCamara = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var date, fecha, imageName, options, result, image, pictures_1, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        date = new Date();
+                        fecha = this.fecha + (date.getHours() + ":" + date.getMinutes());
+                        imageName = fecha;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        options = {
+                            quality: 50,
+                            targetHeight: 600,
+                            targetWidth: 600,
+                            destinationType: this.camera.DestinationType.DATA_URL,
+                            encodingType: this.camera.EncodingType.JPEG,
+                            mediaType: this.camera.MediaType.PICTURE
+                        };
+                        return [4 /*yield*/, this.camera.getPicture(options)];
+                    case 2:
+                        result = _a.sent();
+                        image = "data:image/jpeg;base64," + result;
+                        pictures_1 = this.firebase.storage().ref("encuestaCliente/" + imageName);
+                        //tomo url de foto en Firebase Storage
+                        pictures_1.putString(image, "data_url").then(function () {
+                            pictures_1.getDownloadURL().then(function (url) {
+                                _this.foto = url;
+                            });
+                        });
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _a.sent();
+                        this.alert.mostrarError(error_1, "Ocurrio un error");
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    EncuestaClientePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-encuesta-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/'<!--\n  Generated template for the EncuestaClientePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons>\n      <button ion-button (click)="VolverAtras()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h1>{{pregunta1}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta1">\n      <option value="Calidad">Calidad</option>\n      <option value="Precio">Precio</option>\n      <option value="Publicidad">Publicidad</option>\n      <option value="Recomendacion">Recomendacion</option>\n      <option value="Servicio">Servicio</option>\n    </select>\n  </div>\n\n  <h1>{{pregunta2}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta2">\n      <option value="Internet">Internet</option>\n      <option value="Amigos">Amigos</option>\n      <option value="Facebook">Facebook</option>\n      <option value="Recomendacion">Recomendacion</option>     \n    </select>\n  </div>\n\n\n  <h1>{{pregunta3}}</h1>\n  <div class="encuesta">\n        <ion-list radio-group [(ngModel)]="respuesta3">\n            <ion-item>\n              <ion-label>Muy Buena</ion-label>\n              <ion-radio color="primary" value="Muy Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Buena</ion-label>\n              <ion-radio color="primary" value="Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Regular</ion-label>\n              <ion-radio color="primary" value="Regular"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Mala</ion-label>\n              <ion-radio color="primary" value="Mala"></ion-radio>\n            </ion-item>\n            <ion-item>\n                <ion-label>Muy Mala</ion-label>\n                <ion-radio color="primary" value="Muy Mala"></ion-radio>\n              </ion-item>\n          </ion-list>        \n  </div>\n\n  <h1>{{pregunta4}}</h1>\n  <div class="encuesta">\n    <ion-list radio-group [(ngModel)]="respuesta4">\n        <ion-item>\n            <ion-label>Sí</ion-label>\n            <ion-radio slot="start" value="si" checked></ion-radio>\n          </ion-item>\n          <ion-item>\n            <ion-label>No</ion-label>\n            <ion-radio slot="start" value="no" checked></ion-radio>\n          </ion-item>\n    </ion-list>\n  </div>\n\n  <h1>Comentarios</h1>\n  <div class="encuesta">\n    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>\n  </div>\n \n  <br>\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">>Enviar encuesta</button>\n  <button ion-button block color="danger">Cancelar</button>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]])
+    ], EncuestaClientePage);
+    return EncuestaClientePage;
+}());
+
+//# sourceMappingURL=encuesta-cliente.js.map
+
+/***/ }),
+
 /***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2242,7 +2551,7 @@ var AltaDeProductoPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegoDescuentoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juegos_juegos__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juegos_juegos__ = __webpack_require__(182);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2363,13 +2672,11 @@ var JuegoDescuentoPage = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmarPedidoPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__principal_principal__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__principal_principal__ = __webpack_require__(19);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2383,251 +2690,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-var ConfirmarPedidoPage = /** @class */ (function () {
-    function ConfirmarPedidoPage(navCtrl, navParams, auth, error, spinner) {
-        var _this = this;
+var JuegosPage = /** @class */ (function () {
+    function JuegosPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.auth = auth;
-        this.error = error;
-        this.spinner = spinner;
-        this.pedidos = new Array();
-        this.pedidosParaEntregar = new Array();
-        this.pedidosPorConfirmar = new Array();
-        this.mostrarSpiner = true;
-        this.auth.getPedidos().subscribe(function (lista) {
-            _this.pedidos = lista;
-            _this.pedidosParaEntregar = [];
-            _this.pedidosPorConfirmar = [];
-            for (var i = 0; i < _this.pedidos.length; i++) {
-                if (_this.pedidos[i].estado == 'pedido por confirmar') {
-                    _this.pedidosPorConfirmar.push(_this.pedidos[i]);
-                }
-                if (_this.pedidos[i].estado == 'pedido terminado') {
-                    _this.pedidosParaEntregar.push(_this.pedidos[i]);
-                }
-            }
-            _this.mostrarSpiner = false;
-        });
-    }
-    ConfirmarPedidoPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ConfirmarPedidoPage');
-    };
-    ConfirmarPedidoPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__principal_principal__["a" /* PrincipalPage */]);
-    };
-    ConfirmarPedidoPage.prototype.aceptarPedido = function (pedido) {
-        var _this = this;
-        console.log(pedido);
-        var spiner = this.spinner.getAllPageSpinner();
-        spiner.present();
-        pedido.estado = "esperando pedido";
-        this.auth.actualizarPedido(pedido).then(function (res) {
-            spiner.dismiss();
-            _this.error.mostrarMensaje("Pedido confirmado");
-        });
-    };
-    ConfirmarPedidoPage.prototype.cancelarPedido = function (pedido) {
-        var _this = this;
-        console.log(pedido);
-        var spiner = this.spinner.getAllPageSpinner();
-        spiner.present();
-        pedido.estado = "cancelado";
-        this.auth.actualizarPedido(pedido).then(function (res) {
-            spiner.dismiss();
-            _this.error.mostrarMensaje("Pedido cancelado");
-        });
-    };
-    ConfirmarPedidoPage.prototype.entregarPedido = function (pedido) {
-        var _this = this;
-        var spiner = this.spinner.getAllPageSpinner();
-        spiner.present();
-        pedido.estado = "camino a entrega";
-        this.auth.actualizarPedido(pedido).then(function (res) {
-            spiner.dismiss();
-            _this.error.mostrarMensaje("Entregando pedido..Esperando confirmacion del cliente");
-        });
-        var pdidos = new Array();
-        this.auth.getPedidos().subscribe(function (lista) {
-            pdidos = lista;
-            for (var i = 0; i < pdidos.length; i++) {
-                if (pdidos[i].id == pedido.id && pdidos[i].estado == 'comiendo') {
-                    _this.error.mostrarMensaje("Pedido entregado");
-                    break;
-                }
-            }
-        });
-    };
-    ConfirmarPedidoPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-confirmar-pedido',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/confirmar-pedido/confirmar-pedido.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <ng-container *ngIf="!mostrarSpiner && pedidosPorConfirmar.length > 0">\n    <h2 class="titulo"><u>Pedidos pendientes de confirmación</u></h2>\n  </ng-container>\n  <div *ngFor="let pedido of pedidosPorConfirmar" class="card">\n    <div class="card-body">\n        <h4 class="card-title text-center">Mesa Nº {{pedido.numero}}</h4>\n        <div *ngFor="let item of pedido.productos" class="">\n          <div class="item-producto grid-container">\n            <div class="Contenido">\n              <p class="card-text item-nombre">{{item.nombre}}</p>\n              <p class="card-text item-descripcion">{{item.descripcion}}</p>\n            </div>\n            <div>\n              <h3 class="item-cantidad">{{item.cantidad}}</h3><p class="card-text item-porcion">Porciones</p>\n            </div>\n          </div>\n        </div>\n        <button ion-button block color="primary" (click)="aceptarPedido(pedido)">Aceptar</button>\n        <button ion-button block color="red" (click)="cancelarPedido(pedido)">Cancelar</button>\n    </div>\n  </div>\n  <ng-container *ngIf="!mostrarSpiner && pedidosParaEntregar.length > 0">\n    <h2 class="titulo"><u>Pedidos pendientes por entregar</u></h2>\n  </ng-container>\n  <div *ngFor="let pedido of pedidosParaEntregar" class="card">\n    <div class="card-body">\n      <h4 class="card-title text-center">Mesa Nº {{pedido.numero}}</h4>\n      <div *ngFor="let item of pedido.productos" class="">\n        <div class="item-producto grid-container">\n          <div class="Contenido">\n            <p class="card-text item-nombre">{{item.nombre}}</p>\n            <p class="card-text item-descripcion">{{item.descripcion}}</p>\n          </div>\n          <div>\n            <h3 class="item-cantidad">{{item.cantidad}}</h3><p class="card-text item-porcion">Porciones</p>\n          </div>\n        </div>\n      </div>\n      <button ion-button block color="primary" (click)="entregarPedido(pedido)">Entregar</button>\n    </div>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/confirmar-pedido/confirmar-pedido.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]])
-    ], ConfirmarPedidoPage);
-    return ConfirmarPedidoPage;
-}());
-
-//# sourceMappingURL=confirmar-pedido.js.map
-
-/***/ }),
-
-/***/ 183:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PagarPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__principal_principal__ = __webpack_require__(19);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-var PagarPage = /** @class */ (function () {
-    function PagarPage(navCtrl, navParams, auth, error, barcodeScanner, spinner) {
-        var _this = this;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.auth = auth;
-        this.error = error;
-        this.barcodeScanner = barcodeScanner;
-        this.spinner = spinner;
-        this.mostrarSpiner = true;
-        this.total = 0;
-        this.propina = "sin propina";
-        this.descuentoJuego = false;
         this.usuario = JSON.parse(localStorage.getItem("usuario"));
-        this.auth.getPedidos().subscribe(function (lista) {
-            for (var i = 0; i < lista.length; i++) {
-                if (lista[i].correo == _this.usuario.correo && lista[i].estado == 'por pagar') {
-                    _this.pedido = lista[i];
-                    break;
-                }
-            }
-            _this.monto = _this.pedido.montoTotal;
-            _this.total = _this.monto;
-            if (localStorage.getItem("juegoDescuento") == 'true') {
-                _this.descuento = _this.monto * 0.1;
-                _this.descuentoJuego = true;
-                _this.total -= _this.descuento;
-            }
-            _this.mostrarSpiner = false;
-            _this.mostrar = true;
-            console.log(_this.pedido);
-            _this.auth.getMesas().subscribe(function (lista) {
-                for (var i = 0; i < lista.length; i++) {
-                    if (lista[i].numero == _this.pedido.numero) {
-                        _this.mesa = lista[i];
-                        break;
-                    }
-                }
-            });
-            console.log(_this.mesa);
-        });
+        this.juegos = [
+            { accion: "Juego de memoria", img: "memoria.jpg", ruta: __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */] },
+        ];
     }
-    PagarPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad PagarPage');
-        this.mostrar = false;
-        this.mostrarSpiner = false;
+    JuegosPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad JuegosPage');
     };
-    PagarPage.prototype.qr = function () {
-        var _this = this;
-        this.barcodeScanner.scan().then(function (barcodeData) {
-            _this.codigo = barcodeData.text;
-            var dato = _this.codigo.split(",");
-            var porcentaje;
-            if (dato[0] == 'propina') {
-                switch (dato[1]) {
-                    case 'excelente':
-                        _this.propina = _this.monto * 0.2;
-                        porcentaje = '20%';
-                        break;
-                    case 'Muy bien':
-                        _this.propina = _this.monto * 0.15;
-                        porcentaje = '15%';
-                        break;
-                    case 'Bien':
-                        _this.propina = _this.monto * 0.1;
-                        porcentaje = '10%';
-                        break;
-                    case 'Regular':
-                        _this.propina = _this.monto * 0.05;
-                        porcentaje = '5%';
-                        break;
-                    case 'malo':
-                        _this.propina = 0;
-                        porcentaje = '0%';
-                        break;
-                    default:
-                        _this.propina = 0;
-                        break;
-                }
-                _this.total = _this.monto;
-                _this.total += _this.propina;
-                if (_this.descuentoJuego) {
-                    _this.total -= _this.descuento;
-                }
-                _this.error.mostrarMensaje("Gracias!! Has incluido al pedido " + porcentaje + " de propina");
-            }
-            else {
-                _this.error.mostrarErrorLiteral('QR incorrecto');
-            }
-        }, function (error) {
-            _this.error.mostrarErrorLiteral(error);
-        });
+    JuegosPage.prototype.Redireccionar = function (ruta) {
+        this.navCtrl.setRoot(ruta);
     };
-    PagarPage.prototype.pagar = function () {
-        var _this = this;
-        var spiner = this.spinner.getAllPageSpinner();
-        spiner.present();
-        this.pedido.estado = "pagado";
-        this.auth.actualizarPedido(this.pedido).then(function (res) {
-            _this.mesa.estado = "libre";
-            _this.auth.updateMesa(_this.mesa).then(function (res) {
-                spiner.dismiss();
-                _this.error.mostrarMensaje("Pedido pagado. Gracias por comer en nuestro restaurante");
-                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__principal_principal__["a" /* PrincipalPage */]);
-            });
-        });
+    JuegosPage.prototype.back = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__principal_principal__["a" /* PrincipalPage */]);
     };
-    PagarPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__principal_principal__["a" /* PrincipalPage */]);
-    };
-    PagarPage = __decorate([
+    JuegosPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-pagar',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pagar/pagar.html"*/'<!--\n  Generated template for the PagarPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Cuenta</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf="mostrar">\n  <div style="width: 100%;text-align: center;margin: 0;position: relative;">\n    <h1>Cuenta</h1>\n  </div>\n  <ng-container *ngFor="let item of pedido.productos">\n\n      <div>\n        <span>{{item.nombre}}  *  {{item.cantidad}}</span><span style="float: right;">${{item.cantidad * item.precio}}</span>\n      </div>\n      <div class="puntos"></div>\n      \n  </ng-container>\n\n  <div >\n      <span class="total">Monto</span><span style="float: right;">${{monto}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <ng-container *ngIf="descuentoJuego">\n      <div>\n        <span>Descuento del 10% por jugar</span><span style="float: right;">(${{descuento}})</span>\n      </div>\n      <div class="puntos"></div>\n  </ng-container>\n\n  <div *ngIf="propina!=\'sin propina\'">\n      <span>Propina</span><span style="float: right;">${{propina}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <div >\n      <span class="total">Monto Total</span><span style="float: right;">${{total}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <span class="rating">¡Calificá nuestro servicio y dejá tu propina!</span>\n  <button ion-button block color="primary"  (click)="qr()">Leer QR de propina</button>\n  <button ion-button block color="primary"  (click)="pagar()">Pagar!</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pagar/pagar.html"*/,
+            selector: 'page-juegos',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/juegos/juegos.html"*/'<!--\n  Generated template for the JuegosPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Juegos</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="card-background-page" padding>\n  <button ion-button *ngFor="let item of juegos" (click)="Redireccionar(item.ruta)">\n      <div class="sombreado"></div>\n      <img src="../../assets/Imagenes/{{item.img}}" />\n      <span>{{item.accion}}</span>\n    </button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/juegos/juegos.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]])
-    ], PagarPage);
-    return PagarPage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
+    ], JuegosPage);
+    return JuegosPage;
 }());
 
-//# sourceMappingURL=pagar.js.map
+//# sourceMappingURL=juegos.js.map
 
 /***/ }),
 
@@ -2638,22 +2728,22 @@ var PagarPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PrincipalPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(172);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(268);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(269);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(270);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(272);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__listado_reserva_listado_reserva__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__listado_mesas_listado_mesas__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__alta_de_producto_alta_de_producto__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__confirmar_pedido_confirmar_pedido__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_home_cliente_home_cliente__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__listado_reserva_listado_reserva__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__listado_mesas_listado_mesas__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__alta_de_producto_alta_de_producto__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__confirmar_pedido_confirmar_pedido__ = __webpack_require__(179);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_home_cliente_home_cliente__ = __webpack_require__(97);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2724,7 +2814,7 @@ var PrincipalPage = /** @class */ (function () {
             case "cocinero":
             case "bartender":
                 this.acciones = [
-                    { accion: "Pedidos Pendientes", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */] },
+                    { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */] },
                 ];
                 break;
             case "supervisor":
@@ -2810,19 +2900,17 @@ var PrincipalPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-principal',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of acciones" (click)="openPage(p.ruta)">\n        {{p.accion}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-header>\n\n  <ion-navbar color="primary" #content>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Principal</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="logout()">\n        <ion-icon name="power"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page" padding>\n\n  <div *ngIf="usuario.tipo == \'cliente\'">\n    <home-cliente></home-cliente>\n  </div>\n  <button ion-button *ngFor="let item of acciones" (click)="openPage(item.ruta)">\n    <div class="sombreado"></div>\n    <img src="../../assets/Imagenes/{{item.img}}" />\n    <span>{{item.accion}}</span>\n  </button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]) === "function" && _e || Object])
     ], PrincipalPage);
     return PrincipalPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=principal.js.map
 
 /***/ }),
 
-/***/ 216:
+/***/ 215:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -2835,11 +2923,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 216;
+webpackEmptyAsyncContext.id = 215;
 
 /***/ }),
 
-/***/ 258:
+/***/ 257:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -2852,11 +2940,11 @@ var map = {
 		16
 	],
 	"../pages/altaempleado/altaempleado.module": [
-		654,
+		653,
 		15
 	],
 	"../pages/confirmar-pedido/confirmar-pedido.module": [
-		653,
+		654,
 		14
 	],
 	"../pages/encuesta-cliente/encuesta-cliente.module": [
@@ -2900,19 +2988,19 @@ var map = {
 		4
 	],
 	"../pages/principal/principal.module": [
-		666,
+		663,
 		3
 	],
 	"../pages/register/register.module": [
-		663,
+		664,
 		2
 	],
 	"../pages/reserva/reserva.module": [
-		664,
+		665,
 		1
 	],
 	"../pages/spinner/spinner.module": [
-		665,
+		666,
 		0
 	]
 };
@@ -2927,12 +3015,12 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 258;
+webpackAsyncContext.id = 257;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 266:
+/***/ 265:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2945,7 +3033,7 @@ module.exports = webpackAsyncContext;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_home_home__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_home_home__ = __webpack_require__(94);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3131,7 +3219,7 @@ var AltaClienteComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 268:
+/***/ 267:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3330,7 +3418,7 @@ var AltaSupervisorComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 269:
+/***/ 268:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3525,7 +3613,7 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 270:
+/***/ 269:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3535,7 +3623,7 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_email_composer__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_email_composer__ = __webpack_require__(270);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3634,7 +3722,7 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 272:
+/***/ 271:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3683,29 +3771,32 @@ var PedidosPendientesComponent = /** @class */ (function () {
                 case 'cocinero':
                     for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
                         var item = lista_1[_i];
-                        for (var i = 0; i < item.productos.length; i++) {
-                            if (item.productos[i].tipo != 'plato') {
-                                item.productos.splice(i, 1);
+                        //console.log(item);
+                        if (item.productos != undefined) {
+                            for (var i = 0; i < item.productos.length; i++) {
+                                if (item.productos[i].tipo != 'plato') {
+                                    item.productos.splice(i, 1);
+                                }
                             }
-                        }
-                        if (item.estado == 'esperando pedido') {
-                            var i = 0;
-                            var flag = false;
-                            while (!flag) {
-                                if (item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato') {
+                            if (item.estado == 'esperando pedido') {
+                                var i = 0;
+                                var flag = false;
+                                while (!flag) {
+                                    if (item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato') {
+                                        _this.pedidos.push(item);
+                                        _this.hayProducto = true;
+                                        flag = true;
+                                    }
+                                    if (item.productos.length == i++)
+                                        flag = true;
+                                }
+                            }
+                            else if (item.estado == 'preparando pedido') {
+                                var id = JSON.parse(localStorage.getItem('pedidosTomados'));
+                                if (id.toString() == item.id.toString()) {
                                     _this.pedidos.push(item);
                                     _this.hayProducto = true;
-                                    flag = true;
                                 }
-                                if (item.productos.length == i++)
-                                    flag = true;
-                            }
-                        }
-                        else if (item.estado == 'preparando pedido') {
-                            var id = JSON.parse(localStorage.getItem('pedidosTomados'));
-                            if (id.toString() == item.id.toString()) {
-                                _this.pedidos.push(item);
-                                _this.hayProducto = true;
                             }
                         }
                     }
@@ -3713,29 +3804,31 @@ var PedidosPendientesComponent = /** @class */ (function () {
                 case 'bartender':
                     for (var _a = 0, lista_2 = lista; _a < lista_2.length; _a++) {
                         var item = lista_2[_a];
-                        for (var i = 0; i < item.productos.length; i++) {
-                            if (item.productos[i].tipo != 'bebida') {
-                                item.productos.splice(i, 1);
+                        if (item.productos != undefined) {
+                            for (var i = 0; i < item.productos.length; i++) {
+                                if (item.productos[i].tipo != 'bebida') {
+                                    item.productos.splice(i, 1);
+                                }
                             }
-                        }
-                        if (item.estado == 'esperando pedido') {
-                            var i = 0;
-                            var flag = false;
-                            while (!flag) {
-                                if (item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'bebida') {
+                            if (item.estado == 'esperando pedido') {
+                                var i = 0;
+                                var flag = false;
+                                while (!flag) {
+                                    if (item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'bebida') {
+                                        _this.pedidos.push(item);
+                                        _this.hayProducto = true;
+                                        flag = true;
+                                    }
+                                    if (item.productos.length == i++)
+                                        flag = true;
+                                }
+                            }
+                            else if (item.estado == 'preparando pedido') {
+                                var id = localStorage.getItem('pedidosTomados');
+                                if (id != undefined && id == item.id) {
                                     _this.pedidos.push(item);
                                     _this.hayProducto = true;
-                                    flag = true;
                                 }
-                                if (item.productos.length == i++)
-                                    flag = true;
-                            }
-                        }
-                        else if (item.estado == 'preparando pedido') {
-                            var id = localStorage.getItem('pedidosTomados');
-                            if (id != undefined && id == item.id) {
-                                _this.pedidos.push(item);
-                                _this.hayProducto = true;
                             }
                         }
                     }
@@ -3877,7 +3970,7 @@ var SpinnerProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 400:
+/***/ 399:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3885,11 +3978,11 @@ var SpinnerProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_principal_principal__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(180);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4009,7 +4102,7 @@ var QrMesaComponent = /** @class */ (function () {
         });
     };
     QrMesaComponent.prototype.tomarMesa = function (e) {
-        //console.log(e);
+        console.log(e);
         this.estado = 0;
         var data = {
             cantidadComensales: e.cantidadComensales,
@@ -4020,7 +4113,11 @@ var QrMesaComponent = /** @class */ (function () {
             codigo: e.codigo,
             id: e.id
         };
-        this.auth.updateMesa(data);
+        console.log(data);
+        this.auth.updateMesa(data).then(function (ok) {
+            console.log("conseguido");
+            console.log(ok);
+        });
         var date = new Date();
         var fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
         var dataPedido = {
@@ -4079,7 +4176,7 @@ var QrMesaComponent = /** @class */ (function () {
     };
     QrMesaComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4>¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n  	</ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/plato.png" alt="mesa-reservada">\n      <button ion-button block color="primary" (click)="mostrarEncuestaDeSatisfaccion()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
+            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  \n  <div *ngIf="estado == 1">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n	    <p class="card-text">Tipo: {{mesa.tipo}}</p>\n  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4>¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/plato.png" alt="mesa-reservada">\n      <button ion-button block color="primary" (click)="mostrarEncuestaDeSatisfaccion()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
             __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */]])
@@ -4088,6 +4185,161 @@ var QrMesaComponent = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=qr-mesa.js.map
+
+/***/ }),
+
+/***/ 441:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PagarPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__principal_principal__ = __webpack_require__(19);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var PagarPage = /** @class */ (function () {
+    function PagarPage(navCtrl, navParams, auth, error, barcodeScanner, spinner) {
+        var _this = this;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.auth = auth;
+        this.error = error;
+        this.barcodeScanner = barcodeScanner;
+        this.spinner = spinner;
+        this.mostrarSpiner = true;
+        this.total = 0;
+        this.propina = "sin propina";
+        this.descuentoJuego = false;
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        this.auth.getPedidos().subscribe(function (lista) {
+            for (var i = 0; i < lista.length; i++) {
+                if (lista[i].correo == _this.usuario.correo && lista[i].estado == 'por pagar') {
+                    _this.pedido = lista[i];
+                    break;
+                }
+            }
+            _this.monto = _this.pedido.montoTotal;
+            _this.total = _this.monto;
+            if (localStorage.getItem("juegoDescuento") == 'true') {
+                _this.descuento = _this.monto * 0.1;
+                _this.descuentoJuego = true;
+                _this.total -= _this.descuento;
+            }
+            _this.mostrarSpiner = false;
+            _this.mostrar = true;
+            console.log(_this.pedido);
+            _this.auth.getMesas().subscribe(function (lista) {
+                for (var i = 0; i < lista.length; i++) {
+                    if (lista[i].numero == _this.pedido.numero) {
+                        _this.mesa = lista[i];
+                        break;
+                    }
+                }
+            });
+            console.log(_this.mesa);
+        });
+    }
+    PagarPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad PagarPage');
+        this.mostrar = false;
+        this.mostrarSpiner = false;
+    };
+    PagarPage.prototype.qr = function () {
+        var _this = this;
+        this.barcodeScanner.scan().then(function (barcodeData) {
+            _this.codigo = barcodeData.text;
+            var dato = _this.codigo.split(",");
+            var porcentaje;
+            if (dato[0] == 'propina') {
+                switch (dato[1]) {
+                    case 'excelente':
+                        _this.propina = _this.monto * 0.2;
+                        porcentaje = '20%';
+                        break;
+                    case 'Muy bien':
+                        _this.propina = _this.monto * 0.15;
+                        porcentaje = '15%';
+                        break;
+                    case 'Bien':
+                        _this.propina = _this.monto * 0.1;
+                        porcentaje = '10%';
+                        break;
+                    case 'Regular':
+                        _this.propina = _this.monto * 0.05;
+                        porcentaje = '5%';
+                        break;
+                    case 'malo':
+                        _this.propina = 0;
+                        porcentaje = '0%';
+                        break;
+                    default:
+                        _this.propina = 0;
+                        break;
+                }
+                _this.total = _this.monto;
+                _this.total += _this.propina;
+                if (_this.descuentoJuego) {
+                    _this.total -= _this.descuento;
+                }
+                _this.error.mostrarMensaje("Gracias!! Has incluido al pedido " + porcentaje + " de propina");
+            }
+            else {
+                _this.error.mostrarErrorLiteral('QR incorrecto');
+            }
+        }, function (error) {
+            _this.error.mostrarErrorLiteral(error);
+        });
+    };
+    PagarPage.prototype.pagar = function () {
+        var _this = this;
+        var spiner = this.spinner.getAllPageSpinner();
+        spiner.present();
+        this.pedido.estado = "pagado";
+        this.auth.actualizarPedido(this.pedido).then(function (res) {
+            _this.mesa.estado = "libre";
+            _this.auth.updateMesa(_this.mesa).then(function (res) {
+                spiner.dismiss();
+                _this.error.mostrarMensaje("Pedido pagado. Gracias por comer en nuestro restaurante");
+                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__principal_principal__["a" /* PrincipalPage */]);
+            });
+        });
+    };
+    PagarPage.prototype.back = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__principal_principal__["a" /* PrincipalPage */]);
+    };
+    PagarPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-pagar',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pagar/pagar.html"*/'<!--\n  Generated template for the PagarPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Cuenta</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf="mostrar">\n  <div style="width: 100%;text-align: center;margin: 0;position: relative;">\n    <h1>Cuenta</h1>\n  </div>\n  <ng-container *ngFor="let item of pedido.productos">\n\n      <div>\n        <span>{{item.nombre}}  *  {{item.cantidad}}</span><span style="float: right;">${{item.cantidad * item.precio}}</span>\n      </div>\n      <div class="puntos"></div>\n      \n  </ng-container>\n\n  <div >\n      <span class="total">Monto</span><span style="float: right;">${{monto}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <ng-container *ngIf="descuentoJuego">\n      <div>\n        <span>Descuento del 10% por jugar</span><span style="float: right;">(${{descuento}})</span>\n      </div>\n      <div class="puntos"></div>\n  </ng-container>\n\n  <div *ngIf="propina!=\'sin propina\'">\n      <span>Propina</span><span style="float: right;">${{propina}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <div >\n      <span class="total">Monto Total</span><span style="float: right;">${{total}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <span class="rating">¡Calificá nuestro servicio y dejá tu propina!</span>\n  <button ion-button block color="primary"  (click)="qr()">Leer QR de propina</button>\n  <button ion-button block color="primary"  (click)="pagar()">Pagar!</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pagar/pagar.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]])
+    ], PagarPage);
+    return PagarPage;
+}());
+
+//# sourceMappingURL=pagar.js.map
 
 /***/ }),
 
@@ -4202,51 +4454,51 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(441);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(440);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(642);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__ = __webpack_require__(443);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(442);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_altaempleado_altaempleado__ = __webpack_require__(172);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_listado_supervisor_listado_supervisor__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(174);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(178);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_reserva_reserva__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_listado_reserva_listado_reserva__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_pedir_platos_pedir_platos__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_listado_mesas_listado_mesas__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_juegos_juegos__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_altaempleado_altaempleado__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_listado_supervisor_listado_supervisor__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_reserva_reserva__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_listado_reserva_listado_reserva__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_pedir_platos_pedir_platos__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_listado_mesas_listado_mesas__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_juegos_juegos__ = __webpack_require__(182);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_juego_descuento_juego_descuento__ = __webpack_require__(181);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_confirmar_pedido_confirmar_pedido__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_pagar_pagar__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_confirmar_pedido_confirmar_pedido__ = __webpack_require__(179);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_pagar_pagar__ = __webpack_require__(441);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__angular_fire__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_fire_firestore__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__angular_fire_auth__ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_fire_firestore__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__angular_fire_auth__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__globalConfig__ = __webpack_require__(645);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__providers_auth_auth__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__providers_alert_alert__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__providers_spinner_spinner__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_json_json__ = __webpack_require__(646);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_alta_supervisor_alta_supervisor__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_alta_supervisor_alta_supervisor__ = __webpack_require__(267);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_splash_splash__ = __webpack_require__(647);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_alta_cliente_alta_cliente__ = __webpack_require__(266);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_qr_mesa_qr_mesa__ = __webpack_require__(400);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__angular_common_http__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_alta_cliente_alta_cliente__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_qr_mesa_qr_mesa__ = __webpack_require__(399);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__angular_common_http__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__angular_http__ = __webpack_require__(648);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(269);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(270);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_home_cliente_home_cliente__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(269);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_home_cliente_home_cliente__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__providers_fcm_fcm__ = __webpack_require__(649);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_alta_producto_alta_producto__ = __webpack_require__(650);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(272);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__ionic_native_email_composer__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__ionic_native_email_composer__ = __webpack_require__(270);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4350,8 +4602,8 @@ var AppModule = /** @class */ (function () {
                     links: [
                         { loadChildren: '../pages/alta-de-mesa/alta-de-mesa.module#AltaDeMesaPageModule', name: 'AltaDeMesaPage', segment: 'alta-de-mesa', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/confirmar-pedido/confirmar-pedido.module#ConfirmarPedidoPageModule', name: 'ConfirmarPedidoPage', segment: 'confirmar-pedido', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/confirmar-pedido/confirmar-pedido.module#ConfirmarPedidoPageModule', name: 'ConfirmarPedidoPage', segment: 'confirmar-pedido', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-cliente/encuesta-cliente.module#EncuestaClientePageModule', name: 'EncuestaClientePage', segment: 'encuesta-cliente', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juego-descuento/juego-descuento.module#JuegoDescuentoPageModule', name: 'JuegoDescuentoPage', segment: 'juego-descuento', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juegos/juegos.module#JuegosPageModule', name: 'JuegosPage', segment: 'juegos', priority: 'low', defaultHistory: [] },
@@ -4360,10 +4612,10 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] }
                     ]
@@ -4436,260 +4688,260 @@ var AppModule = /** @class */ (function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 273,
-	"./af.js": 273,
-	"./ar": 274,
-	"./ar-dz": 275,
-	"./ar-dz.js": 275,
-	"./ar-kw": 276,
-	"./ar-kw.js": 276,
-	"./ar-ly": 277,
-	"./ar-ly.js": 277,
-	"./ar-ma": 278,
-	"./ar-ma.js": 278,
-	"./ar-sa": 279,
-	"./ar-sa.js": 279,
-	"./ar-tn": 280,
-	"./ar-tn.js": 280,
-	"./ar.js": 274,
-	"./az": 281,
-	"./az.js": 281,
-	"./be": 282,
-	"./be.js": 282,
-	"./bg": 283,
-	"./bg.js": 283,
-	"./bm": 284,
-	"./bm.js": 284,
-	"./bn": 285,
-	"./bn.js": 285,
-	"./bo": 286,
-	"./bo.js": 286,
-	"./br": 287,
-	"./br.js": 287,
-	"./bs": 288,
-	"./bs.js": 288,
-	"./ca": 289,
-	"./ca.js": 289,
-	"./cs": 290,
-	"./cs.js": 290,
-	"./cv": 291,
-	"./cv.js": 291,
-	"./cy": 292,
-	"./cy.js": 292,
-	"./da": 293,
-	"./da.js": 293,
-	"./de": 294,
-	"./de-at": 295,
-	"./de-at.js": 295,
-	"./de-ch": 296,
-	"./de-ch.js": 296,
-	"./de.js": 294,
-	"./dv": 297,
-	"./dv.js": 297,
-	"./el": 298,
-	"./el.js": 298,
-	"./en-SG": 299,
-	"./en-SG.js": 299,
-	"./en-au": 300,
-	"./en-au.js": 300,
-	"./en-ca": 301,
-	"./en-ca.js": 301,
-	"./en-gb": 302,
-	"./en-gb.js": 302,
-	"./en-ie": 303,
-	"./en-ie.js": 303,
-	"./en-il": 304,
-	"./en-il.js": 304,
-	"./en-nz": 305,
-	"./en-nz.js": 305,
-	"./eo": 306,
-	"./eo.js": 306,
-	"./es": 307,
-	"./es-do": 308,
-	"./es-do.js": 308,
-	"./es-us": 309,
-	"./es-us.js": 309,
-	"./es.js": 307,
-	"./et": 310,
-	"./et.js": 310,
-	"./eu": 311,
-	"./eu.js": 311,
-	"./fa": 312,
-	"./fa.js": 312,
-	"./fi": 313,
-	"./fi.js": 313,
-	"./fo": 314,
-	"./fo.js": 314,
-	"./fr": 315,
-	"./fr-ca": 316,
-	"./fr-ca.js": 316,
-	"./fr-ch": 317,
-	"./fr-ch.js": 317,
-	"./fr.js": 315,
-	"./fy": 318,
-	"./fy.js": 318,
-	"./ga": 319,
-	"./ga.js": 319,
-	"./gd": 320,
-	"./gd.js": 320,
-	"./gl": 321,
-	"./gl.js": 321,
-	"./gom-latn": 322,
-	"./gom-latn.js": 322,
-	"./gu": 323,
-	"./gu.js": 323,
-	"./he": 324,
-	"./he.js": 324,
-	"./hi": 325,
-	"./hi.js": 325,
-	"./hr": 326,
-	"./hr.js": 326,
-	"./hu": 327,
-	"./hu.js": 327,
-	"./hy-am": 328,
-	"./hy-am.js": 328,
-	"./id": 329,
-	"./id.js": 329,
-	"./is": 330,
-	"./is.js": 330,
-	"./it": 331,
-	"./it-ch": 332,
-	"./it-ch.js": 332,
-	"./it.js": 331,
-	"./ja": 333,
-	"./ja.js": 333,
-	"./jv": 334,
-	"./jv.js": 334,
-	"./ka": 335,
-	"./ka.js": 335,
-	"./kk": 336,
-	"./kk.js": 336,
-	"./km": 337,
-	"./km.js": 337,
-	"./kn": 338,
-	"./kn.js": 338,
-	"./ko": 339,
-	"./ko.js": 339,
-	"./ku": 340,
-	"./ku.js": 340,
-	"./ky": 341,
-	"./ky.js": 341,
-	"./lb": 342,
-	"./lb.js": 342,
-	"./lo": 343,
-	"./lo.js": 343,
-	"./lt": 344,
-	"./lt.js": 344,
-	"./lv": 345,
-	"./lv.js": 345,
-	"./me": 346,
-	"./me.js": 346,
-	"./mi": 347,
-	"./mi.js": 347,
-	"./mk": 348,
-	"./mk.js": 348,
-	"./ml": 349,
-	"./ml.js": 349,
-	"./mn": 350,
-	"./mn.js": 350,
-	"./mr": 351,
-	"./mr.js": 351,
-	"./ms": 352,
-	"./ms-my": 353,
-	"./ms-my.js": 353,
-	"./ms.js": 352,
-	"./mt": 354,
-	"./mt.js": 354,
-	"./my": 355,
-	"./my.js": 355,
-	"./nb": 356,
-	"./nb.js": 356,
-	"./ne": 357,
-	"./ne.js": 357,
-	"./nl": 358,
-	"./nl-be": 359,
-	"./nl-be.js": 359,
-	"./nl.js": 358,
-	"./nn": 360,
-	"./nn.js": 360,
-	"./pa-in": 361,
-	"./pa-in.js": 361,
-	"./pl": 362,
-	"./pl.js": 362,
-	"./pt": 363,
-	"./pt-br": 364,
-	"./pt-br.js": 364,
-	"./pt.js": 363,
-	"./ro": 365,
-	"./ro.js": 365,
-	"./ru": 366,
-	"./ru.js": 366,
-	"./sd": 367,
-	"./sd.js": 367,
-	"./se": 368,
-	"./se.js": 368,
-	"./si": 369,
-	"./si.js": 369,
-	"./sk": 370,
-	"./sk.js": 370,
-	"./sl": 371,
-	"./sl.js": 371,
-	"./sq": 372,
-	"./sq.js": 372,
-	"./sr": 373,
-	"./sr-cyrl": 374,
-	"./sr-cyrl.js": 374,
-	"./sr.js": 373,
-	"./ss": 375,
-	"./ss.js": 375,
-	"./sv": 376,
-	"./sv.js": 376,
-	"./sw": 377,
-	"./sw.js": 377,
-	"./ta": 378,
-	"./ta.js": 378,
-	"./te": 379,
-	"./te.js": 379,
-	"./tet": 380,
-	"./tet.js": 380,
-	"./tg": 381,
-	"./tg.js": 381,
-	"./th": 382,
-	"./th.js": 382,
-	"./tl-ph": 383,
-	"./tl-ph.js": 383,
-	"./tlh": 384,
-	"./tlh.js": 384,
-	"./tr": 385,
-	"./tr.js": 385,
-	"./tzl": 386,
-	"./tzl.js": 386,
-	"./tzm": 387,
-	"./tzm-latn": 388,
-	"./tzm-latn.js": 388,
-	"./tzm.js": 387,
-	"./ug-cn": 389,
-	"./ug-cn.js": 389,
-	"./uk": 390,
-	"./uk.js": 390,
-	"./ur": 391,
-	"./ur.js": 391,
-	"./uz": 392,
-	"./uz-latn": 393,
-	"./uz-latn.js": 393,
-	"./uz.js": 392,
-	"./vi": 394,
-	"./vi.js": 394,
-	"./x-pseudo": 395,
-	"./x-pseudo.js": 395,
-	"./yo": 396,
-	"./yo.js": 396,
-	"./zh-cn": 397,
-	"./zh-cn.js": 397,
-	"./zh-hk": 398,
-	"./zh-hk.js": 398,
-	"./zh-tw": 399,
-	"./zh-tw.js": 399
+	"./af": 272,
+	"./af.js": 272,
+	"./ar": 273,
+	"./ar-dz": 274,
+	"./ar-dz.js": 274,
+	"./ar-kw": 275,
+	"./ar-kw.js": 275,
+	"./ar-ly": 276,
+	"./ar-ly.js": 276,
+	"./ar-ma": 277,
+	"./ar-ma.js": 277,
+	"./ar-sa": 278,
+	"./ar-sa.js": 278,
+	"./ar-tn": 279,
+	"./ar-tn.js": 279,
+	"./ar.js": 273,
+	"./az": 280,
+	"./az.js": 280,
+	"./be": 281,
+	"./be.js": 281,
+	"./bg": 282,
+	"./bg.js": 282,
+	"./bm": 283,
+	"./bm.js": 283,
+	"./bn": 284,
+	"./bn.js": 284,
+	"./bo": 285,
+	"./bo.js": 285,
+	"./br": 286,
+	"./br.js": 286,
+	"./bs": 287,
+	"./bs.js": 287,
+	"./ca": 288,
+	"./ca.js": 288,
+	"./cs": 289,
+	"./cs.js": 289,
+	"./cv": 290,
+	"./cv.js": 290,
+	"./cy": 291,
+	"./cy.js": 291,
+	"./da": 292,
+	"./da.js": 292,
+	"./de": 293,
+	"./de-at": 294,
+	"./de-at.js": 294,
+	"./de-ch": 295,
+	"./de-ch.js": 295,
+	"./de.js": 293,
+	"./dv": 296,
+	"./dv.js": 296,
+	"./el": 297,
+	"./el.js": 297,
+	"./en-SG": 298,
+	"./en-SG.js": 298,
+	"./en-au": 299,
+	"./en-au.js": 299,
+	"./en-ca": 300,
+	"./en-ca.js": 300,
+	"./en-gb": 301,
+	"./en-gb.js": 301,
+	"./en-ie": 302,
+	"./en-ie.js": 302,
+	"./en-il": 303,
+	"./en-il.js": 303,
+	"./en-nz": 304,
+	"./en-nz.js": 304,
+	"./eo": 305,
+	"./eo.js": 305,
+	"./es": 306,
+	"./es-do": 307,
+	"./es-do.js": 307,
+	"./es-us": 308,
+	"./es-us.js": 308,
+	"./es.js": 306,
+	"./et": 309,
+	"./et.js": 309,
+	"./eu": 310,
+	"./eu.js": 310,
+	"./fa": 311,
+	"./fa.js": 311,
+	"./fi": 312,
+	"./fi.js": 312,
+	"./fo": 313,
+	"./fo.js": 313,
+	"./fr": 314,
+	"./fr-ca": 315,
+	"./fr-ca.js": 315,
+	"./fr-ch": 316,
+	"./fr-ch.js": 316,
+	"./fr.js": 314,
+	"./fy": 317,
+	"./fy.js": 317,
+	"./ga": 318,
+	"./ga.js": 318,
+	"./gd": 319,
+	"./gd.js": 319,
+	"./gl": 320,
+	"./gl.js": 320,
+	"./gom-latn": 321,
+	"./gom-latn.js": 321,
+	"./gu": 322,
+	"./gu.js": 322,
+	"./he": 323,
+	"./he.js": 323,
+	"./hi": 324,
+	"./hi.js": 324,
+	"./hr": 325,
+	"./hr.js": 325,
+	"./hu": 326,
+	"./hu.js": 326,
+	"./hy-am": 327,
+	"./hy-am.js": 327,
+	"./id": 328,
+	"./id.js": 328,
+	"./is": 329,
+	"./is.js": 329,
+	"./it": 330,
+	"./it-ch": 331,
+	"./it-ch.js": 331,
+	"./it.js": 330,
+	"./ja": 332,
+	"./ja.js": 332,
+	"./jv": 333,
+	"./jv.js": 333,
+	"./ka": 334,
+	"./ka.js": 334,
+	"./kk": 335,
+	"./kk.js": 335,
+	"./km": 336,
+	"./km.js": 336,
+	"./kn": 337,
+	"./kn.js": 337,
+	"./ko": 338,
+	"./ko.js": 338,
+	"./ku": 339,
+	"./ku.js": 339,
+	"./ky": 340,
+	"./ky.js": 340,
+	"./lb": 341,
+	"./lb.js": 341,
+	"./lo": 342,
+	"./lo.js": 342,
+	"./lt": 343,
+	"./lt.js": 343,
+	"./lv": 344,
+	"./lv.js": 344,
+	"./me": 345,
+	"./me.js": 345,
+	"./mi": 346,
+	"./mi.js": 346,
+	"./mk": 347,
+	"./mk.js": 347,
+	"./ml": 348,
+	"./ml.js": 348,
+	"./mn": 349,
+	"./mn.js": 349,
+	"./mr": 350,
+	"./mr.js": 350,
+	"./ms": 351,
+	"./ms-my": 352,
+	"./ms-my.js": 352,
+	"./ms.js": 351,
+	"./mt": 353,
+	"./mt.js": 353,
+	"./my": 354,
+	"./my.js": 354,
+	"./nb": 355,
+	"./nb.js": 355,
+	"./ne": 356,
+	"./ne.js": 356,
+	"./nl": 357,
+	"./nl-be": 358,
+	"./nl-be.js": 358,
+	"./nl.js": 357,
+	"./nn": 359,
+	"./nn.js": 359,
+	"./pa-in": 360,
+	"./pa-in.js": 360,
+	"./pl": 361,
+	"./pl.js": 361,
+	"./pt": 362,
+	"./pt-br": 363,
+	"./pt-br.js": 363,
+	"./pt.js": 362,
+	"./ro": 364,
+	"./ro.js": 364,
+	"./ru": 365,
+	"./ru.js": 365,
+	"./sd": 366,
+	"./sd.js": 366,
+	"./se": 367,
+	"./se.js": 367,
+	"./si": 368,
+	"./si.js": 368,
+	"./sk": 369,
+	"./sk.js": 369,
+	"./sl": 370,
+	"./sl.js": 370,
+	"./sq": 371,
+	"./sq.js": 371,
+	"./sr": 372,
+	"./sr-cyrl": 373,
+	"./sr-cyrl.js": 373,
+	"./sr.js": 372,
+	"./ss": 374,
+	"./ss.js": 374,
+	"./sv": 375,
+	"./sv.js": 375,
+	"./sw": 376,
+	"./sw.js": 376,
+	"./ta": 377,
+	"./ta.js": 377,
+	"./te": 378,
+	"./te.js": 378,
+	"./tet": 379,
+	"./tet.js": 379,
+	"./tg": 380,
+	"./tg.js": 380,
+	"./th": 381,
+	"./th.js": 381,
+	"./tl-ph": 382,
+	"./tl-ph.js": 382,
+	"./tlh": 383,
+	"./tlh.js": 383,
+	"./tr": 384,
+	"./tr.js": 384,
+	"./tzl": 385,
+	"./tzl.js": 385,
+	"./tzm": 386,
+	"./tzm-latn": 387,
+	"./tzm-latn.js": 387,
+	"./tzm.js": 386,
+	"./ug-cn": 388,
+	"./ug-cn.js": 388,
+	"./uk": 389,
+	"./uk.js": 389,
+	"./ur": 390,
+	"./ur.js": 390,
+	"./uz": 391,
+	"./uz-latn": 392,
+	"./uz-latn.js": 392,
+	"./uz.js": 391,
+	"./vi": 393,
+	"./vi.js": 393,
+	"./x-pseudo": 394,
+	"./x-pseudo.js": 394,
+	"./yo": 395,
+	"./yo.js": 395,
+	"./zh-cn": 396,
+	"./zh-cn.js": 396,
+	"./zh-hk": 397,
+	"./zh-hk.js": 397,
+	"./zh-tw": 398,
+	"./zh-tw.js": 398
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -4717,7 +4969,7 @@ webpackContext.id = 622;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(7);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4784,9 +5036,9 @@ var QrEntradaComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(440);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(441);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(439);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(440);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__ = __webpack_require__(643);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -4872,7 +5124,7 @@ var configs = {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JsonProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4984,7 +5236,7 @@ var SplashComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FcmProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(7);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5164,252 +5416,7 @@ var AltaProductoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 79:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PedirPlatosPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-var PedirPlatosPage = /** @class */ (function () {
-    function PedirPlatosPage(navCtrl, navParams, auth, error, spinner) {
-        var _this = this;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.auth = auth;
-        this.error = error;
-        this.spinner = spinner;
-        this.mensajePedido = "";
-        this.montoActual = 0;
-        this.puedePedir = true;
-        this.monto = false;
-        this.ocultarBebidas = false;
-        this.ocultarPLatos = false;
-        this.usuario = JSON.parse(localStorage.getItem("usuario"));
-        this.productos = new Array();
-        this.platos = new Array();
-        this.bebidas = new Array();
-        this.pedidoActual = new Array();
-        var spiner = this.spinner.getAllPageSpinner();
-        spiner.present();
-        this.auth.getProductos().subscribe(function (lista) {
-            _this.productos = lista;
-            for (var i = 0; i < _this.productos.length; i++) {
-                if (_this.productos[i].tipo == 'bebida') {
-                    _this.bebidas.push({ "nombre": _this.productos[i].nombre, "descripcion": _this.productos[i].descripcion, "foto": _this.productos[i].foto, "cantidad": 0, "tipo": "bebida", "tiempoPromedioElaboracion": _this.productos[i].tiempoPromedioElaboracion, "estado": "pendiente", "precio": _this.productos[i].precio });
-                }
-                else {
-                    _this.platos.push({ "nombre": _this.productos[i].nombre, "descripcion": _this.productos[i].descripcion, "foto": _this.productos[i].foto, "cantidad": 0, "tipo": "plato", "tiempoPromedioElaboracion": _this.productos[i].tiempoPromedioElaboracion, "estado": "pendiente", "precio": _this.productos[i].precio });
-                }
-            }
-            spiner.dismiss();
-            console.log(_this.bebidas);
-            console.log(_this.platos);
-            _this.puedeHacerPedido();
-        });
-    }
-    PedirPlatosPage.prototype.ionViewDidLoad = function () {
-    };
-    PedirPlatosPage.prototype.back = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
-    };
-    PedirPlatosPage.prototype.puedeHacerPedido = function () {
-        var _this = this;
-        this.auth.getPedidos().subscribe(function (lista) {
-            _this.pedidos = lista;
-            if (_this.usuario.tipo == 'mozo') {
-                var pedido = _this.navParams.get("pedido");
-                for (var i = 0; i < _this.pedidos.length; i++) {
-                    if (_this.pedidos[i].id == pedido.idPedido) {
-                        _this.pedidoPendiente = _this.pedidos[i];
-                        _this.puedePedir = true;
-                        break;
-                    }
-                }
-                console.log(_this.pedidoPendiente);
-            }
-            else {
-                var estaCorreo = false;
-                for (var i = 0; i < _this.pedidos.length; i++) {
-                    if (_this.pedidos[i].correo == _this.usuario.correo && _this.pedidos[i].estado != 'pagado' /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
-                        estaCorreo = true;
-                        //this.pedidoPendiente=this.pedidos[i];
-                        //this.puedePedir=true;
-                        break;
-                    }
-                }
-                if (estaCorreo) {
-                    _this.mensajePedido = "Ya hizo un pedido.No puede pedir otro";
-                    for (var i = 0; i < _this.pedidos.length; i++) {
-                        if (_this.pedidos[i].estado == 'por pedir' && _this.pedidos[i].correo == _this.usuario.correo) {
-                            _this.pedidoPendiente = _this.pedidos[i];
-                            _this.puedePedir = true;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    _this.mensajePedido = "No puede hacer un pedido sin antes estar en una mesa";
-                }
-                console.log(_this.pedidos);
-                console.log(_this.pedidoPendiente);
-            }
-        });
-    };
-    PedirPlatosPage.prototype.Platos = function () {
-        this.ocultarPLatos = true;
-        this.titulo = "Nuestros platos";
-    };
-    PedirPlatosPage.prototype.Bebidas = function () {
-        this.ocultarBebidas = true;
-        this.titulo = "Nuestras bebidas";
-    };
-    PedirPlatosPage.prototype.AumentarCantidad = function (item) {
-        if (item.cantidad < 20) {
-            item.cantidad++;
-        }
-        console.log(item);
-    };
-    PedirPlatosPage.prototype.DisminuirCantidad = function (item) {
-        if (item.cantidad > 0) {
-            item.cantidad--;
-        }
-        console.log(item);
-    };
-    PedirPlatosPage.prototype.AceptarPedido = function (texto) {
-        if (texto == 'plato') {
-            for (var i = 0; i < this.platos.length; i++) {
-                var pidioPlato = true;
-                for (var j = 0; j < this.pedidoActual.length; j++) {
-                    if (this.platos[i].nombre == this.pedidoActual[j].nombre) {
-                        this.pedidoActual[j] = this.platos[i];
-                        pidioPlato = false;
-                        break;
-                    }
-                }
-                if (this.platos[i].cantidad > 0 && pidioPlato) {
-                    this.pedidoActual.push(this.platos[i]);
-                }
-            }
-        }
-        else {
-            for (var i = 0; i < this.bebidas.length; i++) {
-                var pidio = true;
-                for (var j = 0; j < this.pedidoActual.length; j++) {
-                    if (this.bebidas[i].nombre == this.pedidoActual[j].nombre) {
-                        this.pedidoActual[j] = this.bebidas[i];
-                        pidio = false;
-                        break;
-                    }
-                }
-                if (this.bebidas[i].cantidad > 0 && pidio) {
-                    this.pedidoActual.push(this.bebidas[i]);
-                }
-            }
-        }
-        console.log(this.pedidoActual);
-        this.ocultarBebidas = false;
-        this.ocultarPLatos = false;
-        this.limpiarPedido();
-    };
-    PedirPlatosPage.prototype.calcularMonto = function () {
-        var tieneProductos = false;
-        for (var i = 0; i < this.pedidoActual.length; i++) {
-            if (this.pedidoActual[i].cantidad > 0) {
-                tieneProductos = true;
-                break;
-            }
-        }
-        if (tieneProductos) {
-            this.montoActual = 0;
-            for (var i = 0; i < this.pedidoActual.length; i++) {
-                if (this.pedidoActual[i].cantidad > 0) {
-                    this.montoActual += this.pedidoActual[i].precio * this.pedidoActual[i].cantidad;
-                }
-            }
-            this.monto = true;
-            console.log(this.montoActual);
-        }
-    };
-    PedirPlatosPage.prototype.limpiarPedido = function () {
-        for (var i = 0; i < this.pedidoActual.length; i++) {
-            if (this.pedidoActual[i].cantidad == 0) {
-                this.pedidoActual.splice(i, 1);
-                this.limpiarPedido();
-            }
-        }
-        console.log(this.pedidoActual);
-        this.calcularMonto();
-    };
-    PedirPlatosPage.prototype.CancelarPedido = function () {
-        this.ocultarBebidas = false;
-        this.ocultarPLatos = false;
-    };
-    PedirPlatosPage.prototype.PedirFinal = function () {
-        var _this = this;
-        if (this.pedidoActual.length > 0) {
-            var spiner_1 = this.spinner.getAllPageSpinner();
-            spiner_1.present();
-            var momentoActual = __WEBPACK_IMPORTED_MODULE_6_moment__(new Date());
-            var data = {
-                "correo": this.pedidoPendiente.correo, "nombreCliente": this.pedidoPendiente.nombreCliente, "apellidoCliente": this.pedidoPendiente.apellidoCliente, "estado": "pedido por confirmar",
-                "productos": this.pedidoActual, "numero": this.pedidoPendiente.numero, "fecha": momentoActual.format("DD/MM/YYYY HH:mm"), "montoTotal": this.montoActual,
-                "tipo": this.pedidoPendiente.tipo, "id": this.pedidoPendiente.id,
-            };
-            this.auth.actualizarPedido(data).then(function (res) {
-                spiner_1.dismiss();
-                _this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
-                setTimeout(function () {
-                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */]);
-                }, 500);
-            }).catch(function (error) {
-                _this.error.mostrarErrorLiteral(error, "Hubo un error al enviar su pedido.");
-                spiner_1.dismiss();
-            });
-        }
-        else {
-            this.error.mostrarErrorLiteral("Elija algun producto antes de aceptar un pedido");
-        }
-    };
-    PedirPlatosPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-pedir-platos',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pedir-platos/pedir-platos.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<div class="platos" *ngIf="ocultarPLatos==true">\n  <h1 class="tituloPlatos"  >{{titulo}}:</h1>\n  <ion-list>\n\n    <ion-item *ngFor="let item of platos">\n      <ion-thumbnail item-start>\n        <img src={{item.foto}}>\n      </ion-thumbnail>\n\n      <h1>{{item.nombre}}</h1>\n      <p>Descripcion • {{item.descripcion}}</p>\n      <p>cantidad • {{item.cantidad}}</p>\n\n      <button ion-button clear item-end (click)="AumentarCantidad(item)">\n        <ion-icon name="add"></ion-icon>\n      </button>\n      <button ion-button clear item-end (click)="DisminuirCantidad(item)">\n        <ion-icon name="remove"></ion-icon>\n      </button>\n    </ion-item>\n\n  </ion-list>\n  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarPedido(\'plato\')">Aceptar</button>\n  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarPedido()">Cancelar</button>\n</div>\n\n<div class="platos" *ngIf="ocultarBebidas==true">\n  <h1 class="tituloPlatos"  >{{titulo}}:</h1>\n  <ion-list>\n\n    <ion-item *ngFor="let item of bebidas">\n      <ion-thumbnail item-start>\n        <img src={{item.foto}}>\n      </ion-thumbnail>\n\n      <h1>{{item.nombre}}</h1>\n      <p>Descripcion • {{item.descripcion}}</p>\n      <p>cantidad • {{item.cantidad}}</p>\n\n      <button ion-button clear item-end (click)="AumentarCantidad(item)">\n        <ion-icon name="add"></ion-icon>\n      </button>\n      <button ion-button clear item-end (click)="DisminuirCantidad(item)">\n        <ion-icon name="remove"></ion-icon>\n      </button>\n    </ion-item>\n\n  </ion-list>\n  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarPedido(\'bebida\')">Aceptar</button>\n  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarPedido()">Cancelar</button>\n</div>\n\n<ion-content padding>\n  <div class="contenido">\n    <h1 class="tituloPag" >¡Haga su pedido!</h1>\n    <div *ngIf="monto">\n      <h1>Su pedido actual</h1>\n      <ion-list>\n        <ion-item *ngFor="let item of pedidoActual">\n          <ion-label>{{item.nombre}}  -- precio: {{item.precio}} -- cantidad: {{item.cantidad}}</ion-label>\n        </ion-item>\n      </ion-list>\n      <h1>Monto actual: {{montoActual}}</h1>\n    </div>\n    <div class="botonespp">\n          <button class="btnPlatos" (click)="Platos()" ion-button color="primary"  ><img src="assets/Imagenes/comida.png"> Platos</button>\n          <button class="btnBebidas"  (click)="Bebidas()" ion-button color="primary" ><img src="assets/Imagenes/bebidas.png">Bebidas</button>\n    </div>\n    <!--input class="inpDireccion" type="text" placeholder="Su direcci&oacute;n"-->\n    <button class="btnPedir" (click)="PedirFinal()" ion-button color="primary" >¡Pedir!</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/pedir-platos/pedir-platos.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__["a" /* SpinnerProvider */]])
-    ], PedirPlatosPage);
-    return PedirPlatosPage;
-}());
-
-//# sourceMappingURL=pedir-platos.js.map
-
-/***/ }),
-
-/***/ 95:
+/***/ 94:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5420,7 +5427,7 @@ var PedirPlatosPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(265);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5546,14 +5553,14 @@ var HomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 98:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeClienteComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(400);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(399);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__qr_entrada_qr_entrada__ = __webpack_require__(624);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(7);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

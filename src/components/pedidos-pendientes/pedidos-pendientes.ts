@@ -44,58 +44,63 @@ export class PedidosPendientesComponent {
   		switch(this.usuario.tipo){
 			case 'cocinero':
 				for(let item of lista){
-					for(let i = 0; i < item.productos.length; i++){
-						if(item.productos[i].tipo != 'plato'){
-							item.productos.splice(i, 1);
+					//console.log(item);
+					if(item.productos != undefined){
+						for(let i = 0; i < item.productos.length; i++){
+							if(item.productos[i].tipo != 'plato'){
+								item.productos.splice(i, 1);
+							}
 						}
-					}
-					if(item.estado == 'esperando pedido'){
-						let i = 0;
-						let flag = false;
-						while(!flag){
-							if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato'){
+						if(item.estado == 'esperando pedido'){
+							let i = 0;
+							let flag = false;
+							while(!flag){
+								if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato'){
+									this.pedidos.push(item);
+									this.hayProducto = true;
+									flag = true;
+								}
+								if(item.productos.length == i++)	
+									flag = true;
+							}
+						}
+						else if(item.estado == 'preparando pedido'){
+							let id = JSON.parse(localStorage.getItem('pedidosTomados'));
+							if(id.toString() == item.id.toString()){
 								this.pedidos.push(item);
 								this.hayProducto = true;
-								flag = true;
 							}
-							if(item.productos.length == i++)	
-								flag = true;
-						}
-					}
-					else if(item.estado == 'preparando pedido'){
-						let id = JSON.parse(localStorage.getItem('pedidosTomados'));
-						if(id.toString() == item.id.toString()){
-							this.pedidos.push(item);
-							this.hayProducto = true;
 						}
 					}
 				}
 			break;
 			case 'bartender':
 				for(let item of lista){
-					for(let i = 0; i < item.productos.length; i++){
-						if(item.productos[i].tipo != 'bebida'){
-							item.productos.splice(i, 1);
+					if(item.productos != undefined){
+						for(let i = 0; i < item.productos.length; i++){
+							if(item.productos[i].tipo != 'bebida'){
+								item.productos.splice(i, 1);
+							}
 						}
-					}
-					if(item.estado == 'esperando pedido'){
-						let i = 0;
-						let flag = false;
-						while(!flag){
-							if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'bebida'){
+						if(item.estado == 'esperando pedido'){
+							let i = 0;
+							let flag = false;
+							while(!flag){
+								if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'bebida'){
+									this.pedidos.push(item);
+									this.hayProducto = true;
+									flag = true;
+								}
+								if(item.productos.length == i++)	
+									flag = true;
+							}
+						}
+						else if(item.estado == 'preparando pedido'){
+							let id = localStorage.getItem('pedidosTomados');
+							if(id != undefined && id == item.id){
 								this.pedidos.push(item);
 								this.hayProducto = true;
-								flag = true;
 							}
-							if(item.productos.length == i++)	
-								flag = true;
-						}
-					}
-					else if(item.estado == 'preparando pedido'){
-						let id = localStorage.getItem('pedidosTomados');
-						if(id != undefined && id == item.id){
-							this.pedidos.push(item);
-							this.hayProducto = true;
 						}
 					}
 				}

@@ -125,7 +125,7 @@ export class QrMesaComponent {
 
 
   tomarMesa(e){
-    //console.log(e);
+    console.log(e);
     this.estado = 0;
     let data = {
       cantidadComensales: e.cantidadComensales,
@@ -136,7 +136,11 @@ export class QrMesaComponent {
       codigo: e.codigo,
       id: e.id
     };
-    this.auth.updateMesa(data);
+    console.log(data);
+    this.auth.updateMesa(data).then(ok =>{
+      console.log("conseguido");
+      console.log(ok);
+    });
     
     let date = new Date();
     let fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
