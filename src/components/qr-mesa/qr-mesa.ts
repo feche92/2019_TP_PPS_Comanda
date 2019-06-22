@@ -155,8 +155,9 @@ export class QrMesaComponent {
       let date = new Date();
       let fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
       console.log(this.usuario);
+      let dataPedido;
       if(this.usuario.tipo == "cliente anonimo"){
-        let dataPedido = {
+        dataPedido = {
           'estado': 'por pedir',
           'numero': e.numero,
           'tipo': e.tipo,
@@ -165,7 +166,7 @@ export class QrMesaComponent {
         };
       }
       else{
-        let dataPedido = {
+        dataPedido = {
           'estado': 'por pedir',
           'numero': e.numero,
           'tipo': e.tipo,

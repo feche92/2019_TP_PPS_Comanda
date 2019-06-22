@@ -72,6 +72,7 @@ export class PrincipalPage {
         case "bartender":
           this.acciones = [
             { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: PedidosPendientesComponent },
+            { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
           ];        
           break;
         case "supervisor":
@@ -86,7 +87,6 @@ export class PrincipalPage {
             { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
           ];
           break;
-        case "cliente registrado":
         case "cliente anonimo":
           this.acciones = [
             { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },

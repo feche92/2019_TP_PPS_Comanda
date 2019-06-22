@@ -80,8 +80,9 @@ export class EncuestaClientePage {
     console.log(this.encuestaCliente);
     
     console.log(this.encuestaCliente);
+    let data;
     if(this.usuario.tipo == "cliente anonimo"){
-      let data= {
+      data= {
         "nombre": this.usuario.nombre,
         "pregunta1":this.pregunta1,
         "respuesta1":this.respuesta1,
@@ -95,7 +96,7 @@ export class EncuestaClientePage {
       }
     }
     else{
-      let data= {
+      data= {
         "nombre": this.usuario.nombre,
         "correo":this.usuario.correo,
         "pregunta1":this.pregunta1,
@@ -110,7 +111,7 @@ export class EncuestaClientePage {
       }
     }
    console.log(data);
-
+    localStorage.setItem('encuesta', 'true');
     this.auth.nuevaEncuestaCliente(data).then(res => {
       this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
       spiner.dismiss();

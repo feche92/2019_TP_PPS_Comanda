@@ -422,8 +422,9 @@ var QrMesaComponent = /** @class */ (function () {
             var date = new Date();
             var fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
             console.log(_this.usuario);
+            var dataPedido;
             if (_this.usuario.tipo == "cliente anonimo") {
-                var dataPedido = {
+                dataPedido = {
                     'estado': 'por pedir',
                     'numero': e.numero,
                     'tipo': e.tipo,
@@ -432,7 +433,7 @@ var QrMesaComponent = /** @class */ (function () {
                 };
             }
             else {
-                var dataPedido = {
+                dataPedido = {
                     'estado': 'por pedir',
                     'numero': e.numero,
                     'tipo': e.tipo,
@@ -606,6 +607,7 @@ var AlertProvider = /** @class */ (function () {
         });
         alert.present();
     };
+    var AlertProvider_1;
     AlertProvider.knownErrors = [
         {
             code: 'auth/email-already-in-use',
@@ -637,7 +639,6 @@ var AlertProvider = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]])
     ], AlertProvider);
     return AlertProvider;
-    var AlertProvider_1;
 }());
 
 //# sourceMappingURL=alert.js.map
@@ -1185,8 +1186,9 @@ var PedirPlatosPage = /** @class */ (function () {
             var spiner_1 = this.spinner.getAllPageSpinner();
             spiner_1.present();
             var momentoActual = __WEBPACK_IMPORTED_MODULE_6_moment__(new Date());
-            if (this.usuario.tipo = "cliente anonimo") {
-                var data = {
+            var data = void 0;
+            if (this.usuario.tipo == "cliente anonimo") {
+                data = {
                     "nombreCliente": this.usuario.nombre,
                     "estado": "pedido por confirmar",
                     "productos": this.pedidoActual,
@@ -1198,7 +1200,7 @@ var PedirPlatosPage = /** @class */ (function () {
                 };
             }
             else {
-                var data = {
+                data = {
                     "correo": this.pedidoPendiente.correo, "nombreCliente": this.pedidoPendiente.nombreCliente, "apellidoCliente": this.pedidoPendiente.apellidoCliente, "estado": "pedido por confirmar",
                     "productos": this.pedidoActual, "numero": this.pedidoPendiente.numero, "fecha": momentoActual.format("DD/MM/YYYY HH:mm"), "montoTotal": this.montoActual,
                     "tipo": this.pedidoPendiente.tipo, "id": this.pedidoPendiente.id,
@@ -1273,8 +1275,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -1352,8 +1354,9 @@ var EncuestaClientePage = /** @class */ (function () {
         console.log(this);
         console.log(this.encuestaCliente);
         console.log(this.encuestaCliente);
+        var data;
         if (this.usuario.tipo == "cliente anonimo") {
-            var data = {
+            data = {
                 "nombre": this.usuario.nombre,
                 "pregunta1": this.pregunta1,
                 "respuesta1": this.respuesta1,
@@ -1367,7 +1370,7 @@ var EncuestaClientePage = /** @class */ (function () {
             };
         }
         else {
-            var data = {
+            data = {
                 "nombre": this.usuario.nombre,
                 "correo": this.usuario.correo,
                 "pregunta1": this.pregunta1,
@@ -1382,6 +1385,7 @@ var EncuestaClientePage = /** @class */ (function () {
             };
         }
         console.log(data);
+        localStorage.setItem('encuesta', 'true');
         this.auth.nuevaEncuestaCliente(data).then(function (res) {
             _this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
             spiner.dismiss();
@@ -1394,8 +1398,8 @@ var EncuestaClientePage = /** @class */ (function () {
     };
     EncuestaClientePage.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var date, fecha, imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1438,10 +1442,14 @@ var EncuestaClientePage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-encuesta-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/'<!--\n  Generated template for the EncuestaClientePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons>\n      <button ion-button (click)="VolverAtras()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h1>{{pregunta1}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta1">\n      <option value="Calidad">Calidad</option>\n      <option value="Precio">Precio</option>\n      <option value="Publicidad">Publicidad</option>\n      <option value="Recomendacion">Recomendacion</option>\n      <option value="Servicio">Servicio</option>\n    </select>\n  </div>\n\n  <h1>{{pregunta2}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta2">\n      <option value="Internet">Internet</option>\n      <option value="Amigos">Amigos</option>\n      <option value="Facebook">Facebook</option>\n      <option value="Recomendacion">Recomendacion</option>     \n    </select>\n  </div>\n\n\n  <h1>{{pregunta3}}</h1>\n  <div class="encuesta">\n        <ion-list radio-group [(ngModel)]="respuesta3">\n            <ion-item>\n              <ion-label>Muy Buena</ion-label>\n              <ion-radio color="primary" value="Muy Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Buena</ion-label>\n              <ion-radio color="primary" value="Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Regular</ion-label>\n              <ion-radio color="primary" value="Regular"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Mala</ion-label>\n              <ion-radio color="primary" value="Mala"></ion-radio>\n            </ion-item>\n            <ion-item>\n                <ion-label>Muy Mala</ion-label>\n                <ion-radio color="primary" value="Muy Mala"></ion-radio>\n              </ion-item>\n          </ion-list>        \n  </div>\n\n  <h1>{{pregunta4}}</h1>\n  <div class="encuesta">\n    <ion-list radio-group [(ngModel)]="respuesta4">\n        <ion-item>\n            <ion-label>Sí</ion-label>\n            <ion-radio slot="start" value="si" checked></ion-radio>\n          </ion-item>\n          <ion-item>\n            <ion-label>No</ion-label>\n            <ion-radio slot="start" value="no" checked></ion-radio>\n          </ion-item>\n    </ion-list>\n  </div>\n\n  <h1>Comentarios</h1>\n  <div class="encuesta">\n    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>\n  </div>\n \n  <br>\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">Enviar encuesta</button>\n  <button ion-button block color="danger" (click)="VolverAtras()">Cancelar</button>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]) === "function" && _h || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]])
     ], EncuestaClientePage);
     return EncuestaClientePage;
-    var _a, _b, _c, _d, _e, _f, _g, _h;
 }());
 
 //# sourceMappingURL=encuesta-cliente.js.map
@@ -2064,8 +2072,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var EstadisticasSupervisorPage = /** @class */ (function () {
     function EstadisticasSupervisorPage(navCtrl, navParams, auth, 
-        //private error: AlertProvider,
-        spinner, alertCtrl) {
+    //private error: AlertProvider,
+    spinner, alertCtrl) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
@@ -2485,6 +2493,7 @@ var PrincipalPage = /** @class */ (function () {
             case "bartender":
                 this.acciones = [
                     { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: __WEBPACK_IMPORTED_MODULE_11__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */] },
+                    { accion: "Nuevo producto", img: "producto.png", ruta: __WEBPACK_IMPORTED_MODULE_16__alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */] },
                 ];
                 break;
             case "supervisor":
@@ -3052,8 +3061,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3170,8 +3179,8 @@ var AltaDeProductoPage = /** @class */ (function () {
     };
     AltaDeProductoPage.prototype.SacarFoto = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3403,11 +3412,11 @@ var map = {
 		13
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
-		667,
+		666,
 		12
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
-		668,
+		667,
 		11
 	],
 	"../pages/juego-descuento/juego-descuento.module": [
@@ -3431,15 +3440,15 @@ var map = {
 		6
 	],
 	"../pages/pagar/pagar.module": [
-		662,
+		661,
 		5
 	],
 	"../pages/pedir-platos/pedir-platos.module": [
-		661,
+		668,
 		4
 	],
 	"../pages/principal/principal.module": [
-		664,
+		662,
 		3
 	],
 	"../pages/register/register.module": [
@@ -3447,11 +3456,11 @@ var map = {
 		2
 	],
 	"../pages/reserva/reserva.module": [
-		665,
+		664,
 		1
 	],
 	"../pages/spinner/spinner.module": [
-		666,
+		665,
 		0
 	]
 };
@@ -3509,8 +3518,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3604,8 +3613,8 @@ var AltaClienteComponent = /** @class */ (function () {
     };
     AltaClienteComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3706,8 +3715,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -3803,8 +3812,8 @@ var AltaSupervisorComponent = /** @class */ (function () {
     };
     AltaSupervisorComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3954,8 +3963,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -4060,8 +4069,8 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
     };
     EncuestaEmpleadoComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var date, fecha, imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -4770,14 +4779,14 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/listado-mesas/listado-mesas.module#ListadoMesasPageModule', name: 'ListadoMesasPage', segment: 'listado-mesas', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-reserva/listado-reserva.module#ListadoReservaPageModule', name: 'ListadoReservaPage', segment: 'listado-reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_27__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_30__globalConfig__["a" /* configs */].firebaseConfig),
@@ -5413,7 +5422,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var FcmProvider = /** @class */ (function () {
     function FcmProvider(//public firebaseNative: Firebase,
-        afs, platform) {
+    afs, platform) {
         this.afs = afs;
         this.platform = platform;
         console.log('Hello FcmProvider Provider');
@@ -5465,8 +5474,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -5526,8 +5535,8 @@ var AltaProductoComponent = /** @class */ (function () {
     };
     AltaProductoComponent.prototype.abrirCamara = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
             var imageName, options, result, image, pictures_1, error_1;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:

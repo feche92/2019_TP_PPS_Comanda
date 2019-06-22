@@ -227,8 +227,9 @@ export class PedirPlatosPage {
       let spiner=this.spinner.getAllPageSpinner();
       spiner.present();
       let momentoActual = moment(new Date());
-      if(this.usuario.tipo = "cliente anonimo"){
-        let data= {
+      let data;
+      if(this.usuario.tipo == "cliente anonimo"){
+        data = {
             "nombreCliente":this.usuario.nombre,
             "estado":"pedido por confirmar", //esperando pedido
             "productos":this.pedidoActual,
@@ -240,7 +241,7 @@ export class PedirPlatosPage {
         }
       }
       else{
-        let data= {
+        data = {
             "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
            "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
             "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
