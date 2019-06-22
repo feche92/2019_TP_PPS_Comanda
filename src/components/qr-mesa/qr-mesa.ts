@@ -62,6 +62,7 @@ export class QrMesaComponent {
     this.mostrarSpiner=true;
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     this.title = "Mesa Actual";
+    
     this.auth.getMesas().subscribe(lista =>{
       console.log(this.codigo);
       console.table(lista);

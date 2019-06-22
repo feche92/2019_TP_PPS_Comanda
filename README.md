@@ -77,9 +77,9 @@ V- Moreno
 
 **Torrealba Paola**:**Branch:** paola
 
-* Alta de Productos (Platos y bebidas)
-* QR de ingreso al local
-* Encuestas cliente
+* [X] Alta de Productos (Platos y bebidas)  Fecha inicio: 19/05/19 - Finalizado: 28/05/19
+* [X] QR de ingreso al local Fecha inicio: 29/05/19 - Finalizado: 14/06/19
+* [X] Encuestas cliente  Fecha inicio: 10/06/19 - Finalizado: 21/06/19
 
 
 
