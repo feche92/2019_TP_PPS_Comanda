@@ -2,19 +2,29 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>{{title}}</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  
-  <div *ngIf="estado == 1">
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div *ngIf="estado == 1" class="flex-v buttons-container">
   	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">
 	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">
 	  <div class="card-body cb">
 	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>
 	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>
-	    <p class="card-text">Tipo: {{mesa.tipo}}</p>
-  		<button ion-button block color="primary" (click)="tomarMesa(mesa)">Tomar mesa</button>
+      <p class="card-text">Tipo: {{mesa.tipo}}</p>
+      <ion-card class="height-10 big-button-container" [color]="myColor">
+        <div class="flex-v center-horizontal center-vertical height-100" (click)="tomarMesa(mesa)">
+          <div class="text-title">Tomar mesa</div>
+        </div>
+      </ion-card>
+  		<button ion-button block color="primary" (click)="escanear()">Escanear otra mesa</button>
 	  </div>
 	  </div>
   </div>
@@ -42,6 +52,9 @@
       <ion-row>
         <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
       </ion-row>
+      <ul *ngFor="let item of pedidoActual.productos">
+        <li>{{item.nombre}} : {{item.estado}}</li>
+      </ul>
         <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>

@@ -62,7 +62,10 @@
 </div>
 
 <ion-content padding>
-  <div class="contenido">
+  <div *ngIf="!puedePedir">
+    <h1 class="tituloPag" >{{mensajePedido}}</h1>
+  </div>
+  <div class="contenido" *ngIf="puedePedir">
     <h1 class="tituloPag" >¡Haga su pedido!</h1>
     <div *ngIf="monto">
       <h1>Su pedido actual</h1>

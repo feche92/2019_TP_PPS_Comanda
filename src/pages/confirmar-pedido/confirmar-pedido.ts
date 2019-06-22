@@ -80,7 +80,7 @@ export class ConfirmarPedidoPage {
       spiner.dismiss();
       this.error.mostrarMensaje("Entregando pedido..Esperando confirmacion del cliente");
     });
-    let pdidos=new Array();
+    /*let pdidos=new Array();
     this.auth.getPedidos().subscribe(lista => {
       pdidos=lista;
       for(let i=0;i<pdidos.length;i++)
@@ -90,7 +90,7 @@ export class ConfirmarPedidoPage {
           break;
         }
       }
-    });
+    });*/
   }
 
 }

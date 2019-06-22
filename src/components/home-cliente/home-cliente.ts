@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { QrMesaComponent } from "../qr-mesa/qr-mesa";
 import { QrEntradaComponent } from "../qr-entrada/qr-entrada";
+import { AlertProvider } from "../../providers/alert/alert";
 
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { PrincipalPage } from '../../pages/principal/principal';
 
 /**
  * Generated class for the HomeClienteComponent component.
@@ -17,45 +19,59 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 })
 export class HomeClienteComponent {
 
-  codigo: any[] = [];
+  codigo="";
 
   constructor(private scanner: BarcodeScanner, public navCtrl: NavController, 
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private error: AlertProvider) {
+      this.escanear();
   }
 
   escanear(){
-    let options = { prompt: "Escaneá un código", formats: "PDF_417" };
-
-    this.scanner.scan(options).then(barcodeData => {
+    this.codigo = '';
+    this.scanner.scan().then(barcodeData => {
       //alert(barcodeData.text);
-      let codigo = barcodeData.text;
-      this.codigo = codigo.split(',');
-      switch(this.codigo[0]){
+     this.codigo = barcodeData.text;
+      let dato = this.codigo.split(',');
+      switch(dato[0]){
         case 'mesa':
-          this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
+          this.modalCtrl.create(QrMesaComponent, { codigo: dato }).present();
         break;
         case 'producto':
+            this.error.mostrarErrorLiteral("Codigo no valido");
+            this.navCtrl.setRoot(PrincipalPage);
         break;
         case 'encuesta':
+            this.error.mostrarErrorLiteral("Codigo no valido");
+            this.navCtrl.setRoot(PrincipalPage);
         break;
+        case 'propina':
+            this.error.mostrarErrorLiteral("Codigo no valido");
+            this.navCtrl.setRoot(PrincipalPage);
+            break;
         case 'entradaLocal':
-          this.modalCtrl.create(QrEntradaComponent, { codigo: this.codigo }).present();
+          this.modalCtrl.create(QrEntradaComponent, { codigo: dato }).present();
         break;
         default:
-          console.log("Codigo erroneo");
+          this.error.mostrarErrorLiteral("Codigo no valido");
+          this.navCtrl.setRoot(PrincipalPage);
         break;
       }
 
 
     }).catch(err => { 
       console.log('Error', err);
+      this.navCtrl.setRoot(PrincipalPage);
     });
+    if(this.codigo == '') {
+      this.navCtrl.setRoot(PrincipalPage);
+    }
   }
 
   codigoMesa(){
   	//this.navCtrl.setRoot(QrMesaComponent);
-    this.codigo[0] = 1;
-    this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
+    //this.codigo[0] = 1;
+    //this.modalCtrl.create(QrMesaComponent, { codigo: this.codigo }).present();
   }
 
 
