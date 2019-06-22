@@ -30,11 +30,7 @@
     "@ionic-native/status-bar": "~4.18.0",
     "@ionic/storage": "2.2.0",
     "chart.js": "^2.8.0",
-<<<<<<< HEAD
     "cordova-android": "8.0.0",
-=======
-    "cordova-android": "^8.0.0",
->>>>>>> 75a98864663e917352d00529d7c501dbb1f92855
     "cordova-android-support-gradle-release": "^3.0.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-camera": "^4.0.3",
