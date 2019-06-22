@@ -8,6 +8,7 @@ import { PrincipalPage } from "../../pages/principal/principal";
 import { EncuestaClientePage } from "../../pages/encuesta-cliente/encuesta-cliente";
 import { JuegosPage } from '../../pages/juegos/juegos';
 import { PagarPage } from '../../pages/pagar/pagar';
+import * as moment from 'moment';
 
 export interface mesa {
   id:string,
@@ -26,7 +27,7 @@ export interface mesa {
 export class QrMesaComponent {
 
   texto: string;
-  codigo: string[] = ['mesa', '2', 'normal']; //codigo qr de mesa
+  codigo: string[]; //= ['mesa', '2', 'normal']; //codigo qr de mesa
   title: string = "";
   mesas: mesa[] = [];
   estado: number = 0; 
@@ -48,7 +49,7 @@ export class QrMesaComponent {
   constructor(private auth: AuthProvider, public alert: AlertProvider,
     public navCtrl: NavController, public navParams: NavParams) {
       this.myColor = 'primary';
-      //this.codigo = navParams.get("codigo");
+      this.codigo = navParams.get("codigo");
       this.verificarCodigo();
     
   }
@@ -143,6 +144,20 @@ export class QrMesaComponent {
       }
        
 
+    });
+  }
+
+  verificarReserva(){
+    this.auth.getReservas().subscribe(lista =>{
+      let momentoActual = moment(new Date());
+      for(let reserva of lista){
+        if(reserva.estado == "confirmada" && reserva.correo == this.usuario.correo){
+          let momentoReservaMesa = moment(reserva.horario, "DD/MM/YYYY HH:mm");
+          if (Math.abs(momentoActual.diff(momentoReservaMesa, "m")) < 40) {
+            //guardar mesa y asignarla
+          }
+        }
+      }
     });
   }
 

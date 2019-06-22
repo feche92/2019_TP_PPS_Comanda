@@ -278,6 +278,8 @@ var AuthProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_juegos_juegos__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_pagar_pagar__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -287,6 +289,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -309,14 +312,13 @@ var QrMesaComponent = /** @class */ (function () {
         this.alert = alert;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.codigo = ['mesa', '2', 'normal']; //codigo qr de mesa
         this.title = "";
         this.mesas = [];
         this.estado = 0;
         this.ocupada = false;
         this.mostrarSpiner = false;
         this.myColor = 'primary';
-        //this.codigo = navParams.get("codigo");
+        this.codigo = navParams.get("codigo");
         this.verificarCodigo();
     }
     QrMesaComponent.prototype.escanear = function () {
@@ -412,6 +414,21 @@ var QrMesaComponent = /** @class */ (function () {
             }
         });
     };
+    QrMesaComponent.prototype.verificarReserva = function () {
+        var _this = this;
+        this.auth.getReservas().subscribe(function (lista) {
+            var momentoActual = __WEBPACK_IMPORTED_MODULE_10_moment__(new Date());
+            for (var _i = 0, lista_2 = lista; _i < lista_2.length; _i++) {
+                var reserva = lista_2[_i];
+                if (reserva.estado == "confirmada" && reserva.correo == _this.usuario.correo) {
+                    var momentoReservaMesa = __WEBPACK_IMPORTED_MODULE_10_moment__(reserva.horario, "DD/MM/YYYY HH:mm");
+                    if (Math.abs(momentoActual.diff(momentoReservaMesa, "m")) < 40) {
+                        //guardar mesa y asignarla
+                    }
+                }
+            }
+        });
+    };
     QrMesaComponent.prototype.tomarMesa = function (e) {
         var _this = this;
         //console.log(e);
@@ -462,8 +479,8 @@ var QrMesaComponent = /** @class */ (function () {
         var _this = this;
         this.title = "Estado Actual del Pedido";
         this.auth.getPedidos().subscribe(function (lista) {
-            for (var _i = 0, lista_2 = lista; _i < lista_2.length; _i++) {
-                var item = lista_2[_i];
+            for (var _i = 0, lista_3 = lista; _i < lista_3.length; _i++) {
+                var item = lista_3[_i];
                 if (_this.pedidoActual.id == item.id) {
                     _this.pedidoActual = item;
                     break;
@@ -2508,7 +2525,6 @@ var PrincipalPage = /** @class */ (function () {
                     { accion: "Nuevo producto", img: "producto.png", ruta: __WEBPACK_IMPORTED_MODULE_16__alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */] },
                 ];
                 break;
-            case "cliente registrado":
             case "cliente anonimo":
                 this.acciones = [
                     { accion: "Leer código QR", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_18__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
@@ -3456,11 +3472,11 @@ var map = {
 		2
 	],
 	"../pages/reserva/reserva.module": [
-		664,
+		665,
 		1
 	],
 	"../pages/spinner/spinner.module": [
-		665,
+		664,
 		0
 	]
 };
@@ -4782,8 +4798,8 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] }
