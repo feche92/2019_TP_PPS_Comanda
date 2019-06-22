@@ -28,7 +28,7 @@ export class PedidosPendientesComponent {
   hayProducto: boolean = false;
   usuario: any;
   listaPedidosOriginal = [];
-
+  preparandoPedido;
   constructor(private auth: AuthProvider, public alert: AlertProvider,
     public navCtrl: NavController) {
   	this.traerPedidos();
@@ -44,7 +44,7 @@ export class PedidosPendientesComponent {
   		switch(this.usuario.tipo){
 			case 'cocinero':
 				for(let item of lista){
-					//console.log(item);
+/*					//console.log(item);
 					if(item.productos != undefined){
 						for(let i = 0; i < item.productos.length; i++){
 							if(item.productos[i].tipo != 'plato'){
@@ -67,15 +67,50 @@ export class PedidosPendientesComponent {
 						else if(item.estado == 'preparando pedido'){
 							let id = JSON.parse(localStorage.getItem('pedidosTomados'));
 							if(id.toString() == item.id.toString()){
+*/
+					/*for(let i = 0; i < item.productos.length; i++){
+						if(item.productos[i].tipo != 'plato'){
+							item.productos.splice(i, 1);
+						}
+					}*/
+					if(item.estado == 'esperando pedido' || item.estado == 'preparando pedido' || item.estado == 'parcialmente terminado'){
+						for(let i = 0; i < item.productos.length; i++){
+							if(item.productos[i].tipo == 'plato' && item.productos[i].estado == 'pendiente'){
+								this.pedidos.push(item);
+								this.hayProducto = true;
+								this.preparandoPedido=false;
+								break;
+							}
+							if(item.productos[i].tipo == 'plato' && item.productos[i].estado == 'en preparacion'){
+								this.pedidos.push(item);
+								this.hayProducto = true;
+								this.preparandoPedido=true;
+								break;
+							}
+						}
+						/*let i = 0;
+						let flag = false;
+						while(!flag){
+							if(item.productos[i].estado == 'pendiente' && item.productos[i].tipo == 'plato'){
 								this.pedidos.push(item);
 								this.hayProducto = true;
 							}
-						}
+							if(item.productos.length == i++)	
+								flag = true;
+						}*/
 					}
+					/*else if(item.estado == 'preparando pedido'){
+						let id = JSON.parse(localStorage.getItem('pedidosTomados'));
+						if(id.toString() == item.id.toString()){
+							this.pedidos.push(item);
+							this.hayProducto = true;
+						}
+					}*/
 				}
 			break;
 			case 'bartender':
 				for(let item of lista){
+/*
 					if(item.productos != undefined){
 						for(let i = 0; i < item.productos.length; i++){
 							if(item.productos[i].tipo != 'bebida'){
@@ -100,6 +135,25 @@ export class PedidosPendientesComponent {
 							if(id != undefined && id == item.id){
 								this.pedidos.push(item);
 								this.hayProducto = true;
+*/
+					/*for(let i = 0; i < item.productos.length; i++){
+						if(item.productos[i].tipo != 'bebida'){
+							item.productos.splice(i, 1);
+						}
+					}*/
+					if(item.estado == 'esperando pedido' || item.estado == 'preparando pedido' || item.estado == 'parcialmente terminado'){
+						for(let i = 0; i < item.productos.length; i++){
+							if(item.productos[i].tipo == 'bebida' && item.productos[i].estado == 'pendiente'){
+								this.pedidos.push(item);
+								this.hayProducto = true;
+								this.preparandoPedido=false;
+								break;
+							}
+							if(item.productos[i].tipo == 'bebida' && item.productos[i].estado == 'en preparacion'){
+								this.pedidos.push(item);
+								this.hayProducto = true;
+								this.preparandoPedido=true;
+								break;
 							}
 						}
 					}
@@ -126,8 +180,9 @@ export class PedidosPendientesComponent {
 
   prepararPlato(pedido){
   	//console.log(pedido);
-
-  	pedido.estado = "preparando pedido";
+	if(pedido.estado == 'esperando pedido') {
+		pedido.estado = "preparando pedido";
+	}
   	var tipoProducto = "";
   	if(this.usuario.tipo == 'cocinero')
   		tipoProducto = 'plato';
@@ -135,9 +190,10 @@ export class PedidosPendientesComponent {
   		tipoProducto = 'bebida';
 
   	let tiempo: number = 0;
-
   	for(let item of pedido.productos){
-		tiempo = tiempo + +item.tiempoPromedioElaboracion;
+		if(item.tiempoPromedioElaboracion > tiempo) {
+			tiempo=item.tiempoPromedioElaboracion;
+		}
 	}
 
 	for(let i = 0; i < this.listaPedidosOriginal.length; i++){
@@ -147,14 +203,15 @@ export class PedidosPendientesComponent {
 			
 			for(let producto of this.listaPedidosOriginal[i].productos){
 				if(producto.tipo == tipoProducto){
-					producto.estado = "tomado";
+					producto.estado = "en preparacion";
 				}
 			}
 
-			localStorage.setItem("pedidosTomados", JSON.stringify(pedido.id));
-
-			this.auth.actualizarPedido(this.listaPedidosOriginal[i]);
-			this.alert.mostrarMensaje("Pedido Tomado");
+			//localStorage.setItem("pedidosTomados", JSON.stringify(pedido.id));
+			this.auth.actualizarPedido(this.listaPedidosOriginal[i]).then(res => {
+				this.alert.mostrarMensaje("Pedido Tomado");
+			});
+			
 			break;
 		}
 	}
@@ -162,13 +219,34 @@ export class PedidosPendientesComponent {
   }
 
   terminar(pedido){
+	var tipoProducto = "";
+	if(this.usuario.tipo == 'cocinero')
+		tipoProducto = 'plato';
+	else
+		tipoProducto = 'bebida';
   	let momentoActual = moment(new Date());
-  	let hora = momentoActual.format("HH:mm");
+  	let hora = momentoActual.format("DD/MM/YYYY HH:mm");
   	console.log("termino pedido!");
 	for(let i = 0; i < this.listaPedidosOriginal.length; i++){
 		if(this.listaPedidosOriginal[i].id == pedido.id){
-			this.listaPedidosOriginal[i].estado = "pedido terminado";
-			this.listaPedidosOriginal[i].horaFinalizacion = hora;
+			this.listaPedidosOriginal[i].estado = "parcialmente terminado";
+			for(let producto of this.listaPedidosOriginal[i].productos){
+				if(producto.tipo == tipoProducto){
+					producto.estado = "terminado";
+				}
+			}
+			let flag=false;
+			for(let producto of this.listaPedidosOriginal[i].productos)
+			{
+				if(producto.estado != 'terminado') {
+					flag=true;
+					break;
+				}
+			}
+			if(!flag) {
+				this.listaPedidosOriginal[i].estado = "pedido terminado";
+				this.listaPedidosOriginal[i].horaFinalizacion = hora;
+			}	
 			this.auth.actualizarPedido(this.listaPedidosOriginal[i]);
 			this.alert.mostrarMensaje("Pedido Terminado");
 			this.back();
