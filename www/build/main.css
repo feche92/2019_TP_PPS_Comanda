@@ -72799,6 +72799,86 @@ page-juegos .sombreado {
   opacity: .4;
 }
 
+page-listado-encuestas .seleccion {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  height: 50px;
+  margin-top: 20px;
+}
+
+page-listado-encuestas .seleccion button {
+  height: 100%;
+}
+
+page-listado-encuestas ion-item {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: white !important;
+}
+
+page-listado-encuestas ion-item p {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+page-listado-encuestas ion-item ion-icon {
+  color: white;
+  font-size: 30px;
+}
+
+page-listado-encuestas .titulo {
+  width: 100%;
+  padding: 10px 0 10px 0;
+  font-family: cinzel;
+  text-align: center;
+  color: #2e0fdb;
+}
+
+page-listado-encuestas .imagen {
+  position: absolute;
+  z-index: 10;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+page-listado-encuestas .imagen ion-icon {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  z-index: 11;
+  color: white;
+  font-size: 50px;
+}
+
+page-listado-encuestas .imagen img {
+  height: auto;
+}
+
+page-listado-encuestas .imagen .ocultar {
+  display: none !important;
+}
+
 .form-center-content {
   height: 100%;
   display: -webkit-box;

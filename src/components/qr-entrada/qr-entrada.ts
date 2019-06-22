@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthProvider } from "../../providers/auth/auth";
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { AlertProvider } from "../../providers/alert/alert";
 import { HomeClienteComponent } from "../home-cliente/home-cliente";
-import { NavController, NavParams } from 'ionic-angular';
+import { SpinnerProvider } from "../../providers/spinner/spinner";
+import { EncuestaClientePage } from "../../pages/encuesta-cliente/encuesta-cliente";
 
 export interface listaEspera {
   id:string,
@@ -21,8 +23,9 @@ export class QrEntradaComponent {
   codigo: string[] = ['idCliente', 'turno']; //codigo qr de entradaLocal
   listaEspera;
 
+  listaEncuestaCliente;
 
-  constructor(public alert: AlertProvider,public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider,) {    
+  constructor( private modalCtrl: ModalController, private spinner: SpinnerProvider, public alert: AlertProvider,public navCtrl: NavController, public navParams: NavParams, private auth: AuthProvider,) {    
     //Leo los datos del usuario logueado
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     console.log(this.usuario); 
@@ -34,6 +37,16 @@ export class QrEntradaComponent {
       });
 
     console.log(this.listaEspera);
+
+    this.listaEncuestaCliente=new Array();
+    let spiner=this.spinner.getAllPageSpinner();
+    spiner.present();
+    this.auth.getEncuestaCliente().subscribe(lista =>{
+     this.listaEncuestaCliente=lista;
+     console.log(this.listaEncuestaCliente);
+     
+      spiner.dismiss();
+    });
   
   }
 
@@ -49,7 +62,9 @@ export class QrEntradaComponent {
     this.navCtrl.setRoot(HomeClienteComponent);
   }
 
-  verEncuestas(){};
+  verEncuestas(usuario) {
+    this.modalCtrl.create(EncuestaClientePage, {usuario: usuario}).present();
+  }
   cancelar(){};
 
 }

@@ -99,6 +99,7 @@ export class PrincipalPage {
             { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
+            { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },
             { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},
           ];
           break;
