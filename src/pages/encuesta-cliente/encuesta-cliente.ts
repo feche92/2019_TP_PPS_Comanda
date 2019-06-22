@@ -24,7 +24,7 @@ import { PrincipalPage } from '../principal/principal';
 export class EncuestaClientePage {
   
   firebase = firebase;
-  foto: string = "prueba";
+  foto: string;
   fecha: string;
   usuario;
   encuestaClientes;
@@ -41,7 +41,8 @@ export class EncuestaClientePage {
   public comentario: string = "";
   public nombre:string="";
    
-  constructor(public alert: AlertProvider, private camera: Camera, public navCtrl: NavController, public navParams: NavParams,
+  constructor(public alert: AlertProvider, private camera: Camera, 
+    public navCtrl: NavController, public navParams: NavParams,
     private auth:AuthProvider,
     private error: AlertProvider,
     private spiner: SpinnerProvider,
@@ -79,26 +80,42 @@ export class EncuestaClientePage {
     console.log(this.encuestaCliente);
     
     console.log(this.encuestaCliente);
-
-    let data= {
-      "nombre": this.usuario.nombre,
-      "correo":this.usuario.correo,
-      "pregunta1":this.pregunta1,
-      "respuesta1":this.respuesta1,
-      "pregunta2":this.pregunta2,
-      "respuesta2":this.respuesta2,
-      "pregunta3":this.pregunta3,
-      "pregunta4":this.pregunta4,
-      "respuesta4":this.respuesta4,
-      "respuesta3":this.respuesta3,
-      "comentario": this.comentario
-       
+    let data;
+    if(this.usuario.tipo == "cliente anonimo"){
+      data= {
+        "nombre": this.usuario.nombre,
+        "pregunta1":this.pregunta1,
+        "respuesta1":this.respuesta1,
+        "pregunta2":this.pregunta2,
+        "respuesta2":this.respuesta2,
+        "pregunta3":this.pregunta3,
+        "pregunta4":this.pregunta4,
+        "respuesta4":this.respuesta4,
+        "respuesta3":this.respuesta3,
+        "comentario": this.comentario
+      }
+    }
+    else{
+      data= {
+        "nombre": this.usuario.nombre,
+        "correo":this.usuario.correo,
+        "pregunta1":this.pregunta1,
+        "respuesta1":this.respuesta1,
+        "pregunta2":this.pregunta2,
+        "respuesta2":this.respuesta2,
+        "pregunta3":this.pregunta3,
+        "pregunta4":this.pregunta4,
+        "respuesta4":this.respuesta4,
+        "respuesta3":this.respuesta3,
+        "comentario": this.comentario
+      }
     }
    console.log(data);
-
+    localStorage.setItem('encuesta', 'true');
     this.auth.nuevaEncuestaCliente(data).then(res => {
       this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
       spiner.dismiss();
+      this.VolverAtras();
     // this.modalCtrl.create(EstadisticasClientePage, { usuario: this.usuario }).present();
     }).catch(error => {
       this.error.mostrarError(error,"error al guardar la encuesta");

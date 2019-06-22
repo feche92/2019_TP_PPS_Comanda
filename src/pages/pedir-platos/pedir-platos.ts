@@ -87,7 +87,8 @@ export class PedirPlatosPage {
         let estaCorreo=false;
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado'/* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+          if((this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado') 
+            || (this.pedidos[i].nombreCliente == this.usuario.nombre && this.usuario.tipo == 'cliente anonimo')/* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
             estaCorreo=true;
             //this.pedidoPendiente=this.pedidos[i];
             //this.puedePedir=true;
@@ -98,7 +99,8 @@ export class PedirPlatosPage {
           this.mensajePedido="Ya hizo un pedido.No puede pedir otro";
           for(let i=0;i<this.pedidos.length;i++)
           {
-            if(this.pedidos[i].estado == 'por pedir' && this.pedidos[i].correo == this.usuario.correo) {
+            if((this.pedidos[i].estado == 'por pedir' && this.pedidos[i].correo == this.usuario.correo) 
+              || (this.usuario.tipo == 'cliente anonimo' && this.pedidos[i].nombreCliente == this.usuario.nombre)) {
               this.pedidoPendiente=this.pedidos[i];
               this.puedePedir=true;
               break;
@@ -225,10 +227,25 @@ export class PedirPlatosPage {
       let spiner=this.spinner.getAllPageSpinner();
       spiner.present();
       let momentoActual = moment(new Date());
-      let data= {
-          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
-         "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
-          "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+      let data;
+      if(this.usuario.tipo == "cliente anonimo"){
+        data = {
+            "nombreCliente":this.usuario.nombre,
+            "estado":"pedido por confirmar", //esperando pedido
+            "productos":this.pedidoActual,
+            "numero":this.pedidoPendiente.numero,
+            "fecha":momentoActual.format("DD/MM/YYYY HH:mm"),
+            "montoTotal":this.montoActual,
+            "tipo":this.pedidoPendiente.tipo,
+            "id":this.pedidoPendiente.id,
+        }
+      }
+      else{
+        data = {
+            "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
+           "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
+            "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+        }
       }
       this.auth.actualizarPedido(data).then(res => {
         spiner.dismiss();

@@ -20,7 +20,7 @@
   <div *ngIf="hayPedidos==false">
     No hay ningun pedido para atender
   </div>
-    <button ion-button *ngFor="let item of listaPorPedir" (click)="elejirMesa(item)">
+    <button ion-button *ngFor="let item of listaPorPedir" (click)="elegirMesa(item)">
       <div class="sombreado"></div>
       <img src="{{item.fotoMesa}}" />
       <span>{{item.numeroMesa}}</span>

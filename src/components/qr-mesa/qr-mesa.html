@@ -40,22 +40,27 @@
   	<ion-grid>
   		<ion-row>
   			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->
-          <h4>¿Desea realizar un pedido?</h4>
+          <h4 class="pregunta-title">¿Desea realizar un pedido?</h4>
   		</ion-row>
       <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
+      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
       <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>
-  	</ion-grid>
+    </ion-grid>
   </div>
 
   <div *ngIf="estado == 3">
     <ion-grid>
       <ion-row>
-        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+        <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>
+        <h6>Su pedido no esta confirmado todavia. Aguarde un momento...</h6>
       </ion-row>
-      <ul *ngFor="let item of pedidoActual.productos">
+      <ion-row>
+        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
+      </ion-row>
+      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">
+      <!--ul *ngFor="let item of pedidoActual.productos">
         <li>{{item.nombre}} : {{item.estado}}</li>
-      </ul>
-        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>
+      </ul-->
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
     </ion-grid>
@@ -64,8 +69,14 @@
   <div *ngIf="estado == 4">
     <ion-grid>
       <ion-row>
-        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+        <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>
       </ion-row>
+      <ion-row>
+        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
+      </ion-row>
+      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
+      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
+      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
       <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>
     </ion-grid>
   </div>
@@ -73,9 +84,12 @@
   <div *ngIf="estado == 5">
     <ion-grid>
       <ion-row>
-        <h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4>
+        <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>
       </ion-row>
-        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>
+      <ion-row>
+        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
+      </ion-row>
+      <img class="img-reserva" src="../../assets/Imagenes/plato.png" alt="mesa-reservada">
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
       <button ion-button block color="primary" (click)="pagar()">Pagar</button>
