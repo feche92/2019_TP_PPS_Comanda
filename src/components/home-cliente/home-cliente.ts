@@ -50,7 +50,7 @@ export class HomeClienteComponent {
             this.navCtrl.setRoot(PrincipalPage);
             break;
         case 'entrada':
-          this.modalCtrl.create(QrEntradaComponent, { codigo: dato }).present();
+          this.modalCtrl.create(QrEntradaComponent).present();
         break;
         default:
           this.error.mostrarErrorLiteral("Codigo no valido");
