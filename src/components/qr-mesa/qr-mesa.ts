@@ -26,7 +26,7 @@ export interface mesa {
 export class QrMesaComponent {
 
   texto: string;
-  codigo: string[] = ['mesa', '4', 'normal']; //codigo qr de mesa
+  codigo: string[] = ['mesa', '2', 'normal']; //codigo qr de mesa
   title: string = "";
   mesas: mesa[] = [];
   estado: number = 0; 
@@ -87,7 +87,9 @@ export class QrMesaComponent {
             */ 
             this.auth.getPedidos().subscribe(l =>{
               for(let i of l){
-                if(i.correo == this.usuario.correo && i.numero == item.numero && i.estado != 'pagado' && i.estado != 'cancelado'){
+                if(i.correo == this.usuario.correo || (i.nombreCliente == this.usuario.nombre && this.usuario.tipo == "cliente anonimo")){
+                  if(i.numero == item.numero && i.estado != 'pagado' && i.estado != 'cancelado'){
+
                     //console.log(i);
                     this.pedidoActual = i;
                     this.ocupada = false;
@@ -99,7 +101,8 @@ export class QrMesaComponent {
                       break;
                       case 'pedido por confirmar':
                         //Mostrar algun mensaje que el pedido todavia no se ha confirmado
-                        break;
+                        this.estado = 3;
+                      break;
                       case 'esperando pedido':
                       case 'preparando pedido':
                       case 'parcialmente terminado':
@@ -107,7 +110,7 @@ export class QrMesaComponent {
                         /*mostrar estado del pedido y monto total, ademas de boton
                         * encuesta, juegos
                         */
-                        this.estado = 3;
+                        this.estado = 4;
                       break;
                       case 'comiendo':
                         //mostrar monto total, encuesta, juegos, boton pagar
@@ -122,6 +125,7 @@ export class QrMesaComponent {
                     }
                     this.mostrarSpiner = false;
                     break;
+                  }
                 }
                 
               }
@@ -146,19 +150,31 @@ export class QrMesaComponent {
     //console.log(e);
     this.mostrarSpiner = true;
     this.estado = 0;
-    e.estado= 'ocupada';
+    e.estado = 'ocupada';
     this.auth.updateMesa(e).then(res => {
       let date = new Date();
       let fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
-      let dataPedido = {
-        'estado': 'por pedir',
-        'numero': e.numero,
-        'tipo': e.tipo,
-        'nombreCliente': this.usuario.nombre,
-        'apellidoCliente': this.usuario.apellido,
-        'correo': this.usuario.correo,
-        'fecha': fecha
-      };
+      console.log(this.usuario);
+      if(this.usuario.tipo == "cliente anonimo"){
+        let dataPedido = {
+          'estado': 'por pedir',
+          'numero': e.numero,
+          'tipo': e.tipo,
+          'nombreCliente': this.usuario.nombre,
+          'fecha': fecha
+        };
+      }
+      else{
+        let dataPedido = {
+          'estado': 'por pedir',
+          'numero': e.numero,
+          'tipo': e.tipo,
+          'nombreCliente': this.usuario.nombre,
+          'apellidoCliente': this.usuario.apellido,
+          'correo': this.usuario.correo,
+          'fecha': fecha
+        };
+      }
       this.auth.guardarPedido(dataPedido).then(res => {
         this.alert.mostrarMensaje("Mesa asignada");
         this.mostrarSpiner=false;

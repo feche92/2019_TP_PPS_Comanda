@@ -89,7 +89,8 @@ export class PrincipalPage {
         case "cliente registrado":
         case "cliente anonimo":
           this.acciones = [
-            //{ accion: "Home", img: "nuevo-empleado.jpg", ruta: HomeClienteComponent }
+            { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "QR prueba", img: "juegos.jpg", ruta: QrMesaComponent},
           ];
           break;
         case "cliente":

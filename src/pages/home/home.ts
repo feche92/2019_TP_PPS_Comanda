@@ -43,7 +43,9 @@ export class HomePage {
     if(this.nombre != undefined){
       let usuario = {
         'nombre': this.nombre,
-        'tipo': "cliente anonimo"
+        'tipo': "cliente anonimo",
+        'perfil': "cliente anonimo", 
+        'estado': "Aprobado",
       };
       localStorage.setItem("usuario", JSON.stringify(usuario));
       this.navCtrl.setRoot(PrincipalPage, {usuario : usuario});

@@ -44493,6 +44493,12 @@ qr-mesa .big-button-container {
   border-radius: 1em;
 }
 
+qr-mesa .pregunta-title {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
 splash {
   /*
 @-webkit-keyframes sk-rotateplane {

@@ -309,7 +309,7 @@ var QrMesaComponent = /** @class */ (function () {
         this.alert = alert;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.codigo = ['mesa', '4', 'normal']; //codigo qr de mesa
+        this.codigo = ['mesa', '2', 'normal']; //codigo qr de mesa
         this.title = "";
         this.mesas = [];
         this.estado = 0;
@@ -354,40 +354,43 @@ var QrMesaComponent = /** @class */ (function () {
                         _this.auth.getPedidos().subscribe(function (l) {
                             for (var _i = 0, l_1 = l; _i < l_1.length; _i++) {
                                 var i = l_1[_i];
-                                if (i.correo == _this.usuario.correo && i.numero == item.numero && i.estado != 'pagado' && i.estado != 'cancelado') {
-                                    //console.log(i);
-                                    _this.pedidoActual = i;
-                                    _this.ocupada = false;
-                                    switch (i.estado) {
-                                        case 'por pedir':
-                                            //mostrar boton hacer pedido
-                                            _this.estado = 2;
-                                            break;
-                                        case 'pedido por confirmar':
-                                            //Mostrar algun mensaje que el pedido todavia no se ha confirmado
-                                            break;
-                                        case 'esperando pedido':
-                                        case 'preparando pedido':
-                                        case 'parcialmente terminado':
-                                        case 'pedido terminado':
-                                            /*mostrar estado del pedido y monto total, ademas de boton
-                                            * encuesta, juegos
-                                            */
-                                            _this.estado = 3;
-                                            break;
-                                        case 'comiendo':
-                                            //mostrar monto total, encuesta, juegos, boton pagar
-                                            _this.estado = 5;
-                                            break;
-                                        case 'por pagar':
-                                            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_9__pages_pagar_pagar__["a" /* PagarPage */]);
-                                            //liberar mesa
-                                            item.estado = "libre";
-                                            _this.auth.updateMesa(item);
-                                            break;
+                                if (i.correo == _this.usuario.correo || (i.nombreCliente == _this.usuario.nombre && _this.usuario.tipo == "cliente anonimo")) {
+                                    if (i.numero == item.numero && i.estado != 'pagado' && i.estado != 'cancelado') {
+                                        //console.log(i);
+                                        _this.pedidoActual = i;
+                                        _this.ocupada = false;
+                                        switch (i.estado) {
+                                            case 'por pedir':
+                                                //mostrar boton hacer pedido
+                                                _this.estado = 2;
+                                                break;
+                                            case 'pedido por confirmar':
+                                                //Mostrar algun mensaje que el pedido todavia no se ha confirmado
+                                                _this.estado = 3;
+                                                break;
+                                            case 'esperando pedido':
+                                            case 'preparando pedido':
+                                            case 'parcialmente terminado':
+                                            case 'pedido terminado':
+                                                /*mostrar estado del pedido y monto total, ademas de boton
+                                                * encuesta, juegos
+                                                */
+                                                _this.estado = 4;
+                                                break;
+                                            case 'comiendo':
+                                                //mostrar monto total, encuesta, juegos, boton pagar
+                                                _this.estado = 5;
+                                                break;
+                                            case 'por pagar':
+                                                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_9__pages_pagar_pagar__["a" /* PagarPage */]);
+                                                //liberar mesa
+                                                item.estado = "libre";
+                                                _this.auth.updateMesa(item);
+                                                break;
+                                        }
+                                        _this.mostrarSpiner = false;
+                                        break;
                                     }
-                                    _this.mostrarSpiner = false;
-                                    break;
                                 }
                             }
                         });
@@ -418,15 +421,27 @@ var QrMesaComponent = /** @class */ (function () {
         this.auth.updateMesa(e).then(function (res) {
             var date = new Date();
             var fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
-            var dataPedido = {
-                'estado': 'por pedir',
-                'numero': e.numero,
-                'tipo': e.tipo,
-                'nombreCliente': _this.usuario.nombre,
-                'apellidoCliente': _this.usuario.apellido,
-                'correo': _this.usuario.correo,
-                'fecha': fecha
-            };
+            console.log(_this.usuario);
+            if (_this.usuario.tipo == "cliente anonimo") {
+                var dataPedido = {
+                    'estado': 'por pedir',
+                    'numero': e.numero,
+                    'tipo': e.tipo,
+                    'nombreCliente': _this.usuario.nombre,
+                    'fecha': fecha
+                };
+            }
+            else {
+                var dataPedido = {
+                    'estado': 'por pedir',
+                    'numero': e.numero,
+                    'tipo': e.tipo,
+                    'nombreCliente': _this.usuario.nombre,
+                    'apellidoCliente': _this.usuario.apellido,
+                    'correo': _this.usuario.correo,
+                    'fecha': fecha
+                };
+            }
             _this.auth.guardarPedido(dataPedido).then(function (res) {
                 _this.alert.mostrarMensaje("Mesa asignada");
                 _this.mostrarSpiner = false;
@@ -491,12 +506,12 @@ var QrMesaComponent = /** @class */ (function () {
     };
     QrMesaComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf="estado == 1" class="flex-v buttons-container">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n      <p class="card-text">Tipo: {{mesa.tipo}}</p>\n      <ion-card class="height-10 big-button-container" [color]="myColor">\n        <div class="flex-v center-horizontal center-vertical height-100" (click)="tomarMesa(mesa)">\n          <div class="text-title">Tomar mesa</div>\n        </div>\n      </ion-card>\n  		<button ion-button block color="primary" (click)="escanear()">Escanear otra mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4>¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">\n      <ul *ngFor="let item of pedidoActual.productos">\n        <li>{{item.nombre}} : {{item.estado}}</li>\n      </ul>\n        <h2>Monto Total:</h2><h4 class="estado">{{pedidoActual.montoTotal}}</h4>\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h2>Estado de Pedido: </h2><h4 class="estado">{{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/plato.png" alt="mesa-reservada">\n      <button ion-button block color="primary" (click)="mostrarEncuestaDeSatisfaccion()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
+            selector: 'qr-mesa',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/'<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title text-center>{{title}}</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf="estado == 1" class="flex-v buttons-container">\n  	<div *ngFor="let mesa of mesas" class="card" style="width: 30rem;">\n	  <img class="card-img-top" src="{{mesa.foto}}" alt="foto mesa">\n	  <div class="card-body cb">\n	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>\n	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>\n      <p class="card-text">Tipo: {{mesa.tipo}}</p>\n      <ion-card class="height-10 big-button-container" [color]="myColor">\n        <div class="flex-v center-horizontal center-vertical height-100" (click)="tomarMesa(mesa)">\n          <div class="text-title">Tomar mesa</div>\n        </div>\n      </ion-card>\n  		<button ion-button block color="primary" (click)="escanear()">Escanear otra mesa</button>\n	  </div>\n	  </div>\n  </div>\n\n  <div *ngIf="ocupada" class="ocupada">\n    <h1 class="text-center">{{texto}}</h1>\n    <img class="img-reserva" src="../../assets/Imagenes/mesa-reservada.jpg" alt="mesa-reservada">\n    <button ion-button block color="primary" (click)="back()">Volver</button>\n  </div>\n\n\n  <div *ngIf="estado == 2">\n  	<ion-grid>\n  		<ion-row>\n  			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->\n          <h4 class="pregunta-title">¿Desea realizar un pedido?</h4>\n  		</ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 3">\n    <ion-grid>\n      <ion-row>\n        <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>\n        <h6>Su pedido no esta confirmado todavia. Aguarde un momento...</h6>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/reloj.png" alt="reloj">\n      <!--ul *ngFor="let item of pedidoActual.productos">\n        <li>{{item.nombre}} : {{item.estado}}</li>\n      </ul-->\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 4">\n    <ion-grid>\n      <ion-row>\n        <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>\n    </ion-grid>\n  </div>\n\n  <div *ngIf="estado == 5">\n    <ion-grid>\n      <ion-row>\n        <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>\n      </ion-row>\n      <ion-row>\n        <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>\n      </ion-row>\n      <img class="img-reserva" src="../../assets/Imagenes/plato.png" alt="mesa-reservada">\n      <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>\n      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      <button ion-button block color="primary" (click)="pagar()">Pagar</button>\n    </ion-grid>\n  </div>\n\n\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/qr-mesa/qr-mesa.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_4_ionic_angular__["j" /* NavParams */]])
     ], QrMesaComponent);
     return QrMesaComponent;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=qr-mesa.js.map
@@ -1048,7 +1063,8 @@ var PedirPlatosPage = /** @class */ (function () {
             else {
                 var estaCorreo = false;
                 for (var i = 0; i < _this.pedidos.length; i++) {
-                    if (_this.pedidos[i].correo == _this.usuario.correo && _this.pedidos[i].estado != 'pagado' /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+                    if ((_this.pedidos[i].correo == _this.usuario.correo && _this.pedidos[i].estado != 'pagado')
+                        || (_this.pedidos[i].nombreCliente == _this.usuario.nombre && _this.usuario.tipo == 'cliente anonimo') /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
                         estaCorreo = true;
                         //this.pedidoPendiente=this.pedidos[i];
                         //this.puedePedir=true;
@@ -1058,7 +1074,8 @@ var PedirPlatosPage = /** @class */ (function () {
                 if (estaCorreo) {
                     _this.mensajePedido = "Ya hizo un pedido.No puede pedir otro";
                     for (var i = 0; i < _this.pedidos.length; i++) {
-                        if (_this.pedidos[i].estado == 'por pedir' && _this.pedidos[i].correo == _this.usuario.correo) {
+                        if ((_this.pedidos[i].estado == 'por pedir' && _this.pedidos[i].correo == _this.usuario.correo)
+                            || (_this.usuario.tipo == 'cliente anonimo' && _this.pedidos[i].nombreCliente == _this.usuario.nombre)) {
                             _this.pedidoPendiente = _this.pedidos[i];
                             _this.puedePedir = true;
                             break;
@@ -1168,11 +1185,25 @@ var PedirPlatosPage = /** @class */ (function () {
             var spiner_1 = this.spinner.getAllPageSpinner();
             spiner_1.present();
             var momentoActual = __WEBPACK_IMPORTED_MODULE_6_moment__(new Date());
-            var data = {
-                "correo": this.pedidoPendiente.correo, "nombreCliente": this.pedidoPendiente.nombreCliente, "apellidoCliente": this.pedidoPendiente.apellidoCliente, "estado": "pedido por confirmar",
-                "productos": this.pedidoActual, "numero": this.pedidoPendiente.numero, "fecha": momentoActual.format("DD/MM/YYYY HH:mm"), "montoTotal": this.montoActual,
-                "tipo": this.pedidoPendiente.tipo, "id": this.pedidoPendiente.id,
-            };
+            if (this.usuario.tipo = "cliente anonimo") {
+                var data = {
+                    "nombreCliente": this.usuario.nombre,
+                    "estado": "pedido por confirmar",
+                    "productos": this.pedidoActual,
+                    "numero": this.pedidoPendiente.numero,
+                    "fecha": momentoActual.format("DD/MM/YYYY HH:mm"),
+                    "montoTotal": this.montoActual,
+                    "tipo": this.pedidoPendiente.tipo,
+                    "id": this.pedidoPendiente.id,
+                };
+            }
+            else {
+                var data = {
+                    "correo": this.pedidoPendiente.correo, "nombreCliente": this.pedidoPendiente.nombreCliente, "apellidoCliente": this.pedidoPendiente.apellidoCliente, "estado": "pedido por confirmar",
+                    "productos": this.pedidoActual, "numero": this.pedidoPendiente.numero, "fecha": momentoActual.format("DD/MM/YYYY HH:mm"), "montoTotal": this.montoActual,
+                    "tipo": this.pedidoPendiente.tipo, "id": this.pedidoPendiente.id,
+                };
+            }
             this.auth.actualizarPedido(data).then(function (res) {
                 spiner_1.dismiss();
                 _this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
@@ -1287,7 +1318,6 @@ var EncuestaClientePage = /** @class */ (function () {
         this.spiner = spiner;
         this.modalCtrl = modalCtrl;
         this.firebase = __WEBPACK_IMPORTED_MODULE_5_firebase__;
-        this.foto = "prueba";
         this.pregunta1 = "Cuál es la razón por la que nos elije?";
         this.pregunta2 = "¿Como conocio nuestro restaurant?";
         this.pregunta3 = "¿Cómo calificaría la cortesía y trato de los empleados de “Grill”?";
@@ -1322,23 +1352,40 @@ var EncuestaClientePage = /** @class */ (function () {
         console.log(this);
         console.log(this.encuestaCliente);
         console.log(this.encuestaCliente);
-        var data = {
-            "nombre": this.usuario.nombre,
-            "correo": this.usuario.correo,
-            "pregunta1": this.pregunta1,
-            "respuesta1": this.respuesta1,
-            "pregunta2": this.pregunta2,
-            "respuesta2": this.respuesta2,
-            "pregunta3": this.pregunta3,
-            "pregunta4": this.pregunta4,
-            "respuesta4": this.respuesta4,
-            "respuesta3": this.respuesta3,
-            "comentario": this.comentario
-        };
+        if (this.usuario.tipo == "cliente anonimo") {
+            var data = {
+                "nombre": this.usuario.nombre,
+                "pregunta1": this.pregunta1,
+                "respuesta1": this.respuesta1,
+                "pregunta2": this.pregunta2,
+                "respuesta2": this.respuesta2,
+                "pregunta3": this.pregunta3,
+                "pregunta4": this.pregunta4,
+                "respuesta4": this.respuesta4,
+                "respuesta3": this.respuesta3,
+                "comentario": this.comentario
+            };
+        }
+        else {
+            var data = {
+                "nombre": this.usuario.nombre,
+                "correo": this.usuario.correo,
+                "pregunta1": this.pregunta1,
+                "respuesta1": this.respuesta1,
+                "pregunta2": this.pregunta2,
+                "respuesta2": this.respuesta2,
+                "pregunta3": this.pregunta3,
+                "pregunta4": this.pregunta4,
+                "respuesta4": this.respuesta4,
+                "respuesta3": this.respuesta3,
+                "comentario": this.comentario
+            };
+        }
         console.log(data);
         this.auth.nuevaEncuestaCliente(data).then(function (res) {
             _this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
             spiner.dismiss();
+            _this.VolverAtras();
             // this.modalCtrl.create(EstadisticasClientePage, { usuario: this.usuario }).present();
         }).catch(function (error) {
             _this.error.mostrarError(error, "error al guardar la encuesta");
@@ -1389,15 +1436,12 @@ var EncuestaClientePage = /** @class */ (function () {
     };
     EncuestaClientePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-encuesta-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/'<!--\n  Generated template for the EncuestaClientePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons>\n      <button ion-button (click)="VolverAtras()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h1>{{pregunta1}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta1">\n      <option value="Calidad">Calidad</option>\n      <option value="Precio">Precio</option>\n      <option value="Publicidad">Publicidad</option>\n      <option value="Recomendacion">Recomendacion</option>\n      <option value="Servicio">Servicio</option>\n    </select>\n  </div>\n\n  <h1>{{pregunta2}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta2">\n      <option value="Internet">Internet</option>\n      <option value="Amigos">Amigos</option>\n      <option value="Facebook">Facebook</option>\n      <option value="Recomendacion">Recomendacion</option>     \n    </select>\n  </div>\n\n\n  <h1>{{pregunta3}}</h1>\n  <div class="encuesta">\n        <ion-list radio-group [(ngModel)]="respuesta3">\n            <ion-item>\n              <ion-label>Muy Buena</ion-label>\n              <ion-radio color="primary" value="Muy Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Buena</ion-label>\n              <ion-radio color="primary" value="Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Regular</ion-label>\n              <ion-radio color="primary" value="Regular"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Mala</ion-label>\n              <ion-radio color="primary" value="Mala"></ion-radio>\n            </ion-item>\n            <ion-item>\n                <ion-label>Muy Mala</ion-label>\n                <ion-radio color="primary" value="Muy Mala"></ion-radio>\n              </ion-item>\n          </ion-list>        \n  </div>\n\n  <h1>{{pregunta4}}</h1>\n  <div class="encuesta">\n    <ion-list radio-group [(ngModel)]="respuesta4">\n        <ion-item>\n            <ion-label>Sí</ion-label>\n            <ion-radio slot="start" value="si" checked></ion-radio>\n          </ion-item>\n          <ion-item>\n            <ion-label>No</ion-label>\n            <ion-radio slot="start" value="no" checked></ion-radio>\n          </ion-item>\n    </ion-list>\n  </div>\n\n  <h1>Comentarios</h1>\n  <div class="encuesta">\n    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>\n  </div>\n \n  <br>\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">>Enviar encuesta</button>\n  <button ion-button block color="danger">Cancelar</button>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/,
+            selector: 'page-encuesta-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/'<!--\n  Generated template for the EncuestaClientePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title></ion-title>\n    <ion-buttons>\n      <button ion-button (click)="VolverAtras()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <h1>{{pregunta1}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta1">\n      <option value="Calidad">Calidad</option>\n      <option value="Precio">Precio</option>\n      <option value="Publicidad">Publicidad</option>\n      <option value="Recomendacion">Recomendacion</option>\n      <option value="Servicio">Servicio</option>\n    </select>\n  </div>\n\n  <h1>{{pregunta2}}</h1>\n  <div class="encuesta">\n    <select [(ngModel)]="respuesta2">\n      <option value="Internet">Internet</option>\n      <option value="Amigos">Amigos</option>\n      <option value="Facebook">Facebook</option>\n      <option value="Recomendacion">Recomendacion</option>     \n    </select>\n  </div>\n\n\n  <h1>{{pregunta3}}</h1>\n  <div class="encuesta">\n        <ion-list radio-group [(ngModel)]="respuesta3">\n            <ion-item>\n              <ion-label>Muy Buena</ion-label>\n              <ion-radio color="primary" value="Muy Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Buena</ion-label>\n              <ion-radio color="primary" value="Buena"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Regular</ion-label>\n              <ion-radio color="primary" value="Regular"></ion-radio>\n            </ion-item>\n            <ion-item>\n              <ion-label>Mala</ion-label>\n              <ion-radio color="primary" value="Mala"></ion-radio>\n            </ion-item>\n            <ion-item>\n                <ion-label>Muy Mala</ion-label>\n                <ion-radio color="primary" value="Muy Mala"></ion-radio>\n              </ion-item>\n          </ion-list>        \n  </div>\n\n  <h1>{{pregunta4}}</h1>\n  <div class="encuesta">\n    <ion-list radio-group [(ngModel)]="respuesta4">\n        <ion-item>\n            <ion-label>Sí</ion-label>\n            <ion-radio slot="start" value="si" checked></ion-radio>\n          </ion-item>\n          <ion-item>\n            <ion-label>No</ion-label>\n            <ion-radio slot="start" value="no" checked></ion-radio>\n          </ion-item>\n    </ion-list>\n  </div>\n\n  <h1>Comentarios</h1>\n  <div class="encuesta">\n    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>\n  </div>\n \n  <br>\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">Enviar encuesta</button>\n  <button ion-button block color="danger" (click)="VolverAtras()">Cancelar</button>\n  \n</ion-content>\n\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/encuesta-cliente/encuesta-cliente.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]) === "function" && _h || Object])
     ], EncuestaClientePage);
     return EncuestaClientePage;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
 }());
 
 //# sourceMappingURL=encuesta-cliente.js.map
@@ -2457,7 +2501,10 @@ var PrincipalPage = /** @class */ (function () {
                 break;
             case "cliente registrado":
             case "cliente anonimo":
-                this.acciones = [];
+                this.acciones = [
+                    { accion: "Leer código QR", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_18__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
+                    { accion: "QR prueba", img: "juegos.jpg", ruta: __WEBPACK_IMPORTED_MODULE_8__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */] },
+                ];
                 break;
             case "cliente":
                 this.acciones = [
@@ -2527,10 +2574,11 @@ var PrincipalPage = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-principal',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of acciones" (click)="openPage(p.ruta)">\n        {{p.accion}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n</ion-menu>\n\n<ion-header>\n\n  <ion-navbar color="primary" #content>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Principal</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="logout()">\n        <ion-icon name="power"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page" padding>\n\n  <button ion-button *ngFor="let item of acciones" (click)="openPage(item.ruta)">\n    <div class="sombreado"></div>\n    <img src="../../assets/Imagenes/{{item.img}}" />\n    <span>{{item.accion}}</span>\n  </button>\n</ion-content>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/pages/principal/principal.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]])
     ], PrincipalPage);
     return PrincipalPage;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=principal.js.map
@@ -3387,23 +3435,23 @@ var map = {
 		5
 	],
 	"../pages/pedir-platos/pedir-platos.module": [
-		663,
+		661,
 		4
 	],
 	"../pages/principal/principal.module": [
-		661,
+		664,
 		3
 	],
 	"../pages/register/register.module": [
-		664,
+		663,
 		2
 	],
 	"../pages/reserva/reserva.module": [
-		666,
+		665,
 		1
 	],
 	"../pages/spinner/spinner.module": [
-		665,
+		666,
 		0
 	]
 };
@@ -4722,12 +4770,12 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/listado-mesas/listado-mesas.module#ListadoMesasPageModule', name: 'ListadoMesasPage', segment: 'listado-mesas', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-reserva/listado-reserva.module#ListadoReservaPageModule', name: 'ListadoReservaPage', segment: 'listado-reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] }
                     ]
@@ -5583,7 +5631,9 @@ var HomePage = /** @class */ (function () {
         if (this.nombre != undefined) {
             var usuario = {
                 'nombre': this.nombre,
-                'tipo': "cliente anonimo"
+                'tipo': "cliente anonimo",
+                'perfil': "cliente anonimo",
+                'estado': "Aprobado",
             };
             localStorage.setItem("usuario", JSON.stringify(usuario));
             this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_2__principal_principal__["a" /* PrincipalPage */], { usuario: usuario });
@@ -5756,10 +5806,11 @@ var HomeClienteComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'home-cliente',template:/*ion-inline-start:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/'	\n  <button ion-button block color="primary" (click)="escanear()">Escanear Código</button>\n  <button ion-button block color="primary" (click)="codigoMesa()">Código Mesa</button>\n'/*ion-inline-end:"/mnt/Datos/UTN/Practica Profesional/comanda/2019_TP_PPS_Comanda/src/components/home-cliente/home-cliente.html"*/
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__["a" /* BarcodeScanner */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ionic_angular__["i" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5_ionic_angular__["g" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ionic_angular__["g" /* ModalController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */]) === "function" && _d || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__["a" /* BarcodeScanner */], __WEBPACK_IMPORTED_MODULE_5_ionic_angular__["i" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_5_ionic_angular__["g" /* ModalController */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */]])
     ], HomeClienteComponent);
     return HomeClienteComponent;
-    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=home-cliente.js.map
