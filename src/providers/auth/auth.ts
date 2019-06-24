@@ -86,6 +86,7 @@ export interface encUsuario {
 
 export interface encuestaCliente {
   id: string,
+  fecha:string,
   correo: string,
   pregunta1: string,
   respuesta1: string,
