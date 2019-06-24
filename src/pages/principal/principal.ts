@@ -11,20 +11,20 @@ import { EncuestaEmpleadoComponent } from "../../components/encuesta-empleado/en
 import { ListaClienteEstadoComponent } from "../../components/lista-cliente-estado/lista-cliente-estado";
 import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/pedidos-pendientes";
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
-import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
+//import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
 //import { FcmProvider } from '../../providers/fcm/fcm';
-import { ToastController } from 'ionic-angular';
-import { tap } from 'rxjs/operators';
+//import { ToastController } from 'ionic-angular';
+//import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
-import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
-import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
+//import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
+//import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
 import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
-import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
-import { JuegosPage } from '../juegos/juegos';
+//import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
+//import { JuegosPage } from '../juegos/juegos';
 import { ConfirmarPedidoPage } from '../confirmar-pedido/confirmar-pedido';
-import { PagarPage } from '../pagar/pagar';
+//import { PagarPage } from '../pagar/pagar';
 import { HomeClienteComponent } from '../../components/home-cliente/home-cliente';
 
 /**
@@ -44,9 +44,9 @@ export class PrincipalPage {
   usuario;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
-    private auth: AuthProvider,
+    private auth: AuthProvider){
     //private fcm: FcmProvider, 
-    private toastCtrl: ToastController) {
+    //private toastCtrl: ToastController) {
       /*this.fcm.getToken()
 
     // Listen to incoming messages
@@ -71,7 +71,8 @@ export class PrincipalPage {
         case "cocinero":
         case "bartender":
           this.acciones = [
-            { accion: "Pedidos Pendientes", img: "nuevo-empleado.jpg", ruta: PedidosPendientesComponent },
+            { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: PedidosPendientesComponent },
+            { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
           ];        
           break;
         case "supervisor":
@@ -86,20 +87,22 @@ export class PrincipalPage {
             { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
           ];
           break;
-        case "cliente registrado":
         case "cliente anonimo":
           this.acciones = [
-            //{ accion: "Home", img: "nuevo-empleado.jpg", ruta: HomeClienteComponent }
+            { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "QR prueba", img: "juegos.jpg", ruta: QrMesaComponent},
           ];
           break;
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
-            { accion: "Leer QR de la mesa", img: "qr.jpg", ruta: HomeClienteComponent },
-            { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
+            { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "QR prueba", img: "juegos.jpg", ruta: QrMesaComponent},
+            /*{ accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
             { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},
+            */
           ];
           break;
         case "mozo": 

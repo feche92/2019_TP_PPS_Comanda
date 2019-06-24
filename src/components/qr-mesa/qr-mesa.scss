@@ -35,6 +35,9 @@ qr-mesa {
 		margin: 5% 15% 5% 15%;
 	}
 
+	.estado{
+		text-transform: capitalize;
+	}
 	.buttons-container{
         height: calc(100% - 1em);
     }
@@ -45,5 +48,9 @@ qr-mesa {
         //background-color: #053b05;
         border-radius: 1em;
         
+    }
+
+    .pregunta-title{
+    	align-self: center;
     }
 }

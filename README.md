@@ -68,7 +68,7 @@ V- Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
 * [X] Alta de Cliente - Fecha inicio: 25/05/19 - Finalizado: 26/05/19
-* [X] Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19
+* [X] Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19 - 14/06/19 a 21/06/19
 * [X] Encuesta Empleado - Fecha inicio: 31/05/19 - Finalizado: 01/06/19
 * [X] Tomar Pedido - Fecha inicio:08/06/19 - Finalizado: 15/06/19
 *  Cierre de cuenta
@@ -77,9 +77,9 @@ V- Moreno
 
 **Torrealba Paola**:**Branch:** paola
 
-* Alta de Productos (Platos y bebidas)
-* QR de ingreso al local
-* Encuestas cliente
+* [X] Alta de Productos (Platos y bebidas)  Fecha inicio: 19/05/19 - Finalizado: 28/05/19
+* [X] QR de ingreso al local Fecha inicio: 29/05/19 - Finalizado: 14/06/19
+* [X] Encuestas cliente  Fecha inicio: 10/06/19 - Finalizado: 21/06/19
 
 
 

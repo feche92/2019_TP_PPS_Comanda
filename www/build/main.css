@@ -44361,7 +44361,7 @@ pedidos-pendientes .card {
   border-radius: 5px;
   margin: auto;
   padding: 20px;
-  width: 40rem;
+  width: 35rem;
 }
 
 pedidos-pendientes .card-title {
@@ -44479,6 +44479,10 @@ qr-mesa .img-mozo {
   margin: 5% 15% 5% 15%;
 }
 
+qr-mesa .estado {
+  text-transform: capitalize;
+}
+
 qr-mesa .buttons-container {
   height: calc(100% - 1em);
 }
@@ -44487,6 +44491,12 @@ qr-mesa .big-button-container {
   border-radius: 1em;
   cursor: pointer;
   border-radius: 1em;
+}
+
+qr-mesa .pregunta-title {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
 splash {

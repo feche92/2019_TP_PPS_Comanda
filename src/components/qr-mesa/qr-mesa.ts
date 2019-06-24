@@ -5,9 +5,10 @@ import { HomeClienteComponent } from "../home-cliente/home-cliente";
 import { NavController, NavParams } from 'ionic-angular';
 import { PedirPlatosPage } from "../../pages/pedir-platos/pedir-platos";
 import { PrincipalPage } from "../../pages/principal/principal";
+import { EncuestaClientePage } from "../../pages/encuesta-cliente/encuesta-cliente";
 import { JuegosPage } from '../../pages/juegos/juegos';
 import { PagarPage } from '../../pages/pagar/pagar';
-import { EncuestaClientePage } from '../../pages/encuesta-cliente/encuesta-cliente';
+import * as moment from 'moment';
 
 export interface mesa {
   id:string,
@@ -26,7 +27,7 @@ export interface mesa {
 export class QrMesaComponent {
 
   texto: string;
-  codigo: string[] = ['mesa', '4', 'normal']; //codigo qr de mesa
+  codigo: string[]; //= ['mesa', '2', 'normal']; //codigo qr de mesa
   title: string = "";
   mesas: mesa[] = [];
   estado: number = 0; 
@@ -62,6 +63,7 @@ export class QrMesaComponent {
     this.mostrarSpiner=true;
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     this.title = "Mesa Actual";
+    
     this.auth.getMesas().subscribe(lista =>{
       console.log(this.codigo);
       console.table(lista);
@@ -87,7 +89,9 @@ export class QrMesaComponent {
             */ 
             this.auth.getPedidos().subscribe(l =>{
               for(let i of l){
-                if(i.correo == this.usuario.correo && i.numero == item.numero && i.estado != 'pagado' && i.estado != 'cancelado'){
+                if(i.correo == this.usuario.correo || (i.nombreCliente == this.usuario.nombre && this.usuario.tipo == "cliente anonimo")){
+                  if(i.numero == item.numero && i.estado != 'pagado' && i.estado != 'cancelado'){
+
                     //console.log(i);
                     this.pedidoActual = i;
                     this.ocupada = false;
@@ -99,7 +103,8 @@ export class QrMesaComponent {
                       break;
                       case 'pedido por confirmar':
                         //Mostrar algun mensaje que el pedido todavia no se ha confirmado
-                        break;
+                        this.estado = 3;
+                      break;
                       case 'esperando pedido':
                       case 'preparando pedido':
                       case 'parcialmente terminado':
@@ -107,7 +112,7 @@ export class QrMesaComponent {
                         /*mostrar estado del pedido y monto total, ademas de boton
                         * encuesta, juegos
                         */
-                        this.estado = 3;
+                        this.estado = 4;
                       break;
                       case 'comiendo':
                         //mostrar monto total, encuesta, juegos, boton pagar
@@ -116,10 +121,13 @@ export class QrMesaComponent {
                       case 'por pagar':
                         this.navCtrl.setRoot(PagarPage);
                       //liberar mesa
+                        item.estado = "libre";
+                        this.auth.updateMesa(item);
                       break;
                     }
                     this.mostrarSpiner = false;
                     break;
+                  }
                 }
                 
               }
@@ -139,24 +147,51 @@ export class QrMesaComponent {
     });
   }
 
+  verificarReserva(){
+    this.auth.getReservas().subscribe(lista =>{
+      let momentoActual = moment(new Date());
+      for(let reserva of lista){
+        if(reserva.estado == "confirmada" && reserva.correo == this.usuario.correo){
+          let momentoReservaMesa = moment(reserva.horario, "DD/MM/YYYY HH:mm");
+          if (Math.abs(momentoActual.diff(momentoReservaMesa, "m")) < 40) {
+            //guardar mesa y asignarla
+          }
+        }
+      }
+    });
+  }
+
 
   tomarMesa(e){
     //console.log(e);
     this.mostrarSpiner = true;
     this.estado = 0;
-    e.estado= 'ocupada';
+    e.estado = 'ocupada';
     this.auth.updateMesa(e).then(res => {
       let date = new Date();
       let fecha = date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
-      let dataPedido = {
-        'estado': 'por pedir',
-        'numero': e.numero,
-        'tipo': e.tipo,
-        'nombreCliente': this.usuario.nombre,
-        'apellidoCliente': this.usuario.apellido,
-        'correo': this.usuario.correo,
-        'fecha': fecha
-      };
+      console.log(this.usuario);
+      let dataPedido;
+      if(this.usuario.tipo == "cliente anonimo"){
+        dataPedido = {
+          'estado': 'por pedir',
+          'numero': e.numero,
+          'tipo': e.tipo,
+          'nombreCliente': this.usuario.nombre,
+          'fecha': fecha
+        };
+      }
+      else{
+        dataPedido = {
+          'estado': 'por pedir',
+          'numero': e.numero,
+          'tipo': e.tipo,
+          'nombreCliente': this.usuario.nombre,
+          'apellidoCliente': this.usuario.apellido,
+          'correo': this.usuario.correo,
+          'fecha': fecha
+        };
+      }
       this.auth.guardarPedido(dataPedido).then(res => {
         this.alert.mostrarMensaje("Mesa asignada");
         this.mostrarSpiner=false;
@@ -190,13 +225,9 @@ export class QrMesaComponent {
   mostrarEncuesta(){
     console.log("mostrar encuesta");
     this.navCtrl.setRoot(EncuestaClientePage);
-    /*
-    * link a encuesta de satisfaccion de cliente
-    */
   }
 
   hacerPedido(){
-    //lamar componente de hacer pedido de productos
     console.log("En Hacer Pedido");
     this.navCtrl.setRoot(PedirPlatosPage);
   }
@@ -208,6 +239,10 @@ export class QrMesaComponent {
 
   pedidoRecibido(){
     console.log("pedido recibido");
+    console.log(this.pedidoActual);
+    this.pedidoActual.estado = "comiendo";
+    this.auth.actualizarPedido(this.pedidoActual);
+    this.navCtrl.setRoot(HomeClienteComponent);
   }
 
   pagar(){
@@ -216,6 +251,10 @@ export class QrMesaComponent {
       this.navCtrl.setRoot(PagarPage);
     })
     console.log("pagando");
+    this.pedidoActual.estado = "por pagar";
+    //enviar notificacion al mozo
+    this.auth.actualizarPedido(this.pedidoActual);
+    this.navCtrl.setRoot(HomeClienteComponent);
   }
 
   back() {
