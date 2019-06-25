@@ -32,6 +32,7 @@ export class HomeClienteComponent {
     this.scanner.scan().then(barcodeData => {
       //alert(barcodeData.text);
      this.codigo = barcodeData.text;
+     localStorage.setItem("codigo",this.codigo);
       let dato = this.codigo.split(',');
       switch(dato[0]){
         case 'mesa':
@@ -49,8 +50,8 @@ export class HomeClienteComponent {
             this.error.mostrarErrorLiteral("Codigo no valido");
             this.navCtrl.setRoot(PrincipalPage);
             break;
-        case 'entradaLocal':
-          this.modalCtrl.create(QrEntradaComponent, { codigo: dato }).present();
+        case 'entrada':
+          this.modalCtrl.create(QrEntradaComponent).present();
         break;
         default:
           this.error.mostrarErrorLiteral("Codigo no valido");

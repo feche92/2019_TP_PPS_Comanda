@@ -102,7 +102,7 @@ export class JuegoDescuentoPage {
   verificar() {
     this.respuesta = this.respuesta.toLowerCase();
     if(this.respuesta == this.nombreAnimal) {
-      if(localStorage.getItem("juegoDescuento") == 'true') {
+      if(localStorage.getItem("juegoDescuento") == 'true' || localStorage.getItem("juegoDescuento") == 'false') {
         this.mensaje = "Felicidades!! Ganaste";
       }
       else {
@@ -112,6 +112,7 @@ export class JuegoDescuentoPage {
     }
     else {
       this.mensaje = "Lo siento, perdiste. El animal era " + this.nombreAnimal;
+      localStorage.setItem("juegoDescuento", 'false');
     }
     this.ocultar=false;
   }

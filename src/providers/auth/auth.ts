@@ -33,9 +33,13 @@ export interface mesa {
 
 export interface listaEspera {
   id:string,
-  idCliente:string,
-  turno:string
- 
+  turno:number,
+  nombre:string,
+  apellido:string,
+  correo:string,
+  estado:string,
+  foto:string,
+  
 }
 
 
@@ -86,6 +90,7 @@ export interface encUsuario {
 
 export interface encuestaCliente {
   id: string,
+  fecha:string,
   correo: string,
   pregunta1: string,
   respuesta1: string,
@@ -217,6 +222,11 @@ export class AuthProvider {
   }
   
 //---Lista Espera ---//
+
+guardarListaEspera(data) {
+  return this.db.collection('listaEspera').add(data);
+}
+
 getListaEspera() {
   return this.db.collection('listaEspera').snapshotChanges().pipe(map(rooms => {
     return rooms.map(a =>{

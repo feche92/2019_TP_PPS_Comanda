@@ -7,11 +7,11 @@ import { EncuestaEmpleadoComponent } from './encuesta-empleado/encuesta-empleado
 import { ListaClienteEstadoComponent } from './lista-cliente-estado/lista-cliente-estado';
 import { HomeClienteComponent } from './home-cliente/home-cliente';
 import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendientes';
-
 import { AltaProductoComponent } from './alta-producto/alta-producto';
-//import { EntradaLocalComponent } from './entrada-local/entrada-local';
-//import { QrEntradaLocalComponent } from './qr-entrada/qr-entrada';
-import { QrEntradaComponent } from './qr-entrada/qr-entrada';
+import { QrEntradaComponent } from "./qr-entrada/qr-entrada";
+import { ListadoClientesComponent } from './listado-clientes/listado-clientes';
+
+
 @NgModule({
 	declarations: [AltaSupervisorComponent,
     SplashComponent,
@@ -22,9 +22,8 @@ import { QrEntradaComponent } from './qr-entrada/qr-entrada';
     HomeClienteComponent,
     PedidosPendientesComponent,
     AltaProductoComponent,
-    //EntradaLocalComponent,
-    //QrEntradaLocalComponent,
     QrEntradaComponent,
+    ListadoClientesComponent,
     ],
 	imports: [],
 	exports: [AltaSupervisorComponent,
@@ -36,9 +35,8 @@ import { QrEntradaComponent } from './qr-entrada/qr-entrada';
     HomeClienteComponent,
     PedidosPendientesComponent,
     AltaProductoComponent,
-    //EntradaLocalComponent,
-    //QrEntradaLocalComponent,
     QrEntradaComponent,
+    ListadoClientesComponent,
     ]
 })
 export class ComponentsModule {}

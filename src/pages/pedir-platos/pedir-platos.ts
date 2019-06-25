@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
-import { SpinnerProvider } from "../../providers/spinner/spinner";
 import * as moment from 'moment';
 
 
@@ -27,10 +26,10 @@ export class PedirPlatosPage {
   puedePedir:Boolean;
   pedidoPendiente;
   mensajePedido="";
+  mostrarSpiner;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
-    private error: AlertProvider,
-    private spinner: SpinnerProvider) {
+    private error: AlertProvider,) {
       this.montoActual=0;
       this.puedePedir=false;
       this.monto=false;
@@ -41,8 +40,7 @@ export class PedirPlatosPage {
       this.platos=new Array();
       this.bebidas=new Array();
       this.pedidoActual=new Array();
-      let spiner=this.spinner.getAllPageSpinner();
-      spiner.present();
+      this.mostrarSpiner=true;
       this.auth.getProductos().subscribe(lista => {
         this.productos=lista;
         for(let i=0;i<this.productos.length;i++)
@@ -54,7 +52,7 @@ export class PedirPlatosPage {
             this.platos.push({"nombre":this.productos[i].nombre,"descripcion":this.productos[i].descripcion,"foto":this.productos[i].foto,"cantidad":0,"tipo":"plato","tiempoPromedioElaboracion":this.productos[i].tiempoPromedioElaboracion,"estado":"pendiente","precio":this.productos[i].precio});
           }
         }
-        spiner.dismiss();
+        this.mostrarSpiner=false;
         console.log(this.bebidas);
         console.log(this.platos);
         this.puedeHacerPedido();
@@ -83,11 +81,11 @@ export class PedirPlatosPage {
         }
         console.log(this.pedidoPendiente);
       }
-      else {
+      else if(this.usuario.tipo == 'cliente') {
         let estaCorreo=false;
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado'/* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */) {
+          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado') /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */ {
             estaCorreo=true;
             //this.pedidoPendiente=this.pedidos[i];
             //this.puedePedir=true;
@@ -99,6 +97,34 @@ export class PedirPlatosPage {
           for(let i=0;i<this.pedidos.length;i++)
           {
             if(this.pedidos[i].estado == 'por pedir' && this.pedidos[i].correo == this.usuario.correo) {
+              this.pedidoPendiente=this.pedidos[i];
+              this.puedePedir=true;
+              break;
+            }
+          }
+        }
+        else {
+          this.mensajePedido="No puede hacer un pedido sin antes estar en una mesa";
+        }
+        console.log(this.pedidos);
+        console.log(this.pedidoPendiente);
+      }
+      else {
+        let estaCorreo=false;
+        for(let i=0;i<this.pedidos.length;i++)
+        {
+          if(this.pedidos[i].nombreCliente == this.usuario.nombre && this.pedidos[i].estado != 'pagado') /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */ {
+            estaCorreo=true;
+            //this.pedidoPendiente=this.pedidos[i];
+            //this.puedePedir=true;
+            break;
+          }
+        }
+        if(estaCorreo) {
+          this.mensajePedido="Ya hizo un pedido.No puede pedir otro";
+          for(let i=0;i<this.pedidos.length;i++)
+          {
+            if(this.pedidos[i].estado == 'por pedir' && this.pedidos[i].nombreCliente == this.usuario.nombre) {
               this.pedidoPendiente=this.pedidos[i];
               this.puedePedir=true;
               break;
@@ -222,23 +248,37 @@ export class PedirPlatosPage {
 
   PedirFinal() {
     if(this.pedidoActual.length > 0) {
-      let spiner=this.spinner.getAllPageSpinner();
-      spiner.present();
+      this.mostrarSpiner=true;
       let momentoActual = moment(new Date());
-      let data= {
-          "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
-         "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
-          "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+      let data;
+      if(this.usuario.tipo == "cliente anonimo"){
+        data = {
+            "nombreCliente":this.usuario.nombre,
+            "estado":"pedido por confirmar", //esperando pedido
+            "productos":this.pedidoActual,
+            "numero":this.pedidoPendiente.numero,
+            "fecha":momentoActual.format("DD/MM/YYYY HH:mm"),
+            "montoTotal":this.montoActual,
+            "tipo":this.pedidoPendiente.tipo,
+            "id":this.pedidoPendiente.id,
+        }
+      }
+      else{
+        data = {
+            "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
+           "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
+            "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+        }
       }
       this.auth.actualizarPedido(data).then(res => {
-        spiner.dismiss();
+        this.mostrarSpiner=false;
         this.error.mostrarMensaje("Su pedido ha sido enviado en breve se lo llevaremos...");
         setTimeout(() => {
           this.navCtrl.setRoot(PrincipalPage);
         },500);
       }).catch(error => {
         this.error.mostrarErrorLiteral(error,"Hubo un error al enviar su pedido.");
-        spiner.dismiss();
+        this.mostrarSpiner=false;
       }); 
     }
     else {

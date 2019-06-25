@@ -5,6 +5,7 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { SpinnerProvider } from "../../providers/spinner/spinner";
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { PrincipalPage } from '../principal/principal';
+import { applySourceSpanToStatementIfNeeded } from '@angular/compiler/src/output/output_ast';
 
 
 @IonicPage()
@@ -24,6 +25,7 @@ export class PagarPage {
   mostrarSpiner;
   codigo;
   mesa;
+  porcentaje;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
@@ -75,29 +77,28 @@ export class PagarPage {
     this.barcodeScanner.scan().then((barcodeData) => {
       this.codigo = barcodeData.text;
       let dato=this.codigo.split(",");
-      let porcentaje
       if(dato[0] == 'propina') {
         switch(dato[1])
         {
           case 'excelente':
             this.propina = this.monto * 0.2;
-            porcentaje = '20%';
+            this.porcentaje = '20%';
             break;
           case 'Muy bien':
             this.propina = this.monto * 0.15;
-            porcentaje = '15%';
+            this.porcentaje = '15%';
             break;
           case 'Bien':
             this.propina = this.monto * 0.1;
-            porcentaje = '10%';
+            this.porcentaje = '10%';
             break;
           case 'Regular':
             this.propina = this.monto * 0.05;
-            porcentaje = '5%';
+            this.porcentaje = '5%';
             break;
           case 'malo':
             this.propina = 0;
-            porcentaje = '0%';
+            this.porcentaje = '0%';
             break;
           default:
             this.propina = 0;
@@ -108,7 +109,8 @@ export class PagarPage {
         if(this.descuentoJuego) {
           this.total -= this.descuento;
         }
-        this.error.mostrarMensaje("Gracias!! Has incluido al pedido "+porcentaje+" de propina");
+        this.total = parseFloat(this.total).toFixed(2);
+        this.error.mostrarMensaje("Gracias!! Has incluido al pedido "+this.porcentaje+" de propina");
       }
       else {
         this.error.mostrarErrorLiteral('QR incorrecto');
