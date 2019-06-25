@@ -32,6 +32,7 @@ export class HomeClienteComponent {
     this.scanner.scan().then(barcodeData => {
       //alert(barcodeData.text);
      this.codigo = barcodeData.text;
+     localStorage.setItem("codigo",this.codigo);
       let dato = this.codigo.split(',');
       switch(dato[0]){
         case 'mesa':

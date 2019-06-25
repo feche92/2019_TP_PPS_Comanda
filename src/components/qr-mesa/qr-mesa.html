@@ -19,7 +19,7 @@
 	    <h5 class="card-title text-center">Mesa Nº {{mesa.numero}}</h5>
 	    <p class="card-text">Cantidad de Comensales: {{mesa.cantidadComensales}}</p>
       <p class="card-text">Tipo: {{mesa.tipo}}</p>
-      <ion-card class="height-10 big-button-container" [color]="myColor">
+      <ion-card class="height-20 big-button-container" [color]="myColor">
         <div class="flex-v center-horizontal center-vertical height-100" (click)="tomarMesa(mesa)">
           <div class="text-title">Tomar mesa</div>
         </div>
@@ -36,15 +36,25 @@
   </div>
 
 
-  <div *ngIf="estado == 2">
+  <div class="flex-v buttons-container" *ngIf="estado == 2">
   	<ion-grid>
   		<ion-row>
   			<!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->
           <h4 class="pregunta-title">¿Desea realizar un pedido?</h4>
   		</ion-row>
       <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
-      <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
-      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>
+      <ion-card class="height-20 big-button-container" [color]="myColor">
+        <div class="flex-v center-horizontal center-vertical height-100" (click)="hacerPedido()">
+          <div class="text-title">Realizar pedido</div>
+        </div>
+      </ion-card>
+      <ion-card class="height-20 big-button-container" [color]="myColor">
+        <div class="flex-v center-horizontal center-vertical height-100" (click)="mostrarJuegos()">
+          <div class="text-title">Juegos por Descuentos</div>
+        </div>
+      </ion-card>
+      <!--<button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
+      <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>-->
     </ion-grid>
   </div>
 
@@ -72,12 +82,17 @@
         <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>
       </ion-row>
       <ion-row>
+        <ul *ngFor="let item of pedidoActual.productos">
+          <li>{{item.nombre}} -- {{item.estado}}</li>
+        </ul>
+      </ion-row>
+      <ion-row>
         <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal}}</h4>
       </ion-row>
       <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
       <button ion-button block color="primary" (click)="mostrarEncuesta()">Encuesta de Satisfaccion</button>
       <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
-      <button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>
+      <!--<button ion-button block color="primary" (click)="pedidoRecibido()">Pedido Recibido en la Mesa</button>-->
     </ion-grid>
   </div>
 
@@ -95,6 +110,29 @@
       <button ion-button block color="primary" (click)="pagar()">Pagar</button>
     </ion-grid>
   </div>
+
+  <div class="flex-v buttons-container" *ngIf="estado == 6">
+      <ion-grid>
+        <ion-row>
+          <!--h2>Estado de Pedido:</h2><h4 class="estado">{{pedidoActual.estado}}</h4-->
+            <h4 class="estado">Estado: {{pedidoActual.estado}}</h4> 
+            <h4 class="pregunta-title">¿Desea aceptar el pedido?</h4>
+        </ion-row>
+        <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">
+        <ion-card class="height-20 big-button-container" [color]="myColor">
+          <div class="flex-v center-horizontal center-vertical height-100" (click)="aceptarPedido()">
+            <div class="text-title">Aceptar</div>
+          </div>
+        </ion-card>
+        <ion-card class="height-20 big-button-container" [color]="otroColor">
+          <div class="flex-v center-horizontal center-vertical height-100" (click)="cancelarPedido()">
+            <div class="text-title">Cancelar</div>
+          </div>
+        </ion-card>
+        <!--<button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>
+        <button ion-button block color="primary" (click)="hacerPedido()">Realizar Pedido</button>-->
+      </ion-grid>
+    </div>
 
 
   

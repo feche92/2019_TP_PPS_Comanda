@@ -65,7 +65,8 @@ export class ConfirmarPedidoPage {
     console.log(pedido);
     let spiner=this.spinner.getAllPageSpinner();
     spiner.present();
-    pedido.estado = "cancelado";
+    pedido.estado = "por pedir";
+    pedido.productos=[];
     this.auth.actualizarPedido(pedido).then(res => {
       spiner.dismiss();
       this.error.mostrarMensaje("Pedido cancelado");

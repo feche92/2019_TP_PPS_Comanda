@@ -39,6 +39,8 @@ export class ListadoReservaPage {
       spiner.present();
       this.auth.getReservas().subscribe(lista => {
         this.reservas=lista;
+        this.reservasPendientes=[];
+        this.reservasConfirmadas=[];
         for(let i=0;i<this.reservas.length;i++)
         {
           if(this.reservas[i].estado == 'pendiente') {

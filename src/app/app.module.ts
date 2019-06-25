@@ -52,6 +52,8 @@ import { HomeClienteComponent } from "../components/home-cliente/home-cliente";
 import { FcmProvider } from '../providers/fcm/fcm';
 import { AltaProductoComponent } from "../components/alta-producto/alta-producto";
 import { PedidosPendientesComponent } from '../components/pedidos-pendientes/pedidos-pendientes';
+import { QrEntradaComponent } from "../components/qr-entrada/qr-entrada";
+import { ListadoClientesComponent } from "../components/listado-clientes/listado-clientes";
 import { EmailComposer } from '@ionic-native/email-composer';
 
 @NgModule({
@@ -88,7 +90,9 @@ import { EmailComposer } from '@ionic-native/email-composer';
     JuegosPage,
     JuegoDescuentoPage,
     ConfirmarPedidoPage,
-    PagarPage
+    PagarPage,
+    QrEntradaComponent,
+    ListadoClientesComponent
     ],
   imports: [
     BrowserModule,
@@ -130,7 +134,9 @@ import { EmailComposer } from '@ionic-native/email-composer';
     JuegosPage,
     JuegoDescuentoPage,
     ConfirmarPedidoPage,
-    PagarPage
+    PagarPage,
+    QrEntradaComponent,
+    ListadoClientesComponent
   ],
   providers: [
     StatusBar,

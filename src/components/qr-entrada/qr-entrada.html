@@ -3,14 +3,41 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>Lista de Espera</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>>
-    <ion-grid>     
-      <button ion-button block color="primary" (click)="ponerEnLista()">Agregarme a Lista Espera</button>
-      <button ion-button block color="primary" (click)="verEncuestas()">Ver Encuestas</button>
-      <button ion-button block color="primary" (click)="cancelar()">Cancelar</button>
-    </ion-grid>
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div *ngIf="!mostrarSpiner && !enListaDeEspera" class="contenido">
+    <h1 class="tituloPag">¡Bienvenido!</h1>
+    <p class="info">Ingrese por favor la cantidad de comensales.</p>
+    <ion-item>
+      <ion-label floating>Comensales: </ion-label>
+      <ion-input type="number" required [(ngModel)]="comensales" name="em"></ion-input>
+    </ion-item>
+    <ion-card class="height-20 big-button-container" [color]="myColor">
+      <div class="flex-v center-horizontal center-vertical height-100" (click)="ingresar()">
+        <div class="text-title">Ingresar</div>
+      </div>
+    </ion-card>
+  </div>
+  <div *ngIf="!mostrarSpiner && enListaDeEspera" class="contenido">
+    <ion-list>
+      <ion-item *ngFor="let item of listaClientes">
+        <ion-thumbnail item-start >
+          <img src={{item.foto}} />
+        </ion-thumbnail>
+        <h1 style="color:black;">{{item.nombre}}</h1>
+        <p style="color:black;">Tipo: • {{item.tipo}}</p>
+        <p style="color:black;">Cantidad de personas: • {{item.comensales}} </p>
+        <p style="color:black;">Turno: • {{item.turno}} </p>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
 

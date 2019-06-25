@@ -62,6 +62,7 @@
 </div>
 
 <ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
   <div *ngIf="!puedePedir">
     <h1 class="tituloPag" >{{mensajePedido}}</h1>
   </div>
