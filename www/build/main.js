@@ -3464,19 +3464,19 @@ var map = {
 		4
 	],
 	"../pages/principal/principal.module": [
-		662,
+		663,
 		3
 	],
 	"../pages/register/register.module": [
-		663,
+		662,
 		2
 	],
 	"../pages/reserva/reserva.module": [
-		665,
+		664,
 		1
 	],
 	"../pages/spinner/spinner.module": [
-		664,
+		665,
 		0
 	]
 };
@@ -4796,10 +4796,10 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/listado-reserva/listado-reserva.module#ListadoReservaPageModule', name: 'ListadoReservaPage', segment: 'listado-reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] }
@@ -5807,7 +5807,7 @@ var HomeClienteComponent = /** @class */ (function () {
                     _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__pages_principal_principal__["a" /* PrincipalPage */]);
                     break;
                 case 'entrada':
-                    _this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_3__qr_entrada_qr_entrada__["a" /* QrEntradaComponent */], { codigo: dato }).present();
+                    _this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_3__qr_entrada_qr_entrada__["a" /* QrEntradaComponent */]).present();
                     break;
                 default:
                     _this.error.mostrarErrorLiteral("Codigo no valido");

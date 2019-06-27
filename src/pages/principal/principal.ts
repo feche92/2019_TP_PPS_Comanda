@@ -119,7 +119,7 @@ export class PrincipalPage {
             for(let i=0;i<lista.length;i++)
             {
               if(lista[i].correo == this.usuario.correo && lista[i].estado == 'camino a entrega') {
-                let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entrgar");
+                let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entregar");
                 alertConfirm.present();
                 alertConfirm.onDidDismiss((confirm) => {
                 if (confirm) {
