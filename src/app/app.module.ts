@@ -92,7 +92,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     ConfirmarPedidoPage,
     PagarPage,
     QrEntradaComponent,
-    ListadoClientesComponent
+    ListadoClientesComponent,
     ],
   imports: [
     BrowserModule,
@@ -136,7 +136,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     ConfirmarPedidoPage,
     PagarPage,
     QrEntradaComponent,
-    ListadoClientesComponent
+    ListadoClientesComponent,
   ],
   providers: [
     StatusBar,

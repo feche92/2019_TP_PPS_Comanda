@@ -18,7 +18,7 @@ import * as firebase from "firebase";
 export class AltaDeProductoPage {
   firebase = firebase;
   //atributos
-  public tipo: string = "plato";
+  public tipo: string;
   public descripcion: string;
   public nombre: string;
   public tiempoPromedioElaboracion: number;
@@ -29,7 +29,7 @@ export class AltaDeProductoPage {
   public estado :string = "Definir estado inicial";
   public numeroProducto:number;
 
-  usuarios;
+  usuario;
   productos;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -38,11 +38,13 @@ export class AltaDeProductoPage {
     private spiner: SpinnerProvider,
     private camera: Camera,
     private barcodeScanner: BarcodeScanner) {
-    
-      this.usuarios=new Array();
-      this.auth.getLista("usuarios").subscribe(lista => {
-        this.usuarios=lista;
-      });
+      this.usuario=JSON.parse(localStorage.getItem("usuario"));
+      if(this.usuario.tipo == 'cocinero') {
+        this.tipo = 'plato';
+      }
+      else if(this.usuario.tipo == 'bartender') {
+        this.tipo = 'bebida';
+      }
       this.productos=new Array();
       this.auth.getListaProdcutos("productos").subscribe(lista => {
         this.productos=lista;
@@ -80,7 +82,18 @@ export class AltaDeProductoPage {
       return;
     }   
     let esValido = true;
-    
+    for(let i=0;i<this.productos.length;i++)
+    {
+      if(this.productos[i].nombre == this.nombre) {
+        esValido=false;
+        break;
+      }
+    }
+    if(!esValido) {
+      this.error.mostrarErrorLiteral("Ya existe ese producto en el sistema");
+      spiner.dismiss();
+      return;
+    }
     if(esValido) {
       let data= {
         "nombre":this.nombre,
