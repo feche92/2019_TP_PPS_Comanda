@@ -14,6 +14,18 @@ page-encuesta-cliente {
             }
         }
     
+
+        .miRango {
+            position: relative !important;
+            left: -50px !important;
+            right:-50 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-left: 100px !important;
+            width:150% !important;
+        }
         ion-navbar ion-icon { font-size: 50px !important; }
     
         h1 {
