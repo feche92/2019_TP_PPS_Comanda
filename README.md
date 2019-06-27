@@ -68,10 +68,10 @@ V- Moreno
 
 * [X] Alta de supervisor - Fecha inicio: 20/05/19 - Finalizado: 24/05/19
 * [X] Alta de Cliente - Fecha inicio: 25/05/19 - Finalizado: 26/05/19
-* [X] Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19 - 14/06/19 a 21/06/19
+* [X] Qr de la Mesa - Fecha inicio: 30/05/19 - Finalizado: 31/05/19 - 14/06/19 a 27/06/19
 * [X] Encuesta Empleado - Fecha inicio: 31/05/19 - Finalizado: 01/06/19
 * [X] Tomar Pedido - Fecha inicio:08/06/19 - Finalizado: 15/06/19
-*  Cierre de cuenta
+* [X] Cierre de cuenta - Fecha inicio 26/06/19
 *  Mapa de ruta hasta el domicilio de entrega
 *  Juego para un postre gratis
 
