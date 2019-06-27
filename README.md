@@ -59,7 +59,7 @@ V- Moreno
 * [x] Hacer reservas agendadas: fecha de inicio 29/5/19, fecha de finalizacion 4/6/19
 * Push Notification: fecha de inicio 31/5/19
 * [x] Pedido de Platos y Bebidas: fecha de inicio 6/6/19, fecha de finalizacion 11/6/19
-* QR de propina:
+* [x] Pagar/QR de propina: fecha de inicio 12/6/19, fecha de finalizacion 12/6/19
 * [x] Juego para un 10% de descuento: fecha de inicio 12/6/19, fecha de finalizacion 13/6/19
 
 

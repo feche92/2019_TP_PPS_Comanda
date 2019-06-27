@@ -8,9 +8,10 @@ import { ListaClienteEstadoComponent } from './lista-cliente-estado/lista-client
 import { HomeClienteComponent } from './home-cliente/home-cliente';
 import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendientes';
 import { AltaProductoComponent } from './alta-producto/alta-producto';
-//import { QrEntradaLocalComponent } from './qr-entrada/qr-entrada';
+import { QrEntradaComponent } from "./qr-entrada/qr-entrada";
+import { ListadoClientesComponent } from './listado-clientes/listado-clientes';
 
-import { QrEntradaComponent } from './qr-entrada/qr-entrada';
+
 @NgModule({
 	declarations: [AltaSupervisorComponent,
     SplashComponent,
@@ -22,6 +23,7 @@ import { QrEntradaComponent } from './qr-entrada/qr-entrada';
     PedidosPendientesComponent,
     AltaProductoComponent,
     QrEntradaComponent,
+    ListadoClientesComponent,
     ],
 	imports: [],
 	exports: [AltaSupervisorComponent,
@@ -34,6 +36,7 @@ import { QrEntradaComponent } from './qr-entrada/qr-entrada';
     PedidosPendientesComponent,
     AltaProductoComponent,
     QrEntradaComponent,
+    ListadoClientesComponent,
     ]
 })
 export class ComponentsModule {}

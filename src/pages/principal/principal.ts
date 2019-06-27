@@ -26,6 +26,9 @@ import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
 import { ConfirmarPedidoPage } from '../confirmar-pedido/confirmar-pedido';
 //import { PagarPage } from '../pagar/pagar';
 import { HomeClienteComponent } from '../../components/home-cliente/home-cliente';
+import { QrEntradaComponent } from '../../components/qr-entrada/qr-entrada';
+import { ListadoClientesComponent } from '../../components/listado-clientes/listado-clientes';
+import { PagarPage } from '../pagar/pagar';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -90,17 +93,21 @@ export class PrincipalPage {
         case "cliente anonimo":
           this.acciones = [
             { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
-            { accion: "QR prueba", img: "juegos.jpg", ruta: QrMesaComponent},
+            //{ accion: "QR prueba", img: "juegos.jpg", ruta: QrEntradaComponent},
+            //{ accion: "QR prueba mesa", img: "juegos.jpg", ruta: QrMesaComponent},
           ];
           break;
         case "cliente":
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
             { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
-            { accion: "QR prueba", img: "juegos.jpg", ruta: QrMesaComponent},
+            //{ accion: "QR prueba", img: "juegos.jpg", ruta: QrEntradaComponent},
+            //{ accion: "QR prueba mesa", img: "juegos.jpg", ruta: QrMesaComponent},
+            //{ accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
             /*{ accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
+            { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },
             { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},
             */
           ];
@@ -108,11 +115,13 @@ export class PrincipalPage {
         case "mozo": 
           this.acciones = [
             { accion: "Tomar pedido", img: "pedido.jpg", ruta: ListadoMesasPage},
-            { accion: "Aceptar/Entregar pedido", img: "pedido.jpg", ruta: ConfirmarPedidoPage}
+            { accion: "Aceptar/Entregar pedido", img: "pedido.jpg", ruta: ConfirmarPedidoPage},
+            { accion: "Aceptar clientes en lista de espera", img: "qr.jpg", ruta: ListadoClientesComponent}
           ]
           break;
           
         }
+/*
         if(this.usuario.tipo == 'cliente')
         {
           this.auth.getPedidos().subscribe(lista => {
@@ -140,6 +149,7 @@ export class PrincipalPage {
             }
           })
         }
+        */
   }
 
   ionViewDidLoad() {

@@ -23,7 +23,6 @@ export class AltaDeProductoPage {
   public nombre: string;
   public tiempoPromedioElaboracion: number;
   public foto: string = "../../assets/Imagenes/producto.png";
-  public lectorQR: string;
   public codigo: string;
   public precio: number;
 
@@ -62,7 +61,7 @@ export class AltaDeProductoPage {
     spiner.present();
     console.log (this);
     if (!this.nombre ||!this.tiempoPromedioElaboracion || !this.descripcion
-       || !this.tipo || this.foto=="" || !this.precio || !this.lectorQR )
+       || !this.tipo || this.foto=="" || !this.precio  )
     {
       this.error.mostrarErrorLiteral("Todos los campos deben ser completados.");
      spiner.dismiss();
@@ -89,7 +88,6 @@ export class AltaDeProductoPage {
         "foto":this.foto,
         "tipo":this.tipo,
         "precio":this.precio, 
-        "lectorQR":this.lectorQR,
         "tiempoPromedioElaboracion":this.tiempoPromedioElaboracion,
         "estado": this.estado,
         "numeroProducto":this.productos.length +1
@@ -120,8 +118,7 @@ export class AltaDeProductoPage {
       this.tipo = "plato";
       this.foto="../../assets/Imagenes/producto.png";
       this.precio=0;
-      this.lectorQR="";
-    
+      
     
   }  
   
@@ -168,10 +165,9 @@ export class AltaDeProductoPage {
       let dato=this.codigo.split(",");
       this.nombre=dato[0];
       this.descripcion=dato[1];
-      this.precio=parseInt(dato[2]);
-      this.tiempoPromedioElaboracion=parseInt(dato[3]);
-      this.numeroProducto=parseInt (dato[4]);  
-      this.tipo=dato[5]; 
+      this.precio= +dato[2];
+      this.tiempoPromedioElaboracion= +dato[3];
+      this.tipo=dato[4]; 
     }, (error) => {
       this.error.mostrarErrorLiteral(error);
     });

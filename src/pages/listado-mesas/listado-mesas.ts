@@ -65,8 +65,8 @@ export class ListadoMesasPage {
 
   elegirMesa(item) {
     console.log(item);
-    //localStorage.setItem("pedido", JSON.stringify(item));
-    //this.navCtrl.setRoot(PedirPlatosPage, { pedido : item });
+    localStorage.setItem("pedido", JSON.stringify(item));
+    this.navCtrl.setRoot(PedirPlatosPage, { pedido : item });
   }
 
 }

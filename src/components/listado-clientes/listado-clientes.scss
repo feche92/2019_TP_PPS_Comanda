@@ -1,0 +1,95 @@
+listado-clientes {
+    .scroll-content { background-color: #FCE5C6; }
+
+    ion-navbar {
+        padding: 20px 10px !important;
+
+        ion-icon {
+            color: white;
+        }
+    }
+
+    ion-navbar ion-icon { font-size: 50px !important; }
+
+    .contenido
+    {
+       
+        width: 100%;
+        height: 100%!important;
+        display: flex;
+        flex-direction: column;
+        background-size:100% 100%;
+        position:relative;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 10px 20px 10px 20px;
+        //background-color: color($colors, red);
+        color: black;
+        font-family: cinzel;
+        margin-bottom: 0;
+    }
+
+    .interfaz-mesas {
+        position: fixed;
+        z-index: 10;
+        bottom: 0;
+        width: 100%;
+
+        background-color: #FCE5C6;
+        height: auto;
+        border-top: solid 5px color($colors, primary); 
+
+        h1 {
+            margin: 15px 10px 15px 10px;
+            text-align: center;
+            color: color($colors, primary);
+        }
+
+    }
+
+    .mesas {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        border-top: solid color($colors, primary) 1px;
+        border-bottom: solid color($colors, primary) 1px;
+    }
+
+    .mesa {
+        flex-grow: 1;
+        width: 20%;
+        height: 100px;
+        background-color: color($colors, primary);
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        color: white;
+        padding: 0;
+    }
+
+    .selected {
+        outline: solid #94A82F 2px;
+        outline-offset: 5px;
+    }
+
+    .botones-interfaz-mesa {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+
+        button {
+            padding: 30px 20px 30px 20px;
+        }
+    }
+
+    .ocultar {
+        display: none !important;
+    }
+}
