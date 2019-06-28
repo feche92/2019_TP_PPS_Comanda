@@ -134,9 +134,9 @@ export class AltaClienteComponent {
       let contenido = barcodeData.text;
       let array = contenido.split('@');
       this.dni = +array[4];
-      if(this.nombre == "" | this.nombre == undefined)
+      if(this.nombre == "" || this.nombre == undefined)
         this.nombre = array[2];
-      if(this.apellido == "" | this.apellido == undefined)
+      if(this.apellido == "" || this.apellido == undefined)
         this.apellido = array[1];
 
     }).catch(err => { 
