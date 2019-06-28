@@ -73,7 +73,7 @@ V- Moreno
 * [X] Tomar Pedido - Fecha inicio:08/06/19 - Finalizado: 15/06/19
 * [X] Cierre de cuenta - Fecha inicio 26/06/19
 *  Mapa de ruta hasta el domicilio de entrega
-*  Juego para un postre gratis
+* [X] Juego para un postre gratis
 
 **Torrealba Paola**:**Branch:** paola
 
