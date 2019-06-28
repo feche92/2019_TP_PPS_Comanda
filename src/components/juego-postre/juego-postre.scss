@@ -1,0 +1,44 @@
+juego-postre {
+	h1, h2, h3, h4, label{
+	color: #fff;
+}
+
+.puntaje{
+	padding: 15px;
+}
+
+.botones{
+	margin: 35px 0 35px 0;
+}
+
+.palabra{
+	width: 100%;
+	letter-spacing: 21px;
+}
+
+.botones, .ancho{
+	width: 100%;
+}
+
+.font-size{
+	font-size: 21px;
+}
+
+.pd{
+	padding-left: 7%;
+}
+
+.row-res{
+	margin-bottom: 40px;
+}
+
+.marcado{
+	background-color: #da2a2a;
+	border-color: #db2929;
+}
+
+.marcado-bien{
+	background-color: lawngreen;
+	border-color: lawngreen;
+}
+}
