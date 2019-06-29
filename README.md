@@ -74,14 +74,14 @@ V- Moreno
 * [X] Encuesta Empleado - Fecha inicio: 31/05/19 - Finalizado: 01/06/19
 * [X] Tomar Pedido - Fecha inicio:08/06/19 - Finalizado: 15/06/19
 * [X] Cierre de cuenta - Fecha inicio 26/06/19
-*  Mapa de ruta hasta el domicilio de entrega
 * [X] Juego para una bebida gratis - Fecha de inicio 27/06/19
 
-**Torrealba Paola**:**Branch:** paola
+**Torrealba Paola**:**Branch:** Paola
 
 * [X] Alta de Productos (Platos y bebidas)  Fecha inicio: 19/05/19 - Finalizado: 28/05/19
 * [X] QR de ingreso al local Fecha inicio: 29/05/19 - Finalizado: 14/06/19
-* [X] Encuestas cliente  Fecha inicio: 10/06/19 - Finalizado: 21/06/19
+* [X] Encuestas cliente  Fecha inicio: 10/06/19 - Finalizado: 28/06/19
+* [X] Grafico en encuesta - Fecha inicio: 27/06/19 - Finalizado: 28/06/19
 
 
 
