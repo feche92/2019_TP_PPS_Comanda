@@ -18,6 +18,7 @@ import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-super
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
 import { EncuestaClientePage } from "../pages/encuesta-cliente/encuesta-cliente";
 import { VerEncuestaClientePage } from "../pages/ver-encuesta-cliente/ver-encuesta-cliente";
+import { GraficoEncuestaClientePage } from '../pages/grafico-encuesta-cliente/grafico-encuesta-cliente';
 
 import { ReservaPage } from "../pages/reserva/reserva";
 import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
@@ -64,6 +65,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     MyApp,
     HomePage,
     PrincipalPage,
+    GraficoEncuestaClientePage,
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
@@ -115,6 +117,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     PrincipalPage,
     RegisterPage,
     ListadoEncuestasPage,
+    GraficoEncuestaClientePage,
     AltaempleadoPage,
     VerEncuestaClientePage,
     AltaDeMesaPage,
