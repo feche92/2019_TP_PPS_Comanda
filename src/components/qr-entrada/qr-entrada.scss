@@ -1,0 +1,78 @@
+qr-entrada {
+	@import url('https://fonts.googleapis.com/css?family=Anton');
+
+    @import url('https://fonts.googleapis.com/css?family=Kalam|Lobster|Sorts+Mill+Goudy');
+    @import url('https://fonts.googleapis.com/css?family=Spicy+Rice');
+    @import url('https://fonts.googleapis.com/css?family=Acme|Spicy+Rice');
+    @import url('https://fonts.googleapis.com/css?family=Rancho');
+	@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+	
+	.scroll-content { background-color: #FCE5C6; }
+
+    ion-navbar {
+        padding: 20px 10px !important;
+
+        ion-icon {
+            color: white;
+        }
+    }
+
+    ion-navbar ion-icon { font-size: 50px !important; }
+
+    .contenido
+    {
+       
+        width: 100%;
+        height: 100%!important;
+        display: flex;
+        flex-direction: column;
+        background-size:100% 100%;
+        position:relative;
+    }
+    .tituloPag
+    {
+        font-family: 'Lobster', cursive;
+        text-align: center;
+        color:primary;
+        font-size:4em;
+    }
+    .info   
+    {
+        font-family: 'Sorts Mill Goudy', serif;
+        font-size: 2em;
+        text-align: center;
+        color:white;
+        width: 80%;
+        margin-left: 10%;
+        margin-top:10%;
+        box-sizing: border-box;
+	}
+
+	.buttons-container{
+        height: calc(100% - 1em);
+    }
+
+    .big-button-container{
+        border-radius: 1em;
+        cursor: pointer;            
+        //background-color: #053b05;
+        border-radius: 1em;
+        
+    }
+
+	.card{
+		margin: auto;
+		border-radius: 5%;
+		padding: 10px;
+		margin-top: 10%;
+	}
+
+	.text-center{
+		text-align: center;
+	}
+
+
+	.tiempoEstimado{
+		margin: 0 0 10px 10px;
+	}
+}

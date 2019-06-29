@@ -1,0 +1,56 @@
+<!--
+  Generated template for the AltaProductoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Alta de Producto</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-row>
+    <ion-col>
+      <ion-list inset>
+        <ion-item>
+          <ion-input type="text" class="tipoProducto" placeholder="Nombre" [(ngModel)]="nombre" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text"  class="tipoProducto"  placeholder="Descripcion" [(ngModel)]="descripcion" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" class="tipoProducto"   placeholder="Precio" [(ngModel)]="precio" ></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-input type="text"  class="tipoProducto"  placeholder="Tiempo Promedio Elaboracion" [(ngModel)]="tiempoPromedioElaboracion" ></ion-input>
+        </ion-item>       
+        
+          <select [(ngModel)]="tipo" class="tipoProducto" style="margin: 0 30px 0 0;width: 70%;display: block;
+              margin: 0 auto;">
+            <option value="plato">Plato</option>
+            <option value="bebida">Bebida</option>                   
+          </select>
+        
+        <ion-item>
+          <img [src]="foto" alt="" height="125px" width="125px">
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>
+      <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>
+      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Guardar Producto</button>
+    </ion-col>
+  </ion-row> 
+</ion-content>

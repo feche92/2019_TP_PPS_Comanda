@@ -1,0 +1,72 @@
+pedidos-pendientes {
+	.card{
+		border-radius: 5px;
+		margin: auto;
+		padding: 20px;
+		width: 35rem;
+	}
+
+	.card-title{
+		text-transform: uppercase;
+	    color: #5a5a5a;
+	    border-bottom: 4px solid #dcd4d4;
+	    font-size: 23px;
+	    font-weight: 400;
+	}
+
+	.item-producto{
+		border: 1px solid #d5d5d5;
+    	padding: 7px;
+	}
+
+	.item-nombre{
+		background: #00365c;
+	    color: #ffff;
+	    font-weight: 800;
+	    font-size: 22px;
+	    text-transform: uppercase;
+	    border-radius: 3px;
+	    text-align: center;
+	    margin-top: auto;
+    	margin-bottom: auto;
+	}
+
+	.item-descripcion{
+		color: #716f6f;
+	    font-weight: 400;
+	    font-style: italic;
+	    font-size: 16px;
+	    text-transform: capitalize;
+	    margin-top: auto;
+    	margin-bottom: auto;
+	}
+
+	.item-cantidad{
+		font-size: 5rem;
+	    text-align: center;
+	    color: #01538c;
+	    margin: auto;
+	}
+
+	.item-porcion{
+		color: #01538c;
+	    text-align: center;
+	    font-size: 18px;
+	    margin: auto;
+	}
+
+	.grid-container {
+	  display: grid;
+	  grid-template-columns: 2fr 1fr;
+	  grid-template-rows: 1fr;
+	  grid-template-areas: "Contenido .";
+	}
+
+	.Contenido {
+	  display: grid;
+	  grid-template-columns: 1fr;
+	  grid-template-rows: 1fr 1fr;
+	  grid-template-areas: "." ".";
+	  grid-area: Contenido;
+	}
+}

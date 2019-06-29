@@ -39,7 +39,7 @@ export class AlertProvider {
     var errorMessage = this.getErrorMessage(error);
     let alert = this.alert.create({
         position: "middle",
-        duration: 2000,
+        duration: 3000,
         cssClass: 'error-alert',
         message: message ? message + errorMessage : errorMessage,
         
@@ -50,7 +50,7 @@ export class AlertProvider {
 public mostrarErrorLiteral(error, title?) {
     let alert = this.alert.create({
         position: "topo",
-        duration: 2000,
+        duration: 3000,
         message: error,
         cssClass: 'error-alert'
     });
@@ -98,8 +98,8 @@ public mostrarMensajeConfimación(mensaje, title?) {
 public mostrarMensaje(mesagge){
     let alert = this.alert.create({
         message: mesagge,
-        duration: 4000,
-        position: "top",
+        duration: 2500,
+        position: "topo",
         cssClass: 'success-alert',
     });
     alert.present();

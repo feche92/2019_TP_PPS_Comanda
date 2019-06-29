@@ -1,0 +1,162 @@
+@import "roboto";
+@import "noto-sans";
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import "../../theme/variables.scss";
+
+alta-supervisor {
+
+page-home {
+    background-color: #ffffff;    
+    .scroll-content{
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 0px !important;
+    }
+}
+
+.icon {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+@-webkit-keyframes flip {
+    from {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, -360deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+    }
+  
+    40% {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -190deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -190deg);
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+    }
+  
+    50% {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -170deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -170deg);
+      -webkit-animation-timing-function: ease-in;
+      animation-timing-function: ease-in;
+    }
+  
+    80% {
+      -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, 0deg);
+      transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, 0deg);
+      -webkit-animation-timing-function: ease-in;
+      animation-timing-function: ease-in;
+    }
+  
+    to {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, 0deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+      -webkit-animation-timing-function: ease-in;
+      animation-timing-function: ease-in;
+    }
+  }
+  
+  @keyframes flip {
+    from {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, -360deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+    }
+  
+    40% {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -190deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -190deg);
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+    }
+  
+    50% {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -170deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px)
+        rotate3d(0, 1, 0, -170deg);
+      -webkit-animation-timing-function: ease-in;
+      animation-timing-function: ease-in;
+    }
+  
+    80% {
+      -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, 0deg);
+      transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, 0deg);
+      -webkit-animation-timing-function: ease-in;
+      animation-timing-function: ease-in;
+    }
+  
+    to {
+      -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0)
+        rotate3d(0, 1, 0, 0deg);
+      transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+      -webkit-animation-timing-function: ease-in;
+      animation-timing-function: ease-in;
+    }
+  }
+  
+   /*animacion*/
+   #custom-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100000;
+      width:100%;
+      background-image: url("../../assets/Imagenes/splashComandaFondo.png");
+      background-repeat: no-repeat ;
+      background-size: cover ;
+      background-position: center ;
+    }
+    .flb {
+      height:100%;
+      width:100%;
+      animation: pulse 1s linear forwards;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .Aligner-item {
+      max-width: 50%;
+    }
+    .Aligner-item--top {
+      align-self: flex-start;
+    }
+    .Aligner-item--bottom {
+      align-self: flex-end;
+    }
+    #custom-overlay img {
+      display: block;
+      margin: 0 auto;
+      width: 70%;
+      height: auto;
+      animation: flip 3100ms linear infinite both;
+      animation-delay: 1s;
+    }
+  
+    .animation-target {
+      -webkit-animation: flip 5000ms linear both;
+      animation: flip 5000ms linear both;
+    }
+
+
+}

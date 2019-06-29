@@ -1,0 +1,47 @@
+<!--
+  Generated template for the AltaDeMesaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Registrar Mesa</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-row>
+    <ion-col>
+      <ion-list inset>
+        <ion-item>
+          <ion-input type="text" class="numeroMesa" placeholder="Número de mesa" name="email" [(ngModel)]="numeroMesa" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" class="numeroMesa"  placeholder="Cantidad de comensales" name="password" [(ngModel)]="cantidadComensales"></ion-input>
+        </ion-item>
+        <select [(ngModel)]="tipo" class="numeroMesa" style="margin: 0 30px 0 0;width: 70%;display: block; margin: 0 auto;">
+          <option value="normal">Tipo de mesa normal</option>
+          <option value="vip">Tipo de mesa VIP</option>
+          <option value="discapacitados">Tipo de mesa discapacitados</option>              
+        </select>
+        <ion-item>
+          <img [src]="foto" alt="" height="125px" width="125px">
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <button ion-button outline color="red" class="sacarFoto" (click)="SacarFoto()">Sacar foto</button>
+      <button ion-button color="red" class="sacarFoto" (click)="InicializarLectorQR()">Leer QR</button>
+      <button ion-button color="red" class="botonAlta" (click)="Alta()" >Registrar mesa</button>
+    </ion-col>
+  </ion-row>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+</ion-content>

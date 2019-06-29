@@ -1,0 +1,56 @@
+<!-- Generated template for the ListadoClientesComponent component -->
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Lista de Espera</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div *ngIf="!mostrarSpiner && listaClientes.length > 0" >
+    <ion-list>
+      <ion-item *ngFor="let item of listaClientes">
+        <ion-thumbnail item-start >
+          <img src={{item.foto}} />
+        </ion-thumbnail>
+        <h1 style="color:black;">{{item.nombre}}</h1>
+        <p style="color:black;">Tipo: • {{item.tipo}}</p>
+        <p style="color:black;">Cantidad de personas: • {{item.comensales}} </p>
+        <p style="color:black;">Turno: • {{item.turno}} </p>
+        <div item-end style="display: flex; align-items: center;align-content: center;flex-direction: column;">
+
+          <button ion-button clear (click)="DesplegarMesas(item)" style="margin-bottom: 20px;">
+            <ion-icon style="color: blue;" name="checkmark-circle-outline"></ion-icon>
+          </button>
+      
+          <button ion-button clear (click)="Cancelar(item)">
+            <ion-icon style="color: #FF0000;" name="close"></ion-icon>
+          </button>
+      
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="!mostrarSpiner && listaClientes.length==0">
+    <h2>No hay clientes en espera</h2>
+  </div>
+  <div [ngClass]="{'interfaz-mesas':true,'ocultar':ocultarInterfazMesas}">
+
+      <h1>Selecciona una mesa para que lo ocupe</h1>
+      <div class="mesas">
+        <button ion-button color="red" class="mesa {{item.seleccionado}}" (click)="Seleccionar(item.numero)" *ngFor="let item of mesas">{{item.numero}}</button>
+      </div>
+  
+      <div class="botones-interfaz-mesa">
+        <button ion-button color="red" (click)="OcultarInterfaz()">Cancelar</button>
+        <button ion-button color="red" (click)="Confirmar()">Confirmar</button>
+      </div>
+  
+  </div>
+</ion-content>

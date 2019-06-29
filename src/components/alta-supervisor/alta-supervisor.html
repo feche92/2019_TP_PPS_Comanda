@@ -1,0 +1,48 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Registrar Supervisor</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!--img class="icon" src="assets/Imagenes/icon.png"-->
+  <ion-item>
+    <ion-label floating>Nombre </ion-label>
+    <ion-input type="text" required [(ngModel)]="nombre" name="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Apellido </ion-label>
+    <ion-input type="text" required [(ngModel)]="apellido" name="apellido"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>DNI </ion-label>
+    <ion-input type="number" minlength="8" maxlength="8" required [(ngModel)]="dni" name="dni"></ion-input>
+    <button ion-button block color="primary">Escanear DNI</button>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>CUIL </ion-label>
+    <ion-input type="text" minlength="11" maxlength="11" required [(ngModel)]="cuil" name="cuil"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Perfil </ion-label>
+    <ion-input type="text" required [(ngModel)]="perfil" name="perfil" disabled></ion-input>
+  </ion-item>
+   <ion-item>
+    <ion-label floating>Correo Electrónico </ion-label>
+    <ion-input type="email" required [(ngModel)]="email" name="email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Clave </ion-label>
+    <ion-input type="password" minlength="6" required [(ngModel)]="clave" name="clave"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Repetir Clave </ion-label>
+    <ion-input type="password" minlength="6" required [(ngModel)]="clave2" name="clave2"></ion-input>
+  </ion-item>
+  <br>
+  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>
+  <button ion-button block color="primary" (click)="escanear()">Escanear DNI</button>
+  <button ion-button block color="secondary" (click)="alta()">Alta</button>
+  <button ion-button block color="danger">Cancelar</button>
+</ion-content>

@@ -1,0 +1,44 @@
+<!--
+  Generated template for the ReservaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title></ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div class="horizontal-container">
+    <div class="vertical-container">
+      <h1>Reservar</h1>
+      <ion-item>
+        <ion-label>Fecha</ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY" monthShortNames={{nombreDeLosMeses}} min={{minimo}} max={{maximo}}
+            cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="fecha">
+        </ion-datetime>
+      </ion-item>
+  
+      <ion-item style="width: 50px;">
+        <ion-label>Hora</ion-label>
+        <ion-datetime displayFormat="HH:mm" cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="hora"></ion-datetime>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Personas</ion-label>
+        <ion-datetime displayFormat="YY" min="2001" max="2008" cancelText="Cancelar" doneText="Aceptar" [(ngModel)]="cantidadPersonas">
+        </ion-datetime>
+      </ion-item>
+  
+      <button ion-button outline color="light" class="alta" [disabled]="estadoBoton" (click)="Reservar()">Reservar</button>
+    </div>
+  </div>
+</ion-content>
