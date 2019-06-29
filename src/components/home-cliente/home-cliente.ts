@@ -4,9 +4,10 @@ import { QrMesaComponent } from "../qr-mesa/qr-mesa";
 import { QrEntradaComponent } from "../qr-entrada/qr-entrada";
 import { AlertProvider } from "../../providers/alert/alert";
 
+
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { PrincipalPage } from '../../pages/principal/principal';
-
+import {ListadoEncuestasPage} from '../../pages/listado-encuestas/listado-encuestas';
 /**
  * Generated class for the HomeClienteComponent component.
  *
@@ -46,12 +47,16 @@ export class HomeClienteComponent {
             this.error.mostrarErrorLiteral("Codigo no valido");
             this.navCtrl.setRoot(PrincipalPage);
         break;
+        case 'verEncuestasOtrosClientes':
+            this.modalCtrl.create(ListadoEncuestasPage).present();
+        break;
         case 'propina':
             this.error.mostrarErrorLiteral("Codigo no valido");
             this.navCtrl.setRoot(PrincipalPage);
             break;
         case 'entrada':
           this.modalCtrl.create(QrEntradaComponent).present();
+         
         break;
         default:
           this.error.mostrarErrorLiteral("Codigo no valido");

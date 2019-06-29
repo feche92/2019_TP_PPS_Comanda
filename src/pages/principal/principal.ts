@@ -13,6 +13,7 @@ import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
 //import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
+import {ListadoEncuestasPage} from '../listado-encuestas/listado-encuestas';
 //import { FcmProvider } from '../../providers/fcm/fcm';
 //import { ToastController } from 'ionic-angular';
 //import { tap } from 'rxjs/operators';
@@ -108,6 +109,7 @@ export class PrincipalPage {
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
             { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },*/
+           // { accion: "Ver Encuestas Clientes", img: "encuesta.jpg", ruta: ListadoEncuestasPage},            
             { accion: "Encuesta", img: "encuesta.jpg", ruta: EncuestaClientePage},
             
           ];

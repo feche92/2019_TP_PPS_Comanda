@@ -212,36 +212,5 @@ export class EncuestaClientePage {
   }
 }
 
-/*
-      if(this.yaExiste) {
-        console.log("limpio la encuesta");
-        let data = {        
-            "id":  this.encuestaClienteActual.id,     
-            "correo":this.usuario.correo,
-            "nombre":this.usuario.nombre,
-            "respuesta1":"",          
-            "respuesta2":"",
-            "respuesta3":"",
-            "respuesta4":"",
-            "respuesta5":"",
-            "respuesta6":"",
-            "comentario":""
-     
-      }
-
-      console.log("modifico la encuesta");
-      console.log(data);
-      this.auth.modificarEncuestaCliente(data).then(res => {
-       this.error.mostrarMensaje("Se ha cargado correctamente la encuesta.");
-      //  spiner.dismiss();
-      //  this.modalCtrl.create(EstadisticasClientePage, { cliente: this.cliente }).present();
-      }).catch(error => {
-         this.error.mostrarError(error,"error al guardar la encuesta");
-        //spiner.dismiss();
-      });
-     } 
-    
-});
-}*/
 
 
