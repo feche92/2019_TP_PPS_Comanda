@@ -128,7 +128,12 @@ export class AltaDeProductoPage {
       this.nombre="";
       this.tiempoPromedioElaboracion = 0;
       this.descripcion ="";
-      this.tipo = "plato";
+      if(this.usuario.tipo == 'cocinero') {
+        this.tipo = 'plato';
+      }
+      else if(this.usuario.tipo == 'bartender') {
+        this.tipo = 'bebida';
+      }
       this.foto="../../assets/Imagenes/producto.png";
       this.precio=0;
       

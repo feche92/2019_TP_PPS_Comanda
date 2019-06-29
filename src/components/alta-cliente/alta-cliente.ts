@@ -115,6 +115,7 @@ export class AltaClienteComponent {
         pictures.getDownloadURL().then((url) => {
 
       	   this.foto = url;
+           this.alert.mostrarMensaje("Foto guardada con éxito");
         });
         
       });
@@ -133,8 +134,10 @@ export class AltaClienteComponent {
       let contenido = barcodeData.text;
       let array = contenido.split('@');
       this.dni = +array[4];
-      this.nombre = array[2];
-      this.apellido = array[1];
+      if(this.nombre == "" || this.nombre == undefined)
+        this.nombre = array[2];
+      if(this.apellido == "" || this.apellido == undefined)
+        this.apellido = array[1];
 
     }).catch(err => { 
       console.log('Error', err);

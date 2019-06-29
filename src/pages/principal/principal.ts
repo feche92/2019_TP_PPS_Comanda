@@ -31,6 +31,9 @@ import { QrEntradaComponent } from '../../components/qr-entrada/qr-entrada';
 import { ListadoClientesComponent } from '../../components/listado-clientes/listado-clientes';
 import { PagarPage } from '../pagar/pagar';
 
+
+import { JuegoPostreComponent } from '../../components/juego-postre/juego-postre';
+
 /**
  * Generated class for the PrincipalPage page.
  *
@@ -124,6 +127,35 @@ export class PrincipalPage {
           break;
           
         }
+/*
+        if(this.usuario.tipo == 'cliente')
+        {
+          this.auth.getPedidos().subscribe(lista => {
+            for(let i=0;i<lista.length;i++)
+            {
+              if(lista[i].correo == this.usuario.correo && lista[i].estado == 'camino a entrega') {
+                let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entregar");
+                alertConfirm.present();
+                alertConfirm.onDidDismiss((confirm) => {
+                if (confirm) {
+                  lista[i].estado = 'comiendo';
+                  this.auth.actualizarPedido(lista[i]).then(res => {
+                    this.error.mostrarMensaje("pedido entregado. Disfrutelo");
+                  });
+                }
+                else {
+                  lista[i].estado = 'pedido terminado';
+                  this.auth.actualizarPedido(lista[i]).then(res => {
+                    this.error.mostrarMensaje("Perdon, se le volverà a entregar el pedido si todavia no esta listo");
+                  });
+                }
+                });
+                break;
+              }
+            }
+          })
+        }
+        */
   }
 
   ionViewDidLoad() {

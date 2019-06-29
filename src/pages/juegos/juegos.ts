@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { JuegoDescuentoPage } from '../juego-descuento/juego-descuento';
 import { PrincipalPage } from '../principal/principal';
-
+import { JuegoPostreComponent } from '../../components/juego-postre/juego-postre';
 
 
 @IonicPage()
@@ -18,6 +18,7 @@ export class JuegosPage {
 
     this.juegos = [
       { accion: "Juego de memoria", img: "memoria.jpg", ruta: JuegoDescuentoPage },
+      { accion: "Juego del ahorcado", img: "memoria.jpg", ruta: JuegoPostreComponent },
     ]
   }
 

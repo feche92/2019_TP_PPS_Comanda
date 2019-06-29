@@ -62,15 +62,22 @@ export class ConfirmarPedidoPage {
   }
 
   cancelarPedido(pedido) {
-    console.log(pedido);
-    let spiner=this.spinner.getAllPageSpinner();
-    spiner.present();
-    pedido.estado = "por pedir";
-    pedido.productos=[];
-    this.auth.actualizarPedido(pedido).then(res => {
-      spiner.dismiss();
-      this.error.mostrarMensaje("Pedido cancelado");
+    let alertConfirm = this.error.mostrarMensajeConfimación("¿Seguro que quiere cancelar este pedido?", "Cancelar pedido");
+    alertConfirm.present();
+    alertConfirm.onDidDismiss((confirm) => {
+      if (confirm) {
+        console.log(pedido);
+        let spiner=this.spinner.getAllPageSpinner();
+        spiner.present();
+        pedido.estado = "por pedir";
+        pedido.productos=[];
+        this.auth.actualizarPedido(pedido).then(res => {
+          spiner.dismiss();
+          this.error.mostrarMensaje("Pedido cancelado");
+        });
+      }
     });
+    
   }
 
   entregarPedido(pedido) {
