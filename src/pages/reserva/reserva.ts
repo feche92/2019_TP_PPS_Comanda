@@ -138,6 +138,7 @@ export class ReservaPage {
         this.auth.nuevaReserva(data).then(res => {
           this.error.mostrarMensaje("Se registró tu reserva y te notificaremos cuando el encargado la confirme.");
           this.mostrarSpiner=false;
+          this.back();
         }).catch(error => {
           this.error.mostrarError(error,"hubo error al registrar la reserva.Intentelo mas tarde");
           this.mostrarSpiner=false;

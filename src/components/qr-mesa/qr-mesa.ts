@@ -91,6 +91,10 @@ export class QrMesaComponent {
   }
 
   //verifico si existe el codigo
+  /*
+  *   VERIFICO EXISTENCIA DE RESERVA 
+  *   VERIFICO QUE EL CLIENTE ESTE EN LA LISTA DE ESPERA Y ESTE ACEPTADO
+  */
   verificarCodigo(){
     this.mostrarSpiner=true;
     this.title = "Mesa Actual";

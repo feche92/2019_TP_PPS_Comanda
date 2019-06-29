@@ -55,6 +55,8 @@ import { PedidosPendientesComponent } from '../components/pedidos-pendientes/ped
 import { QrEntradaComponent } from "../components/qr-entrada/qr-entrada";
 import { ListadoClientesComponent } from "../components/listado-clientes/listado-clientes";
 import { EmailComposer } from '@ionic-native/email-composer';
+import { JuegoAhorcadoProvider } from '../providers/juego-ahorcado/juego-ahorcado';
+import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
 
 @NgModule({
   declarations: [
@@ -93,6 +95,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     PagarPage,
     QrEntradaComponent,
     ListadoClientesComponent,
+    JuegoPostreComponent
     ],
   imports: [
     BrowserModule,
@@ -137,6 +140,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     PagarPage,
     QrEntradaComponent,
     ListadoClientesComponent,
+    JuegoPostreComponent
   ],
   providers: [
     StatusBar,
@@ -153,6 +157,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     //QrProvider,
     FcmProvider,
     EmailComposer,
+    JuegoAhorcadoProvider,
   ]
 })
 export class AppModule {}
