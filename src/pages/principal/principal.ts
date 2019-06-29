@@ -17,8 +17,8 @@ import { ReservaPage } from '../reserva/reserva';
 //import { ToastController } from 'ionic-angular';
 //import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
-//import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
-//import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
+import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
+import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
 import { ListadoMesasPage } from '../listado-mesas/listado-mesas';
 import { AltaDeProductoPage } from '../alta-de-producto/alta-de-producto';
 //import { EstadisticasSupervisorPage } from '../estadisticas-supervisor/estadisticas-supervisor';
@@ -71,6 +71,7 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: PedidosPendientesComponent },
             { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
+            { accion: "Encuesta empleado", img: "encuesta.jpg", ruta: EncuestaEmpleadoComponent },
           ];        
           break;
         case "supervisor":
@@ -79,10 +80,8 @@ export class PrincipalPage {
             { accion: "Nuevo Supervisor", img: "nuevo-empleado.jpg", ruta: AltaSupervisorComponent },
             { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: ListadoSupervisorPage },
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
-            { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent }, 
-            { accion: "Encuesta empleado", img: "nuevo-empleado.jpg", ruta: EncuestaEmpleadoComponent }, // quitar despues, es solo para prueba
+            { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent },  // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
-            { accion: "Nuevo producto", img: "producto.png", ruta: AltaDeProductoPage },
           ];
           break;
         case "cliente anonimo":
@@ -96,6 +95,7 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
             { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             //{ accion: "QR prueba", img: "juegos.jpg", ruta: QrEntradaComponent},
             //{ accion: "QR prueba mesa", img: "juegos.jpg", ruta: QrMesaComponent},
             //{ accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
@@ -103,15 +103,16 @@ export class PrincipalPage {
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
             { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },
-            { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},
-            */
+            { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},*/
+            
           ];
           break;
         case "mozo": 
           this.acciones = [
             { accion: "Tomar pedido", img: "pedido.jpg", ruta: ListadoMesasPage},
             { accion: "Aceptar/Entregar pedido", img: "pedido.jpg", ruta: ConfirmarPedidoPage},
-            { accion: "Aceptar clientes en lista de espera", img: "qr.jpg", ruta: ListadoClientesComponent}
+            { accion: "Aceptar clientes en lista de espera", img: "qr.jpg", ruta: ListadoClientesComponent},
+            { accion: "Encuesta empleado", img: "encuesta.jpg", ruta: EncuestaEmpleadoComponent },
           ]
           break;
           

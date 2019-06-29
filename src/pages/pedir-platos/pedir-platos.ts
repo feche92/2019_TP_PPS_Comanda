@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import * as moment from 'moment';
 
 
@@ -27,14 +28,18 @@ export class PedirPlatosPage {
   pedidoPendiente;
   mensajePedido="";
   mostrarSpiner;
+  mostrarProductoQR;
+  productoQR;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
-    private error: AlertProvider,) {
+    private error: AlertProvider,
+    private barcodeScanner: BarcodeScanner,) {
       this.montoActual=0;
       this.puedePedir=false;
       this.monto=false;
       this.ocultarBebidas=false;
       this.ocultarPLatos=false;
+      this.mostrarProductoQR=false;
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       this.productos=new Array();
       this.platos=new Array();
@@ -184,7 +189,7 @@ export class PedirPlatosPage {
       }
 
     }
-    else {
+    else if(texto == 'bebida') {
       for(let i=0;i<this.bebidas.length;i++)
       {
         let pidio=true;
@@ -201,9 +206,24 @@ export class PedirPlatosPage {
         }
       }
     }
+    else {
+      let pidio=true;
+      for(let i=0;i<this.pedidoActual.length;i++)
+      {
+        if(this.productoQR.nombre == this.pedidoActual[i].nombre) {
+          this.pedidoActual[i]=this.productoQR;
+          pidio=false;
+          break;
+        }
+      }
+      if(this.productoQR.cantidad > 0 && pidio) {
+        this.pedidoActual.push(this.productoQR);
+      }
+    }
     console.log(this.pedidoActual);
     this.ocultarBebidas=false;
     this.ocultarPLatos=false;
+    this.mostrarProductoQR=false;
     this.limpiarPedido();
   }
 
@@ -244,6 +264,50 @@ export class PedirPlatosPage {
   CancelarPedido() {
     this.ocultarBebidas=false;
     this.ocultarPLatos=false;
+    this.mostrarProductoQR=false;
+  }
+
+  leerQR() {
+    this.barcodeScanner.scan().then((barcodeData) => { 
+      let producto = barcodeData.text;
+      let dato = producto.split(",");
+      if(dato[4] == 'plato') {
+        let flag=false;
+        for(let i=0;i<this.platos.length;i++)
+        {
+          if(this.platos[i].nombre == dato[0]) {
+            this.productoQR=this.platos[i];
+            this.mostrarProductoQR=true;
+            flag=true;
+            break;
+          }
+        }
+        if(!flag) {
+          this.error.mostrarErrorLiteral("El producto escaneado no existe en el sistema");
+          return;
+        }
+      }
+      else if(dato[4] == 'bebida') {
+        let flag=false;
+        for(let i=0;i<this.bebidas.length;i++)
+        {
+          if(this.bebidas[i].nombre == dato[0]) {
+            this.productoQR=this.bebidas[i];
+            this.mostrarProductoQR=true;
+            flag=true;
+            break;
+          }
+        }
+        if(!flag) {
+          this.error.mostrarErrorLiteral("El producto escaneado no existe en el sistema");
+          return;
+        }
+      }
+      else {
+        this.error.mostrarErrorLiteral("Escanee un producto valido..");
+        return;
+      }
+    });
   }
 
   PedirFinal() {
