@@ -110,7 +110,7 @@ export class PrincipalPage {
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
             { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },*/
            // { accion: "Ver Encuestas Clientes", img: "encuesta.jpg", ruta: ListadoEncuestasPage},            
-            { accion: "Encuesta", img: "encuesta.jpg", ruta: EncuestaClientePage},
+           // { accion: "Encuesta", img: "encuesta.jpg", ruta: EncuestaClientePage},
             
           ];
           break;
