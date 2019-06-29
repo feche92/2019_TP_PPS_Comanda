@@ -11,11 +11,14 @@ import { HomePage } from '../pages/home/home';
 import { PrincipalPage } from "../pages/principal/principal";
 import { SpinnerPage } from "../pages/spinner/spinner";
 import { RegisterPage } from "../pages/register/register";
+import { ListadoEncuestasPage } from "../pages/listado-encuestas/listado-encuestas";
 import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
 import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
 import { EncuestaClientePage } from "../pages/encuesta-cliente/encuesta-cliente";
+import { VerEncuestaClientePage } from "../pages/ver-encuesta-cliente/ver-encuesta-cliente";
+
 import { ReservaPage } from "../pages/reserva/reserva";
 import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
 import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
@@ -80,6 +83,7 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     EncuestaClientePage,
     ReservaPage,
     ListadoReservaPage,
+    ListadoEncuestasPage,
     EstadisticasSupervisorPage,
     PedirPlatosPage,
     ListadoMesasPage,
@@ -93,6 +97,7 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     JuegoDescuentoPage,
     ConfirmarPedidoPage,
     PagarPage,
+    VerEncuestaClientePage,
     QrEntradaComponent,
     ListadoClientesComponent,
     JuegoPostreComponent
@@ -112,7 +117,9 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     HomePage,
     PrincipalPage,
     RegisterPage,
+    ListadoEncuestasPage,
     AltaempleadoPage,
+    VerEncuestaClientePage,
     AltaDeMesaPage,
     SpinnerPage,
     AltaSupervisorComponent,
