@@ -100,6 +100,10 @@ export interface encuestaCliente {
   respuesta3: string,
   pregunta4: string,  
   respuesta4: string,
+  pregunta5: string,  
+  respuesta5: string,
+  pregunta6: string,  
+  respuesta6: string,
   comentario: string
 }
 
@@ -294,8 +298,8 @@ updateListaEspera(data) {
   nuevaEncuestaCliente(data) {
     return this.db.collection('encuestaCliente').add(data);
   }
-  getEncuestaCliente(){
-  return this.db.collection('encuestasClientes').snapshotChanges().pipe(map(rooms => {
+  getEncuestasClientes(){
+  return this.db.collection('encuestaCliente').snapshotChanges().pipe(map(rooms => {
     return rooms.map(a =>{
       const data = a.payload.doc.data() as encuestaCliente;
       data.id = a.payload.doc.id;
@@ -306,6 +310,7 @@ updateListaEspera(data) {
 
 modificarEncuestaCliente(data) {
   return this.db.collection('encuestaCliente').doc(data.id).update(data);
+  
 }
 
 //---FIN --Encuesta cliente -----//

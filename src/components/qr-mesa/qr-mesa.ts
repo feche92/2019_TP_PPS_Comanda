@@ -91,6 +91,10 @@ export class QrMesaComponent {
   }
 
   //verifico si existe el codigo
+  /*
+  *   VERIFICO EXISTENCIA DE RESERVA 
+  *   VERIFICO QUE EL CLIENTE ESTE EN LA LISTA DE ESPERA Y ESTE ACEPTADO
+  */
   verificarCodigo(){
     this.mostrarSpiner=true;
     this.title = "Mesa Actual";
@@ -108,8 +112,10 @@ export class QrMesaComponent {
       console.log(this.codigo);
       console.table(lista);
       let flag = false;
+      let estaMesa=false;
       for(let item of lista){
         if(item.numero == this.codigo[1]){
+          estaMesa=true;
           if(item.estado == 'libre'){
             /*
             * mostrar ventana de mesa libre y boton tomar mesa
@@ -153,6 +159,10 @@ export class QrMesaComponent {
             break;
           }
         }
+      }
+      if(!estaMesa) {
+        this.alert.mostrarErrorLiteral("Error.No existe la mesa escaneada");
+        this.back();
       }
       //console.log(this.mesas);
       if(!flag){

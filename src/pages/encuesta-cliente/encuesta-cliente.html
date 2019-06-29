@@ -7,7 +7,7 @@
 
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title></ion-title>
+    <ion-title><h2>Satisfacción del Cliente</h2></ion-title>
     <ion-buttons>
       <button ion-button (click)="VolverAtras()">
         <ion-icon name="arrow-round-back"></ion-icon>
@@ -17,9 +17,34 @@
 </ion-header>
 
 <ion-content padding>
-  <h1>{{pregunta1}}</h1>
+    <h1>{{pregunta1}}</h1>
+    <div class="encuesta">
+        <ion-list radio-group [(ngModel)]="respuesta1">
+            <ion-item>
+                <ion-label>Mujer</ion-label>
+                <ion-radio slot="start" value="mujer" checked></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>Hombre</ion-label>
+                <ion-radio slot="start" value="hombre" checked></ion-radio>
+              </ion-item>
+        </ion-list>
+      </div>
+
+
+      <h1>{{pregunta6}}</h1>
+      <div class="encuesta">
+          <div class="miRango">    
+              <ion-range [(ngModel)]="opinion" color="primary" pin="true" min="1" max="5" snaps="true" style="width: 100%;position: relative;"
+                (ngModelChange)="ModificarTextoRange()"></ion-range>
+              <span>{{respuesta6}}</span>
+        
+            </div>
+        </div>
+  
+  <h1>{{pregunta5}}</h1>
   <div class="encuesta">
-    <select [(ngModel)]="respuesta1">
+    <select [(ngModel)]="respuesta5">
       <option value="Calidad">Calidad</option>
       <option value="Precio">Precio</option>
       <option value="Publicidad">Publicidad</option>

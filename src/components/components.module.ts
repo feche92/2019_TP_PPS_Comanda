@@ -10,6 +10,7 @@ import { PedidosPendientesComponent } from './pedidos-pendientes/pedidos-pendien
 import { AltaProductoComponent } from './alta-producto/alta-producto';
 import { QrEntradaComponent } from "./qr-entrada/qr-entrada";
 import { ListadoClientesComponent } from './listado-clientes/listado-clientes';
+import { JuegoPostreComponent } from './juego-postre/juego-postre';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ListadoClientesComponent } from './listado-clientes/listado-clientes';
     AltaProductoComponent,
     QrEntradaComponent,
     ListadoClientesComponent,
+    JuegoPostreComponent,
     ],
 	imports: [],
 	exports: [AltaSupervisorComponent,
@@ -37,6 +39,7 @@ import { ListadoClientesComponent } from './listado-clientes/listado-clientes';
     AltaProductoComponent,
     QrEntradaComponent,
     ListadoClientesComponent,
+    JuegoPostreComponent,
     ]
 })
 export class ComponentsModule {}

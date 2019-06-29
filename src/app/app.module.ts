@@ -11,11 +11,14 @@ import { HomePage } from '../pages/home/home';
 import { PrincipalPage } from "../pages/principal/principal";
 import { SpinnerPage } from "../pages/spinner/spinner";
 import { RegisterPage } from "../pages/register/register";
+import { ListadoEncuestasPage } from "../pages/listado-encuestas/listado-encuestas";
 import { AltaempleadoPage } from "../pages/altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../pages/alta-de-mesa/alta-de-mesa";
 import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-supervisor";
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
 import { EncuestaClientePage } from "../pages/encuesta-cliente/encuesta-cliente";
+import { VerEncuestaClientePage } from "../pages/ver-encuesta-cliente/ver-encuesta-cliente";
+
 import { ReservaPage } from "../pages/reserva/reserva";
 import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
 import { EstadisticasSupervisorPage } from "../pages/estadisticas-supervisor/estadisticas-supervisor";
@@ -55,6 +58,8 @@ import { PedidosPendientesComponent } from '../components/pedidos-pendientes/ped
 import { QrEntradaComponent } from "../components/qr-entrada/qr-entrada";
 import { ListadoClientesComponent } from "../components/listado-clientes/listado-clientes";
 import { EmailComposer } from '@ionic-native/email-composer';
+import { JuegoAhorcadoProvider } from '../providers/juego-ahorcado/juego-ahorcado';
+import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
 
 @NgModule({
   declarations: [
@@ -78,6 +83,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     EncuestaClientePage,
     ReservaPage,
     ListadoReservaPage,
+    ListadoEncuestasPage,
     EstadisticasSupervisorPage,
     PedirPlatosPage,
     ListadoMesasPage,
@@ -91,8 +97,10 @@ import { EmailComposer } from '@ionic-native/email-composer';
     JuegoDescuentoPage,
     ConfirmarPedidoPage,
     PagarPage,
+    VerEncuestaClientePage,
     QrEntradaComponent,
     ListadoClientesComponent,
+    JuegoPostreComponent
     ],
   imports: [
     BrowserModule,
@@ -109,7 +117,9 @@ import { EmailComposer } from '@ionic-native/email-composer';
     HomePage,
     PrincipalPage,
     RegisterPage,
+    ListadoEncuestasPage,
     AltaempleadoPage,
+    VerEncuestaClientePage,
     AltaDeMesaPage,
     SpinnerPage,
     AltaSupervisorComponent,
@@ -137,6 +147,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     PagarPage,
     QrEntradaComponent,
     ListadoClientesComponent,
+    JuegoPostreComponent
   ],
   providers: [
     StatusBar,
@@ -153,6 +164,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
     //QrProvider,
     FcmProvider,
     EmailComposer,
+    JuegoAhorcadoProvider,
   ]
 })
 export class AppModule {}

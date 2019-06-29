@@ -13,6 +13,7 @@ import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
 //import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
+import {ListadoEncuestasPage} from '../listado-encuestas/listado-encuestas';
 //import { FcmProvider } from '../../providers/fcm/fcm';
 //import { ToastController } from 'ionic-angular';
 //import { tap } from 'rxjs/operators';
@@ -29,6 +30,9 @@ import { HomeClienteComponent } from '../../components/home-cliente/home-cliente
 import { QrEntradaComponent } from '../../components/qr-entrada/qr-entrada';
 import { ListadoClientesComponent } from '../../components/listado-clientes/listado-clientes';
 import { PagarPage } from '../pagar/pagar';
+
+
+import { JuegoPostreComponent } from '../../components/juego-postre/juego-postre';
 
 /**
  * Generated class for the PrincipalPage page.
@@ -107,8 +111,9 @@ export class PrincipalPage {
             /*{ accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
-            { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },
-            { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},*/
+            { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },*/
+           // { accion: "Ver Encuestas Clientes", img: "encuesta.jpg", ruta: ListadoEncuestasPage},            
+           // { accion: "Encuesta", img: "encuesta.jpg", ruta: EncuestaClientePage},
             
           ];
           break;
@@ -122,6 +127,35 @@ export class PrincipalPage {
           break;
           
         }
+/*
+        if(this.usuario.tipo == 'cliente')
+        {
+          this.auth.getPedidos().subscribe(lista => {
+            for(let i=0;i<lista.length;i++)
+            {
+              if(lista[i].correo == this.usuario.correo && lista[i].estado == 'camino a entrega') {
+                let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entregar");
+                alertConfirm.present();
+                alertConfirm.onDidDismiss((confirm) => {
+                if (confirm) {
+                  lista[i].estado = 'comiendo';
+                  this.auth.actualizarPedido(lista[i]).then(res => {
+                    this.error.mostrarMensaje("pedido entregado. Disfrutelo");
+                  });
+                }
+                else {
+                  lista[i].estado = 'pedido terminado';
+                  this.auth.actualizarPedido(lista[i]).then(res => {
+                    this.error.mostrarMensaje("Perdon, se le volverà a entregar el pedido si todavia no esta listo");
+                  });
+                }
+                });
+                break;
+              }
+            }
+          })
+        }
+        */
   }
 
   ionViewDidLoad() {
