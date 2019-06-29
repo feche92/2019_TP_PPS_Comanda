@@ -1,40 +1,77 @@
+<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>El Ahorcado</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
 <div class="container">
-		<h1 class="text-center">El juego del Ahorcado</h1>
+	<!--h1 class="text-center title">El Ahorcado</h1-->
 	<div class="row row-tablero">
 		
 	<div class="row palabra justify-content-center">
-		<h2 class="text-center">{{palabra_incompleta}}</h2>
+		<div class="col"></div>
+		<div class="col">
+			<h2 class="text-center palabra-incompleta">{{palabra_incompleta}}</h2>
+		</div>
+		<div class="col"></div>
 	</div>
 	<div id="botones" class="row botones justify-content-center">
-		<div class="align-self-center">
+		<div class="align-self-center tablero">
 			<button (click)="verificar(letra, $event)" *ngFor="let letra of letras" class="btn-info font-size">{{letra}}</button>
 		</div>
 	</div>
 
-	<div class="row ancho row-res">
-		<div class="col-lg-6 col-md-6 col-6  pd">
-			<label for="">Cantidad de Turnos: </label> 
-			<label for="">{{contadorTurnos}}</label>
+	<div class="row ancho">
+		<div class="col-lg-4 col-md-4 col-4 mg">
+			<div class="turno">
+				<span class="numero">
+					{{contadorTurnos}}
+				</span>
+				<span class="letra">
+					Turnos
+				</span>
+			</div>
 		</div>
-		<div class="col-lg-6 col-md-6 col-6">
-			<label for="">Fallos: </label> 
-			<label for="">{{contadorFallos}}</label>
+		<div class="col-lg-4 col-md-4 col-4 mg">
+			<button class="btn-nuevo" (click)="iniciar()">
+				<img src="../../assets/Imagenes/refresh2.png" alt="nuevo-juego">
+			</button>
+		</div>
+		<div class="col-lg-4 col-md-4 col-4	mg">
+			<div class="turno">
+				<span class="numero">
+					{{contadorFallos}}
+				</span>
+				<span class="letra">
+					Fallas
+				</span>
+			</div>
 		</div>
 	</div>
 
 
 	</div>
 	<div class="row">
-		<button (click)="iniciar()" class="site-btn rounded mx-auto d-block">Juego Nuevo</button>
+		<div class="puntaje">
+			<div class="puntuacion">
+				<span class="numero">
+					{{puntaje}}
+				</span>
+				<span class="letra">
+					Puntos Actuales
+				</span>
+			</div>
+		</div>
 	</div>
 	<div class="row">
-		<div class="col-6 col-lg-6 col-md-6">
-			<h3 class="ganar text-center" [hidden]="!gano">GANASTE!</h3>
-		    <h3 class="text-center" [hidden]="gano || perdio">Todavia no ganaste</h3>
-		    <h3 class="text-center" [hidden]="!perdio">PERDISTE!</h3>
-		</div>
-		<div class="col-6 col-lg-6 col-md-6 puntaje">
-			<h4>Puntaje actual: {{puntaje}}</h4>
-		</div>
+		<h3 class="ganar text-center" [hidden]="!gano">GANASTE!</h3>
+	    <h3 class="text-center" [hidden]="gano || perdio">Todavia no ganaste</h3>
+	    <h3 class="text-center" [hidden]="!perdio">PERDISTE!</h3>
 	</div>
 </div>

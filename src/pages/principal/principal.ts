@@ -30,6 +30,9 @@ import { QrEntradaComponent } from '../../components/qr-entrada/qr-entrada';
 import { ListadoClientesComponent } from '../../components/listado-clientes/listado-clientes';
 import { PagarPage } from '../pagar/pagar';
 
+
+import { JuegoPostreComponent } from '../../components/juego-postre/juego-postre';
+
 /**
  * Generated class for the PrincipalPage page.
  *
@@ -101,6 +104,7 @@ export class PrincipalPage {
           this.acciones = [
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
             { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
+            { accion: "Jugar por propina", img: "qr.jpg", ruta: JuegoPostreComponent },
             //{ accion: "QR prueba", img: "juegos.jpg", ruta: QrEntradaComponent},
             //{ accion: "QR prueba mesa", img: "juegos.jpg", ruta: QrMesaComponent},
             //{ accion: "Pagar", img: "propina.jpg", ruta: PagarPage },

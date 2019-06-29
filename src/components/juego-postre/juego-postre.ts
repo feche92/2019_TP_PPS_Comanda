@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { JuegoAhorcadoProvider } from '../../providers/juego-ahorcado/juego-ahorcado';
+import { PrincipalPage } from "../../pages/principal/principal";
+import { NavController } from 'ionic-angular';
+import { AlertProvider } from "../../providers/alert/alert";
 
 @Component({
   selector: 'juego-postre',
@@ -15,9 +18,13 @@ export class JuegoPostreComponent {
   contadorTurnos: number = 0;
   contadorFallos: number = 0;
   puntaje: number = 0;
+  primeraVez: boolean = false;
 
-  constructor(public nuevoJuego: JuegoAhorcadoProvider) {
+  constructor(public nuevoJuego: JuegoAhorcadoProvider,
+    public navCtrl: NavController,
+    public alert: AlertProvider) {
   	//this.nuevoJuego = new JuegoAhorcado();
+    this.primeraVez = false;
   	this.generaABC();
   	this.iniciar();
   	//console.log(this.palabra_incompleta);
@@ -107,23 +114,45 @@ export class JuegoPostreComponent {
 
 
   setPuntos(){
-    let user = JSON.parse(localStorage.getItem('usuarioActual'));
+    //let user = JSON.parse(localStorage.getItem('usuario'));
     //console.log(user);
-    if(user.ahorcado){
-      if(this.gano)
-        user.ahorcado++; 
-      else if(this.perdio)
-        user.ahorcado--;
-    }else{
-      if(this.gano)
-        user.ahorcado = 1;
-      else if(this.perdio)
-        user.ahorcado = 0;
+
+    
+    if(!this.primeraVez){
+        if(localStorage.getItem('descuento-postre') == undefined){
+          if(this.puntaje == 0)
+            localStorage.setItem('descuento-postre', 'false');
+          else
+            localStorage.setItem('descuento-postre', 'true');
+        }  
+        this.primeraVez = true;
+        this.alert.mostrarMensaje("Ganaste una bebida gratis!!!");
     }
-    this.puntaje = user.ahorcado;
-    localStorage.setItem('usuarioActual', JSON.stringify(user));
+    else{
+      if(this.puntaje > 0){
+        if(this.gano){
+          this.puntaje++;
+          this.alert.mostrarMensaje("Ganaste!!!");
+        } 
+        else if(this.perdio){
+          this.puntaje--;
+          this.alert.mostrarMensaje("Perdiste...");
+        }
+      }else{
+        if(this.gano){
+          this.puntaje = 1;
+          this.alert.mostrarMensaje("Ganaste!!!");
+        }
+        else if(this.perdio){
+          this.puntaje = 0;
+          this.alert.mostrarMensaje("Perdiste...");
+        }
+      }
+    }
+
+    //this.puntaje = user.ahorcado;
     //console.log(localStorage.getItem('usuarioActual'));
-    let resultados = [];
+    /*let resultados = [];
     resultados =  JSON.parse(localStorage.getItem('resultados'));
     //console.log(resultados);
     //let resultados = JSON.parse(localStorage.getItem('resultados'));
@@ -148,7 +177,13 @@ export class JuegoPostreComponent {
     }
     localStorage.setItem('resultados', JSON.stringify(resultados));
     //console.log(JSON.parse(localStorage.getItem('resultados')));
+    */
   }
+
+  back() {
+    this.navCtrl.setRoot(PrincipalPage);
+  }
+
 
 
 }
