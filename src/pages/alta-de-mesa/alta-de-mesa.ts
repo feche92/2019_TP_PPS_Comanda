@@ -113,8 +113,8 @@ export class AltaDeMesaPage {
     this.barcodeScanner.scan().then((barcodeData) => {
       this.codigo = barcodeData.text;
       let dato=this.codigo.split(",");
-      this.numeroMesa=dato[0];
-      this.cantidadComensales=dato[1];
+      this.numeroMesa=dato[1];
+      this.cantidadComensales=dato[3];
       this.tipo=dato[2];
     }, (error) => {
       this.error.mostrarErrorLiteral(error);
