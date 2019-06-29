@@ -18,7 +18,7 @@ export class JuegosPage {
 
     this.juegos = [
       { accion: "Juego de memoria", img: "memoria.jpg", ruta: JuegoDescuentoPage },
-      { accion: "Juego del ahorcado", img: "memoria.jpg", ruta: JuegoPostreComponent },
+      { accion: "Juego del ahorcado", img: "ahorcado.jpeg", ruta: JuegoPostreComponent },
     ]
   }
 
