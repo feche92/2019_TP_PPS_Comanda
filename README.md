@@ -59,8 +59,10 @@ V- Moreno
 * [x] Hacer reservas agendadas: fecha de inicio 29/5/19, fecha de finalizacion 4/6/19
 * Push Notification: fecha de inicio 31/5/19
 * [x] Pedido de Platos y Bebidas: fecha de inicio 6/6/19, fecha de finalizacion 11/6/19
+* [x] Aceptar/Entregar pedido: fecha de inicio 17/6/19, fecha de finalizacion 19/6/19
 * [x] Pagar/QR de propina: fecha de inicio 12/6/19, fecha de finalizacion 12/6/19
 * [x] Juego para un 10% de descuento: fecha de inicio 12/6/19, fecha de finalizacion 13/6/19
+* [x] Vistas y funcionalidad de la pagina inicio de sesion y principal: fecha de inicio 20/5/19, fecha de finalizacion 28/6/19 
 
 
 **Moreno Samantha:**
