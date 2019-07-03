@@ -2811,6 +2811,7 @@ var ConfirmarPedidoPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__principal_principal__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__grafico_encuesta_cliente_grafico_encuesta_cliente__ = __webpack_require__(682);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2863,6 +2864,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 /**
  * Generated class for the EncuestaClientePage page.
  *
@@ -2891,6 +2893,7 @@ var EncuestaClientePage = /** @class */ (function () {
         this.respuesta1 = "mujer";
         this.respuesta2 = "Internet";
         this.respuesta3 = "Muy Buena";
+        this.respuesta4 = "si";
         this.respuesta5 = "Calidad";
         this.respuesta6 = "buena";
         this.correo = "";
@@ -2956,8 +2959,11 @@ var EncuestaClientePage = /** @class */ (function () {
             this.encuestaCliente.id = this.encuestaClienteActual.id;
             this.auth.modificarEncuestaCliente(this.encuestaCliente).then(function (res) {
                 _this.error.mostrarMensaje("Se ha actualizado correctamente la encuesta.");
+                //mostrar grafico de torta
+                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_8__grafico_encuesta_cliente_grafico_encuesta_cliente__["a" /* GraficoEncuestaClientePage */]);
+                console.log("veo grafico de encuestas");
                 spiner.dismiss();
-                _this.VolverAtras();
+                // this.VolverAtras();
                 // this.modalCtrl.create(EstadisticasClientePage, { usuario: this.usuario }).present();
             }).catch(function (error) {
                 _this.error.mostrarError(error, "error al guardar la encuesta");
@@ -3042,16 +3048,12 @@ var EncuestaClientePage = /** @class */ (function () {
             }
         });
     };
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     EncuestaClientePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-encuesta-cliente',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\encuesta-cliente\encuesta-cliente.html"*/'<!--\n\n  Generated template for the EncuestaClientePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n\n\n<ion-header>\n\n  <ion-navbar color="primary">\n\n    <ion-title><h2>Satisfacción del Cliente</h2></ion-title>\n\n    <ion-buttons>\n\n      <button ion-button (click)="VolverAtras()">\n\n        <ion-icon name="arrow-round-back"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n    <h1>{{pregunta1}}</h1>\n\n    <div class="encuesta">\n\n        <ion-list radio-group [(ngModel)]="respuesta1">\n\n            <ion-item>\n\n                <ion-label>Mujer</ion-label>\n\n                <ion-radio slot="start" value="mujer" checked></ion-radio>\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-label>Hombre</ion-label>\n\n                <ion-radio slot="start" value="hombre" checked></ion-radio>\n\n              </ion-item>\n\n        </ion-list>\n\n      </div>\n\n\n\n\n\n      <h1>{{pregunta6}}</h1>\n\n      <div class="encuesta">\n\n          <div class="miRango">    \n\n              <ion-range [(ngModel)]="opinion" color="primary" pin="true" min="1" max="5" snaps="true" style="width: 100%;position: relative;"\n\n                (ngModelChange)="ModificarTextoRange()"></ion-range>\n\n              <span>{{respuesta6}}</span>\n\n        \n\n            </div>\n\n        </div>\n\n  \n\n  <h1>{{pregunta5}}</h1>\n\n  <div class="encuesta">\n\n    <select [(ngModel)]="respuesta5">\n\n      <option value="Calidad">Calidad</option>\n\n      <option value="Precio">Precio</option>\n\n      <option value="Publicidad">Publicidad</option>\n\n      <option value="Recomendacion">Recomendacion</option>\n\n      <option value="Servicio">Servicio</option>\n\n    </select>\n\n  </div>\n\n\n\n  <h1>{{pregunta2}}</h1>\n\n  <div class="encuesta">\n\n    <select [(ngModel)]="respuesta2">\n\n      <option value="Internet">Internet</option>\n\n      <option value="Amigos">Amigos</option>\n\n      <option value="Facebook">Facebook</option>\n\n      <option value="Recomendacion">Recomendacion</option>     \n\n    </select>\n\n  </div>\n\n\n\n\n\n  <h1>{{pregunta3}}</h1>\n\n  <div class="encuesta">\n\n        <ion-list radio-group [(ngModel)]="respuesta3">\n\n            <ion-item>\n\n              <ion-label>Muy Buena</ion-label>\n\n              <ion-radio color="primary" value="Muy Buena"></ion-radio>\n\n            </ion-item>\n\n            <ion-item>\n\n              <ion-label>Buena</ion-label>\n\n              <ion-radio color="primary" value="Buena"></ion-radio>\n\n            </ion-item>\n\n            <ion-item>\n\n              <ion-label>Regular</ion-label>\n\n              <ion-radio color="primary" value="Regular"></ion-radio>\n\n            </ion-item>\n\n            <ion-item>\n\n              <ion-label>Mala</ion-label>\n\n              <ion-radio color="primary" value="Mala"></ion-radio>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-label>Muy Mala</ion-label>\n\n                <ion-radio color="primary" value="Muy Mala"></ion-radio>\n\n              </ion-item>\n\n          </ion-list>        \n\n  </div>\n\n\n\n  <h1>{{pregunta4}}</h1>\n\n  <div class="encuesta">\n\n    <ion-list radio-group [(ngModel)]="respuesta4">\n\n        <ion-item>\n\n            <ion-label>Sí</ion-label>\n\n            <ion-radio slot="start" value="si" checked></ion-radio>\n\n          </ion-item>\n\n          <ion-item>\n\n            <ion-label>No</ion-label>\n\n            <ion-radio slot="start" value="no" checked></ion-radio>\n\n          </ion-item>\n\n    </ion-list>\n\n  </div>\n\n\n\n  <h1>Comentarios</h1>\n\n  <div class="encuesta">\n\n    <textarea rows="4" cols="50" placeholder="Escribe tu comentario aquí..." [(ngModel)]="comentario"></textarea>\n\n  </div>\n\n \n\n  <br>\n\n  <button ion-button block color="primary" (click)="abrirCamara()">Sacar Foto</button>\n\n  <button ion-button block color="secondary" [disabled]="estadoBoton" (click)="EnviarEncuesta()">Enviar encuesta</button>\n\n  <button ion-button block color="danger" (click)="VolverAtras()">Cancelar</button>\n\n  \n\n</ion-content>\n\n\n\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\encuesta-cliente\encuesta-cliente.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__["a" /* Camera */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" ? _f : Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]) === "function" ? _g : Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]) === "function" ? _h : Object])
     ], EncuestaClientePage);
     return EncuestaClientePage;
 }());
@@ -3229,23 +3231,54 @@ var ListadoEncuestasPage = /** @class */ (function () {
         this.auth = auth;
         this.spinner = spinner;
         this.verEncuestas = false;
+        console.log("valor inicial");
+        console.log(this.verEncuestas);
         this.usuarioActual = JSON.parse(localStorage.getItem("usuario"));
+        console.log(this.usuarioActual);
         if (this.usuarioActual.tipo == 'cliente' || this.usuarioActual.tipo == 'cliente anonimo') {
-            this.verificarEstado();
-        }
-        if (this.verEncuestas) {
-            this.listaEncuestasClientes = new Array();
-            var spiner = this.spinner.getAllPageSpinner();
-            spiner.present();
-            //traigo los usuario para ver cuales son clientes
-            this.auth.getEncuestasClientes().subscribe(function (lista) {
-                _this.listaEncuestasClientes = lista;
-                console.log(_this.listaEncuestasClientes);
+            //       console.log(this.usuarioActual);
+            //      console.log("es cliente o anonimo");
+            //     this.verificarEstado();  
+            console.log(this.usuarioActual);
+            this.listaEspera = new Array();
+            this.auth.getListaEspera().subscribe(function (lista) {
+                _this.listaEspera = lista;
+                console.log(_this.listaEspera);
+                for (var i = 0; i < _this.listaEspera.length; i++) {
+                    if (_this.listaEspera[i].correo == _this.usuarioActual.correo) {
+                        if (_this.listaEspera[i].estado == "en espera") {
+                            _this.verEncuestas = true;
+                            console.log(_this.verEncuestas);
+                            console.log(_this.listaEspera[i]);
+                            console.log("puedo ver las encuestas");
+                            break;
+                        }
+                    }
+                }
+                if (!_this.verEncuestas) {
+                    _this.alert.mostrarErrorLiteral("Solo puede ver las encuestas si esta en Espera");
+                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_principal_principal__["a" /* PrincipalPage */]);
+                }
+                console.log("con que valor sale el booleano");
+                console.log(_this.verEncuestas);
+                if (_this.verEncuestas) {
+                    console.log("Si, las puedo ver");
+                    _this.listaEncuestasClientes = new Array();
+                    var spiner = _this.spinner.getAllPageSpinner();
+                    spiner.present();
+                    //traigo los usuario para ver cuales son clientes
+                    _this.auth.getEncuestasClientes().subscribe(function (lista) {
+                        _this.listaEncuestasClientes = lista;
+                        console.log(_this.listaEncuestasClientes);
+                    });
+                    console.log("ver lista de encuestas");
+                    console.log(_this.listaEncuestasClientes);
+                    spiner.dismiss();
+                }
             });
-            console.log("ver lista de encuestas");
-            console.log(this.listaEncuestasClientes);
-            spiner.dismiss();
         }
+        //   console.log("se modifico el booleano");
+        //  console.log(this.verEncuestas);
     }
     //---------FIN CONSTRUCTOR-----------------------
     //--------------------------------
@@ -3260,36 +3293,12 @@ var ListadoEncuestasPage = /** @class */ (function () {
         console.log(encuesta);
         this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_2__ver_encuesta_cliente_ver_encuesta_cliente__["a" /* VerEncuestaClientePage */], {}).present();
     };
-    //--------------------------------
-    ListadoEncuestasPage.prototype.verificarEstado = function () {
-        var _this = this;
-        this.verEncuestas = false;
-        console.log(this.usuarioActual);
-        this.listaEspera = new Array();
-        this.auth.getListaEspera().subscribe(function (lista) {
-            console.log(_this.listaEspera);
-            for (var i = 0; i < _this.listaEspera.length; i++) {
-                if (_this.listaEspera[i].correo == _this.usuarioActual.correo) {
-                    if (_this.listaEspera[i].estado == "en espera")
-                        _this.verEncuestas = true;
-                }
-            }
-            if (!_this.verEncuestas) {
-                _this.alert.mostrarErrorLiteral("Solo puede ver las encuestas si esta en Espera");
-                _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__pages_principal_principal__["a" /* PrincipalPage */]);
-            }
-        });
-    };
+    var _a, _b, _c, _d, _e, _f;
     ListadoEncuestasPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-listado-encuestas',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\listado-encuestas\listado-encuestas.html"*/'<!--\n\n  Generated template for the ListadoEncuestasPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n  <ion-navbar color="primary">\n\n    <ion-title>listado-encuestas</ion-title>\n\n    <ion-buttons end style="margin-right: 10px;">\n\n      <button ion-button icon-only (click)="back()">\n\n        <ion-icon name="arrow-round-back"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n  <ng-container>\n\n    <h2 class="titulo"><u>Encuestas</u></h2>\n\n  </ng-container>\n\n  <ion-list>\n\n\n\n    <ion-item *ngFor="let item of listaEncuestasClientes">\n\n      <h1>{{item.nombre}}</h1>\n\n     <!-- <h1>{{item.correo}}</h1> -->\n\n      <button ion-button clear item-end (click)="MostrarEncuesta(item)">\n\n        <ion-icon name="clipboard"></ion-icon>\n\n      </button>\n\n    </ion-item>\n\n   </ion-list>\n\n</ion-content>'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\listado-encuestas\listado-encuestas.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_6__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__["a" /* SpinnerProvider */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__providers_alert_alert__["a" /* AlertProvider */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__["a" /* AuthProvider */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__["a" /* SpinnerProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__["a" /* SpinnerProvider */]) === "function" ? _f : Object])
     ], ListadoEncuestasPage);
     return ListadoEncuestasPage;
 }());
@@ -3658,95 +3667,99 @@ webpackEmptyAsyncContext.id = 221;
 var map = {
 	"../pages/alta-de-mesa/alta-de-mesa.module": [
 		659,
-		22
+		48
 	],
 	"../pages/alta-de-producto/alta-de-producto.module": [
 		660,
-		21
+		47
 	],
 	"../pages/altaempleado/altaempleado.module": [
 		661,
-		20
+		46
 	],
 	"../pages/chat/chat.module": [
 		662,
-		19
+		45
 	],
 	"../pages/confirmar-delivery/confirmar-delivery.module": [
 		663,
-		18
+		44
 	],
 	"../pages/confirmar-pedido/confirmar-pedido.module": [
 		664,
-		17
+		43
 	],
 	"../pages/encuesta-cliente/encuesta-cliente.module": [
 		665,
-		16
+		42
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
 		666,
-		15
+		41
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
 		667,
-		14
+		40
+	],
+	"../pages/grafico-encuesta-cliente/grafico-encuesta-cliente.module": [
+		683,
+		39
 	],
 	"../pages/juego-descuento/juego-descuento.module": [
 		669,
-		13
+		38
 	],
 	"../pages/juegos/juegos.module": [
 		668,
-		12
+		37
 	],
 	"../pages/listado-encuestas/listado-encuestas.module": [
 		670,
-		11
+		36
 	],
 	"../pages/listado-mesas/listado-mesas.module": [
 		671,
-		10
+		35
 	],
 	"../pages/listado-reserva/listado-reserva.module": [
 		672,
-		9
+		34
 	],
 	"../pages/listado-supervisor/listado-supervisor.module": [
 		673,
-		8
+		33
 	],
 	"../pages/mapa-ruta/mapa-ruta.module": [
 		674,
-		7
+		32
 	],
 	"../pages/pagar/pagar.module": [
 		675,
-		6
+		31
 	],
 	"../pages/pedir-platos/pedir-platos.module": [
 		676,
-		5
+		30
 	],
 	"../pages/principal/principal.module": [
 		677,
-		4
+		29
 	],
 	"../pages/register/register.module": [
 		678,
-		3
+		28
 	],
 	"../pages/reserva/reserva.module": [
 		679,
-		2
+		27
 	],
 	"../pages/spinner/spinner.module": [
 		680,
-		1
+		26
 	],
 	"../pages/ver-encuesta-cliente/ver-encuesta-cliente.module": [
 		681,
-		0
+		25
 	]
 };
 function webpackAsyncContext(req) {
@@ -5907,50 +5920,52 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(176);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_reserva_reserva__ = __webpack_require__(178);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_listado_reserva_listado_reserva__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_pedir_platos_pedir_platos__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_listado_mesas_listado_mesas__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(181);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_juegos_juegos__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_juego_descuento_juego_descuento__ = __webpack_require__(184);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_confirmar_pedido_confirmar_pedido__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_pagar_pagar__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_mapa_ruta_mapa_ruta__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_confirmar_delivery_confirmar_delivery__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_chat_chat__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__angular_fire__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__angular_fire_firestore__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_fire_auth__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__globalConfig__ = __webpack_require__(653);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_auth_auth__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_alert_alert__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_spinner_spinner__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_json_json__ = __webpack_require__(654);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_alta_supervisor_alta_supervisor__ = __webpack_require__(273);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_splash_splash__ = __webpack_require__(655);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_alta_cliente_alta_cliente__ = __webpack_require__(271);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_qr_mesa_qr_mesa__ = __webpack_require__(405);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__angular_common_http__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__angular_http__ = __webpack_require__(656);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(274);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(275);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_home_cliente_home_cliente__ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_fcm_fcm__ = __webpack_require__(657);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_alta_producto_alta_producto__ = __webpack_require__(658);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(277);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_qr_entrada_qr_entrada__ = __webpack_require__(408);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_listado_clientes_listado_clientes__ = __webpack_require__(409);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__ionic_native_email_composer__ = __webpack_require__(276);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__providers_juego_ahorcado_juego_ahorcado__ = __webpack_require__(407);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_juego_postre_juego_postre__ = __webpack_require__(406);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_grafico_encuesta_cliente_grafico_encuesta_cliente__ = __webpack_require__(682);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_listado_reserva_listado_reserva__ = __webpack_require__(179);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_juegos_juegos__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_pagar_pagar__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_mapa_ruta_mapa_ruta__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__angular_fire__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_fire_firestore__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__angular_fire_auth__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__globalConfig__ = __webpack_require__(653);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_auth_auth__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_alert_alert__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_spinner_spinner__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__providers_json_json__ = __webpack_require__(654);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_alta_supervisor_alta_supervisor__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_splash_splash__ = __webpack_require__(655);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_alta_cliente_alta_cliente__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_qr_mesa_qr_mesa__ = __webpack_require__(405);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__angular_common_http__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__angular_http__ = __webpack_require__(656);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_home_cliente_home_cliente__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__providers_fcm_fcm__ = __webpack_require__(657);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_alta_producto_alta_producto__ = __webpack_require__(658);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(277);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_qr_entrada_qr_entrada__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_listado_clientes_listado_clientes__ = __webpack_require__(409);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__ionic_native_email_composer__ = __webpack_require__(276);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__providers_juego_ahorcado_juego_ahorcado__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__components_juego_postre_juego_postre__ = __webpack_require__(406);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -6020,44 +6035,45 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_8__pages_home_home__["a" /* HomePage */],
                 __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__["a" /* PrincipalPage */],
+                __WEBPACK_IMPORTED_MODULE_19__pages_grafico_encuesta_cliente_grafico_encuesta_cliente__["a" /* GraficoEncuestaClientePage */],
                 __WEBPACK_IMPORTED_MODULE_11__pages_register_register__["a" /* RegisterPage */],
                 __WEBPACK_IMPORTED_MODULE_13__pages_altaempleado_altaempleado__["a" /* AltaempleadoPage */],
                 __WEBPACK_IMPORTED_MODULE_14__pages_alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__["a" /* SpinnerPage */],
-                __WEBPACK_IMPORTED_MODULE_40__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_splash_splash__["a" /* SplashComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_splash_splash__["a" /* SplashComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__pages_listado_supervisor_listado_supervisor__["a" /* ListadoSupervisorPage */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__["a" /* EncuestaSupervisorPage */],
                 __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__["a" /* EncuestaClientePage */],
-                __WEBPACK_IMPORTED_MODULE_19__pages_reserva_reserva__["a" /* ReservaPage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_listado_reserva_listado_reserva__["a" /* ListadoReservaPage */],
+                __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__["a" /* ReservaPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_listado_reserva_listado_reserva__["a" /* ListadoReservaPage */],
                 __WEBPACK_IMPORTED_MODULE_12__pages_listado_encuestas_listado_encuestas__["a" /* ListadoEncuestasPage */],
-                __WEBPACK_IMPORTED_MODULE_21__pages_estadisticas_supervisor_estadisticas_supervisor__["a" /* EstadisticasSupervisorPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_listado_mesas_listado_mesas__["a" /* ListadoMesasPage */],
-                __WEBPACK_IMPORTED_MODULE_24__pages_alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */],
-                __WEBPACK_IMPORTED_MODULE_40__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_splash_splash__["a" /* SplashComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__pages_juegos_juegos__["a" /* JuegosPage */],
-                __WEBPACK_IMPORTED_MODULE_26__pages_juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */],
-                __WEBPACK_IMPORTED_MODULE_27__pages_confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */],
-                __WEBPACK_IMPORTED_MODULE_28__pages_pagar_pagar__["a" /* PagarPage */],
+                __WEBPACK_IMPORTED_MODULE_22__pages_estadisticas_supervisor_estadisticas_supervisor__["a" /* EstadisticasSupervisorPage */],
+                __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */],
+                __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__["a" /* ListadoMesasPage */],
+                __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */],
+                __WEBPACK_IMPORTED_MODULE_41__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_splash_splash__["a" /* SplashComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_juegos_juegos__["a" /* JuegosPage */],
+                __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */],
+                __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */],
+                __WEBPACK_IMPORTED_MODULE_29__pages_pagar_pagar__["a" /* PagarPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__["a" /* VerEncuestaClientePage */],
-                __WEBPACK_IMPORTED_MODULE_52__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__pages_mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */],
-                __WEBPACK_IMPORTED_MODULE_30__pages_confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */],
-                __WEBPACK_IMPORTED_MODULE_31__pages_chat_chat__["a" /* ChatPage */]
+                __WEBPACK_IMPORTED_MODULE_53__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__pages_mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */],
+                __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */],
+                __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__["a" /* ChatPage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -6085,14 +6101,15 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/ver-encuesta-cliente/ver-encuesta-cliente.module#VerEncuestaClientePageModule', name: 'VerEncuestaClientePage', segment: 'ver-encuesta-cliente', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/ver-encuesta-cliente/ver-encuesta-cliente.module#VerEncuestaClientePageModule', name: 'VerEncuestaClientePage', segment: 'ver-encuesta-cliente', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/grafico-encuesta-cliente/grafico-encuesta-cliente.module#GraficoEncuestaClientePageModule', name: 'GraficoEncuestaClientePage', segment: 'grafico-encuesta-cliente', priority: 'low', defaultHistory: [] }
                     ]
                 }),
-                __WEBPACK_IMPORTED_MODULE_32__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_35__globalConfig__["a" /* configs */].firebaseConfig),
-                __WEBPACK_IMPORTED_MODULE_34__angular_fire_auth__["b" /* AngularFireAuthModule */],
-                __WEBPACK_IMPORTED_MODULE_33__angular_fire_firestore__["b" /* AngularFirestoreModule */],
-                __WEBPACK_IMPORTED_MODULE_45__angular_http__["a" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_44__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_33__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_36__globalConfig__["a" /* configs */].firebaseConfig),
+                __WEBPACK_IMPORTED_MODULE_35__angular_fire_auth__["b" /* AngularFireAuthModule */],
+                __WEBPACK_IMPORTED_MODULE_34__angular_fire_firestore__["b" /* AngularFirestoreModule */],
+                __WEBPACK_IMPORTED_MODULE_46__angular_http__["a" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_45__angular_common_http__["b" /* HttpClientModule */],
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],
             entryComponents: [
@@ -6101,56 +6118,57 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__["a" /* PrincipalPage */],
                 __WEBPACK_IMPORTED_MODULE_11__pages_register_register__["a" /* RegisterPage */],
                 __WEBPACK_IMPORTED_MODULE_12__pages_listado_encuestas_listado_encuestas__["a" /* ListadoEncuestasPage */],
+                __WEBPACK_IMPORTED_MODULE_19__pages_grafico_encuesta_cliente_grafico_encuesta_cliente__["a" /* GraficoEncuestaClientePage */],
                 __WEBPACK_IMPORTED_MODULE_13__pages_altaempleado_altaempleado__["a" /* AltaempleadoPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__["a" /* VerEncuestaClientePage */],
                 __WEBPACK_IMPORTED_MODULE_14__pages_alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__["a" /* SpinnerPage */],
-                __WEBPACK_IMPORTED_MODULE_40__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__pages_listado_supervisor_listado_supervisor__["a" /* ListadoSupervisorPage */],
-                __WEBPACK_IMPORTED_MODULE_40__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__["a" /* EncuestaSupervisorPage */],
                 __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__["a" /* EncuestaClientePage */],
-                __WEBPACK_IMPORTED_MODULE_19__pages_reserva_reserva__["a" /* ReservaPage */],
-                __WEBPACK_IMPORTED_MODULE_20__pages_listado_reserva_listado_reserva__["a" /* ListadoReservaPage */],
-                __WEBPACK_IMPORTED_MODULE_21__pages_estadisticas_supervisor_estadisticas_supervisor__["a" /* EstadisticasSupervisorPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_listado_mesas_listado_mesas__["a" /* ListadoMesasPage */],
-                __WEBPACK_IMPORTED_MODULE_24__pages_alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */],
-                __WEBPACK_IMPORTED_MODULE_50__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__pages_juegos_juegos__["a" /* JuegosPage */],
-                __WEBPACK_IMPORTED_MODULE_26__pages_juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */],
-                __WEBPACK_IMPORTED_MODULE_27__pages_confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */],
-                __WEBPACK_IMPORTED_MODULE_28__pages_pagar_pagar__["a" /* PagarPage */],
-                __WEBPACK_IMPORTED_MODULE_52__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__pages_mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */],
-                __WEBPACK_IMPORTED_MODULE_30__pages_confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */],
-                __WEBPACK_IMPORTED_MODULE_31__pages_chat_chat__["a" /* ChatPage */]
+                __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__["a" /* ReservaPage */],
+                __WEBPACK_IMPORTED_MODULE_21__pages_listado_reserva_listado_reserva__["a" /* ListadoReservaPage */],
+                __WEBPACK_IMPORTED_MODULE_22__pages_estadisticas_supervisor_estadisticas_supervisor__["a" /* EstadisticasSupervisorPage */],
+                __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */],
+                __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__["a" /* ListadoMesasPage */],
+                __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */],
+                __WEBPACK_IMPORTED_MODULE_51__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_juegos_juegos__["a" /* JuegosPage */],
+                __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */],
+                __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */],
+                __WEBPACK_IMPORTED_MODULE_29__pages_pagar_pagar__["a" /* PagarPage */],
+                __WEBPACK_IMPORTED_MODULE_53__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__pages_mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */],
+                __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */],
+                __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__["a" /* ChatPage */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__["a" /* StatusBar */],
                 __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__["a" /* SplashScreen */],
                 { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicErrorHandler */] },
-                { provide: __WEBPACK_IMPORTED_MODULE_33__angular_fire_firestore__["c" /* FirestoreSettingsToken */], useValue: {} },
+                { provide: __WEBPACK_IMPORTED_MODULE_34__angular_fire_firestore__["c" /* FirestoreSettingsToken */], useValue: {} },
                 //Firebase,
                 __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__["a" /* Camera */],
                 __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__["a" /* BarcodeScanner */],
-                __WEBPACK_IMPORTED_MODULE_36__providers_auth_auth__["a" /* AuthProvider */],
-                __WEBPACK_IMPORTED_MODULE_37__providers_alert_alert__["a" /* AlertProvider */],
-                __WEBPACK_IMPORTED_MODULE_38__providers_spinner_spinner__["a" /* SpinnerProvider */],
-                __WEBPACK_IMPORTED_MODULE_39__providers_json_json__["a" /* JsonProvider */],
+                __WEBPACK_IMPORTED_MODULE_37__providers_auth_auth__["a" /* AuthProvider */],
+                __WEBPACK_IMPORTED_MODULE_38__providers_alert_alert__["a" /* AlertProvider */],
+                __WEBPACK_IMPORTED_MODULE_39__providers_spinner_spinner__["a" /* SpinnerProvider */],
+                __WEBPACK_IMPORTED_MODULE_40__providers_json_json__["a" /* JsonProvider */],
                 //QrProvider,
-                __WEBPACK_IMPORTED_MODULE_49__providers_fcm_fcm__["a" /* FcmProvider */],
-                __WEBPACK_IMPORTED_MODULE_54__ionic_native_email_composer__["a" /* EmailComposer */],
-                __WEBPACK_IMPORTED_MODULE_55__providers_juego_ahorcado_juego_ahorcado__["a" /* JuegoAhorcadoProvider */],
+                __WEBPACK_IMPORTED_MODULE_50__providers_fcm_fcm__["a" /* FcmProvider */],
+                __WEBPACK_IMPORTED_MODULE_55__ionic_native_email_composer__["a" /* EmailComposer */],
+                __WEBPACK_IMPORTED_MODULE_56__providers_juego_ahorcado_juego_ahorcado__["a" /* JuegoAhorcadoProvider */],
             ]
         })
     ], AppModule);
@@ -6822,6 +6840,116 @@ var AltaProductoComponent = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=alta-producto.js.map
+
+/***/ }),
+
+/***/ 682:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GraficoEncuestaClientePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ionic_angular__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js__ = __webpack_require__(632);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_chart_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(15);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+/**
+ * Generated class for the GraficoEncuestaClientePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var GraficoEncuestaClientePage = /** @class */ (function () {
+    function GraficoEncuestaClientePage(auth, navCtrl, navParams) {
+        this.auth = auth;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.cantMujer = 0;
+        this.cantHombre = 0;
+        this.cantRecomendar = 0;
+        this.cantNoRecomendar = 0;
+    }
+    GraficoEncuestaClientePage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        this.listaEncuestasClientes = new Array();
+        //traigo los usuario para ver cuales son clientes
+        this.auth.getEncuestasClientes().subscribe(function (lista) {
+            _this.listaEncuestasClientes = lista;
+            console.log(_this.listaEncuestasClientes);
+        });
+        for (var i = 0; i < this.listaEncuestasClientes.length; i++) {
+            if (this.listaEncuestasClientes[i].respuesta1 == "mujer") {
+                this.cantMujer++;
+                console.log(this.cantMujer);
+            }
+            else {
+                this.cantHombre = this.cantHombre + 1;
+            }
+            if (this.listaEncuestasClientes[i].respuesta4 == "si") {
+                this.cantRecomendar = this.cantRecomendar + 1;
+            }
+            else {
+                this.cantNoRecomendar = this.cantNoRecomendar + 1;
+            }
+        }
+        console.log("mujer");
+        console.log(this.cantMujer);
+        this.doughnutChart = new __WEBPACK_IMPORTED_MODULE_2_chart_js__["Chart"](this.doughnutCanvas.nativeElement, {
+            type: 'doughnut',
+            data: {
+                labels: ["Mujer", "Hombre", "Recomienda", "No Recomienda"],
+                datasets: [{
+                        label: '# of Votes',
+                        data: [2, 7, 6, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        hoverBackgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56",
+                            "#FF6384"
+                        ]
+                    }]
+            }
+        });
+    };
+    GraficoEncuestaClientePage.prototype.VolverAtras = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__["a" /* PrincipalPage */]);
+    };
+    var _a, _b, _c;
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["_8" /* ViewChild */])('doughnutCanvas'),
+        __metadata("design:type", Object)
+    ], GraficoEncuestaClientePage.prototype, "doughnutCanvas", void 0);
+    GraficoEncuestaClientePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["m" /* Component */])({
+            selector: 'page-grafico-encuesta-cliente',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\grafico-encuesta-cliente\grafico-encuesta-cliente.html"*/'<!--\n\n  Generated template for the GraficoEncuestaClientePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n    <ion-navbar color="primary">\n\n      <ion-title><h2>Grafico Encuestas Cliente</h2></ion-title>\n\n      <ion-buttons>\n\n        <button ion-button (click)="VolverAtras()">\n\n          <ion-icon name="arrow-round-back"></ion-icon>\n\n        </button>\n\n      </ion-buttons>\n\n    </ion-navbar>\n\n  </ion-header>\n\n\n\n<ion-content padding>\n\n    <ion-card>\n\n        <ion-card-header>\n\n         Encuestas\n\n        </ion-card-header>\n\n        <ion-card-content>\n\n          <canvas #doughnutCanvas></canvas>\n\n        </ion-card-content>\n\n      </ion-card>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\comanda\src\pages\grafico-encuesta-cliente\grafico-encuesta-cliente.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["i" /* NavController */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0_ionic_angular__["j" /* NavParams */]) === "function" ? _c : Object])
+    ], GraficoEncuestaClientePage);
+    return GraficoEncuestaClientePage;
+}());
+
+//# sourceMappingURL=grafico-encuesta-cliente.js.map
 
 /***/ }),
 

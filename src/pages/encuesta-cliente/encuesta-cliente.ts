@@ -6,6 +6,8 @@ import { SpinnerProvider } from '../../providers/spinner/spinner';
 import * as firebase from "firebase";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PrincipalPage } from '../principal/principal';
+import { Chart } from 'chart.js';
+import { GraficoEncuestaClientePage } from '../grafico-encuesta-cliente/grafico-encuesta-cliente';
 
 
 
@@ -42,7 +44,7 @@ export class EncuestaClientePage {
   public respuesta1: string="mujer";
   public respuesta2: string ="Internet";
   public respuesta3: string ="Muy Buena";
-  public respuesta4: string;
+  public respuesta4: string= "si";
   public respuesta5: string ="Calidad";
   public respuesta6: string="buena";
 
@@ -124,8 +126,12 @@ export class EncuestaClientePage {
       this.encuestaCliente.id=this.encuestaClienteActual.id;
       this.auth.modificarEncuestaCliente(this.encuestaCliente).then(res => {
         this.error.mostrarMensaje("Se ha actualizado correctamente la encuesta.");
+          //mostrar grafico de torta
+          this.navCtrl.setRoot(GraficoEncuestaClientePage);
+          console.log("veo grafico de encuestas");
         spiner.dismiss();
-        this.VolverAtras();
+        
+       // this.VolverAtras();
       // this.modalCtrl.create(EstadisticasClientePage, { usuario: this.usuario }).present();
       }).catch(error => {
         this.error.mostrarError(error,"error al guardar la encuesta");
