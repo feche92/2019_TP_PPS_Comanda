@@ -1,0 +1,46 @@
+page-chat {
+    .scroll-content{
+        background-color: #d9f4f7; 
+    }   
+
+    .item-md{
+        background-color: transparent;
+    }
+
+    .chat-container{
+        padding: 0.5em 1em;
+        border-bottom: 1px solid #dadada;
+    }
+
+    .mensaje-container{
+        border-radius: 20px !important;
+        border: 2px solid $first-detail-color;
+        width: 100%;
+        padding: 10px;
+        margin: 4px;    
+    }
+
+    .mensaje{
+        color: #222;
+        font-weight: 500;
+        word-wrap: break-word;
+        text-align: justify;
+    }
+
+    .fecha{
+        font-size: 1.2rem;
+        margin-top: 3px;
+    }
+
+    .user-name{
+        font-weight: 600;
+    }
+
+    .end-chat{
+        text-align: end;
+    }
+
+    .button-block-md{
+        border-radius: 35px !important;
+    }
+}

@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Chat</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <div>
+      <div *ngFor="let chat of mensajes; let i=index" class="chat-container">
+          <div class="flex-v" [ngClass]="{'end-chat': chat.usuario == usuario}">
+              <div  class="user-name">
+                  <div *ngIf="chat.correo!=usuario.correo"> {{chat.nombre}}: </div>
+              </div>
+              <div class="width-100">
+                  <div class="mensaje" [ngClass]="{'end-chat': chat.correo == usuario.correo}">{{chat.mensaje}}</div>
+              </div>
+              <div class="fecha" [ngClass]="{'end-chat': chat.correo == usuario.correo}">
+                  {{chat.fecha}}
+              </div>
+          </div>
+      </div>
+  </div>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <div class="flex-h">
+            <div class="width-70">
+                <textarea id="mensaje" class="mensaje-container" (keypress)="onChange($event)" (keyup)="onChange($event)" [(ngModel)]="mensaje" rows=1  placeholder="Escribir mensaje"></textarea>
+            </div>
+            <div class="width-30 center-horizontal center-vertical" style="margin: 0 10px;">
+                <button ion-button block color="primary" (click)="enviarMensaje()">Enviar</button>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-footer>

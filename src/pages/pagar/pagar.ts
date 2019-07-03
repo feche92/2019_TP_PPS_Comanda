@@ -39,10 +39,18 @@ export class PagarPage {
       this.auth.getPedidos().subscribe(lista => {
         for(let i=0;i<lista.length;i++)
         {
-          if(lista[i].correo == this.usuario.correo && lista[i].estado == 'por pagar') {
-            this.pedido = lista[i];
-            break;
+          if(localStorage.getItem("delivery") == 'true') {
+            if(lista[i].correo == this.usuario.correo && lista[i].estado == 'por pagar' && lista[i].delivery) {
+              this.pedido = lista[i];
+              break;
+            }
           }
+          else {
+            if(lista[i].correo == this.usuario.correo && lista[i].estado == 'por pagar' && !lista[i].delivery) {
+              this.pedido = lista[i];
+              break;
+            }
+          }          
         }
         this.monto = this.pedido.montoTotal;
         this.total = this.monto;
@@ -54,15 +62,17 @@ export class PagarPage {
         this.mostrarSpiner=false;
         this.mostrar=true;
         console.log(this.pedido);
-        this.auth.getMesas().subscribe(lista => {
-          for(let i=0;i<lista.length;i++)
-          {
-            if(lista[i].numero == this.pedido.numero) {
-              this.mesa = lista[i];
-              break;
+        if(localStorage.getItem("delivery") == 'false') { 
+          this.auth.getMesas().subscribe(lista => {
+            for(let i=0;i<lista.length;i++)
+            {
+              if(lista[i].numero == this.pedido.numero) {
+                this.mesa = lista[i];
+                break;
+              }
             }
-          }
-        });
+          });
+        }
         console.log(this.mesa);
       })
   }
@@ -126,12 +136,19 @@ export class PagarPage {
     spiner.present();
     this.pedido.estado = "pagado";
     this.auth.actualizarPedido(this.pedido).then(res => {
-      this.mesa.estado = "libre";
-      this.auth.updateMesa(this.mesa).then(res => {
+      if(localStorage.getItem("delivery") == 'false') { 
+        this.mesa.estado = "libre";
+        this.auth.updateMesa(this.mesa).then(res => {
+          spiner.dismiss();
+          this.error.mostrarMensaje("Pedido pagado. Gracias por comer en nuestro restaurante");
+          this.navCtrl.setRoot(PrincipalPage);
+        });
+      }
+      else {
         spiner.dismiss();
-        this.error.mostrarMensaje("Pedido pagado. Gracias por comer en nuestro restaurante");
+        this.error.mostrarMensaje("Pedido pagado. Gracias por comer de nuestro restaurante");
         this.navCtrl.setRoot(PrincipalPage);
-      }); 
+      }  
     });
   }
 
