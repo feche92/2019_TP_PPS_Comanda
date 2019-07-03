@@ -18,6 +18,7 @@ export class PedirPlatosPage {
   platos;
   ocultarPLatos:boolean;
   ocultarBebidas:boolean;
+  mostrarDireccion:boolean;
   titulo;
   pedidoActual;
   monto:boolean;
@@ -30,11 +31,13 @@ export class PedirPlatosPage {
   mostrarSpiner;
   mostrarProductoQR;
   productoQR;
+  direccion;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
     private barcodeScanner: BarcodeScanner,) {
       this.montoActual=0;
+      this.mostrarDireccion=false;
       this.puedePedir=false;
       this.monto=false;
       this.ocultarBebidas=false;
@@ -88,12 +91,17 @@ export class PedirPlatosPage {
       }
       else if(this.usuario.tipo == 'cliente') {
         let estaCorreo=false;
+        let delivery=false;
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado') /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */ {
+          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado' && this.pedidos[i].delivery == false) /* YY pedidos.estado != ultimo estado del pedido que es por pagar creo  */ {
             estaCorreo=true;
             //this.pedidoPendiente=this.pedidos[i];
             //this.puedePedir=true;
+            break;
+          }
+          if(this.pedidos[i].correo == this.usuario.correo && this.pedidos[i].estado != 'pagado' && this.pedidos[i].delivery == true && this.pedidos[i].estado != 'cancelado') {
+            delivery=true;
             break;
           }
         }
@@ -107,6 +115,12 @@ export class PedirPlatosPage {
               break;
             }
           }
+        }
+        else if(delivery) {
+          this.mensajePedido="Ya hizo un pedido.No puede pedir otro";
+        }
+        else if(!delivery) {
+          this.puedePedir=true;
         }
         else {
           this.mensajePedido="No puede hacer un pedido sin antes estar en una mesa";
@@ -312,9 +326,13 @@ export class PedirPlatosPage {
 
   PedirFinal() {
     if(this.pedidoActual.length > 0) {
+      if(localStorage.getItem('delivery') == 'true' && this.usuario.tipo == "cliente") {
+        this.mostrarDireccion=true;
+      }
+      else {
       this.mostrarSpiner=true;
       let momentoActual = moment(new Date());
-      let data;
+      let data; 
       if(this.usuario.tipo == "cliente anonimo"){
         data = {
             "nombreCliente":this.usuario.nombre,
@@ -325,13 +343,14 @@ export class PedirPlatosPage {
             "montoTotal":this.montoActual,
             "tipo":this.pedidoPendiente.tipo,
             "id":this.pedidoPendiente.id,
+            'delivery':false
         }
       }
       else{
         data = {
             "correo":this.pedidoPendiente.correo,"nombreCliente":this.pedidoPendiente.nombreCliente,"apellidoCliente":this.pedidoPendiente.apellidoCliente,"estado":"pedido por confirmar", //esperando pedido
            "productos":this.pedidoActual,"numero":this.pedidoPendiente.numero,"fecha":momentoActual.format("DD/MM/YYYY HH:mm"),"montoTotal":this.montoActual,
-            "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,
+            "tipo":this.pedidoPendiente.tipo,"id":this.pedidoPendiente.id,'delivery':false
         }
       }
       this.auth.actualizarPedido(data).then(res => {
@@ -345,10 +364,44 @@ export class PedirPlatosPage {
         this.mostrarSpiner=false;
       }); 
     }
+    }
     else {
       this.error.mostrarErrorLiteral("Elija algun producto antes de aceptar un pedido");
     }
 
+  }
+
+  AceptarDelivery() {
+    if(this.direccion == '') {
+      this.error.mostrarErrorLiteral('ingrese una direccion antes de continuar');
+      return;
+    }
+    this.mostrarSpiner=true;
+    let momentoActual = moment(new Date());
+    let data = {
+      "nombreCliente":this.usuario.nombre,
+      'apellidoCliente':this.usuario.apellido,
+      'correo':this.usuario.correo,
+      "estado":"pedido por confirmar", //esperando pedido
+      "productos":this.pedidoActual,
+      "fecha":momentoActual.format("DD/MM/YYYY HH:mm"),
+      "montoTotal":this.montoActual,
+      'delivery':true,
+      'direccion':this.direccion,
+      "foto":this.usuario.foto,
+    };
+    this.auth.nuevoPedido(data).then(res => {
+      this.mostrarSpiner=false;
+      this.error.mostrarMensaje("Pedido aceptado. Le notificaremos cuando lo acepte nuestro supervisor");
+      this.back();
+    }).catch(error => {
+      this.mostrarSpiner=false;
+      this.error.mostrarError(error,'hubo un error. Intentelo mas tarde');
+    });
+  }
+
+  CancelarDelivery() {
+    this.mostrarDireccion=false;
   }
 
 }

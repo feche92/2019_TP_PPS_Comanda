@@ -31,10 +31,10 @@ export class ConfirmarPedidoPage {
         this.pedidosPorConfirmar=[];
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].estado == 'pedido por confirmar') {
+          if(this.pedidos[i].estado == 'pedido por confirmar' && this.pedidos[i].delivery == false) {
             this.pedidosPorConfirmar.push(this.pedidos[i]);
           }
-          if(this.pedidos[i].estado == 'pedido terminado') {
+          if(this.pedidos[i].estado == 'pedido terminado' && this.pedidos[i].delivery == false) {
             this.pedidosParaEntregar.push(this.pedidos[i]);
           }
         }

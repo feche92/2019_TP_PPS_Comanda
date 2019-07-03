@@ -131,7 +131,9 @@ export interface pedido {
   montoTotal:string,
   id:string,
   tiempoElaboracion: number,
-  horaFinalizacion: string
+  horaFinalizacion: string,
+  delivery:boolean,
+  foto:string
 }
 
 export interface producto {
@@ -144,6 +146,16 @@ export interface producto {
   estado :string;
   numeroProducto:number;
   id:string
+}
+
+export interface chat {
+  tipo:string,
+  correo:string,
+  nombre:string,
+  mensaje:string,
+  fecha:string,
+  id:string,
+  para:string
 }
 
 @Injectable()
@@ -359,6 +371,20 @@ modificarEncuestaCliente(data) {
 
   actualizarPedido(data) {
     return this.db.collection('pedidos').doc(data.id).update(data);
+  }
+
+  getChat() {
+    return this.db.collection('mensajes').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as chat;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  nuevoChat(data) {
+    return this.db.collection('mensajes').add(data);
   }
 
 }

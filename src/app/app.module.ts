@@ -18,6 +18,7 @@ import { ListadoSupervisorPage } from "../pages/listado-supervisor/listado-super
 import { EncuestaSupervisorPage } from "../pages/encuesta-supervisor/encuesta-supervisor";
 import { EncuestaClientePage } from "../pages/encuesta-cliente/encuesta-cliente";
 import { VerEncuestaClientePage } from "../pages/ver-encuesta-cliente/ver-encuesta-cliente";
+import { GraficoEncuestaClientePage } from '../pages/grafico-encuesta-cliente/grafico-encuesta-cliente';
 
 import { ReservaPage } from "../pages/reserva/reserva";
 import { ListadoReservaPage } from "../pages/listado-reserva/listado-reserva";
@@ -29,6 +30,9 @@ import { JuegosPage } from "../pages/juegos/juegos";
 import { JuegoDescuentoPage } from "../pages/juego-descuento/juego-descuento";
 import { ConfirmarPedidoPage } from "../pages/confirmar-pedido/confirmar-pedido";
 import { PagarPage } from "../pages/pagar/pagar";
+import { MapaRutaPage } from "../pages/mapa-ruta/mapa-ruta";
+import { ConfirmarDeliveryPage } from "../pages/confirmar-delivery/confirmar-delivery";
+import { ChatPage } from "../pages/chat/chat";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -66,6 +70,7 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     MyApp,
     HomePage,
     PrincipalPage,
+    GraficoEncuestaClientePage,
     RegisterPage,
     AltaempleadoPage,
     AltaDeMesaPage,
@@ -100,7 +105,10 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     VerEncuestaClientePage,
     QrEntradaComponent,
     ListadoClientesComponent,
-    JuegoPostreComponent
+    JuegoPostreComponent,
+    MapaRutaPage,
+    ConfirmarDeliveryPage,
+    ChatPage
     ],
   imports: [
     BrowserModule,
@@ -118,6 +126,7 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     PrincipalPage,
     RegisterPage,
     ListadoEncuestasPage,
+    GraficoEncuestaClientePage,
     AltaempleadoPage,
     VerEncuestaClientePage,
     AltaDeMesaPage,
@@ -147,7 +156,10 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     PagarPage,
     QrEntradaComponent,
     ListadoClientesComponent,
-    JuegoPostreComponent
+    JuegoPostreComponent,
+    MapaRutaPage,
+    ConfirmarDeliveryPage,
+    ChatPage
   ],
   providers: [
     StatusBar,

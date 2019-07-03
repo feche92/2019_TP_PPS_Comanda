@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar color='primary'>
+    <ion-title>Delivery</ion-title>
+    <ion-buttons end style="margin-right: 10px;">
+      <button ion-button icon-only (click)="back()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <page-spinner *ngIf="mostrarSpiner"></page-spinner>
+  <ng-container *ngIf="!mostrarSpiner && pedidosDelivery.length > 0">
+    <h2 class="titulo"><u>Pedidos pendientes de confirmación</u></h2>
+  </ng-container>
+  <div *ngFor="let pedido of pedidosDelivery" class="card">
+    <div class="card-body">
+        <h4 class="card-title text-center">Direccion: {{pedido.direccion}}</h4>
+        <div *ngFor="let item of pedido.productos" class="">
+          <div class="item-producto grid-container">
+            <div class="Contenido">
+              <p class="card-text item-nombre">{{item.nombre}}</p>
+              <p class="card-text item-descripcion">{{item.descripcion}}</p>
+            </div>
+            <div>
+              <h3 class="item-cantidad">{{item.cantidad}}</h3><p class="card-text item-porcion">Porciones</p>
+            </div>
+          </div>
+        </div>
+        <button ion-button block color="primary" (click)="aceptarPedido(pedido)">Aceptar</button>
+        <button ion-button block color="red" (click)="cancelarPedido(pedido)">Cancelar</button>
+    </div>
+  </div>
+  <ng-container *ngIf="!mostrarSpiner && pedidosDelivery.length==0">
+    <h2 class="titulo"><u>No hay pedidos por confirmar</u></h2>
+  </ng-container>
+</ion-content>
