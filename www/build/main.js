@@ -163,12 +163,15 @@ var PagarPage = /** @class */ (function () {
     PagarPage.prototype.back = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__principal_principal__["a" /* PrincipalPage */]);
     };
-    var _a, _b, _c, _d, _e, _f;
     PagarPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-pagar',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\nuevoApp\src\pages\pagar\pagar.html"*/'<!--\n  Generated template for the PagarPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Cuenta</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf="mostrar">\n  <div style="width: 100%;text-align: center;margin: 0;position: relative;">\n    <h1>Cuenta</h1>\n  </div>\n  <ng-container *ngFor="let item of pedido.productos">\n\n      <div>\n        <span>{{item.nombre}}  *  {{item.cantidad}}</span><span style="float: right;">${{item.cantidad * item.precio}}</span>\n      </div>\n      <div class="puntos"></div>\n      \n  </ng-container>\n\n  <div >\n      <span class="total">Monto</span><span style="float: right;">${{monto}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <ng-container *ngIf="descuentoJuego">\n      <div>\n        <span>Descuento del 10% por jugar</span><span style="float: right;">(${{descuento}})</span>\n      </div>\n      <div class="puntos"></div>\n  </ng-container>\n\n  <div *ngIf="propina!=\'sin propina\'">\n      <span>Propina de {{porcentaje}}</span><span style="float: right;">${{propina}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <div *ngIf="delivery">\n      <span>Monto de envío</span><span style="float: right;">${{montoEnvio}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <div >\n      <span class="total">Monto Total</span><span style="float: right;">${{total}}</span>\n  </div>\n  <div class="puntos"></div>\n\n  <span class="rating">¡Calificá nuestro servicio y dejá tu propina!</span>\n  <button ion-button block color="primary"  (click)="qr()">Leer QR de propina</button>\n  <button ion-button block color="primary"  (click)="pagar()">Pagar!</button>\n  </div>\n</ion-content>\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\nuevoApp\src\pages\pagar\pagar.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]) === "function" ? _f : Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__["a" /* BarcodeScanner */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__["a" /* SpinnerProvider */]])
     ], PagarPage);
     return PagarPage;
 }());
@@ -189,8 +192,8 @@ var PagarPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__juegos_juegos__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pagar_pagar__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__chat_chat__ = __webpack_require__(190);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_globalConfig__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__chat_chat__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_globalConfig__ = __webpack_require__(152);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -368,16 +371,18 @@ var MapaRutaPage = /** @class */ (function () {
     MapaRutaPage.prototype.hablarCliente = function (pedido) {
         this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_7__chat_chat__["a" /* ChatPage */], { pedido: pedido }).present();
     };
-    var _a, _b, _c, _d, _e, _f;
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('map'),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */]) === "function" ? _a : Object)
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
     ], MapaRutaPage.prototype, "mapRef", void 0);
     MapaRutaPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
             selector: 'page-mapa-ruta',template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\nuevoApp\src\pages\mapa-ruta\mapa-ruta.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>mapaRuta</ion-title>\n    <ion-buttons end style="margin-right: 10px;">\n      <button ion-button icon-only (click)="back()">\n        <ion-icon name="arrow-round-back"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <page-spinner *ngIf="mostrarSpiner"></page-spinner>\n  <div *ngIf=\'repartidor\'>\n  <div id="map" #map></div>\n  <!--<div class="mapouter">\n    <div class="gmap_canvas">\n      <iframe width="600" height="500" id="gmap_canvas" \n        src="https://maps.google.com/maps?q=mitre%20750&t=&z=19&ie=UTF8&iwloc=&output=embed" \n        frameborder="0" scrolling="no" marginheight="0" marginwidth="0">\n      </iframe>Google Maps by ASGARDIANOS</div>\n      <style>\n        .mapouter{\n          position:relative;\n          text-align:right;\n          height:400px;\n          width:600px;\n          }\n        .gmap_canvas {\n          overflow:hidden;\n          background:none!important;\n          height:400px;\n          width:600px;\n        }\n      </style>\n  </div>-->\n  <div class="sin-elementos" *ngIf="pedidosDelivery.length == 0">\n    <h1>No hay pedidos disponibles.</h1>\n  </div>\n  <ng-container *ngIf="pedidosDelivery.length > 0">\n    <h2 class="titulo"><u>Pedidos pendientes de entrega</u></h2>\n  </ng-container>\n  <ion-list>\n    <ion-item *ngFor="let pedido of pedidosDelivery">\n      <ion-thumbnail item-start (click)="cargarDirecciones(pedido)">\n        <img src={{pedido.foto}}>\n      </ion-thumbnail>\n      <h1>{{pedido.direccion}}</h1>\n      <p>Correo • {{pedido.correo}}</p>\n      <p>Nombre • {{pedido.nombreCliente}}</p>\n      <p>Fecha • {{pedido.fecha}}</p>\n      <h2>{{pedido.estado}}</h2>\n      <div item-end style="display: flex; align-items: center;align-content: center;flex-direction: column;">\n\n          <button ion-button clear (click)="entregar(pedido)" style="margin-bottom: 20px; ">\n            <ion-icon style="color: rgb(14, 17, 212);" name="checkmark-circle"></ion-icon>\n          </button>\n  \n          <button ion-button clear (click)="hablarCliente(pedido)">\n            <ion-icon style="color: #FF0000;" name="chatboxes"></ion-icon>\n          </button>\n  \n      </div>\n    </ion-item>\n  </ion-list>\n  </div>\n  <div *ngIf=\'cliente\'>\n    <div *ngIf="estadosCliente == 2">\n      <ion-grid>\n        <ion-row>\n          <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>\n        </ion-row>\n        <ion-row>\n          <ul *ngFor="let item of pedidoActual.productos">\n            <li>{{item.nombre}} -- {{item.estado}}</li>\n          </ul>\n        </ion-row>\n        <ion-row>\n          <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal + pedidoActual.montoEnvio}}</h4>\n        </ion-row>\n        <img class="img-mozo" src="../../assets/Imagenes/mozo.png" alt="mozo">\n        <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      </ion-grid>\n    </div>\n    <div *ngIf="estadosCliente == 3">\n      <ion-grid>\n        <ion-row>\n          <h4 class="estado">Estado: {{pedidoActual.estado}}</h4>\n        </ion-row>\n        <ion-row>\n          <h2>Monto Total: </h2><h4 class="estado">${{pedidoActual.montoTotal + pedidoActual.montoEnvio}}</h4>\n        </ion-row>\n        <img class="img-reserva" src="../../assets/Imagenes/repartidor.png" alt="mesa-reservada">\n        <button ion-button block color="primary" (click)="hablar()">Hablar con el repartidor</button>\n        <button ion-button block color="primary" (click)="mostrarJuegos()">Juegos por Descuentos</button>\n      </ion-grid>\n    </div>\n    <div class="flex-v buttons-container" *ngIf="estadosCliente == 4">\n      <ion-grid>\n        <ion-row>\n          <h4 class="estado">Estado: {{pedidoActual.estado}}</h4> \n          <h4 class="pregunta-title">¿Desea aceptar el pedido?</h4>\n        </ion-row>\n        <img class="img-mozo" src="../../assets/Imagenes/repartidor.png" alt="mozo">\n        <ion-card class="height-30 big-button-container" [color]="myColor">\n          <div class="flex-v center-horizontal center-vertical height-100" (click)="aceptarPedido()">\n            <div class="text-title">Aceptar</div>\n          </div>\n        </ion-card>\n        <ion-card class="height-30 big-button-container" [color]="otroColor">\n          <div class="flex-v center-horizontal center-vertical height-100" (click)="cancelarPedido()">\n            <div class="text-title">Cancelar</div>\n          </div>\n        </ion-card> \n      </ion-grid>\n    </div>\n    <div class="flex-v buttons-container" *ngIf="!tienePedido">\n      <ion-grid>\n        <ion-row>\n          <h4 class="estado">{{mensaje}}</h4>\n        </ion-row>\n        <img class="img-reserva" src="../../assets/Imagenes/repartidor.png" alt="mesa-reservada">\n        <ion-card class="height-50 big-button-container" [color]="myColor">\n          <div class="flex-v center-horizontal center-vertical height-100" (click)="back()">\n            <div class="text-title">Volver</div>\n          </div>\n        </ion-card>\n      </ion-grid>\n    </div>\n  </div>\n</ion-content>\n'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\nuevoApp\src\pages\mapa-ruta\mapa-ruta.html"*/,
         }),
-        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" ? _c : Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */]) === "function" ? _d : Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */]) === "function" ? _e : Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]) === "function" ? _f : Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__["a" /* AlertProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* ModalController */]])
     ], MapaRutaPage);
     return MapaRutaPage;
 }());
@@ -520,25 +525,27 @@ var AlertProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__altaempleado_altaempleado__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(276);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(277);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(278);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(280);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__listado_reserva_listado_reserva__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pedir_platos_pedir_platos__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__listado_mesas_listado_mesas__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__alta_de_producto_alta_de_producto__ = __webpack_require__(183);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__confirmar_pedido_confirmar_pedido__ = __webpack_require__(184);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_home_cliente_home_cliente__ = __webpack_require__(152);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_listado_clientes_listado_clientes__ = __webpack_require__(413);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__mapa_ruta_mapa_ruta__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__confirmar_delivery_confirmar_delivery__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alta_supervisor_alta_supervisor__ = __webpack_require__(277);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(278);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(281);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__providers_fcm_fcm__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_rxjs_operators__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__listado_reserva_listado_reserva__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pedir_platos_pedir_platos__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__listado_mesas_listado_mesas__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__alta_de_producto_alta_de_producto__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__confirmar_pedido_confirmar_pedido__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_home_cliente_home_cliente__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_listado_clientes_listado_clientes__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__mapa_ruta_mapa_ruta__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__confirmar_delivery_confirmar_delivery__ = __webpack_require__(192);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -562,9 +569,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 //import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 
-//import { FcmProvider } from '../../providers/fcm/fcm';
-//import { ToastController } from 'ionic-angular';
-//import { tap } from 'rxjs/operators';
+
+
+
 
 
 
@@ -584,40 +591,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var PrincipalPage = /** @class */ (function () {
-    function PrincipalPage(navCtrl, navParams, error, auth) {
+    function PrincipalPage(navCtrl, navParams, error, auth, fcm, toastCtrl, platform) {
+        var _this = this;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.error = error;
         this.auth = auth;
+        this.fcm = fcm;
+        this.toastCtrl = toastCtrl;
+        this.platform = platform;
         this.acciones = [];
-        //private fcm: FcmProvider, 
-        //private toastCtrl: ToastController) {
-        /*this.fcm.getToken()
-  
-      // Listen to incoming messages
-      this.fcm.listenToNotifications().pipe(
-        tap(msg => {
-          // show a toast
-          const toast = this.toastCtrl.create({
-            message: msg.body,
-            duration: 3000,
-            position: 'top',
-            cssClass: 'nombreRaro'
-  
-          });
-  
-          toast.present();
-        })
-      )
-        .subscribe()*/
         this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (this.platform.is('cordova') && this.usuario.tipo != 'cliente anonimo') {
+            this.fcm.getToken();
+            // Listen to incoming messages
+            this.fcm.listenToNotifications().pipe(Object(__WEBPACK_IMPORTED_MODULE_14_rxjs_operators__["tap"])(function (msg) {
+                // show a toast
+                var toast = _this.toastCtrl.create({
+                    message: msg.body,
+                    duration: 3000,
+                    position: 'top',
+                });
+                toast.present();
+            }))
+                .subscribe();
+        }
         console.log(this.usuario.tipo);
         switch (this.usuario.tipo) {
             case "cocinero":
             case "bartender":
                 this.acciones = [
                     { accion: "Pedidos Pendientes", img: "bandeja.png", ruta: __WEBPACK_IMPORTED_MODULE_10__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */] },
-                    { accion: "Nuevo producto", img: "producto.png", ruta: __WEBPACK_IMPORTED_MODULE_16__alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */] },
+                    { accion: "Nuevo producto", img: "producto.png", ruta: __WEBPACK_IMPORTED_MODULE_18__alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */] },
                     { accion: "Encuesta empleado", img: "encuesta.jpg", ruta: __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */] },
                 ];
                 break;
@@ -628,66 +633,37 @@ var PrincipalPage = /** @class */ (function () {
                     { accion: "Confeccionar y ver encuestas", img: "encuesta.jpg", ruta: __WEBPACK_IMPORTED_MODULE_11__listado_supervisor_listado_supervisor__["a" /* ListadoSupervisorPage */] },
                     { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_4__alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */] },
                     { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: __WEBPACK_IMPORTED_MODULE_9__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */] },
-                    { accion: "Confirmar reservas", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_13__listado_reserva_listado_reserva__["a" /* ListadoReservaPage */] },
-                    { accion: "Confirmar pedido por delivery", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_21__confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */] },
+                    { accion: "Confirmar reservas", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_15__listado_reserva_listado_reserva__["a" /* ListadoReservaPage */] },
+                    { accion: "Confirmar pedido por delivery", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_23__confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */] },
                 ];
                 break;
             case "cliente anonimo":
                 this.acciones = [
-                    { accion: "Leer código QR", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_18__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
+                    { accion: "Leer código QR", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_20__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
                 ];
                 break;
             case "cliente":
                 this.acciones = [
                     { accion: "Reservar", img: "reserva.jpg", ruta: __WEBPACK_IMPORTED_MODULE_12__reserva_reserva__["a" /* ReservaPage */] },
-                    { accion: "Leer código QR", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_18__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
-                    { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_14__pedir_platos_pedir_platos__["a" /* PedirPlatosPage */] },
-                    { accion: "Pedir por delivery", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_14__pedir_platos_pedir_platos__["a" /* PedirPlatosPage */] },
-                    { accion: "Estado pedido delivery y chat con el repartidor", img: "chat.png", ruta: __WEBPACK_IMPORTED_MODULE_20__mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */] },
+                    { accion: "Leer código QR", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_20__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */] },
+                    { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_16__pedir_platos_pedir_platos__["a" /* PedirPlatosPage */] },
+                    { accion: "Pedir por delivery", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_16__pedir_platos_pedir_platos__["a" /* PedirPlatosPage */] },
+                    { accion: "Estado pedido delivery y chat con el repartidor", img: "chat.png", ruta: __WEBPACK_IMPORTED_MODULE_22__mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */] },
                 ];
                 break;
             case "mozo":
                 this.acciones = [
-                    { accion: "Tomar pedido", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_15__listado_mesas_listado_mesas__["a" /* ListadoMesasPage */] },
-                    { accion: "Aceptar/Entregar pedido", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_17__confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */] },
-                    { accion: "Aceptar clientes en lista de espera", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_19__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */] },
+                    { accion: "Tomar pedido", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_17__listado_mesas_listado_mesas__["a" /* ListadoMesasPage */] },
+                    { accion: "Aceptar/Entregar pedido", img: "pedido.jpg", ruta: __WEBPACK_IMPORTED_MODULE_19__confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */] },
+                    { accion: "Aceptar clientes en lista de espera", img: "qr.jpg", ruta: __WEBPACK_IMPORTED_MODULE_21__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */] },
                     { accion: "Encuesta empleado", img: "encuesta.jpg", ruta: __WEBPACK_IMPORTED_MODULE_8__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */] },
                 ];
                 break;
             case 'repartidor':
                 this.acciones = [
-                    { accion: "Mapa ruta", img: "mapa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_20__mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */] },
+                    { accion: "Mapa ruta", img: "mapa.jpg", ruta: __WEBPACK_IMPORTED_MODULE_22__mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */] },
                 ];
         }
-        /*
-                if(this.usuario.tipo == 'cliente')
-                {
-                  this.auth.getPedidos().subscribe(lista => {
-                    for(let i=0;i<lista.length;i++)
-                    {
-                      if(lista[i].correo == this.usuario.correo && lista[i].estado == 'camino a entrega') {
-                        let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entregar");
-                        alertConfirm.present();
-                        alertConfirm.onDidDismiss((confirm) => {
-                        if (confirm) {
-                          lista[i].estado = 'comiendo';
-                          this.auth.actualizarPedido(lista[i]).then(res => {
-                            this.error.mostrarMensaje("pedido entregado. Disfrutelo");
-                          });
-                        }
-                        else {
-                          lista[i].estado = 'pedido terminado';
-                          this.auth.actualizarPedido(lista[i]).then(res => {
-                            this.error.mostrarMensaje("Perdon, se le volverà a entregar el pedido si todavia no esta listo");
-                          });
-                        }
-                        });
-                        break;
-                      }
-                    }
-                  })
-                }
-                */
     }
     PrincipalPage.prototype.ionViewDidLoad = function () {
     };
@@ -720,7 +696,10 @@ var PrincipalPage = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_5__providers_alert_alert__["a" /* AlertProvider */],
-            __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */]])
+            __WEBPACK_IMPORTED_MODULE_6__providers_auth_auth__["a" /* AuthProvider */],
+            __WEBPACK_IMPORTED_MODULE_13__providers_fcm_fcm__["a" /* FcmProvider */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */]])
     ], PrincipalPage);
     return PrincipalPage;
 }());
@@ -730,6 +709,127 @@ var PrincipalPage = /** @class */ (function () {
 /***/ }),
 
 /***/ 151:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FcmProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_firebase__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(6);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+
+
+
+
+var FcmProvider = /** @class */ (function () {
+    function FcmProvider(firebaseNative, afs, platform) {
+        this.firebaseNative = firebaseNative;
+        this.afs = afs;
+        this.platform = platform;
+        console.log('Hello FcmProvider Provider');
+    }
+    FcmProvider.prototype.getToken = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var token;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.platform.is('android')) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.firebaseNative.getToken()];
+                    case 1:
+                        token = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        if (!this.platform.is('ios')) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this.firebaseNative.getToken()];
+                    case 3:
+                        token = _a.sent();
+                        return [4 /*yield*/, this.firebaseNative.grantPermission()];
+                    case 4:
+                        _a.sent();
+                        _a.label = 5;
+                    case 5: return [2 /*return*/, this.saveTokenToFirestore(token)];
+                }
+            });
+        });
+    };
+    // Save the token to firestore
+    FcmProvider.prototype.saveTokenToFirestore = function (token) {
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (!token)
+            return;
+        var devicesRef = this.afs.collection('devices');
+        var docData = {
+            token: token,
+            userId: this.usuario.id,
+            //tipo: 'cliente'
+            tipo: this.usuario.tipo,
+            correo: this.usuario.correo
+        };
+        return devicesRef.doc(token).set(docData);
+    };
+    // Listen to incoming FCM messages
+    FcmProvider.prototype.listenToNotifications = function () {
+        return this.firebaseNative.onNotificationOpen();
+    };
+    FcmProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ionic_native_firebase__["a" /* Firebase */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__["a" /* AngularFirestore */],
+            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["k" /* Platform */]])
+    ], FcmProvider);
+    return FcmProvider;
+}());
+
+//# sourceMappingURL=fcm.js.map
+
+/***/ }),
+
+/***/ 152:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -766,19 +866,19 @@ var round = function (value, exp) {
 
 /***/ }),
 
-/***/ 152:
+/***/ 153:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeClienteComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(409);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__qr_entrada_qr_entrada__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__qr_mesa_qr_mesa__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__qr_entrada_qr_entrada__ = __webpack_require__(414);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_listado_encuestas_listado_encuestas__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_listado_encuestas_listado_encuestas__ = __webpack_require__(189);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -874,7 +974,7 @@ var HomeClienteComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 174:
+/***/ 175:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1019,7 +1119,7 @@ var AltaDeMesaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 175:
+/***/ 176:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1204,7 +1304,7 @@ var AltaempleadoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 176:
+/***/ 177:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1214,7 +1314,7 @@ var AltaempleadoPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(178);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1292,7 +1392,7 @@ var ListadoSupervisorPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 177:
+/***/ 178:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1302,7 +1402,7 @@ var ListadoSupervisorPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_spinner_spinner__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(179);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1513,7 +1613,7 @@ var EncuestaSupervisorPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 178:
+/***/ 179:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1522,7 +1622,7 @@ var EncuestaSupervisorPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js__ = __webpack_require__(409);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_chart_js__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1860,7 +1960,7 @@ var EstadisticasSupervisorPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 179:
+/***/ 180:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2018,7 +2118,7 @@ var ReservaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 180:
+/***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2206,7 +2306,7 @@ var ListadoReservaPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 181:
+/***/ 182:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2215,8 +2315,8 @@ var ListadoReservaPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_globalConfig__ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pedir_platos_pedir_platos__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_globalConfig__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pedir_platos_pedir_platos__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__principal_principal__ = __webpack_require__(15);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2385,7 +2485,7 @@ var PedirDeliveryPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 182:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2394,7 +2494,7 @@ var PedirDeliveryPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__principal_principal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pedir_platos_pedir_platos__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pedir_platos_pedir_platos__ = __webpack_require__(63);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2472,7 +2572,7 @@ var ListadoMesasPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 183:
+/***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2716,7 +2816,7 @@ var AltaDeProductoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 184:
+/***/ 185:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2841,7 +2941,7 @@ var ConfirmarPedidoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 185:
+/***/ 186:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2855,7 +2955,7 @@ var ConfirmarPedidoPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_camera__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__grafico_encuesta_cliente_grafico_encuesta_cliente__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__grafico_encuesta_cliente_grafico_encuesta_cliente__ = __webpack_require__(187);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3110,14 +3210,14 @@ var EncuestaClientePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 186:
+/***/ 187:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GraficoEncuestaClientePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js__ = __webpack_require__(409);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_chart_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(15);
@@ -3219,7 +3319,7 @@ var GraficoEncuestaClientePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 187:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3344,14 +3444,14 @@ var JuegoDescuentoPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 188:
+/***/ 189:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListadoEncuestasPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ver_encuesta_cliente_ver_encuesta_cliente__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ver_encuesta_cliente_ver_encuesta_cliente__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_spinner_spinner__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_principal_principal__ = __webpack_require__(15);
@@ -3468,7 +3568,7 @@ var ListadoEncuestasPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 189:
+/***/ 190:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3569,7 +3669,7 @@ var VerEncuestaClientePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 190:
+/***/ 191:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3717,7 +3817,7 @@ var ChatPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 191:
+/***/ 192:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3806,7 +3906,7 @@ var ConfirmarDeliveryPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 224:
+/***/ 225:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -3819,20 +3919,20 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 224;
+webpackEmptyAsyncContext.id = 225;
 
 /***/ }),
 
-/***/ 266:
+/***/ 267:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"../pages/alta-de-mesa/alta-de-mesa.module": [
-		661,
+		662,
 		24
 	],
 	"../pages/alta-de-producto/alta-de-producto.module": [
-		662,
+		664,
 		23
 	],
 	"../pages/altaempleado/altaempleado.module": [
@@ -3840,11 +3940,11 @@ var map = {
 		22
 	],
 	"../pages/chat/chat.module": [
-		664,
+		665,
 		21
 	],
 	"../pages/confirmar-delivery/confirmar-delivery.module": [
-		665,
+		668,
 		20
 	],
 	"../pages/confirmar-pedido/confirmar-pedido.module": [
@@ -3856,7 +3956,7 @@ var map = {
 		18
 	],
 	"../pages/encuesta-supervisor/encuesta-supervisor.module": [
-		668,
+		672,
 		17
 	],
 	"../pages/estadisticas-supervisor/estadisticas-supervisor.module": [
@@ -3864,31 +3964,31 @@ var map = {
 		16
 	],
 	"../pages/grafico-encuesta-cliente/grafico-encuesta-cliente.module": [
-		670,
+		671,
 		15
 	],
 	"../pages/juego-descuento/juego-descuento.module": [
-		671,
+		670,
 		14
 	],
 	"../pages/juegos/juegos.module": [
-		672,
+		673,
 		13
 	],
 	"../pages/listado-encuestas/listado-encuestas.module": [
-		673,
+		674,
 		12
 	],
 	"../pages/listado-mesas/listado-mesas.module": [
-		674,
+		679,
 		11
 	],
 	"../pages/listado-reserva/listado-reserva.module": [
-		676,
+		675,
 		10
 	],
 	"../pages/listado-supervisor/listado-supervisor.module": [
-		675,
+		676,
 		9
 	],
 	"../pages/mapa-ruta/mapa-ruta.module": [
@@ -3896,11 +3996,11 @@ var map = {
 		8
 	],
 	"../pages/pagar/pagar.module": [
-		679,
+		678,
 		7
 	],
 	"../pages/pedir-delivery/pedir-delivery.module": [
-		678,
+		680,
 		6
 	],
 	"../pages/pedir-platos/pedir-platos.module": [
@@ -3908,7 +4008,7 @@ var map = {
 		5
 	],
 	"../pages/principal/principal.module": [
-		680,
+		683,
 		4
 	],
 	"../pages/register/register.module": [
@@ -3916,15 +4016,15 @@ var map = {
 		3
 	],
 	"../pages/reserva/reserva.module": [
-		683,
+		684,
 		2
 	],
 	"../pages/spinner/spinner.module": [
-		684,
+		685,
 		1
 	],
 	"../pages/ver-encuesta-cliente/ver-encuesta-cliente.module": [
-		685,
+		686,
 		0
 	]
 };
@@ -3939,7 +4039,7 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 266;
+webpackAsyncContext.id = 267;
 module.exports = webpackAsyncContext;
 
 /***/ }),
@@ -3993,7 +4093,7 @@ var SpinnerProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 274:
+/***/ 275:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4195,7 +4295,7 @@ var AltaClienteComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 276:
+/***/ 277:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4394,7 +4494,7 @@ var AltaSupervisorComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 277:
+/***/ 278:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4589,7 +4689,7 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 278:
+/***/ 279:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4599,7 +4699,7 @@ var EncuestaEmpleadoComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_email_composer__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_email_composer__ = __webpack_require__(280);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4698,7 +4798,7 @@ var ListaClienteEstadoComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 280:
+/***/ 281:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4978,7 +5078,7 @@ var PedidosPendientesComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 409:
+/***/ 411:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4986,11 +5086,11 @@ var PedidosPendientesComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_alert_alert__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_cliente_home_cliente__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ionic_angular__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_pedir_platos_pedir_platos__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(186);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_juegos_juegos__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_pagar_pagar__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_moment__ = __webpack_require__(1);
@@ -5327,13 +5427,13 @@ var QrMesaComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 410:
+/***/ 412:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegoPostreComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_juego_ahorcado_juego_ahorcado__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_juego_ahorcado_juego_ahorcado__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_principal_principal__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert_alert__ = __webpack_require__(13);
@@ -5526,7 +5626,7 @@ var JuegoPostreComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 411:
+/***/ 413:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5627,7 +5727,7 @@ var JuegoAhorcadoProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 412:
+/***/ 414:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5775,7 +5875,7 @@ var QrEntradaComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 413:
+/***/ 415:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5960,7 +6060,7 @@ var ListadoClientesComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 455:
+/***/ 457:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6005,7 +6105,7 @@ var RegisterPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 456:
+/***/ 458:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6049,13 +6149,13 @@ var SpinnerPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 457:
+/***/ 459:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(458);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(579);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(460);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(581);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -6063,7 +6163,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 579:
+/***/ 581:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6071,62 +6171,63 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(453);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(454);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(455);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(456);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(653);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(655);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__ = __webpack_require__(456);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(455);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_listado_encuestas_listado_encuestas__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_altaempleado_altaempleado__ = __webpack_require__(175);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(174);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_listado_supervisor_listado_supervisor__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(177);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_grafico_encuesta_cliente_grafico_encuesta_cliente__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__ = __webpack_require__(179);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_listado_reserva_listado_reserva__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(178);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__ = __webpack_require__(458);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(457);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_listado_encuestas_listado_encuestas__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_altaempleado_altaempleado__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_alta_de_mesa_alta_de_mesa__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_listado_supervisor_listado_supervisor__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_grafico_encuesta_cliente_grafico_encuesta_cliente__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_listado_reserva_listado_reserva__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_estadisticas_supervisor_estadisticas_supervisor__ = __webpack_require__(179);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__ = __webpack_require__(184);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_juegos_juegos__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_pagar_pagar__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_mapa_ruta_mapa_ruta__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__ = __webpack_require__(190);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__pages_pedir_delivery_pedir_delivery__ = __webpack_require__(181);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_fire__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__ = __webpack_require__(192);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__pages_pedir_delivery_pedir_delivery__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__angular_fire__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__angular_fire_firestore__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__angular_fire_auth__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__globalConfig__ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_auth_auth__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_alert_alert__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__providers_spinner_spinner__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__providers_json_json__ = __webpack_require__(656);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_alta_supervisor_alta_supervisor__ = __webpack_require__(276);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_splash_splash__ = __webpack_require__(657);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_alta_cliente_alta_cliente__ = __webpack_require__(274);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_qr_mesa_qr_mesa__ = __webpack_require__(409);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__angular_common_http__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__angular_http__ = __webpack_require__(658);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(277);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(278);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_home_cliente_home_cliente__ = __webpack_require__(152);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__providers_fcm_fcm__ = __webpack_require__(659);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__components_alta_producto_alta_producto__ = __webpack_require__(660);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(280);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_qr_entrada_qr_entrada__ = __webpack_require__(412);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_listado_clientes_listado_clientes__ = __webpack_require__(413);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__ionic_native_email_composer__ = __webpack_require__(279);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__providers_juego_ahorcado_juego_ahorcado__ = __webpack_require__(411);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_juego_postre_juego_postre__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__angular_fire_auth__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__ionic_native_firebase__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__globalConfig__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_auth_auth__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__providers_alert_alert__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__providers_spinner_spinner__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__providers_json_json__ = __webpack_require__(658);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_alta_supervisor_alta_supervisor__ = __webpack_require__(277);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_splash_splash__ = __webpack_require__(659);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_alta_cliente_alta_cliente__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_qr_mesa_qr_mesa__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__angular_common_http__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__angular_http__ = __webpack_require__(660);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_encuesta_empleado_encuesta_empleado__ = __webpack_require__(278);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_lista_cliente_estado_lista_cliente_estado__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_home_cliente_home_cliente__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__providers_fcm_fcm__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__components_alta_producto_alta_producto__ = __webpack_require__(661);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__components_pedidos_pendientes_pedidos_pendientes__ = __webpack_require__(281);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__components_qr_entrada_qr_entrada__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__components_listado_clientes_listado_clientes__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__ionic_native_email_composer__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__providers_juego_ahorcado_juego_ahorcado__ = __webpack_require__(413);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__components_juego_postre_juego_postre__ = __webpack_require__(412);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6171,7 +6272,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-//import { Firebase } from '@ionic-native/firebase';
+
 
 
 
@@ -6209,15 +6310,15 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_13__pages_altaempleado_altaempleado__["a" /* AltaempleadoPage */],
                 __WEBPACK_IMPORTED_MODULE_14__pages_alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__["a" /* SpinnerPage */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_splash_splash__["a" /* SplashComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_splash_splash__["a" /* SplashComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__pages_listado_supervisor_listado_supervisor__["a" /* ListadoSupervisorPage */],
-                __WEBPACK_IMPORTED_MODULE_44__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__["a" /* EncuestaSupervisorPage */],
                 __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__["a" /* EncuestaClientePage */],
                 __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__["a" /* ReservaPage */],
@@ -6227,19 +6328,19 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */],
                 __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__["a" /* ListadoMesasPage */],
                 __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_splash_splash__["a" /* SplashComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
-                __WEBPACK_IMPORTED_MODULE_52__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_splash_splash__["a" /* SplashComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_53__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
                 __WEBPACK_IMPORTED_MODULE_26__pages_juegos_juegos__["a" /* JuegosPage */],
                 __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */],
                 __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */],
                 __WEBPACK_IMPORTED_MODULE_29__pages_pagar_pagar__["a" /* PagarPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__["a" /* VerEncuestaClientePage */],
-                __WEBPACK_IMPORTED_MODULE_54__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
-                __WEBPACK_IMPORTED_MODULE_55__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
+                __WEBPACK_IMPORTED_MODULE_55__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
+                __WEBPACK_IMPORTED_MODULE_56__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
                 __WEBPACK_IMPORTED_MODULE_30__pages_mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */],
                 __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */],
                 __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__["a" /* ChatPage */],
@@ -6250,37 +6351,37 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* MyApp */], {}, {
                     links: [
                         { loadChildren: '../pages/alta-de-mesa/alta-de-mesa.module#AltaDeMesaPageModule', name: 'AltaDeMesaPage', segment: 'alta-de-mesa', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/altaempleado/altaempleado.module#AltaempleadoPageModule', name: 'AltaempleadoPage', segment: 'altaempleado', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/alta-de-producto/alta-de-producto.module#AltaDeProductoPageModule', name: 'AltaDeProductoPage', segment: 'alta-de-producto', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/chat/chat.module#ChatPageModule', name: 'ChatPage', segment: 'chat', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/confirmar-delivery/confirmar-delivery.module#ConfirmarDeliveryPageModule', name: 'ConfirmarDeliveryPage', segment: 'confirmar-delivery', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/confirmar-pedido/confirmar-pedido.module#ConfirmarPedidoPageModule', name: 'ConfirmarPedidoPage', segment: 'confirmar-pedido', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/encuesta-cliente/encuesta-cliente.module#EncuestaClientePageModule', name: 'EncuestaClientePage', segment: 'encuesta-cliente', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/confirmar-delivery/confirmar-delivery.module#ConfirmarDeliveryPageModule', name: 'ConfirmarDeliveryPage', segment: 'confirmar-delivery', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/estadisticas-supervisor/estadisticas-supervisor.module#EstadisticasSupervisorPageModule', name: 'EstadisticasSupervisorPage', segment: 'estadisticas-supervisor', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/grafico-encuesta-cliente/grafico-encuesta-cliente.module#GraficoEncuestaClientePageModule', name: 'GraficoEncuestaClientePage', segment: 'grafico-encuesta-cliente', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juego-descuento/juego-descuento.module#JuegoDescuentoPageModule', name: 'JuegoDescuentoPage', segment: 'juego-descuento', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/grafico-encuesta-cliente/grafico-encuesta-cliente.module#GraficoEncuestaClientePageModule', name: 'GraficoEncuestaClientePage', segment: 'grafico-encuesta-cliente', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/encuesta-supervisor/encuesta-supervisor.module#EncuestaSupervisorPageModule', name: 'EncuestaSupervisorPage', segment: 'encuesta-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/juegos/juegos.module#JuegosPageModule', name: 'JuegosPage', segment: 'juegos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-encuestas/listado-encuestas.module#ListadoEncuestasPageModule', name: 'ListadoEncuestasPage', segment: 'listado-encuestas', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/listado-mesas/listado-mesas.module#ListadoMesasPageModule', name: 'ListadoMesasPage', segment: 'listado-mesas', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/listado-reserva/listado-reserva.module#ListadoReservaPageModule', name: 'ListadoReservaPage', segment: 'listado-reserva', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/listado-supervisor/listado-supervisor.module#ListadoSupervisorPageModule', name: 'ListadoSupervisorPage', segment: 'listado-supervisor', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/mapa-ruta/mapa-ruta.module#MapaRutaPageModule', name: 'MapaRutaPage', segment: 'mapa-ruta', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/pedir-delivery/pedir-delivery.module#PedirDeliveryPageModule', name: 'PedirDeliveryPage', segment: 'pedir-delivery', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pagar/pagar.module#PagarPageModule', name: 'PagarPage', segment: 'pagar', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/listado-mesas/listado-mesas.module#ListadoMesasPageModule', name: 'ListadoMesasPage', segment: 'listado-mesas', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/pedir-delivery/pedir-delivery.module#PedirDeliveryPageModule', name: 'PedirDeliveryPage', segment: 'pedir-delivery', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/pedir-platos/pedir-platos.module#PedirPlatosPageModule', name: 'PedirPlatosPage', segment: 'pedir-platos', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/principal/principal.module#PrincipalPageModule', name: 'PrincipalPage', segment: 'principal', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/reserva/reserva.module#ReservaPageModule', name: 'ReservaPage', segment: 'reserva', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/spinner/spinner.module#SpinnerPageModule', name: 'SpinnerPage', segment: 'spinner', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/ver-encuesta-cliente/ver-encuesta-cliente.module#VerEncuestaClientePageModule', name: 'VerEncuestaClientePage', segment: 'ver-encuesta-cliente', priority: 'low', defaultHistory: [] }
                     ]
                 }),
-                __WEBPACK_IMPORTED_MODULE_34__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_37__globalConfig__["b" /* configs */].firebaseConfig),
+                __WEBPACK_IMPORTED_MODULE_34__angular_fire__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_38__globalConfig__["b" /* configs */].firebaseConfig),
                 __WEBPACK_IMPORTED_MODULE_36__angular_fire_auth__["b" /* AngularFireAuthModule */],
                 __WEBPACK_IMPORTED_MODULE_35__angular_fire_firestore__["b" /* AngularFirestoreModule */],
-                __WEBPACK_IMPORTED_MODULE_47__angular_http__["a" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_46__angular_common_http__["b" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_48__angular_http__["a" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_47__angular_common_http__["b" /* HttpClientModule */],
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],
             entryComponents: [
@@ -6294,15 +6395,15 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_18__pages_ver_encuesta_cliente_ver_encuesta_cliente__["a" /* VerEncuestaClientePage */],
                 __WEBPACK_IMPORTED_MODULE_14__pages_alta_de_mesa_alta_de_mesa__["a" /* AltaDeMesaPage */],
                 __WEBPACK_IMPORTED_MODULE_10__pages_spinner_spinner__["a" /* SpinnerPage */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__components_qr_mesa_qr_mesa__["a" /* QrMesaComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_encuesta_empleado_encuesta_empleado__["a" /* EncuestaEmpleadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__components_lista_cliente_estado_lista_cliente_estado__["a" /* ListaClienteEstadoComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__components_home_cliente_home_cliente__["a" /* HomeClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__pages_listado_supervisor_listado_supervisor__["a" /* ListadoSupervisorPage */],
-                __WEBPACK_IMPORTED_MODULE_42__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_alta_supervisor_alta_supervisor__["a" /* AltaSupervisorComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_alta_cliente_alta_cliente__["a" /* AltaClienteComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__pages_encuesta_supervisor_encuesta_supervisor__["a" /* EncuestaSupervisorPage */],
                 __WEBPACK_IMPORTED_MODULE_17__pages_encuesta_cliente_encuesta_cliente__["a" /* EncuestaClientePage */],
                 __WEBPACK_IMPORTED_MODULE_20__pages_reserva_reserva__["a" /* ReservaPage */],
@@ -6311,15 +6412,15 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_23__pages_pedir_platos_pedir_platos__["a" /* PedirPlatosPage */],
                 __WEBPACK_IMPORTED_MODULE_24__pages_listado_mesas_listado_mesas__["a" /* ListadoMesasPage */],
                 __WEBPACK_IMPORTED_MODULE_25__pages_alta_de_producto_alta_de_producto__["a" /* AltaDeProductoPage */],
-                __WEBPACK_IMPORTED_MODULE_52__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_53__components_alta_producto_alta_producto__["a" /* AltaProductoComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__components_pedidos_pendientes_pedidos_pendientes__["a" /* PedidosPendientesComponent */],
                 __WEBPACK_IMPORTED_MODULE_26__pages_juegos_juegos__["a" /* JuegosPage */],
                 __WEBPACK_IMPORTED_MODULE_27__pages_juego_descuento_juego_descuento__["a" /* JuegoDescuentoPage */],
                 __WEBPACK_IMPORTED_MODULE_28__pages_confirmar_pedido_confirmar_pedido__["a" /* ConfirmarPedidoPage */],
                 __WEBPACK_IMPORTED_MODULE_29__pages_pagar_pagar__["a" /* PagarPage */],
-                __WEBPACK_IMPORTED_MODULE_54__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
-                __WEBPACK_IMPORTED_MODULE_55__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
+                __WEBPACK_IMPORTED_MODULE_55__components_qr_entrada_qr_entrada__["a" /* QrEntradaComponent */],
+                __WEBPACK_IMPORTED_MODULE_56__components_listado_clientes_listado_clientes__["a" /* ListadoClientesComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__components_juego_postre_juego_postre__["a" /* JuegoPostreComponent */],
                 __WEBPACK_IMPORTED_MODULE_30__pages_mapa_ruta_mapa_ruta__["a" /* MapaRutaPage */],
                 __WEBPACK_IMPORTED_MODULE_31__pages_confirmar_delivery_confirmar_delivery__["a" /* ConfirmarDeliveryPage */],
                 __WEBPACK_IMPORTED_MODULE_32__pages_chat_chat__["a" /* ChatPage */],
@@ -6330,17 +6431,17 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__["a" /* SplashScreen */],
                 { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["u" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicErrorHandler */] },
                 { provide: __WEBPACK_IMPORTED_MODULE_35__angular_fire_firestore__["c" /* FirestoreSettingsToken */], useValue: {} },
-                //Firebase,
+                __WEBPACK_IMPORTED_MODULE_37__ionic_native_firebase__["a" /* Firebase */],
                 __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__["a" /* Camera */],
                 __WEBPACK_IMPORTED_MODULE_6__ionic_native_barcode_scanner__["a" /* BarcodeScanner */],
-                __WEBPACK_IMPORTED_MODULE_38__providers_auth_auth__["a" /* AuthProvider */],
-                __WEBPACK_IMPORTED_MODULE_39__providers_alert_alert__["a" /* AlertProvider */],
-                __WEBPACK_IMPORTED_MODULE_40__providers_spinner_spinner__["a" /* SpinnerProvider */],
-                __WEBPACK_IMPORTED_MODULE_41__providers_json_json__["a" /* JsonProvider */],
+                __WEBPACK_IMPORTED_MODULE_39__providers_auth_auth__["a" /* AuthProvider */],
+                __WEBPACK_IMPORTED_MODULE_40__providers_alert_alert__["a" /* AlertProvider */],
+                __WEBPACK_IMPORTED_MODULE_41__providers_spinner_spinner__["a" /* SpinnerProvider */],
+                __WEBPACK_IMPORTED_MODULE_42__providers_json_json__["a" /* JsonProvider */],
                 //QrProvider,
-                __WEBPACK_IMPORTED_MODULE_51__providers_fcm_fcm__["a" /* FcmProvider */],
-                __WEBPACK_IMPORTED_MODULE_56__ionic_native_email_composer__["a" /* EmailComposer */],
-                __WEBPACK_IMPORTED_MODULE_57__providers_juego_ahorcado_juego_ahorcado__["a" /* JuegoAhorcadoProvider */],
+                __WEBPACK_IMPORTED_MODULE_52__providers_fcm_fcm__["a" /* FcmProvider */],
+                __WEBPACK_IMPORTED_MODULE_57__ionic_native_email_composer__["a" /* EmailComposer */],
+                __WEBPACK_IMPORTED_MODULE_58__providers_juego_ahorcado_juego_ahorcado__["a" /* JuegoAhorcadoProvider */],
             ]
         })
     ], AppModule);
@@ -6351,7 +6452,7 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 61:
+/***/ 63:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6364,7 +6465,7 @@ var AppModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_barcode_scanner__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pedir_delivery_pedir_delivery__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pedir_delivery_pedir_delivery__ = __webpack_require__(182);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6741,264 +6842,264 @@ var PedirPlatosPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 635:
+/***/ 637:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 281,
-	"./af.js": 281,
-	"./ar": 282,
-	"./ar-dz": 283,
-	"./ar-dz.js": 283,
-	"./ar-kw": 284,
-	"./ar-kw.js": 284,
-	"./ar-ly": 285,
-	"./ar-ly.js": 285,
-	"./ar-ma": 286,
-	"./ar-ma.js": 286,
-	"./ar-sa": 287,
-	"./ar-sa.js": 287,
-	"./ar-tn": 288,
-	"./ar-tn.js": 288,
-	"./ar.js": 282,
-	"./az": 289,
-	"./az.js": 289,
-	"./be": 290,
-	"./be.js": 290,
-	"./bg": 291,
-	"./bg.js": 291,
-	"./bm": 292,
-	"./bm.js": 292,
-	"./bn": 293,
-	"./bn.js": 293,
-	"./bo": 294,
-	"./bo.js": 294,
-	"./br": 295,
-	"./br.js": 295,
-	"./bs": 296,
-	"./bs.js": 296,
-	"./ca": 297,
-	"./ca.js": 297,
-	"./cs": 298,
-	"./cs.js": 298,
-	"./cv": 299,
-	"./cv.js": 299,
-	"./cy": 300,
-	"./cy.js": 300,
-	"./da": 301,
-	"./da.js": 301,
-	"./de": 302,
-	"./de-at": 303,
-	"./de-at.js": 303,
-	"./de-ch": 304,
-	"./de-ch.js": 304,
-	"./de.js": 302,
-	"./dv": 305,
-	"./dv.js": 305,
-	"./el": 306,
-	"./el.js": 306,
-	"./en-SG": 307,
-	"./en-SG.js": 307,
-	"./en-au": 308,
-	"./en-au.js": 308,
-	"./en-ca": 309,
-	"./en-ca.js": 309,
-	"./en-gb": 310,
-	"./en-gb.js": 310,
-	"./en-ie": 311,
-	"./en-ie.js": 311,
-	"./en-il": 312,
-	"./en-il.js": 312,
-	"./en-nz": 313,
-	"./en-nz.js": 313,
-	"./eo": 314,
-	"./eo.js": 314,
-	"./es": 315,
-	"./es-do": 316,
-	"./es-do.js": 316,
-	"./es-us": 317,
-	"./es-us.js": 317,
-	"./es.js": 315,
-	"./et": 318,
-	"./et.js": 318,
-	"./eu": 319,
-	"./eu.js": 319,
-	"./fa": 320,
-	"./fa.js": 320,
-	"./fi": 321,
-	"./fi.js": 321,
-	"./fo": 322,
-	"./fo.js": 322,
-	"./fr": 323,
-	"./fr-ca": 324,
-	"./fr-ca.js": 324,
-	"./fr-ch": 325,
-	"./fr-ch.js": 325,
-	"./fr.js": 323,
-	"./fy": 326,
-	"./fy.js": 326,
-	"./ga": 327,
-	"./ga.js": 327,
-	"./gd": 328,
-	"./gd.js": 328,
-	"./gl": 329,
-	"./gl.js": 329,
-	"./gom-latn": 330,
-	"./gom-latn.js": 330,
-	"./gu": 331,
-	"./gu.js": 331,
-	"./he": 332,
-	"./he.js": 332,
-	"./hi": 333,
-	"./hi.js": 333,
-	"./hr": 334,
-	"./hr.js": 334,
-	"./hu": 335,
-	"./hu.js": 335,
-	"./hy-am": 336,
-	"./hy-am.js": 336,
-	"./id": 337,
-	"./id.js": 337,
-	"./is": 338,
-	"./is.js": 338,
-	"./it": 339,
-	"./it-ch": 340,
-	"./it-ch.js": 340,
-	"./it.js": 339,
-	"./ja": 341,
-	"./ja.js": 341,
-	"./jv": 342,
-	"./jv.js": 342,
-	"./ka": 343,
-	"./ka.js": 343,
-	"./kk": 344,
-	"./kk.js": 344,
-	"./km": 345,
-	"./km.js": 345,
-	"./kn": 346,
-	"./kn.js": 346,
-	"./ko": 347,
-	"./ko.js": 347,
-	"./ku": 348,
-	"./ku.js": 348,
-	"./ky": 349,
-	"./ky.js": 349,
-	"./lb": 350,
-	"./lb.js": 350,
-	"./lo": 351,
-	"./lo.js": 351,
-	"./lt": 352,
-	"./lt.js": 352,
-	"./lv": 353,
-	"./lv.js": 353,
-	"./me": 354,
-	"./me.js": 354,
-	"./mi": 355,
-	"./mi.js": 355,
-	"./mk": 356,
-	"./mk.js": 356,
-	"./ml": 357,
-	"./ml.js": 357,
-	"./mn": 358,
-	"./mn.js": 358,
-	"./mr": 359,
-	"./mr.js": 359,
-	"./ms": 360,
-	"./ms-my": 361,
-	"./ms-my.js": 361,
-	"./ms.js": 360,
-	"./mt": 362,
-	"./mt.js": 362,
-	"./my": 363,
-	"./my.js": 363,
-	"./nb": 364,
-	"./nb.js": 364,
-	"./ne": 365,
-	"./ne.js": 365,
-	"./nl": 366,
-	"./nl-be": 367,
-	"./nl-be.js": 367,
-	"./nl.js": 366,
-	"./nn": 368,
-	"./nn.js": 368,
-	"./pa-in": 369,
-	"./pa-in.js": 369,
-	"./pl": 370,
-	"./pl.js": 370,
-	"./pt": 371,
-	"./pt-br": 372,
-	"./pt-br.js": 372,
-	"./pt.js": 371,
-	"./ro": 373,
-	"./ro.js": 373,
-	"./ru": 374,
-	"./ru.js": 374,
-	"./sd": 375,
-	"./sd.js": 375,
-	"./se": 376,
-	"./se.js": 376,
-	"./si": 377,
-	"./si.js": 377,
-	"./sk": 378,
-	"./sk.js": 378,
-	"./sl": 379,
-	"./sl.js": 379,
-	"./sq": 380,
-	"./sq.js": 380,
-	"./sr": 381,
-	"./sr-cyrl": 382,
-	"./sr-cyrl.js": 382,
-	"./sr.js": 381,
-	"./ss": 383,
-	"./ss.js": 383,
-	"./sv": 384,
-	"./sv.js": 384,
-	"./sw": 385,
-	"./sw.js": 385,
-	"./ta": 386,
-	"./ta.js": 386,
-	"./te": 387,
-	"./te.js": 387,
-	"./tet": 388,
-	"./tet.js": 388,
-	"./tg": 389,
-	"./tg.js": 389,
-	"./th": 390,
-	"./th.js": 390,
-	"./tl-ph": 391,
-	"./tl-ph.js": 391,
-	"./tlh": 392,
-	"./tlh.js": 392,
-	"./tr": 393,
-	"./tr.js": 393,
-	"./tzl": 394,
-	"./tzl.js": 394,
-	"./tzm": 395,
-	"./tzm-latn": 396,
-	"./tzm-latn.js": 396,
-	"./tzm.js": 395,
-	"./ug-cn": 397,
-	"./ug-cn.js": 397,
-	"./uk": 398,
-	"./uk.js": 398,
-	"./ur": 399,
-	"./ur.js": 399,
-	"./uz": 400,
-	"./uz-latn": 401,
-	"./uz-latn.js": 401,
-	"./uz.js": 400,
-	"./vi": 402,
-	"./vi.js": 402,
-	"./x-pseudo": 403,
-	"./x-pseudo.js": 403,
-	"./yo": 404,
-	"./yo.js": 404,
-	"./zh-cn": 405,
-	"./zh-cn.js": 405,
-	"./zh-hk": 406,
-	"./zh-hk.js": 406,
-	"./zh-tw": 407,
-	"./zh-tw.js": 407
+	"./af": 282,
+	"./af.js": 282,
+	"./ar": 283,
+	"./ar-dz": 284,
+	"./ar-dz.js": 284,
+	"./ar-kw": 285,
+	"./ar-kw.js": 285,
+	"./ar-ly": 286,
+	"./ar-ly.js": 286,
+	"./ar-ma": 287,
+	"./ar-ma.js": 287,
+	"./ar-sa": 288,
+	"./ar-sa.js": 288,
+	"./ar-tn": 289,
+	"./ar-tn.js": 289,
+	"./ar.js": 283,
+	"./az": 290,
+	"./az.js": 290,
+	"./be": 291,
+	"./be.js": 291,
+	"./bg": 292,
+	"./bg.js": 292,
+	"./bm": 293,
+	"./bm.js": 293,
+	"./bn": 294,
+	"./bn.js": 294,
+	"./bo": 295,
+	"./bo.js": 295,
+	"./br": 296,
+	"./br.js": 296,
+	"./bs": 297,
+	"./bs.js": 297,
+	"./ca": 298,
+	"./ca.js": 298,
+	"./cs": 299,
+	"./cs.js": 299,
+	"./cv": 300,
+	"./cv.js": 300,
+	"./cy": 301,
+	"./cy.js": 301,
+	"./da": 302,
+	"./da.js": 302,
+	"./de": 303,
+	"./de-at": 304,
+	"./de-at.js": 304,
+	"./de-ch": 305,
+	"./de-ch.js": 305,
+	"./de.js": 303,
+	"./dv": 306,
+	"./dv.js": 306,
+	"./el": 307,
+	"./el.js": 307,
+	"./en-SG": 308,
+	"./en-SG.js": 308,
+	"./en-au": 309,
+	"./en-au.js": 309,
+	"./en-ca": 310,
+	"./en-ca.js": 310,
+	"./en-gb": 311,
+	"./en-gb.js": 311,
+	"./en-ie": 312,
+	"./en-ie.js": 312,
+	"./en-il": 313,
+	"./en-il.js": 313,
+	"./en-nz": 314,
+	"./en-nz.js": 314,
+	"./eo": 315,
+	"./eo.js": 315,
+	"./es": 316,
+	"./es-do": 317,
+	"./es-do.js": 317,
+	"./es-us": 318,
+	"./es-us.js": 318,
+	"./es.js": 316,
+	"./et": 319,
+	"./et.js": 319,
+	"./eu": 320,
+	"./eu.js": 320,
+	"./fa": 321,
+	"./fa.js": 321,
+	"./fi": 322,
+	"./fi.js": 322,
+	"./fo": 323,
+	"./fo.js": 323,
+	"./fr": 324,
+	"./fr-ca": 325,
+	"./fr-ca.js": 325,
+	"./fr-ch": 326,
+	"./fr-ch.js": 326,
+	"./fr.js": 324,
+	"./fy": 327,
+	"./fy.js": 327,
+	"./ga": 328,
+	"./ga.js": 328,
+	"./gd": 329,
+	"./gd.js": 329,
+	"./gl": 330,
+	"./gl.js": 330,
+	"./gom-latn": 331,
+	"./gom-latn.js": 331,
+	"./gu": 332,
+	"./gu.js": 332,
+	"./he": 333,
+	"./he.js": 333,
+	"./hi": 334,
+	"./hi.js": 334,
+	"./hr": 335,
+	"./hr.js": 335,
+	"./hu": 336,
+	"./hu.js": 336,
+	"./hy-am": 337,
+	"./hy-am.js": 337,
+	"./id": 338,
+	"./id.js": 338,
+	"./is": 339,
+	"./is.js": 339,
+	"./it": 340,
+	"./it-ch": 341,
+	"./it-ch.js": 341,
+	"./it.js": 340,
+	"./ja": 342,
+	"./ja.js": 342,
+	"./jv": 343,
+	"./jv.js": 343,
+	"./ka": 344,
+	"./ka.js": 344,
+	"./kk": 345,
+	"./kk.js": 345,
+	"./km": 346,
+	"./km.js": 346,
+	"./kn": 347,
+	"./kn.js": 347,
+	"./ko": 348,
+	"./ko.js": 348,
+	"./ku": 349,
+	"./ku.js": 349,
+	"./ky": 350,
+	"./ky.js": 350,
+	"./lb": 351,
+	"./lb.js": 351,
+	"./lo": 352,
+	"./lo.js": 352,
+	"./lt": 353,
+	"./lt.js": 353,
+	"./lv": 354,
+	"./lv.js": 354,
+	"./me": 355,
+	"./me.js": 355,
+	"./mi": 356,
+	"./mi.js": 356,
+	"./mk": 357,
+	"./mk.js": 357,
+	"./ml": 358,
+	"./ml.js": 358,
+	"./mn": 359,
+	"./mn.js": 359,
+	"./mr": 360,
+	"./mr.js": 360,
+	"./ms": 361,
+	"./ms-my": 362,
+	"./ms-my.js": 362,
+	"./ms.js": 361,
+	"./mt": 363,
+	"./mt.js": 363,
+	"./my": 364,
+	"./my.js": 364,
+	"./nb": 365,
+	"./nb.js": 365,
+	"./ne": 366,
+	"./ne.js": 366,
+	"./nl": 367,
+	"./nl-be": 368,
+	"./nl-be.js": 368,
+	"./nl.js": 367,
+	"./nn": 369,
+	"./nn.js": 369,
+	"./pa-in": 370,
+	"./pa-in.js": 370,
+	"./pl": 371,
+	"./pl.js": 371,
+	"./pt": 372,
+	"./pt-br": 373,
+	"./pt-br.js": 373,
+	"./pt.js": 372,
+	"./ro": 374,
+	"./ro.js": 374,
+	"./ru": 375,
+	"./ru.js": 375,
+	"./sd": 376,
+	"./sd.js": 376,
+	"./se": 377,
+	"./se.js": 377,
+	"./si": 378,
+	"./si.js": 378,
+	"./sk": 379,
+	"./sk.js": 379,
+	"./sl": 380,
+	"./sl.js": 380,
+	"./sq": 381,
+	"./sq.js": 381,
+	"./sr": 382,
+	"./sr-cyrl": 383,
+	"./sr-cyrl.js": 383,
+	"./sr.js": 382,
+	"./ss": 384,
+	"./ss.js": 384,
+	"./sv": 385,
+	"./sv.js": 385,
+	"./sw": 386,
+	"./sw.js": 386,
+	"./ta": 387,
+	"./ta.js": 387,
+	"./te": 388,
+	"./te.js": 388,
+	"./tet": 389,
+	"./tet.js": 389,
+	"./tg": 390,
+	"./tg.js": 390,
+	"./th": 391,
+	"./th.js": 391,
+	"./tl-ph": 392,
+	"./tl-ph.js": 392,
+	"./tlh": 393,
+	"./tlh.js": 393,
+	"./tr": 394,
+	"./tr.js": 394,
+	"./tzl": 395,
+	"./tzl.js": 395,
+	"./tzm": 396,
+	"./tzm-latn": 397,
+	"./tzm-latn.js": 397,
+	"./tzm.js": 396,
+	"./ug-cn": 398,
+	"./ug-cn.js": 398,
+	"./uk": 399,
+	"./uk.js": 399,
+	"./ur": 400,
+	"./ur.js": 400,
+	"./uz": 401,
+	"./uz-latn": 402,
+	"./uz-latn.js": 402,
+	"./uz.js": 401,
+	"./vi": 403,
+	"./vi.js": 403,
+	"./x-pseudo": 404,
+	"./x-pseudo.js": 404,
+	"./yo": 405,
+	"./yo.js": 405,
+	"./zh-cn": 406,
+	"./zh-cn.js": 406,
+	"./zh-hk": 407,
+	"./zh-hk.js": 407,
+	"./zh-tw": 408,
+	"./zh-tw.js": 408
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -7014,22 +7115,23 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 635;
+webpackContext.id = 637;
 
 /***/ }),
 
-/***/ 653:
+/***/ 655:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(453);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(454);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(455);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(456);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__ = __webpack_require__(654);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__ = __webpack_require__(656);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_observable_timer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_fcm_fcm__ = __webpack_require__(151);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7046,10 +7148,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 //import { SplashComponent } from '../components/splash/splash';
 
 
-//import { FcmProvider } from '../providers/fcm/fcm';
+
 
 var MyApp = /** @class */ (function () {
-    function MyApp(platform, statusBar, splashScreen, toastCtrl) {
+    function MyApp(platform, statusBar, splashScreen, toastCtrl, fcm) {
         this.platform = platform;
         this.statusBar = statusBar;
         this.splashScreen = splashScreen;
@@ -7079,7 +7181,7 @@ var MyApp = /** @class */ (function () {
     MyApp = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\nuevoApp\src\app\app.html"*/'<div *ngIf="showSplash" class="splash">\n	<splash></splash>\n</div>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" ></ion-nav>'/*ion-inline-end:"C:\Users\bocasosmivida\Documents\FEDERICO\projectos\nuevoApp\src\app\app.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* ToastController */], __WEBPACK_IMPORTED_MODULE_6__providers_fcm_fcm__["a" /* FcmProvider */]])
     ], MyApp);
     return MyApp;
 }());
@@ -7088,7 +7190,7 @@ var MyApp = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 656:
+/***/ 658:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7156,7 +7258,7 @@ var JsonProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 657:
+/***/ 659:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7199,47 +7301,7 @@ var SplashComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 659:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FcmProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(6);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-//import { Firebase } from '@ionic-native/firebase';
-
-var FcmProvider = /** @class */ (function () {
-    function FcmProvider(//public firebaseNative: Firebase,
-    afs, platform) {
-        this.afs = afs;
-        this.platform = platform;
-        console.log('Hello FcmProvider Provider');
-    }
-    FcmProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_fire_firestore__["a" /* AngularFirestore */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* Platform */]])
-    ], FcmProvider);
-    return FcmProvider;
-}());
-
-//# sourceMappingURL=fcm.js.map
-
-/***/ }),
-
-/***/ 660:
+/***/ 661:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7391,9 +7453,9 @@ var AltaProductoComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__ = __webpack_require__(268);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__(99);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7599,10 +7661,9 @@ var AuthProvider = /** @class */ (function () {
     AuthProvider.prototype.nuevoChat = function (data) {
         return this.db.collection('mensajes').add(data);
     };
-    var _a, _b, _c;
     AuthProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__["a" /* AngularFireAuth */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__["a" /* AngularFireAuth */]) === "function" ? _a : Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__["a" /* AngularFirestore */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__["a" /* AngularFirestore */]) === "function" ? _b : Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HttpClient */]) === "function" ? _c : Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_fire_auth__["a" /* AngularFireAuth */], __WEBPACK_IMPORTED_MODULE_2__angular_fire_firestore__["a" /* AngularFirestore */], __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HttpClient */]])
     ], AuthProvider);
     return AuthProvider;
 }());
@@ -7618,9 +7679,9 @@ var AuthProvider = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return JuegosPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__juego_descuento_juego_descuento__ = __webpack_require__(188);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__principal_principal__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_juego_postre_juego_postre__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_juego_postre_juego_postre__ = __webpack_require__(412);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7678,7 +7739,7 @@ var JuegosPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_alert_alert__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_auth__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_spinner_spinner__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_alta_cliente_alta_cliente__ = __webpack_require__(275);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7806,5 +7867,5 @@ var HomePage = /** @class */ (function () {
 
 /***/ })
 
-},[457]);
+},[459]);
 //# sourceMappingURL=main.js.map

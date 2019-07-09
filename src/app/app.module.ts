@@ -39,7 +39,7 @@ import { PedirDeliveryPage } from "../pages/pedir-delivery/pedir-delivery";
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from '@angular/fire/auth';
-//import { Firebase } from '@ionic-native/firebase';
+import { Firebase } from '@ionic-native/firebase';
 
 import { configs } from './globalConfig';
 import { AuthProvider } from '../providers/auth/auth';
@@ -169,7 +169,7 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: FirestoreSettingsToken, useValue: {}},
-    //Firebase,
+    Firebase,
     Camera,
     BarcodeScanner,
     AuthProvider,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { HomePage } from "../home/home";
 import { AltaempleadoPage } from "../altaempleado/altaempleado";
 import { AltaDeMesaPage } from "../alta-de-mesa/alta-de-mesa";
@@ -14,9 +14,9 @@ import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor'
 //import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
 import {ListadoEncuestasPage} from '../listado-encuestas/listado-encuestas';
-//import { FcmProvider } from '../../providers/fcm/fcm';
-//import { ToastController } from 'ionic-angular';
-//import { tap } from 'rxjs/operators';
+import { FcmProvider } from '../../providers/fcm/fcm';
+import { ToastController } from 'ionic-angular';
+import { tap } from 'rxjs/operators';
 import { ListadoReservaPage } from '../listado-reserva/listado-reserva';
 import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
 import { EncuestaClientePage } from '../encuesta-cliente/encuesta-cliente';
@@ -53,10 +53,13 @@ export class PrincipalPage {
   usuario;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
-    private auth: AuthProvider){
-    //private fcm: FcmProvider, 
-    //private toastCtrl: ToastController) {
-      /*this.fcm.getToken()
+    private auth: AuthProvider,
+    private fcm: FcmProvider, 
+    private toastCtrl: ToastController,
+    public platform: Platform,) {
+      this.usuario=JSON.parse(localStorage.getItem("usuario"));
+      if(this.platform.is('cordova') && this.usuario.tipo != 'cliente anonimo'){
+        this.fcm.getToken();
 
     // Listen to incoming messages
     this.fcm.listenToNotifications().pipe(
@@ -66,15 +69,16 @@ export class PrincipalPage {
           message: msg.body,
           duration: 3000,
           position: 'top',
-          cssClass: 'nombreRaro'
 
         });
 
         toast.present();
       })
     )
-      .subscribe()*/
-      this.usuario=JSON.parse(localStorage.getItem("usuario"));
+      .subscribe()
+      }
+      
+      
       console.log(this.usuario.tipo);
       switch(this.usuario.tipo) {
         case "cocinero":
@@ -135,35 +139,7 @@ export class PrincipalPage {
               { accion: "Mapa ruta", img: "mapa.jpg", ruta: MapaRutaPage},
             ]
         }
-/*
-        if(this.usuario.tipo == 'cliente')
-        {
-          this.auth.getPedidos().subscribe(lista => {
-            for(let i=0;i<lista.length;i++)
-            {
-              if(lista[i].correo == this.usuario.correo && lista[i].estado == 'camino a entrega') {
-                let alertConfirm = this.error.mostrarMensajeConfimación("¿Quieres aceptar el pedido?", "Pedido por entregar");
-                alertConfirm.present();
-                alertConfirm.onDidDismiss((confirm) => {
-                if (confirm) {
-                  lista[i].estado = 'comiendo';
-                  this.auth.actualizarPedido(lista[i]).then(res => {
-                    this.error.mostrarMensaje("pedido entregado. Disfrutelo");
-                  });
-                }
-                else {
-                  lista[i].estado = 'pedido terminado';
-                  this.auth.actualizarPedido(lista[i]).then(res => {
-                    this.error.mostrarMensaje("Perdon, se le volverà a entregar el pedido si todavia no esta listo");
-                  });
-                }
-                });
-                break;
-              }
-            }
-          })
-        }
-        */
+
   }
 
   ionViewDidLoad() {
