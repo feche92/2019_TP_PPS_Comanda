@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AlertProvider } from "../../providers/alert/alert";
 import { AuthProvider } from "../../providers/auth/auth";
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import * as moment from 'moment';
+import { PedirDeliveryPage } from '../pedir-delivery/pedir-delivery';
 
 
 @IonicPage()
@@ -32,10 +33,13 @@ export class PedirPlatosPage {
   mostrarProductoQR;
   productoQR;
   direccion;
+  tiempoElaboracion;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
-    private barcodeScanner: BarcodeScanner,) {
+    private barcodeScanner: BarcodeScanner,
+    private modalCtrl: ModalController) {
+      this.tiempoElaboracion=0;
       this.montoActual=0;
       this.mostrarDireccion=false;
       this.puedePedir=false;
@@ -260,6 +264,17 @@ export class PedirPlatosPage {
       }
       this.monto=true;
       console.log(this.montoActual);
+      this.calcularTiempoElaboracion();
+    }
+  }
+
+  calcularTiempoElaboracion() {
+    this.tiempoElaboracion=0;
+    for(let i=0;i<this.pedidoActual.length;i++) 
+    {
+      if(this.pedidoActual[i].tiempoPromedioElaboracion > this.tiempoElaboracion) {
+        this.tiempoElaboracion = this.pedidoActual[i].tiempoPromedioElaboracion;
+      }
     }
   }
 
@@ -327,7 +342,24 @@ export class PedirPlatosPage {
   PedirFinal() {
     if(this.pedidoActual.length > 0) {
       if(localStorage.getItem('delivery') == 'true' && this.usuario.tipo == "cliente") {
-        this.mostrarDireccion=true;
+        //this.mostrarDireccion=true;
+        let momentoActual = moment(new Date());
+        let data = {
+          "nombreCliente":this.usuario.nombre,
+          'apellidoCliente':this.usuario.apellido,
+          'correo':this.usuario.correo,
+          "estado":"pedido por confirmar", //esperando pedido
+          "productos":this.pedidoActual,
+          "fecha":momentoActual.format("DD/MM/YYYY HH:mm"),
+          "montoTotal":this.montoActual,
+          'delivery':true,
+          'direccion':'',
+          "foto":this.usuario.foto,
+          "montoEnvio":0,
+          "tiempoEnvio":0,
+          "tiempoElaboracion":this.tiempoElaboracion,
+        };
+        this.modalCtrl.create(PedirDeliveryPage, { pedido: data }).present();
       }
       else {
       this.mostrarSpiner=true;
@@ -371,37 +403,6 @@ export class PedirPlatosPage {
 
   }
 
-  AceptarDelivery() {
-    if(this.direccion == '') {
-      this.error.mostrarErrorLiteral('ingrese una direccion antes de continuar');
-      return;
-    }
-    this.mostrarSpiner=true;
-    let momentoActual = moment(new Date());
-    let data = {
-      "nombreCliente":this.usuario.nombre,
-      'apellidoCliente':this.usuario.apellido,
-      'correo':this.usuario.correo,
-      "estado":"pedido por confirmar", //esperando pedido
-      "productos":this.pedidoActual,
-      "fecha":momentoActual.format("DD/MM/YYYY HH:mm"),
-      "montoTotal":this.montoActual,
-      'delivery':true,
-      'direccion':this.direccion,
-      "foto":this.usuario.foto,
-    };
-    this.auth.nuevoPedido(data).then(res => {
-      this.mostrarSpiner=false;
-      this.error.mostrarMensaje("Pedido aceptado. Le notificaremos cuando lo acepte nuestro supervisor");
-      this.back();
-    }).catch(error => {
-      this.mostrarSpiner=false;
-      this.error.mostrarError(error,'hubo un error. Intentelo mas tarde');
-    });
-  }
-
-  CancelarDelivery() {
-    this.mostrarDireccion=false;
-  }
+  
 
 }

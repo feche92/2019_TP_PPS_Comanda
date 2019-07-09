@@ -26,6 +26,8 @@ export class PagarPage {
   codigo;
   mesa;
   porcentaje;
+  montoEnvio;
+  delivery;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
@@ -33,8 +35,15 @@ export class PagarPage {
     private spinner: SpinnerProvider) {
       this.mostrarSpiner = true;
       this.total = 0;
+      this.montoEnvio = 0;
       this.propina = "sin propina";
       this.descuentoJuego = false;
+      if(localStorage.getItem("delivery") == 'true') { 
+        this.delivery=true;
+      }
+      else {
+        this.delivery=false;
+      }
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       this.auth.getPedidos().subscribe(lista => {
         for(let i=0;i<lista.length;i++)
@@ -42,6 +51,7 @@ export class PagarPage {
           if(localStorage.getItem("delivery") == 'true') {
             if(lista[i].correo == this.usuario.correo && lista[i].estado == 'por pagar' && lista[i].delivery) {
               this.pedido = lista[i];
+              this.montoEnvio = this.pedido.montoEnvio;
               break;
             }
           }
@@ -53,7 +63,7 @@ export class PagarPage {
           }          
         }
         this.monto = this.pedido.montoTotal;
-        this.total = this.monto;
+        this.total = this.monto + this.montoEnvio;
         if(localStorage.getItem("juegoDescuento") == 'true') {
           this.descuento = this.monto * 0.1;
           this.descuentoJuego = true;
@@ -114,7 +124,7 @@ export class PagarPage {
             this.propina = 0;
             break;
         }
-        this.total=this.monto;
+        this.total=this.monto + this.montoEnvio;
         this.total += this.propina;
         if(this.descuentoJuego) {
           this.total -= this.descuento;

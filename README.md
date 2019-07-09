@@ -59,8 +59,10 @@ V- Moreno
 * [x] Hacer reservas agendadas: fecha de inicio 29/5/19, fecha de finalizacion 4/6/19
 * Push Notification: fecha de inicio 31/5/19
 * [x] Pedido de Platos y Bebidas: fecha de inicio 6/6/19, fecha de finalizacion 11/6/19
+* [x] Aceptar/Entregar pedido: fecha de inicio 17/6/19, fecha de finalizacion 19/6/19
 * [x] Pagar/QR de propina: fecha de inicio 12/6/19, fecha de finalizacion 12/6/19
 * [x] Juego para un 10% de descuento: fecha de inicio 12/6/19, fecha de finalizacion 13/6/19
+* [x] Vistas y funcionalidad de la pagina inicio de sesion y principal: fecha de inicio 20/5/19, fecha de finalizacion 28/6/19 
 
 
 **Moreno Samantha:**
@@ -72,14 +74,14 @@ V- Moreno
 * [X] Encuesta Empleado - Fecha inicio: 31/05/19 - Finalizado: 01/06/19
 * [X] Tomar Pedido - Fecha inicio:08/06/19 - Finalizado: 15/06/19
 * [X] Cierre de cuenta - Fecha inicio 26/06/19
-*  Mapa de ruta hasta el domicilio de entrega
-* [X] Juego para un postre gratis
+* [X] Juego para una bebida gratis - Fecha de inicio 27/06/19
 
-**Torrealba Paola**:**Branch:** paola
+**Torrealba Paola**:**Branch:** Paola
 
 * [X] Alta de Productos (Platos y bebidas)  Fecha inicio: 19/05/19 - Finalizado: 28/05/19
 * [X] QR de ingreso al local Fecha inicio: 29/05/19 - Finalizado: 14/06/19
-* [X] Encuestas cliente  Fecha inicio: 10/06/19 - Finalizado: 21/06/19
+* [X] Encuestas cliente  Fecha inicio: 10/06/19 - Finalizado: 28/06/19
+* [X] Grafico en encuesta - Fecha inicio: 27/06/19 - Finalizado: 28/06/19
 
 
 

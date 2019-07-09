@@ -128,12 +128,15 @@ export interface pedido {
   numero:string,
   tipo:string,
   productos:Array<any>,
-  montoTotal:string,
+  montoTotal:number,
   id:string,
   tiempoElaboracion: number,
   horaFinalizacion: string,
   delivery:boolean,
-  foto:string
+  foto:string,
+  direccion:string,
+  montoEnvio:number,
+  tiempoEnvio:number
 }
 
 export interface producto {

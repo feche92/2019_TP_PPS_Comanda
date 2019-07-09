@@ -47,6 +47,11 @@
   </div>
   <div class="puntos"></div>
 
+  <div *ngIf="delivery">
+      <span>Monto de envío</span><span style="float: right;">${{montoEnvio}}</span>
+  </div>
+  <div class="puntos"></div>
+
   <div >
       <span class="total">Monto Total</span><span style="float: right;">${{total}}</span>
   </div>

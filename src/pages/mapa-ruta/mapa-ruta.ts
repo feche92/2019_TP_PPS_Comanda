@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,  ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Modal } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AuthProvider } from "../../providers/auth/auth";
@@ -6,6 +6,9 @@ import { AlertProvider } from "../../providers/alert/alert";
 import { JuegosPage } from '../juegos/juegos';
 import { PagarPage } from '../pagar/pagar';
 import { ChatPage } from '../chat/chat';
+import { DIRECCION_LOCAL } from '../../app/globalConfig';
+
+declare var google: any;
 
 @IonicPage()
 @Component({
@@ -23,21 +26,29 @@ export class MapaRutaPage {
   pedidoActual;
   myColor;
   otroColor;
+  @ViewChild('map') mapRef: ElementRef;
+  localizacionBase: any;
+  map: any;
+  directionsService: any;
+  directionsDisplay: any;
+  tienePedido;
+  mensaje='';
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
     private modalCtrl: ModalController) {
+      this.localizacionBase = DIRECCION_LOCAL;
       this.mostrarSpiner=true;
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
       if(this.usuario.tipo == 'cliente') {
         this.cliente = true;
         this.repartidor = false;
         this.auth.getPedidos().subscribe(lista => {
-          let tienePedido=false;
+          this.tienePedido=false;
           for(let i=0;i<lista.length;i++)
           {
             if(lista[i].correo == this.usuario.correo && lista[i].estado != 'pagado' && lista[i].estado != 'cancelado' && lista[i].delivery) {
-              tienePedido=true;
+              this.tienePedido=true;
               this.pedidoActual=lista[i];
               console.log(this.pedidoActual);
               switch(this.pedidoActual.estado)
@@ -55,13 +66,13 @@ export class MapaRutaPage {
                   this.estadosCliente = 4;
                   break;
                 case 'por pagar':
-                  this.estadosCliente = 5;
+                  this.pagar();
                   break;
               }
             }
           }
-          if(!tienePedido) {
-            this.error.mostrarErrorLiteral('No tiene ningun pedido hecho por delivery');
+          if(!this.tienePedido) {
+            this.mensaje='No tiene ningun pedido hecho por delivery';
           }
         })
       }
@@ -87,6 +98,24 @@ export class MapaRutaPage {
     console.log('ionViewDidLoad MapaRutaPage');
     this.myColor='primary';
     this.otroColor='red';
+    this.cargarMapa();
+  }
+
+  cargarMapa() {
+    this.map = new google.maps.Map(this.mapRef.nativeElement, {
+      center: this.localizacionBase,
+      zoom: 14,
+      disableDefaultUI: true,
+      mapTypeId: 'roadmap'
+    });
+
+    this.addMarker(this.localizacionBase, this.map);
+  }
+
+  addMarker(position, map) {
+    return new google.maps.Marker({
+      position, map
+    });
   }
 
   back() {
@@ -135,16 +164,40 @@ export class MapaRutaPage {
         return;
       }
       pedido.estado = 'en camino';
+      this.cargarDirecciones(pedido);
       this.auth.actualizarPedido(pedido).then(res => {
         this.error.mostrarMensaje('Entregando pedido...');
+        
       });
     }
     else {
       pedido.estado = 'por entregar';
+      this.cargarMapa();
       this.auth.actualizarPedido(pedido).then(res => {
         this.error.mostrarMensaje('por entregar...');
       });
     }
+  }
+
+  cargarDirecciones(pedido) {
+    if (this.directionsService === undefined) {
+      this.directionsService = new google.maps.DirectionsService();
+    }
+    if (this.directionsDisplay === undefined) {
+      this.directionsDisplay = new google.maps.DirectionsRenderer();
+      this.directionsDisplay.setMap(this.map);
+    }
+    var superScope = this;
+    var request = {
+      origin: this.localizacionBase,
+      destination: pedido.direccion,
+      travelMode: 'DRIVING'
+    };
+    this.directionsService.route(request, function (result, status) {
+      if (status == 'OK') {
+        superScope.directionsDisplay.setDirections(result);
+      }
+    });
   }
 
   hablarCliente(pedido) {
