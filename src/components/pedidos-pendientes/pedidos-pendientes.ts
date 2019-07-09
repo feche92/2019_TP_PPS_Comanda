@@ -14,7 +14,7 @@ export interface pedido {
   numero:string,
   tipo:string,
   productos:Array<any>,
-  montoTotal:string,
+  montoTotal:number,
   id:string,
 }
 
