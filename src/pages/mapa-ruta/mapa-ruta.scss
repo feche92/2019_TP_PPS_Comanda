@@ -77,5 +77,10 @@ page-mapa-ruta {
         h1 {
             text-align: center;
         }
-    }
+	}
+	
+	#map {
+		height: 300px;
+		border-radius: 20px;
+	  }
 }

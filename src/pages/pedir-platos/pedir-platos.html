@@ -9,15 +9,7 @@
   </ion-navbar>
 </ion-header>
 
-<div class="platos" *ngIf="mostrarDireccion">
-  <h1 class="tituloPlatos"  >Ingrese su dirección</h1>
-  <ion-item>
-    <ion-label>Dirección</ion-label>
-    <ion-input type='text' required [(ngModel)]="direccion"></ion-input>
-  </ion-item>
-  <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarDelivery()">Aceptar</button>
-  <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarDelivery()">Cancelar</button>
-</div>
+
 
 <div class="platos" *ngIf="mostrarProductoQR">
   <h1 class="tituloPlatos"  >Seleccione cantidad</h1>

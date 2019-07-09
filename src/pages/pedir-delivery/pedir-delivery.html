@@ -1,0 +1,44 @@
+<!--
+  Generated template for the PedirDeliveryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Delivery</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <h1 class="tituloPlatos"  >Ingrese su dirección</h1>
+    <ion-item>
+      <ion-label>Dirección</ion-label>
+      <ion-input (ionBlur)="validarDireccion()" id="pac-input" class="controls" type='text' required [(ngModel)]="direccion"></ion-input>
+    </ion-item>
+    <div id="map" #map></div>
+    <ion-row class="pedidos-data">
+      <ion-col>
+        <p style="color: black; font-size: 15px; margin: auto; padding: 5%;"><b>Costo de 
+            envío:</b><br><br>{{costo}}$</p>
+      </ion-col>
+      <ion-col>
+        <p style="color: black; font-size: 15px; margin: auto; padding: 5%;"><b>Duracíon 
+            envío:</b><br><br>{{tiempo}} minuto/s</p>
+      </ion-col>
+    </ion-row>
+    <ion-row class="pedidos-data">
+      <ion-col>
+        <p style="color: black; font-size: 15px; margin: auto; padding: 5%;"><b>Costo total del 
+            pedido:</b><br><br>{{costoTotal}}$</p>
+      </ion-col>
+      <ion-col>
+        <p style="color: black; font-size: 15px; margin: auto; padding: 5%;"><b>Tiempo total del 
+            pedido:</b><br><br>{{tiempoTotal}} minuto/s</p>
+      </ion-col>
+    </ion-row>
+    <button ion-button class="aceptarBtn" color="red" color="celeste" (click)="AceptarDelivery()">Aceptar</button>
+    <button ion-button class="cancelarBtn" color="red" color="celeste" (click)="CancelarDelivery()">Cancelar</button>
+  </div>
+</ion-content>

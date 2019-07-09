@@ -253,7 +253,8 @@ export class QrMesaComponent {
           'nombreCliente': this.usuario.nombre,
           'apellidoCliente': this.usuario.apellido,
           'correo': this.usuario.correo,
-          'fecha': fecha
+          'fecha': fecha,
+          'delivery':false
         };
       }
       this.auth.guardarPedido(dataPedido).then(res => {
