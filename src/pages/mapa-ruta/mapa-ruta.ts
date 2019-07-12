@@ -1,8 +1,9 @@
 import { Component,  ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Modal } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { PrincipalPage } from '../principal/principal';
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
+import { Geolocation } from '@ionic-native/geolocation';
 import { JuegosPage } from '../juegos/juegos';
 import { PagarPage } from '../pagar/pagar';
 import { ChatPage } from '../chat/chat';
@@ -36,7 +37,9 @@ export class MapaRutaPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
-    private modalCtrl: ModalController) {
+    private modalCtrl: ModalController,
+    private alertCtrl : AlertController,
+    private geo: Geolocation) {
       this.localizacionBase = DIRECCION_LOCAL;
       this.mostrarSpiner=true;
       this.usuario=JSON.parse(localStorage.getItem("usuario"));
@@ -160,26 +163,98 @@ export class MapaRutaPage {
         }
       }
       if(yaEncamino) {
-        this.error.mostrarErrorLiteral('Ya estas entregando un pedido. Hasta que no lo entregues no podes aceptar otro');
-        return;
-      }
-      pedido.estado = 'en camino';
-      this.cargarDirecciones(pedido);
-      this.auth.actualizarPedido(pedido).then(res => {
-        this.error.mostrarMensaje('Entregando pedido...');
+        //this.error.mostrarErrorLiteral('Ya estas entregando un pedido. Hasta que no lo entregues no podes aceptar otro');
+        //return;
+        this.obtenerCoordendas(pedido);
+        pedido.estado = 'en camino';
+        this.auth.actualizarPedido(pedido).then(res => {
+          this.error.mostrarMensaje('Entregando pedido...');
         
-      });
+        });
+      }
+      else {
+        pedido.estado = 'en camino';
+        this.cargarDirecciones(pedido);
+        this.auth.actualizarPedido(pedido).then(res => {
+          this.error.mostrarMensaje('Entregando pedido...');
+        
+        });
+      }
+      
     }
     else {
-      pedido.estado = 'por entregar';
-      this.cargarMapa();
-      this.auth.actualizarPedido(pedido).then(res => {
-        this.error.mostrarMensaje('por entregar...');
-      });
+      let yaEncamino=false;
+      let otroPedido:any;
+      for(let i=0;i<this.pedidosDelivery.length;i++)
+      {
+        if(this.pedidosDelivery[i].estado == 'en camino' && this.pedidosDelivery[i].correo != pedido.correo) {
+          yaEncamino=true;
+          otroPedido=this.pedidosDelivery[i];
+          break;
+        }
+      }
+      if(yaEncamino) { 
+        pedido.estado = 'por entregar';
+        //this.cargarMapa();
+        //this.cargarDirecciones(otroPedido);
+        this.obtenerDireccionActual(otroPedido);
+        this.auth.actualizarPedido(pedido).then(res => {
+          this.error.mostrarMensaje('por entregar...');
+        });
+      }
+      else {
+        pedido.estado = 'por entregar';
+        this.cargarMapa();
+        this.auth.actualizarPedido(pedido).then(res => {
+          this.error.mostrarMensaje('por entregar...');
+        });
+      }
+      
     }
   }
 
-  cargarDirecciones(pedido) {
+  obtenerDireccionActual(pedido) {
+    var superScope = this;
+    this.geo.getCurrentPosition().then(pos => {
+      console.log(pos.coords.latitude);
+      console.log(pos.coords.longitude);
+      superScope.cargarDirecciones(pedido,{lat: pos.coords.latitude, lng: pos.coords.longitude})
+   }).catch(err => console.log(err));
+    /*navigator.geolocation.getCurrentPosition(function(pos) {
+      superScope.cargarDirecciones(pedido,{lat: pos.coords.latitude, lng: pos.coords.longitude})
+    })*/
+  }
+
+  mostrarDireccion(pedido) {
+    let message = "<img style='height: 100%; width: 100%;' src='" + pedido.foto + "'></img>";
+    let alert = this.alertCtrl.create({
+      title: pedido.direccion,
+      buttons: ['Cerrar'],
+      message: message,
+      cssClass: "foto-alert"
+      });
+    alert.present();
+    this.obtenerCoordendas(pedido);
+  }
+
+  obtenerCoordendas(pedido) {
+    var geocoder = new google.maps.Geocoder();
+    var superScope = this;
+    geocoder.geocode({ 'address': pedido.direccion }, function (results, status) { 
+      if (status == 'OK') {
+        console.log(results[0].geometry.location.lat());
+        console.log(results[0].geometry.location.lng());
+        var maker=new google.maps.Marker({
+          position: {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()},
+          draggable: false
+          });
+        maker.setMap(superScope.map);
+        //superScope.addMarker(results[0].geometry.location,superScope.map);
+      }
+    });
+  }
+
+  cargarDirecciones(pedido,direccion?) {
     if (this.directionsService === undefined) {
       this.directionsService = new google.maps.DirectionsService();
     }
@@ -188,11 +263,20 @@ export class MapaRutaPage {
       this.directionsDisplay.setMap(this.map);
     }
     var superScope = this;
-    var request = {
-      origin: this.localizacionBase,
-      destination: pedido.direccion,
-      travelMode: 'DRIVING'
-    };
+    var request;
+    if(direccion === undefined) {
+      request = {
+        origin: this.localizacionBase,
+        destination: pedido.direccion,
+        travelMode: 'DRIVING'
+      };
+    }else {
+      request = {
+        origin: direccion,
+        destination: pedido.direccion,
+        travelMode: 'DRIVING'
+      };
+    }
     this.directionsService.route(request, function (result, status) {
       if (status == 'OK') {
         superScope.directionsDisplay.setDirections(result);

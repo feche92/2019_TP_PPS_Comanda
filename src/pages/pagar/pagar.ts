@@ -28,6 +28,8 @@ export class PagarPage {
   porcentaje;
   montoEnvio;
   delivery;
+  bebidaGratis;
+  descuentoBebida;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private auth: AuthProvider,
     private error: AlertProvider,
@@ -38,6 +40,7 @@ export class PagarPage {
       this.montoEnvio = 0;
       this.propina = "sin propina";
       this.descuentoJuego = false;
+      this.bebidaGratis= false;
       if(localStorage.getItem("delivery") == 'true') { 
         this.delivery=true;
       }
@@ -68,6 +71,29 @@ export class PagarPage {
           this.descuento = this.monto * 0.1;
           this.descuentoJuego = true;
           this.total -= this.descuento;
+        }
+        if(localStorage.getItem("descuento-bebida") == 'true') {
+          let tieneBebida;
+          for(let i=0;i<this.pedido.productos.length;i++)
+          {
+            if(this.pedido.productos[i].tipo == 'bebida')
+            {
+              tieneBebida=true;
+              break;
+            }
+          }
+          if(tieneBebida) {
+            let bebidaMasBarata = 500;
+            for(let i=0;i<this.pedido.productos.length;i++)
+            {
+              if(this.pedido.productos[i].tipo == 'bebida' && parseInt(this.pedido.productos[i].precio) < bebidaMasBarata) {
+                bebidaMasBarata = this.pedido.productos[i].precio;
+              }
+            }
+            this.bebidaGratis=true;
+            this.descuentoBebida=bebidaMasBarata;
+            this.total -= this.descuentoBebida;
+          }
         }
         this.mostrarSpiner=false;
         this.mostrar=true;
@@ -128,6 +154,9 @@ export class PagarPage {
         this.total += this.propina;
         if(this.descuentoJuego) {
           this.total -= this.descuento;
+        }
+        if(this.bebidaGratis) {
+          this.total -= this.descuentoBebida;
         }
         this.total = parseFloat(this.total).toFixed(2);
         this.error.mostrarMensaje("Gracias!! Has incluido al pedido "+this.porcentaje+" de propina");

@@ -123,7 +123,7 @@ export class PedirPlatosPage {
         else if(delivery) {
           this.mensajePedido="Ya hizo un pedido.No puede pedir otro";
         }
-        else if(!delivery) {
+        else if(!delivery && localStorage.getItem('delivery') == 'true') {
           this.puedePedir=true;
         }
         else {
@@ -272,7 +272,7 @@ export class PedirPlatosPage {
     this.tiempoElaboracion=0;
     for(let i=0;i<this.pedidoActual.length;i++) 
     {
-      if(this.pedidoActual[i].tiempoPromedioElaboracion > this.tiempoElaboracion) {
+      if(parseInt(this.pedidoActual[i].tiempoPromedioElaboracion) > this.tiempoElaboracion) {
         this.tiempoElaboracion = this.pedidoActual[i].tiempoPromedioElaboracion;
       }
     }
