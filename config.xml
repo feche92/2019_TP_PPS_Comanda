@@ -101,6 +101,7 @@
     <plugin name="cordova-plugin-firebase" spec="https://github.com/dpa99c/cordova-plugin-firebase#GH-1057-April-05-android-build-issue" />
     <plugin name="cordova-plugin-androidx" spec="1.0.2" />
     <plugin name="cordova-plugin-androidx-adapter" spec="1.1.0" />
+    <plugin name="cordova-plugin-geolocation" spec="4.0.2" />
     <engine name="browser" spec="6.0.0" />
     <engine name="android" spec="8.0.0" />
 </widget>

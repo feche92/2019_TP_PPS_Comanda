@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
 import { AlertProvider } from "../../providers/alert/alert";
 import { DIRECCION_LOCAL, round } from "../../app/globalConfig";
+import { Geolocation } from '@ionic-native/geolocation';
 import { PedirPlatosPage } from '../pedir-platos/pedir-platos';
 import { PrincipalPage } from '../principal/principal';
 
@@ -18,7 +19,8 @@ export class PedirDeliveryPage {
   direccion;
   pedido;
   localizacionBase: any;
-
+  miLocalicacion: any;
+  miDireccion;
   @ViewChild('map') mapRef: ElementRef;
   direccionValida: boolean;
 
@@ -33,7 +35,8 @@ export class PedirDeliveryPage {
   costoTotal:number;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private error: AlertProvider,
-    private auth: AuthProvider) {
+    private auth: AuthProvider,
+    private geo: Geolocation) {
       this.pedido = this.navParams.get("pedido");
       this.localizacionBase = DIRECCION_LOCAL;
       this.direccionValida = false;
@@ -57,14 +60,57 @@ export class PedirDeliveryPage {
       disableDefaultUI: true,
       mapTypeId: 'roadmap'
     });
-
+    var superScope = this;
     this.addMarker(this.localizacionBase, this.map);
+    this.map.addListener('click',function(e) {
+      console.log(e.latLng.lat());
+      console.log(e.latLng.lng());
+      superScope.miLocalicacion = {lat: e.latLng.lat(), lng: e.latLng.lng()};
+      superScope.obtenerDireccionApartirDeCoordenadas({lat: e.latLng.lat(), lng: e.latLng.lng()})
+    })
   }
 
   addMarker(position, map) {
     return new google.maps.Marker({
       position, map
     });
+  }
+
+  obtenerCoordenadasClick() {
+    this.map.addEventListener().subscribe(
+      (data) => {
+          alert(data);
+      }
+    );
+  }
+
+  obtenerDireccionApartirDeCoordenadas(coordenadas) {
+    var superScope = this;
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'latLng': coordenadas}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        superScope.miDireccion = results[0]['formatted_address'];
+        superScope.direccion = superScope.miDireccion;
+        superScope.cargarDirecciones();
+        superScope.validarDireccion();
+        console.log(superScope.miDireccion);
+      }
+    });
+  }
+
+  obtenerCoordenadas() {
+    var superScope = this;
+    this.geo.getCurrentPosition().then(pos => {
+      console.log(pos.coords.latitude);
+      console.log(pos.coords.longitude);
+      superScope.miLocalicacion = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+      superScope.obtenerDireccionApartirDeCoordenadas(superScope.miLocalicacion);
+   }).catch(err => console.log(err));
+    /*navigator.geolocation.getCurrentPosition(function(pos) {
+      superScope.miLocalicacion = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+      //superScope.cargarDirecciones(true);
+      superScope.obtenerDireccionApartirDeCoordenadas(superScope.miLocalicacion);
+    })*/
   }
 
   cargarSearchBox() {
@@ -102,7 +148,7 @@ export class PedirDeliveryPage {
 
   }
 
-  cargarDirecciones() {
+  cargarDirecciones(localicacion?) {
     if (this.directionsService === undefined) {
       this.directionsService = new google.maps.DirectionsService();
     }
@@ -111,11 +157,21 @@ export class PedirDeliveryPage {
       this.directionsDisplay.setMap(this.map);
     }
     var superScope = this;
-    var request = {
-      origin: this.localizacionBase,
-      destination: this.direccion,
-      travelMode: 'DRIVING'
-    };
+    var request;
+    if(localicacion) {
+      request = {
+        origin: this.localizacionBase,
+        destination: this.miLocalicacion,
+        travelMode: 'DRIVING'
+      };
+    }
+    else {
+      request = {
+        origin: this.localizacionBase,
+        destination: this.direccion,
+        travelMode: 'DRIVING'
+      };
+    }
     this.directionsService.route(request, function (result, status) {
       if (status == 'OK') {
         superScope.tiempo = round((result.routes[0].legs[0].duration.value / 60), 0);
@@ -131,6 +187,20 @@ export class PedirDeliveryPage {
     });
   }
 
+  getKilometros(lat1,lon1,lat2,lon2) {
+    var R = 6378.137; //Radio de la tierra en km
+    var dLat = this.rad( lat2 - lat1 );
+    var dLong = this.rad( lon2 - lon1 );
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(this.rad(lat1)) * Math.cos(this.rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return parseFloat(d.toFixed(3)); //Retorna tres decimales
+  }
+
+  rad(x) {
+    return x*Math.PI/180;
+  }
+
   validarDireccion() {
     var geocoder = new google.maps.Geocoder();
     var superScope = this;
@@ -138,11 +208,15 @@ export class PedirDeliveryPage {
       if (status == google.maps.GeocoderStatus.OK &&
         results[0].types.filter(a => {
           return a === "street_address"
-        }).length === 1) {
+        }).length === 1 && superScope.getKilometros(superScope.localizacionBase.lat(),superScope.localizacionBase.lng(),superScope.miLocalicacion.lat,superScope.miLocalicacion.lng) < 6) {
         superScope.direccionValida = true;
+        //console.log(superScope.localizacionBase);
+        //console.log(superScope.miLocalicacion);
+        console.log(superScope.getKilometros(superScope.localizacionBase.lat(),superScope.localizacionBase.lng(),superScope.miLocalicacion.lat,superScope.miLocalicacion.lng));
       } else {
         superScope.direccionValida = false;
       }
+      console.log(superScope.direccionValida);
     });
   }
 

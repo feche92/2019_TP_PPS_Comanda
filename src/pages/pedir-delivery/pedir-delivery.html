@@ -14,10 +14,11 @@
   <div>
     <h1 class="tituloPlatos"  >Ingrese su dirección</h1>
     <ion-item>
-      <ion-label>Dirección</ion-label>
+      <ion-label floating>Dirección: </ion-label>
       <ion-input (ionBlur)="validarDireccion()" id="pac-input" class="controls" type='text' required [(ngModel)]="direccion"></ion-input>
     </ion-item>
     <div id="map" #map></div>
+    <button ion-button block color="red" color="celeste" (click)="obtenerCoordenadas()">Obtener direccion actual</button>
     <ion-row class="pedidos-data">
       <ion-col>
         <p style="color: black; font-size: 15px; margin: auto; padding: 5%;"><b>Costo de 

@@ -1,6 +1,8 @@
+@import "../../theme/variables.scss";
+
 page-juegos {
     .scroll-content {
-        padding: 0 !important;
+         background-color: #FCE5C6;
     }
 
     ion-navbar {

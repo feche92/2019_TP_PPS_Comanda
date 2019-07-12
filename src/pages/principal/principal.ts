@@ -97,7 +97,7 @@ export class PrincipalPage {
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
             { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent },  // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
-            { accion: "Confirmar pedido por delivery", img: "reserva.jpg", ruta: ConfirmarDeliveryPage },
+            { accion: "Confirmar pedido por delivery", img: "repartidor.png", ruta: ConfirmarDeliveryPage },
           ];
           break;
         case "cliente anonimo":

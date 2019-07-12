@@ -1,0 +1,132 @@
+page-ahorcado {
+	h1, h2, h3, h4, label{
+        color: #000;
+    }
+    
+    .puntaje{
+        padding: 15px;
+        margin: auto;
+    }
+    
+    .botones{
+        margin: 10% 0 35px 0;
+    }
+    
+    .palabra{
+        width: 100%;
+        letter-spacing: 21px;
+        margin: auto;
+        margin-top: 10%;
+    }
+    
+    .botones, .ancho{
+        width: 100%;
+    }
+    
+    .font-size{
+        font-size: 21px;
+    }
+    
+    .pd{
+        padding-left: 7%;
+    }
+    
+    .marcado{
+        background-color: #da2a2a !important;
+        border-color: #db2929 !important;
+    }
+    
+    .marcado-bien{
+        background-color: lawngreen !important;
+        border-color: lawngreen !important;
+    }
+    
+    .btn-nuevo{
+        width: 50%;
+        padding: 0;
+    }
+    
+    /*.title{
+        background-color: #01538c;
+        color: #fff;
+        width: 80%;
+        margin: 5% 10%;
+        border-radius: 5px;
+        text-transform: uppercase;
+    }*/
+    
+    .palabra-incompleta{
+        background-color: #9b9b9b;
+        border-radius: 5px;
+        color: #fff;
+        padding-left: 5%;
+        font-size: 40px;
+        margin-top: 10%;
+        min-height: 100px;
+    }
+    
+    .turno{
+        background-color: #01538c;
+        color: #fff;
+        border-radius: 5px;
+        position: relative;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .numero{
+        font-size: 35px;
+        font-weight: bold;	
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .letra{
+        position: absolute;
+        bottom: 0px;
+        right: 8px;
+        padding: 0 8px;
+    }
+    
+    .mg{
+        margin: auto;
+    }
+    
+    img{
+        width: 100%;
+        background-color: #852c79;
+        border-radius: 8px;
+        padding: 10px;
+    }
+    
+    .btn-nuevo{
+        width: 60px;
+        height: 60px;
+    }
+    
+    .puntuacion{
+        background-color: #c30b14;
+        color: #fff;
+        border-radius: 5px;
+        position: relative;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .puntuacion > .letra{
+        right: -6px;
+    }
+    
+    .btn-info{
+        width: 30px;
+        border: 1px solid grey;
+        background-color: #fff;
+    }
+    
+    .tablero{
+        width: 50%;
+        margin: auto;
+        border: 1px solid grey;
+        background-color: #fff;
+    }
+}

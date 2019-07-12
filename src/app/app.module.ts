@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -34,6 +35,7 @@ import { MapaRutaPage } from "../pages/mapa-ruta/mapa-ruta";
 import { ConfirmarDeliveryPage } from "../pages/confirmar-delivery/confirmar-delivery";
 import { ChatPage } from "../pages/chat/chat";
 import { PedirDeliveryPage } from "../pages/pedir-delivery/pedir-delivery";
+import { AhorcadoPage } from "../pages/ahorcado/ahorcado";
 
 //Firebase
 import { AngularFireModule } from '@angular/fire';
@@ -110,7 +112,8 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     MapaRutaPage,
     ConfirmarDeliveryPage,
     ChatPage,
-    PedirDeliveryPage
+    PedirDeliveryPage,
+    AhorcadoPage
     ],
   imports: [
     BrowserModule,
@@ -162,7 +165,8 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     MapaRutaPage,
     ConfirmarDeliveryPage,
     ChatPage,
-    PedirDeliveryPage
+    PedirDeliveryPage,
+    AhorcadoPage
   ],
   providers: [
     StatusBar,
@@ -171,6 +175,7 @@ import { JuegoPostreComponent } from '../components/juego-postre/juego-postre';
     {provide: FirestoreSettingsToken, useValue: {}},
     Firebase,
     Camera,
+    Geolocation,
     BarcodeScanner,
     AuthProvider,
     AlertProvider,
