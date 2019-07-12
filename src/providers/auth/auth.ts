@@ -100,6 +100,10 @@ export interface encuestaCliente {
   respuesta3: string,
   pregunta4: string,  
   respuesta4: string,
+  pregunta5: string,  
+  respuesta5: string,
+  pregunta6: string,  
+  respuesta6: string,
   comentario: string
 }
 
@@ -127,7 +131,9 @@ export interface pedido {
   montoTotal:string,
   id:string,
   tiempoElaboracion: number,
-  horaFinalizacion: string
+  horaFinalizacion: string,
+  delivery:boolean,
+  foto:string
 }
 
 export interface producto {
@@ -140,6 +146,16 @@ export interface producto {
   estado :string;
   numeroProducto:number;
   id:string
+}
+
+export interface chat {
+  tipo:string,
+  correo:string,
+  nombre:string,
+  mensaje:string,
+  fecha:string,
+  id:string,
+  para:string
 }
 
 @Injectable()
@@ -294,8 +310,8 @@ updateListaEspera(data) {
   nuevaEncuestaCliente(data) {
     return this.db.collection('encuestaCliente').add(data);
   }
-  getEncuestaCliente(){
-  return this.db.collection('encuestasClientes').snapshotChanges().pipe(map(rooms => {
+  getEncuestasClientes(){
+  return this.db.collection('encuestaCliente').snapshotChanges().pipe(map(rooms => {
     return rooms.map(a =>{
       const data = a.payload.doc.data() as encuestaCliente;
       data.id = a.payload.doc.id;
@@ -306,6 +322,7 @@ updateListaEspera(data) {
 
 modificarEncuestaCliente(data) {
   return this.db.collection('encuestaCliente').doc(data.id).update(data);
+  
 }
 
 //---FIN --Encuesta cliente -----//
@@ -354,6 +371,20 @@ modificarEncuestaCliente(data) {
 
   actualizarPedido(data) {
     return this.db.collection('pedidos').doc(data.id).update(data);
+  }
+
+  getChat() {
+    return this.db.collection('mensajes').snapshotChanges().pipe(map(rooms => {
+      return rooms.map(a =>{
+        const data = a.payload.doc.data() as chat;
+        data.id = a.payload.doc.id;
+        return data;
+      })
+    }));
+  }
+
+  nuevoChat(data) {
+    return this.db.collection('mensajes').add(data);
   }
 
 }

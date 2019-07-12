@@ -13,6 +13,7 @@ import { PedidosPendientesComponent } from "../../components/pedidos-pendientes/
 import { ListadoSupervisorPage } from '../listado-supervisor/listado-supervisor';
 //import { AltaClienteComponent } from '../../components/alta-cliente/alta-cliente';
 import { ReservaPage } from '../reserva/reserva';
+import {ListadoEncuestasPage} from '../listado-encuestas/listado-encuestas';
 //import { FcmProvider } from '../../providers/fcm/fcm';
 //import { ToastController } from 'ionic-angular';
 //import { tap } from 'rxjs/operators';
@@ -30,6 +31,8 @@ import { QrEntradaComponent } from '../../components/qr-entrada/qr-entrada';
 import { ListadoClientesComponent } from '../../components/listado-clientes/listado-clientes';
 import { PagarPage } from '../pagar/pagar';
 import { JuegoPostreComponent } from '../../components/juego-postre/juego-postre';
+import { MapaRutaPage } from '../mapa-ruta/mapa-ruta';
+import { ConfirmarDeliveryPage } from '../confirmar-delivery/confirmar-delivery';
 
 
 @IonicPage()
@@ -82,6 +85,7 @@ export class PrincipalPage {
             { accion: "Nueva mesa", img: "ocupar-mesa.jpg", ruta: AltaDeMesaPage },
             { accion: "Ver Estado de Registro de Clientes", img: "nuevo-empleado.jpg", ruta: ListaClienteEstadoComponent },  // quitar despues, es solo para prueba
             { accion: "Confirmar reservas", img: "reserva.jpg", ruta: ListadoReservaPage },
+            { accion: "Confirmar pedido por delivery", img: "reserva.jpg", ruta: ConfirmarDeliveryPage },
           ];
           break;
         case "cliente anonimo":
@@ -96,14 +100,17 @@ export class PrincipalPage {
             { accion: "Reservar", img: "reserva.jpg", ruta: ReservaPage },
             { accion: "Leer código QR", img: "qr.jpg", ruta: HomeClienteComponent },
             { accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
+            { accion: "Pedir por delivery", img: "pedido.jpg", ruta: PedirPlatosPage},
+            { accion: "Estado pedido delivery y chat con el repartidor", img: "chat.png", ruta: MapaRutaPage},
             //{ accion: "QR prueba", img: "juegos.jpg", ruta: QrEntradaComponent},
             //{ accion: "QR prueba mesa", img: "juegos.jpg", ruta: QrMesaComponent},
             //{ accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
             /*{ accion: "Pedir platos y bebidas", img: "pedido.jpg", ruta: PedirPlatosPage},
             { accion: "Jugar", img: "juegos.jpg", ruta: JuegosPage},
             { accion: "Pagar", img: "propina.jpg", ruta: PagarPage },
-            { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },
-            { accion: "Encuesta", img: "pedido.jpg", ruta: EncuestaClientePage},*/
+            { accion: "Leer QR Entrada", img: "qr.jpg", ruta: HomeClienteComponent },*/
+           // { accion: "Ver Encuestas Clientes", img: "encuesta.jpg", ruta: ListadoEncuestasPage},            
+            //{ accion: "Encuesta", img: "encuesta.jpg", ruta: EncuestaClientePage},
             
           ];
           break;
@@ -115,7 +122,10 @@ export class PrincipalPage {
             { accion: "Encuesta empleado", img: "encuesta.jpg", ruta: EncuestaEmpleadoComponent },
           ]
           break;
-          
+        case 'repartidor':
+            this.acciones = [
+              { accion: "Mapa ruta", img: "mapa.jpg", ruta: MapaRutaPage},
+            ]
         }
 /*
         if(this.usuario.tipo == 'cliente')
@@ -166,8 +176,14 @@ export class PrincipalPage {
     this.navCtrl.setRoot(HomePage, { 'fromApp': true });
   }
 
-  openPage(ruta) {
-    this.navCtrl.setRoot(ruta);
+  openPage(item) {
+    if(item.accion == 'Pedir por delivery') {
+      localStorage.setItem('delivery','true');
+    }
+    else {
+      localStorage.setItem('delivery','false');
+    }
+    this.navCtrl.setRoot(item.ruta);
   }
 
 }

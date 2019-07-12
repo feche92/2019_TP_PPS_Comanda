@@ -1,0 +1,81 @@
+page-mapa-ruta {
+    .text-center{
+		text-align: center;
+	}
+
+	.ocupada{
+		margin-top: 20%;
+	}
+
+	.estado{
+		margin: 0 0 10px 10px;
+	}
+
+	.img-reserva{
+		max-width: 60%;
+	    margin-left: 20%;
+	    margin-right: 20%;
+	    margin-top: 6%;
+	    margin-bottom: 5%;
+	}
+
+	.cb{
+		margin-top: 7%;
+	}
+
+	.img-mozo{
+		max-width: 70% !important;
+		margin: 5% 15% 5% 15%;
+	}
+
+	.estado{
+		text-transform: capitalize;
+	}
+
+	.buttons-container{
+        height: calc(100% - 1em);
+    }
+
+    .big-button-container{
+        border-radius: 1em;
+        cursor: pointer;            
+        //background-color: #053b05;
+        border-radius: 1em;
+        
+	}
+	
+	.text-title{
+        color: white;
+        font-size: 3.5rem;
+    }
+
+    .pregunta-title{
+    	align-self: center;
+	}
+	
+	.titulo {
+        width: 100%;
+        padding: 10px 10px 10px 10px;
+
+        font-family: cinzel;
+        text-align: center;
+        color: blue;
+	}
+	
+	.sin-elementos {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        img {
+            width: 150px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    }
+}

@@ -34,7 +34,7 @@
 
 <ion-content class="card-background-page" padding>
 
-  <button ion-button *ngFor="let item of acciones" (click)="openPage(item.ruta)">
+  <button ion-button *ngFor="let item of acciones" (click)="openPage(item)">
     <div class="sombreado"></div>
     <img src="../../assets/Imagenes/{{item.img}}" />
     <span>{{item.accion}}</span>

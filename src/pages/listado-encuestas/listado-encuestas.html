@@ -21,9 +21,9 @@
   </ng-container>
   <ion-list>
 
-    <ion-item *ngFor="let item of listaEncuestas">
+    <ion-item *ngFor="let item of listaEncuestasClientes">
       <h1>{{item.nombre}}</h1>
-      <h1>{{item.correo}}</h1>
+     <!-- <h1>{{item.correo}}</h1> -->
       <button ion-button clear item-end (click)="MostrarEncuesta(item)">
         <ion-icon name="clipboard"></ion-icon>
       </button>

@@ -31,10 +31,10 @@ export class ConfirmarPedidoPage {
         this.pedidosPorConfirmar=[];
         for(let i=0;i<this.pedidos.length;i++)
         {
-          if(this.pedidos[i].estado == 'pedido por confirmar') {
+          if(this.pedidos[i].estado == 'pedido por confirmar' && this.pedidos[i].delivery == false) {
             this.pedidosPorConfirmar.push(this.pedidos[i]);
           }
-          if(this.pedidos[i].estado == 'pedido terminado') {
+          if(this.pedidos[i].estado == 'pedido terminado' && this.pedidos[i].delivery == false) {
             this.pedidosParaEntregar.push(this.pedidos[i]);
           }
         }
@@ -62,15 +62,22 @@ export class ConfirmarPedidoPage {
   }
 
   cancelarPedido(pedido) {
-    console.log(pedido);
-    let spiner=this.spinner.getAllPageSpinner();
-    spiner.present();
-    pedido.estado = "por pedir";
-    pedido.productos=[];
-    this.auth.actualizarPedido(pedido).then(res => {
-      spiner.dismiss();
-      this.error.mostrarMensaje("Pedido cancelado");
+    let alertConfirm = this.error.mostrarMensajeConfimación("¿Seguro que quiere cancelar este pedido?", "Cancelar pedido");
+    alertConfirm.present();
+    alertConfirm.onDidDismiss((confirm) => {
+      if (confirm) {
+        console.log(pedido);
+        let spiner=this.spinner.getAllPageSpinner();
+        spiner.present();
+        pedido.estado = "por pedir";
+        pedido.productos=[];
+        this.auth.actualizarPedido(pedido).then(res => {
+          spiner.dismiss();
+          this.error.mostrarMensaje("Pedido cancelado");
+        });
+      }
     });
+    
   }
 
   entregarPedido(pedido) {
